@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class Photo extends Model implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
+    use Auditable;
     use HasFactory;
 
     public $table = 'photos';
@@ -24,16 +26,17 @@ class Photo extends Model implements HasMedia
         'deleted_at',
     ];
 
-    protected $fillable = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
     protected $appends = [
         'photograph',
         'signature',
         'thumb_impression',
+    ];
+
+    protected $fillable = [
+        'user_id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function registerMediaConversions(Media $media = null): void
@@ -76,6 +79,11 @@ class Photo extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

@@ -107,6 +107,16 @@
                                             {{ trans('cruds.employmentHistory.title') }}
                                         </a>
                                     @endcan
+                                    @can('foreign_visit_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.foreign-visits.index') }}">
+                                            {{ trans('cruds.foreignVisit.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('referee_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.referees.index') }}">
+                                            {{ trans('cruds.referee.title') }}
+                                        </a>
+                                    @endcan
                                     @can('career_access')
                                         <a class="dropdown-item disabled" href="#">
                                             {{ trans('cruds.career.title') }}
@@ -220,16 +230,6 @@
                                     @can('religion_access')
                                         <a class="dropdown-item ml-3" href="{{ route('frontend.religions.index') }}">
                                             {{ trans('cruds.religion.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('foreign_visit_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.foreign-visits.index') }}">
-                                            {{ trans('cruds.foreignVisit.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('referee_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.referees.index') }}">
-                                            {{ trans('cruds.referee.title') }}
                                         </a>
                                     @endcan
 

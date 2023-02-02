@@ -35,6 +35,9 @@
                                         {{ trans('cruds.photo.fields.thumb_impression') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.photo.fields.user') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -65,6 +68,9 @@
                                                     <img src="{{ $photo->thumb_impression->getUrl('thumb') }}">
                                                 </a>
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{ $photo->user->name ?? '' }}
                                         </td>
                                         <td>
                                             @can('photo_show')

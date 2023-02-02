@@ -35,6 +35,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Postal Codes
     Route::apiResource('postal-codes', 'PostalCodesApiController');
 
+    // Photos
+    Route::post('photos/media', 'PhotosApiController@storeMedia')->name('photos.storeMedia');
+    Route::apiResource('photos', 'PhotosApiController');
+
+    // Adresses
+    Route::apiResource('adresses', 'AdressesApiController');
+
     // Qualification Levels
     Route::apiResource('qualification-levels', 'QualificationLevelsApiController');
 
@@ -50,6 +57,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Employment History
     Route::apiResource('employment-histories', 'EmploymentHistoryApiController');
+
+    // Foreign Visits
+    Route::apiResource('foreign-visits', 'ForeignVisitsApiController');
 
     // Referees
     Route::apiResource('referees', 'RefereesApiController');

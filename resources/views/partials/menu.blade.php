@@ -28,7 +28,7 @@
                 @can('profile_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.profiles.index") }}" class="nav-link {{ request()->is("admin/profiles") || request()->is("admin/profiles/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-user-circle">
 
                             </i>
                             <p>
@@ -40,7 +40,7 @@
                 @can('photo_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.photos.index") }}" class="nav-link {{ request()->is("admin/photos") || request()->is("admin/photos/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-camera-retro">
 
                             </i>
                             <p>
@@ -52,7 +52,7 @@
                 @can('adress_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.adresses.index") }}" class="nav-link {{ request()->is("admin/adresses") || request()->is("admin/adresses/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-map-marked-alt">
 
                             </i>
                             <p>
@@ -64,7 +64,7 @@
                 @can('academic_qualification_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.academic-qualifications.index") }}" class="nav-link {{ request()->is("admin/academic-qualifications") || request()->is("admin/academic-qualifications/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-user-graduate">
 
                             </i>
                             <p>
@@ -76,7 +76,7 @@
                 @can('eligibility_test_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.eligibility-tests.index") }}" class="nav-link {{ request()->is("admin/eligibility-tests") || request()->is("admin/eligibility-tests/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-envelope-open">
 
                             </i>
                             <p>
@@ -88,7 +88,7 @@
                 @can('employment_history_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.employment-histories.index") }}" class="nav-link {{ request()->is("admin/employment-histories") || request()->is("admin/employment-histories/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-sitemap">
 
                             </i>
                             <p>
@@ -100,7 +100,7 @@
                 @can('foreign_visit_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.foreign-visits.index") }}" class="nav-link {{ request()->is("admin/foreign-visits") || request()->is("admin/foreign-visits/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-plane-departure">
 
                             </i>
                             <p>
@@ -112,7 +112,7 @@
                 @can('referee_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.referees.index") }}" class="nav-link {{ request()->is("admin/referees") || request()->is("admin/referees/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
 
                             </i>
                             <p>
@@ -124,7 +124,7 @@
                 @can('career_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/advertisement-types*") ? "menu-open" : "" }} {{ request()->is("admin/advertisements*") ? "menu-open" : "" }} {{ request()->is("admin/post-types*") ? "menu-open" : "" }} {{ request()->is("admin/posts*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/advertisement-types*") ? "active" : "" }} {{ request()->is("admin/advertisements*") ? "active" : "" }} {{ request()->is("admin/post-types*") ? "active" : "" }} {{ request()->is("admin/posts*") ? "active" : "" }}" href="#">
-                            <i class="fa-fw nav-icon fas fa-industry">
+                            <i class="fa-fw nav-icon fas fa-building">
 
                             </i>
                             <p>

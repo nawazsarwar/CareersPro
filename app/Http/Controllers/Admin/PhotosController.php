@@ -8,29 +8,98 @@ use App\Http\Requests\MassDestroyPhotoRequest;
 use App\Http\Requests\StorePhotoRequest;
 use App\Http\Requests\UpdatePhotoRequest;
 use App\Models\Photo;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class PhotosController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('photo_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $photos = Photo::with(['media'])->get();
+        if ($request->ajax()) {
+            $query = Photo::with(['user'])->select(sprintf('%s.*', (new Photo())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.photos.index', compact('photos'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'photo_show';
+                $editGate = 'photo_edit';
+                $deleteGate = 'photo_delete';
+                $crudRoutePart = 'photos';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('photograph', function ($row) {
+                if ($photo = $row->photograph) {
+                    return sprintf(
+        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+        $photo->url,
+        $photo->thumbnail
+    );
+                }
+
+                return '';
+            });
+            $table->editColumn('signature', function ($row) {
+                if ($photo = $row->signature) {
+                    return sprintf(
+        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+        $photo->url,
+        $photo->thumbnail
+    );
+                }
+
+                return '';
+            });
+            $table->editColumn('thumb_impression', function ($row) {
+                if ($photo = $row->thumb_impression) {
+                    return sprintf(
+        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+        $photo->url,
+        $photo->thumbnail
+    );
+                }
+
+                return '';
+            });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'photograph', 'signature', 'thumb_impression', 'user']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.photos.index');
     }
 
     public function create()
     {
         abort_if(Gate::denies('photo_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.photos.create');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.photos.create', compact('users'));
     }
 
     public function store(StorePhotoRequest $request)
@@ -60,7 +129,11 @@ class PhotosController extends Controller
     {
         abort_if(Gate::denies('photo_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.photos.edit', compact('photo'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $photo->load('user');
+
+        return view('admin.photos.edit', compact('photo', 'users'));
     }
 
     public function update(UpdatePhotoRequest $request, Photo $photo)
@@ -106,6 +179,8 @@ class PhotosController extends Controller
     public function show(Photo $photo)
     {
         abort_if(Gate::denies('photo_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $photo->load('user');
 
         return view('admin.photos.show', compact('photo'));
     }

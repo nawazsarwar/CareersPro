@@ -14,16 +14,88 @@ use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdressesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('adress_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $adresses = Adress::with(['postal_code', 'province', 'country', 'user'])->get();
+        if ($request->ajax()) {
+            $query = Adress::with(['postal_code', 'province', 'country', 'user'])->select(sprintf('%s.*', (new Adress())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.adresses.index', compact('adresses'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'adress_show';
+                $editGate = 'adress_edit';
+                $deleteGate = 'adress_delete';
+                $crudRoutePart = 'adresses';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('type', function ($row) {
+                return $row->type ? Adress::TYPE_SELECT[$row->type] : '';
+            });
+            $table->editColumn('house_no', function ($row) {
+                return $row->house_no ? $row->house_no : '';
+            });
+            $table->editColumn('street', function ($row) {
+                return $row->street ? $row->street : '';
+            });
+            $table->editColumn('landmark', function ($row) {
+                return $row->landmark ? $row->landmark : '';
+            });
+            $table->editColumn('locality', function ($row) {
+                return $row->locality ? $row->locality : '';
+            });
+            $table->editColumn('city', function ($row) {
+                return $row->city ? $row->city : '';
+            });
+            $table->addColumn('postal_code_name', function ($row) {
+                return $row->postal_code ? $row->postal_code->name : '';
+            });
+
+            $table->editColumn('district', function ($row) {
+                return $row->district ? $row->district : '';
+            });
+            $table->addColumn('province_name', function ($row) {
+                return $row->province ? $row->province->name : '';
+            });
+
+            $table->addColumn('country_name', function ($row) {
+                return $row->country ? $row->country->name : '';
+            });
+
+            $table->editColumn('status', function ($row) {
+                return $row->status ? $row->status : '';
+            });
+            $table->editColumn('remarks', function ($row) {
+                return $row->remarks ? $row->remarks : '';
+            });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'postal_code', 'province', 'country', 'user']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.adresses.index');
     }
 
     public function create()
