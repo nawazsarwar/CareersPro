@@ -59,6 +59,14 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.photo.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $photo->user->name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

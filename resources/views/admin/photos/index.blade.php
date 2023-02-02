@@ -15,88 +15,33 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Photo">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Photo">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.photo.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.photo.fields.photograph') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.photo.fields.signature') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.photo.fields.thumb_impression') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($photos as $key => $photo)
-                        <tr data-entry-id="{{ $photo->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $photo->id ?? '' }}
-                            </td>
-                            <td>
-                                @if($photo->photograph)
-                                    <a href="{{ $photo->photograph->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $photo->photograph->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                @if($photo->signature)
-                                    <a href="{{ $photo->signature->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $photo->signature->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                @if($photo->thumb_impression)
-                                    <a href="{{ $photo->thumb_impression->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $photo->thumb_impression->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                @can('photo_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.photos.show', $photo->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('photo_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.photos.edit', $photo->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('photo_delete')
-                                    <form action="{{ route('admin.photos.destroy', $photo->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.photograph') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.signature') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.thumb_impression') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.user') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -109,14 +54,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('photo_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.photos.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -138,18 +83,33 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.photos.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'photograph', name: 'photograph', sortable: false, searchable: false },
+{ data: 'signature', name: 'signature', sortable: false, searchable: false },
+{ data: 'thumb_impression', name: 'thumb_impression', sortable: false, searchable: false },
+{ data: 'user_name', name: 'user.name' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-Photo:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-Photo').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

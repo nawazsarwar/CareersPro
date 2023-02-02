@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyPhotoRequest;
 use App\Http\Requests\StorePhotoRequest;
 use App\Http\Requests\UpdatePhotoRequest;
+use App\Http\Resources\Admin\PhotoResource;
 use App\Models\Photo;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
-class PhotosController extends Controller
+class PhotosApiController extends Controller
 {
     use MediaUploadingTrait;
 
@@ -22,18 +20,7 @@ class PhotosController extends Controller
     {
         abort_if(Gate::denies('photo_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $photos = Photo::with(['user', 'media'])->get();
-
-        return view('frontend.photos.index', compact('photos'));
-    }
-
-    public function create()
-    {
-        abort_if(Gate::denies('photo_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('frontend.photos.create', compact('users'));
+        return new PhotoResource(Photo::with(['user'])->get());
     }
 
     public function store(StorePhotoRequest $request)
@@ -52,22 +39,16 @@ class PhotosController extends Controller
             $photo->addMedia(storage_path('tmp/uploads/' . basename($request->input('thumb_impression'))))->toMediaCollection('thumb_impression');
         }
 
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $photo->id]);
-        }
-
-        return redirect()->route('frontend.photos.index');
+        return (new PhotoResource($photo))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function edit(Photo $photo)
+    public function show(Photo $photo)
     {
-        abort_if(Gate::denies('photo_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('photo_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $photo->load('user');
-
-        return view('frontend.photos.edit', compact('photo', 'users'));
+        return new PhotoResource($photo->load(['user']));
     }
 
     public function update(UpdatePhotoRequest $request, Photo $photo)
@@ -107,16 +88,9 @@ class PhotosController extends Controller
             $photo->thumb_impression->delete();
         }
 
-        return redirect()->route('frontend.photos.index');
-    }
-
-    public function show(Photo $photo)
-    {
-        abort_if(Gate::denies('photo_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $photo->load('user');
-
-        return view('frontend.photos.show', compact('photo'));
+        return (new PhotoResource($photo))
+            ->response()
+            ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     public function destroy(Photo $photo)
@@ -125,25 +99,6 @@ class PhotosController extends Controller
 
         $photo->delete();
 
-        return back();
-    }
-
-    public function massDestroy(MassDestroyPhotoRequest $request)
-    {
-        Photo::whereIn('id', request('ids'))->delete();
-
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function storeCKEditorImages(Request $request)
-    {
-        abort_if(Gate::denies('photo_create') && Gate::denies('photo_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $model         = new Photo();
-        $model->id     = $request->input('crud_id', 0);
-        $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
-
-        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

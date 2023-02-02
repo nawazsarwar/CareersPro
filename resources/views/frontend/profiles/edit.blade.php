@@ -399,7 +399,7 @@
                         </div>
                         <div class="form-group">
                             <label for="conviction_reason">{{ trans('cruds.profile.fields.conviction_reason') }}</label>
-                            <input class="form-control" type="text" name="conviction_reason" id="conviction_reason" value="{{ old('conviction_reason', $profile->conviction_reason) }}">
+                            <textarea class="form-control" name="conviction_reason" id="conviction_reason">{{ old('conviction_reason', $profile->conviction_reason) }}</textarea>
                             @if($errors->has('conviction_reason'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('conviction_reason') }}
@@ -424,7 +424,7 @@
                         </div>
                         <div class="form-group">
                             <label for="debarred_reason">{{ trans('cruds.profile.fields.debarred_reason') }}</label>
-                            <input class="form-control" type="text" name="debarred_reason" id="debarred_reason" value="{{ old('debarred_reason', $profile->debarred_reason) }}">
+                            <textarea class="form-control" name="debarred_reason" id="debarred_reason">{{ old('debarred_reason', $profile->debarred_reason) }}</textarea>
                             @if($errors->has('debarred_reason'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('debarred_reason') }}
@@ -449,7 +449,7 @@
                         </div>
                         <div class="form-group">
                             <label for="vigilance_reason">{{ trans('cruds.profile.fields.vigilance_reason') }}</label>
-                            <input class="form-control" type="text" name="vigilance_reason" id="vigilance_reason" value="{{ old('vigilance_reason', $profile->vigilance_reason) }}">
+                            <textarea class="form-control" name="vigilance_reason" id="vigilance_reason">{{ old('vigilance_reason', $profile->vigilance_reason) }}</textarea>
                             @if($errors->has('vigilance_reason'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('vigilance_reason') }}

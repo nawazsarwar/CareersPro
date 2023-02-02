@@ -31,11 +31,11 @@ class CreateProfilesTable extends Migration
             $table->integer('verified');
             $table->integer('locked');
             $table->string('conviction')->nullable();
-            $table->string('conviction_reason')->nullable();
+            $table->longText('conviction_reason')->nullable();
             $table->string('debarred')->nullable();
-            $table->string('debarred_reason')->nullable();
+            $table->longText('debarred_reason')->nullable();
             $table->string('vigilance')->nullable();
-            $table->string('vigilance_reason')->nullable();
+            $table->longText('vigilance_reason')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
