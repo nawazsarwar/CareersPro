@@ -68,7 +68,11 @@ class CastesController extends Controller
 
     public function massDestroy(MassDestroyCasteRequest $request)
     {
-        Caste::whereIn('id', request('ids'))->delete();
+        $castes = Caste::find(request('ids'));
+
+        foreach ($castes as $caste) {
+            $caste->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

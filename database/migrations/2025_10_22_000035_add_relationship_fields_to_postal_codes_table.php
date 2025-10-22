@@ -10,7 +10,7 @@ class AddRelationshipFieldsToPostalCodesTable extends Migration
     {
         Schema::table('postal_codes', function (Blueprint $table) {
             $table->unsignedBigInteger('province_id')->nullable();
-            $table->foreign('province_id', 'province_fk_7957564')->references('id')->on('provinces');
+            $table->foreign('province_id', 'province_fk_8863625')->references('id')->on('provinces');
         });
     }
 }

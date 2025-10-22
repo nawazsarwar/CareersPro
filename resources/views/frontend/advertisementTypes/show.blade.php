@@ -31,7 +31,7 @@
                                         {{ trans('cruds.advertisementType.fields.title') }}
                                     </th>
                                     <td>
-                                        {{ $advertisementType->title }}
+                                        {{ App\Models\AdvertisementType::TITLE_SELECT[$advertisementType->title] ?? '' }}
                                     </td>
                                 </tr>
                             </tbody>

@@ -19,25 +19,25 @@ class RefereesController extends Controller
         abort_if(Gate::denies('referee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Referee::query()->select(sprintf('%s.*', (new Referee())->table));
+            $query = Referee::query()->select(sprintf('%s.*', (new Referee)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'referee_show';
-                $editGate = 'referee_edit';
-                $deleteGate = 'referee_delete';
+                $viewGate      = 'referee_show';
+                $editGate      = 'referee_edit';
+                $deleteGate    = 'referee_delete';
                 $crudRoutePart = 'referees';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -116,7 +116,11 @@ class RefereesController extends Controller
 
     public function massDestroy(MassDestroyRefereeRequest $request)
     {
-        Referee::whereIn('id', request('ids'))->delete();
+        $referees = Referee::find(request('ids'));
+
+        foreach ($referees as $referee) {
+            $referee->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

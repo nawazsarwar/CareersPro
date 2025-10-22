@@ -12,7 +12,7 @@ class AuthGates
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 

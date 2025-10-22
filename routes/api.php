@@ -5,11 +5,11 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('advertisements/media', 'AdvertisementsApiController@storeMedia')->name('advertisements.storeMedia');
     Route::apiResource('advertisements', 'AdvertisementsApiController');
 
+    // Post Types
+    Route::apiResource('post-types', 'PostTypesApiController');
+
     // Posts
     Route::apiResource('posts', 'PostsApiController');
-
-    // Profiles
-    Route::apiResource('profiles', 'ProfilesApiController');
 
     // Marital Statuses
     Route::apiResource('marital-statuses', 'MaritalStatusesApiController');
@@ -35,6 +35,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Postal Codes
     Route::apiResource('postal-codes', 'PostalCodesApiController');
 
+    // Profiles
+    Route::apiResource('profiles', 'ProfilesApiController');
+
     // Photos
     Route::post('photos/media', 'PhotosApiController@storeMedia')->name('photos.storeMedia');
     Route::apiResource('photos', 'PhotosApiController');
@@ -55,12 +58,15 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Eligibility Tests
     Route::apiResource('eligibility-tests', 'EligibilityTestsApiController');
 
-    // Employment History
-    Route::apiResource('employment-histories', 'EmploymentHistoryApiController');
-
     // Foreign Visits
     Route::apiResource('foreign-visits', 'ForeignVisitsApiController');
 
     // Referees
     Route::apiResource('referees', 'RefereesApiController');
+
+    // Employment History
+    Route::apiResource('employment-histories', 'EmploymentHistoryApiController');
+
+    // Advertisement Types
+    Route::apiResource('advertisement-types', 'AdvertisementTypesApiController');
 });

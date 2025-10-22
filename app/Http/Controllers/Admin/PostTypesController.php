@@ -10,16 +10,61 @@ use App\Models\PostType;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostTypesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('post_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $postTypes = PostType::all();
+        if ($request->ajax()) {
+            $query = PostType::query()->select(sprintf('%s.*', (new PostType)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.postTypes.index', compact('postTypes'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'post_type_show';
+                $editGate      = 'post_type_edit';
+                $deleteGate    = 'post_type_delete';
+                $crudRoutePart = 'post-types';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('pdf_template', function ($row) {
+                return $row->pdf_template ? $row->pdf_template : '';
+            });
+            $table->editColumn('submission_venue', function ($row) {
+                return $row->submission_venue ? $row->submission_venue : '';
+            });
+            $table->editColumn('status', function ($row) {
+                return $row->status ? $row->status : '';
+            });
+            $table->editColumn('remarks', function ($row) {
+                return $row->remarks ? $row->remarks : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.postTypes.index');
     }
 
     public function create()
@@ -68,7 +113,11 @@ class PostTypesController extends Controller
 
     public function massDestroy(MassDestroyPostTypeRequest $request)
     {
-        PostType::whereIn('id', request('ids'))->delete();
+        $postTypes = PostType::find(request('ids'));
+
+        foreach ($postTypes as $postType) {
+            $postType->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

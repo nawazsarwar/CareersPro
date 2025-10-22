@@ -10,11 +10,11 @@ class AddRelationshipFieldsToAcademicQualificationsTable extends Migration
     {
         Schema::table('academic_qualifications', function (Blueprint $table) {
             $table->unsignedBigInteger('name_id')->nullable();
-            $table->foreign('name_id', 'name_fk_7962698')->references('id')->on('qualification_levels');
+            $table->foreign('name_id', 'name_fk_8863709')->references('id')->on('qualification_levels');
             $table->unsignedBigInteger('board_id')->nullable();
-            $table->foreign('board_id', 'board_fk_7962727')->references('id')->on('boards');
+            $table->foreign('board_id', 'board_fk_8863714')->references('id')->on('boards');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id', 'user_fk_7962736')->references('id')->on('users');
+            $table->foreign('user_id', 'user_fk_8863723')->references('id')->on('users');
         });
     }
 }

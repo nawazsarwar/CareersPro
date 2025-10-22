@@ -19,25 +19,25 @@ class BoardsController extends Controller
         abort_if(Gate::denies('board_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Board::query()->select(sprintf('%s.*', (new Board())->table));
+            $query = Board::query()->select(sprintf('%s.*', (new Board)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'board_show';
-                $editGate = 'board_edit';
-                $deleteGate = 'board_delete';
+                $viewGate      = 'board_show';
+                $editGate      = 'board_edit';
+                $deleteGate    = 'board_delete';
                 $crudRoutePart = 'boards';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -101,7 +101,11 @@ class BoardsController extends Controller
 
     public function massDestroy(MassDestroyBoardRequest $request)
     {
-        Board::whereIn('id', request('ids'))->delete();
+        $boards = Board::find(request('ids'));
+
+        foreach ($boards as $board) {
+            $board->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

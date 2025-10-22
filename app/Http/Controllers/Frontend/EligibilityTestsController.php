@@ -77,7 +77,11 @@ class EligibilityTestsController extends Controller
 
     public function massDestroy(MassDestroyEligibilityTestRequest $request)
     {
-        EligibilityTest::whereIn('id', request('ids'))->delete();
+        $eligibilityTests = EligibilityTest::find(request('ids'));
+
+        foreach ($eligibilityTests as $eligibilityTest) {
+            $eligibilityTest->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

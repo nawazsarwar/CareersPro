@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ForeignVisit extends Model
 {
-    use SoftDeletes;
-    use Auditable;
-    use HasFactory;
+    use SoftDeletes, Auditable, HasFactory;
 
     public $table = 'foreign_visits';
 
@@ -35,6 +33,11 @@ class ForeignVisit extends Model
         'deleted_at',
     ];
 
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id');
@@ -53,10 +56,5 @@ class ForeignVisit extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
     }
 }

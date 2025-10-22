@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,29 +14,26 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AcademicQualification extends Model implements HasMedia
 {
-    use SoftDeletes;
-    use InteractsWithMedia;
-    use Auditable;
-    use HasFactory;
-
-    public const DIVISION_SELECT = [
-        'I'   => '1st Division',
-        'II'  => '2nd Division',
-        'III' => '3rd Division',
-        'NA'  => 'Not Applicable',
-    ];
-
-    public $table = 'academic_qualifications';
+    use SoftDeletes, InteractsWithMedia, Auditable, HasFactory;
 
     protected $appends = [
         'document',
     ];
+
+    public $table = 'academic_qualifications';
 
     protected $dates = [
         'year',
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    public const DIVISION_SELECT = [
+        'I'   => '1st Division',
+        'II'  => '2nd Division',
+        'III' => '3rd Division',
+        'NA'  => 'Not Applicable',
     ];
 
     protected $fillable = [
@@ -55,6 +52,11 @@ class AcademicQualification extends Model implements HasMedia
         'updated_at',
         'deleted_at',
     ];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -90,10 +92,5 @@ class AcademicQualification extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
     }
 }

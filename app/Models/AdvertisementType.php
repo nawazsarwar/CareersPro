@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
+use App\Traits\Auditable;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdvertisementType extends Model
 {
-    use SoftDeletes;
-    use HasFactory;
+    use SoftDeletes, Auditable, HasFactory;
 
     public $table = 'advertisement_types';
 
@@ -18,6 +18,11 @@ class AdvertisementType extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    public const TITLE_SELECT = [
+        'General' => 'General',
+        'Local'   => 'Local',
     ];
 
     protected $fillable = [

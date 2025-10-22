@@ -77,7 +77,11 @@ class FaqQuestionController extends Controller
 
     public function massDestroy(MassDestroyFaqQuestionRequest $request)
     {
-        FaqQuestion::whereIn('id', request('ids'))->delete();
+        $faqQuestions = FaqQuestion::find(request('ids'));
+
+        foreach ($faqQuestions as $faqQuestion) {
+            $faqQuestion->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

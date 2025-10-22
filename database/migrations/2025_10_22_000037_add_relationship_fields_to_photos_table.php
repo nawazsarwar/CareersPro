@@ -10,7 +10,7 @@ class AddRelationshipFieldsToPhotosTable extends Migration
     {
         Schema::table('photos', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id', 'user_fk_7963476')->references('id')->on('users');
+            $table->foreign('user_id', 'user_fk_8863677')->references('id')->on('users');
         });
     }
 }

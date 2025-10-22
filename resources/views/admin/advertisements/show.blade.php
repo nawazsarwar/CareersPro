@@ -93,34 +93,26 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.advertisement.fields.default_open_date') }}
+                            {{ trans('cruds.advertisement.fields.default_opening_date') }}
                         </th>
                         <td>
-                            {{ $advertisement->default_open_date }}
+                            {{ $advertisement->default_opening_date }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.advertisement.fields.default_end_date') }}
+                            {{ trans('cruds.advertisement.fields.default_closing_date') }}
                         </th>
                         <td>
-                            {{ $advertisement->default_end_date }}
+                            {{ $advertisement->default_closing_date }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.advertisement.fields.default_payment_end_date') }}
+                            {{ trans('cruds.advertisement.fields.default_payment_closing_date') }}
                         </th>
                         <td>
-                            {{ $advertisement->default_payment_end_date }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.advertisement.fields.approved_at') }}
-                        </th>
-                        <td>
-                            {{ $advertisement->approved_at }}
+                            {{ $advertisement->default_payment_closing_date }}
                         </td>
                     </tr>
                     <tr>
@@ -153,6 +145,14 @@
                         </th>
                         <td>
                             {{ $advertisement->approved_by->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.advertisement.fields.approved_at') }}
+                        </th>
+                        <td>
+                            {{ $advertisement->approved_at }}
                         </td>
                     </tr>
                 </tbody>

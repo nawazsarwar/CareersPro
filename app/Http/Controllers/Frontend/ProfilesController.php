@@ -125,7 +125,11 @@ class ProfilesController extends Controller
 
     public function massDestroy(MassDestroyProfileRequest $request)
     {
-        Profile::whereIn('id', request('ids'))->delete();
+        $profiles = Profile::find(request('ids'));
+
+        foreach ($profiles as $profile) {
+            $profile->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

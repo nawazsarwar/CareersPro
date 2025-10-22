@@ -68,7 +68,11 @@ class BoardsController extends Controller
 
     public function massDestroy(MassDestroyBoardRequest $request)
     {
-        Board::whereIn('id', request('ids'))->delete();
+        $boards = Board::find(request('ids'));
+
+        foreach ($boards as $board) {
+            $board->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

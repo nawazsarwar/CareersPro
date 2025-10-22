@@ -19,25 +19,25 @@ class DisabilityTypesController extends Controller
         abort_if(Gate::denies('disability_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = DisabilityType::query()->select(sprintf('%s.*', (new DisabilityType())->table));
+            $query = DisabilityType::query()->select(sprintf('%s.*', (new DisabilityType)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'disability_type_show';
-                $editGate = 'disability_type_edit';
-                $deleteGate = 'disability_type_delete';
+                $viewGate      = 'disability_type_show';
+                $editGate      = 'disability_type_edit';
+                $deleteGate    = 'disability_type_delete';
                 $crudRoutePart = 'disability-types';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -101,7 +101,11 @@ class DisabilityTypesController extends Controller
 
     public function massDestroy(MassDestroyDisabilityTypeRequest $request)
     {
-        DisabilityType::whereIn('id', request('ids'))->delete();
+        $disabilityTypes = DisabilityType::find(request('ids'));
+
+        foreach ($disabilityTypes as $disabilityType) {
+            $disabilityType->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

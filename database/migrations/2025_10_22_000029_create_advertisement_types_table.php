@@ -10,7 +10,7 @@ class CreateAdvertisementTypesTable extends Migration
     {
         Schema::create('advertisement_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title')->nullable();
+            $table->string('title');
             $table->timestamps();
             $table->softDeletes();
         });

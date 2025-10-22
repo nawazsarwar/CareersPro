@@ -92,7 +92,11 @@ class AdressesController extends Controller
 
     public function massDestroy(MassDestroyAdressRequest $request)
     {
-        Adress::whereIn('id', request('ids'))->delete();
+        $adresses = Adress::find(request('ids'));
+
+        foreach ($adresses as $adress) {
+            $adress->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

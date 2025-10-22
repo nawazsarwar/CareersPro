@@ -10,11 +10,11 @@ class AddRelationshipFieldsToPostsTable extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->unsignedBigInteger('advertisement_id')->nullable();
-            $table->foreign('advertisement_id', 'advertisement_fk_7957103')->references('id')->on('advertisements');
+            $table->foreign('advertisement_id', 'advertisement_fk_8863551')->references('id')->on('advertisements');
             $table->unsignedBigInteger('posttype_id')->nullable();
-            $table->foreign('posttype_id', 'posttype_fk_7957104')->references('id')->on('post_types');
+            $table->foreign('posttype_id', 'posttype_fk_8863552')->references('id')->on('post_types');
             $table->unsignedBigInteger('added_by_id')->nullable();
-            $table->foreign('added_by_id', 'added_by_fk_7957120')->references('id')->on('users');
+            $table->foreign('added_by_id', 'added_by_fk_8863568')->references('id')->on('users');
         });
     }
 }

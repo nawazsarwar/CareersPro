@@ -22,7 +22,13 @@ class PostsController extends Controller
 
         $posts = Post::with(['advertisement', 'posttype', 'added_by'])->get();
 
-        return view('frontend.posts.index', compact('posts'));
+        $advertisements = Advertisement::get();
+
+        $post_types = PostType::get();
+
+        $users = User::get();
+
+        return view('frontend.posts.index', compact('advertisements', 'post_types', 'posts', 'users'));
     }
 
     public function create()
@@ -87,7 +93,11 @@ class PostsController extends Controller
 
     public function massDestroy(MassDestroyPostRequest $request)
     {
-        Post::whereIn('id', request('ids'))->delete();
+        $posts = Post::find(request('ids'));
+
+        foreach ($posts as $post) {
+            $post->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

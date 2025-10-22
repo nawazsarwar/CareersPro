@@ -16,12 +16,12 @@ class CreateAdvertisementsTable extends Migration
             $table->date('dated')->nullable();
             $table->string('advertisement_url')->nullable();
             $table->decimal('default_fee', 15, 2)->nullable();
-            $table->datetime('default_open_date')->nullable();
-            $table->datetime('default_end_date')->nullable();
-            $table->datetime('default_payment_end_date')->nullable();
-            $table->datetime('approved_at')->nullable();
+            $table->datetime('default_opening_date')->nullable();
+            $table->datetime('default_closing_date')->nullable();
+            $table->datetime('default_payment_closing_date')->nullable();
             $table->string('status');
             $table->longText('remarks')->nullable();
+            $table->datetime('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

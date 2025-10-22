@@ -18,8 +18,7 @@ class StoreAdvertisementTypeRequest extends FormRequest
     {
         return [
             'title' => [
-                'string',
-                'nullable',
+                'required',
             ],
         ];
     }

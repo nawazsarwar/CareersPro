@@ -93,18 +93,6 @@ class UpdateProfileRequest extends FormRequest
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'conviction_reason' => [
-                'string',
-                'nullable',
-            ],
-            'debarred_reason' => [
-                'string',
-                'nullable',
-            ],
-            'vigilance_reason' => [
-                'string',
-                'nullable',
-            ],
         ];
     }
 }

@@ -82,7 +82,11 @@ class ForeignVisitsController extends Controller
 
     public function massDestroy(MassDestroyForeignVisitRequest $request)
     {
-        ForeignVisit::whereIn('id', request('ids'))->delete();
+        $foreignVisits = ForeignVisit::find(request('ids'));
+
+        foreach ($foreignVisits as $foreignVisit) {
+            $foreignVisit->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

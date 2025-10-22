@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Profile extends Model
 {
-    use SoftDeletes;
-    use Auditable;
-    use HasFactory;
+    use SoftDeletes, Auditable, HasFactory;
+
+    public $table = 'profiles';
 
     public const PWD_SELECT = [
         'No'  => 'No',
@@ -40,14 +40,20 @@ class Profile extends Model
         'Urban' => 'Urban',
     ];
 
+    protected $dates = [
+        'dob',
+        'mobile_verified_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public const GENDER_SELECT = [
         'Female'      => 'Female',
         'Male'        => 'Male',
         'Transgender' => 'Transgender',
         'Other'       => 'Other',
     ];
-
-    public $table = 'profiles';
 
     public static $searchable = [
         'first_name',
@@ -58,14 +64,6 @@ class Profile extends Model
         'mothers_name',
         'mobile',
         'alternate_mobile',
-    ];
-
-    protected $dates = [
-        'dob',
-        'mobile_verified_at',
-        'created_at',
-        'updated_at',
-        'deleted_at',
     ];
 
     protected $fillable = [
@@ -110,6 +108,11 @@ class Profile extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function user()
     {
@@ -184,10 +187,5 @@ class Profile extends Model
     public function domicile_district()
     {
         return $this->belongsTo(PostalCode::class, 'domicile_district_id');
-    }
-
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
     }
 }

@@ -77,7 +77,7 @@ class AcademicQualificationsController extends Controller
         $academicQualification->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
+            if (! $academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
                 if ($academicQualification->document) {
                     $academicQualification->document->delete();
                 }
@@ -110,7 +110,11 @@ class AcademicQualificationsController extends Controller
 
     public function massDestroy(MassDestroyAcademicQualificationRequest $request)
     {
-        AcademicQualification::whereIn('id', request('ids'))->delete();
+        $academicQualifications = AcademicQualification::find(request('ids'));
+
+        foreach ($academicQualifications as $academicQualification) {
+            $academicQualification->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
