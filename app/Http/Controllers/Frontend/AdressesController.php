@@ -21,22 +21,30 @@ class AdressesController extends Controller
     {
         abort_if(Gate::denies('adress_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $adresses = Adress::with(['postal_code', 'province', 'country', 'user'])->get();
+        $adresses = Adress::with(['user', 'postal_code', 'province', 'country'])->get();
 
-        return view('frontend.adresses.index', compact('adresses'));
+        $users = User::get();
+
+        $postal_codes = PostalCode::get();
+
+        $provinces = Province::get();
+
+        $countries = Country::get();
+
+        return view('frontend.adresses.index', compact('adresses', 'countries', 'postal_codes', 'provinces', 'users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('adress_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $postal_codes = PostalCode::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $provinces = Province::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('frontend.adresses.create', compact('countries', 'postal_codes', 'provinces', 'users'));
     }
@@ -52,15 +60,15 @@ class AdressesController extends Controller
     {
         abort_if(Gate::denies('adress_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $postal_codes = PostalCode::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $provinces = Province::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $adress->load('postal_code', 'province', 'country', 'user');
+        $adress->load('user', 'postal_code', 'province', 'country');
 
         return view('frontend.adresses.edit', compact('adress', 'countries', 'postal_codes', 'provinces', 'users'));
     }
@@ -76,7 +84,7 @@ class AdressesController extends Controller
     {
         abort_if(Gate::denies('adress_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $adress->load('postal_code', 'province', 'country', 'user');
+        $adress->load('user', 'postal_code', 'province', 'country');
 
         return view('frontend.adresses.show', compact('adress'));
     }

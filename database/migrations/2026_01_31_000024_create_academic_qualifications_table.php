@@ -14,7 +14,7 @@ class CreateAcademicQualificationsTable extends Migration
             $table->date('year');
             $table->string('division');
             $table->float('percentage', 5, 2)->nullable();
-            $table->float('cgpa', 5, 2);
+            $table->float('cgpa', 5, 2)->nullable();
             $table->string('subjects');
             $table->string('title');
             $table->string('remarks')->nullable();

@@ -41,6 +41,22 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.postType.fields.admit_card_template') }}
+                        </th>
+                        <td>
+                            {{ $postType->admit_card_template }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.postType.fields.interview_letter_template') }}
+                        </th>
+                        <td>
+                            {{ $postType->interview_letter_template }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.postType.fields.submission_venue') }}
                         </th>
                         <td>

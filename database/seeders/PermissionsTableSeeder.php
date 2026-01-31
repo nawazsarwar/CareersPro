@@ -576,6 +576,86 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 142,
+                'title' => 'application_form_create',
+            ],
+            [
+                'id'    => 143,
+                'title' => 'application_form_edit',
+            ],
+            [
+                'id'    => 144,
+                'title' => 'application_form_show',
+            ],
+            [
+                'id'    => 145,
+                'title' => 'application_form_delete',
+            ],
+            [
+                'id'    => 146,
+                'title' => 'application_form_access',
+            ],
+            [
+                'id'    => 147,
+                'title' => 'institutions_attended_create',
+            ],
+            [
+                'id'    => 148,
+                'title' => 'institutions_attended_edit',
+            ],
+            [
+                'id'    => 149,
+                'title' => 'institutions_attended_show',
+            ],
+            [
+                'id'    => 150,
+                'title' => 'institutions_attended_delete',
+            ],
+            [
+                'id'    => 151,
+                'title' => 'institutions_attended_access',
+            ],
+            [
+                'id'    => 152,
+                'title' => 'traed_create',
+            ],
+            [
+                'id'    => 153,
+                'title' => 'traed_edit',
+            ],
+            [
+                'id'    => 154,
+                'title' => 'traed_show',
+            ],
+            [
+                'id'    => 155,
+                'title' => 'traed_delete',
+            ],
+            [
+                'id'    => 156,
+                'title' => 'traed_access',
+            ],
+            [
+                'id'    => 157,
+                'title' => 'other_detail_create',
+            ],
+            [
+                'id'    => 158,
+                'title' => 'other_detail_edit',
+            ],
+            [
+                'id'    => 159,
+                'title' => 'other_detail_show',
+            ],
+            [
+                'id'    => 160,
+                'title' => 'other_detail_delete',
+            ],
+            [
+                'id'    => 161,
+                'title' => 'other_detail_access',
+            ],
+            [
+                'id'    => 162,
                 'title' => 'profile_password_edit',
             ],
         ];

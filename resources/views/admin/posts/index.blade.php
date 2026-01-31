@@ -43,9 +43,6 @@
                         {{ trans('cruds.post.fields.slug') }}
                     </th>
                     <th>
-                        {{ trans('cruds.post.fields.description') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.post.fields.vacancies') }}
                     </th>
                     <th>
@@ -130,9 +127,6 @@
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
-                    </td>
-                    <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
@@ -271,7 +265,6 @@
 { data: 'title', name: 'title' },
 { data: 'subject', name: 'subject' },
 { data: 'slug', name: 'slug' },
-{ data: 'description', name: 'description' },
 { data: 'vacancies', name: 'vacancies' },
 { data: 'location', name: 'location' },
 { data: 'pay_level', name: 'pay_level' },

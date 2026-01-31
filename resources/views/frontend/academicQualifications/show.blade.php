@@ -28,6 +28,14 @@
                                 </tr>
                                 <tr>
                                     <th>
+                                        {{ trans('cruds.academicQualification.fields.user') }}
+                                    </th>
+                                    <td>
+                                        {{ $academicQualification->user->name ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.academicQualification.fields.name') }}
                                     </th>
                                     <td>
@@ -116,14 +124,6 @@
                                                 {{ trans('global.view_file') }}
                                             </a>
                                         @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.user') }}
-                                    </th>
-                                    <td>
-                                        {{ $academicQualification->user->name ?? '' }}
                                     </td>
                                 </tr>
                             </tbody>

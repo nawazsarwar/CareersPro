@@ -41,6 +41,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Posts
     Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
+    Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
+    Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
     Route::resource('posts', 'PostsController');
 
     // Marital Statuses
@@ -122,6 +124,24 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Advertisement Types
     Route::delete('advertisement-types/destroy', 'AdvertisementTypesController@massDestroy')->name('advertisement-types.massDestroy');
     Route::resource('advertisement-types', 'AdvertisementTypesController');
+
+    // Application Forms
+    Route::delete('application-forms/destroy', 'ApplicationFormsController@massDestroy')->name('application-forms.massDestroy');
+    Route::resource('application-forms', 'ApplicationFormsController');
+
+    // Institutions Attended
+    Route::delete('institutions-attendeds/destroy', 'InstitutionsAttendedController@massDestroy')->name('institutions-attendeds.massDestroy');
+    Route::resource('institutions-attendeds', 'InstitutionsAttendedController');
+
+    // Traed
+    Route::delete('traeds/destroy', 'TraedController@massDestroy')->name('traeds.massDestroy');
+    Route::resource('traeds', 'TraedController');
+
+    // Other Details
+    Route::delete('other-details/destroy', 'OtherDetailsController@massDestroy')->name('other-details.massDestroy');
+    Route::post('other-details/media', 'OtherDetailsController@storeMedia')->name('other-details.storeMedia');
+    Route::post('other-details/ckmedia', 'OtherDetailsController@storeCKEditorImages')->name('other-details.storeCKEditorImages');
+    Route::resource('other-details', 'OtherDetailsController');
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
@@ -169,6 +189,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
 
     // Posts
     Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
+    Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
+    Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
     Route::resource('posts', 'PostsController');
 
     // Marital Statuses
@@ -250,6 +272,24 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     // Advertisement Types
     Route::delete('advertisement-types/destroy', 'AdvertisementTypesController@massDestroy')->name('advertisement-types.massDestroy');
     Route::resource('advertisement-types', 'AdvertisementTypesController');
+
+    // Application Forms
+    Route::delete('application-forms/destroy', 'ApplicationFormsController@massDestroy')->name('application-forms.massDestroy');
+    Route::resource('application-forms', 'ApplicationFormsController');
+
+    // Institutions Attended
+    Route::delete('institutions-attendeds/destroy', 'InstitutionsAttendedController@massDestroy')->name('institutions-attendeds.massDestroy');
+    Route::resource('institutions-attendeds', 'InstitutionsAttendedController');
+
+    // Traed
+    Route::delete('traeds/destroy', 'TraedController@massDestroy')->name('traeds.massDestroy');
+    Route::resource('traeds', 'TraedController');
+
+    // Other Details
+    Route::delete('other-details/destroy', 'OtherDetailsController@massDestroy')->name('other-details.massDestroy');
+    Route::post('other-details/media', 'OtherDetailsController@storeMedia')->name('other-details.storeMedia');
+    Route::post('other-details/ckmedia', 'OtherDetailsController@storeCKEditorImages')->name('other-details.storeCKEditorImages');
+    Route::resource('other-details', 'OtherDetailsController');
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');

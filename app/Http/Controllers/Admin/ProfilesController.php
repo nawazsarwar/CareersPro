@@ -112,7 +112,17 @@ class ProfilesController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.profiles.index');
+        $users            = User::get();
+        $marital_statuses = MaritalStatus::get();
+        $disability_types = DisabilityType::get();
+        $religions        = Religion::get();
+        $categories       = Category::get();
+        $castes           = Caste::get();
+        $countries        = Country::get();
+        $postal_codes     = PostalCode::get();
+        $provinces        = Province::get();
+
+        return view('admin.profiles.index', compact('users', 'marital_statuses', 'disability_types', 'religions', 'categories', 'castes', 'countries', 'postal_codes', 'provinces'));
     }
 
     public function create()

@@ -14,6 +14,20 @@
                         @method('PUT')
                         @csrf
                         <div class="form-group">
+                            <label class="required" for="user_id">{{ trans('cruds.photo.fields.user') }}</label>
+                            <select class="form-control select2" name="user_id" id="user_id" required>
+                                @foreach($users as $id => $entry)
+                                    <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $photo->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('user'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('user') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.photo.fields.user_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label for="photograph">{{ trans('cruds.photo.fields.photograph') }}</label>
                             <div class="needsclick dropzone" id="photograph-dropzone">
                             </div>
@@ -45,20 +59,6 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.photo.fields.thumb_impression_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for="user_id">{{ trans('cruds.photo.fields.user') }}</label>
-                            <select class="form-control select2" name="user_id" id="user_id" required>
-                                @foreach($users as $id => $entry)
-                                    <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $photo->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('user'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('user') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.photo.fields.user_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">

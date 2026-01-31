@@ -25,6 +25,14 @@ class StorePostTypeRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'admit_card_template' => [
+                'string',
+                'nullable',
+            ],
+            'interview_letter_template' => [
+                'string',
+                'nullable',
+            ],
             'submission_venue' => [
                 'string',
                 'nullable',

@@ -31,9 +31,6 @@
                         {{ trans('cruds.advertisement.fields.slug') }}
                     </th>
                     <th>
-                        {{ trans('cruds.advertisement.fields.description') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.advertisement.fields.dated') }}
                     </th>
                     <th>
@@ -78,9 +75,6 @@
                 </tr>
                 <tr>
                     <td>
-                    </td>
-                    <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
@@ -201,7 +195,6 @@
 { data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'slug', name: 'slug' },
-{ data: 'description', name: 'description' },
 { data: 'dated', name: 'dated' },
 { data: 'type_title', name: 'type.title' },
 { data: 'advertisement_url', name: 'advertisement_url' },

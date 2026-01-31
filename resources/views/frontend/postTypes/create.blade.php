@@ -34,6 +34,26 @@
                             <span class="help-block">{{ trans('cruds.postType.fields.pdf_template_helper') }}</span>
                         </div>
                         <div class="form-group">
+                            <label for="admit_card_template">{{ trans('cruds.postType.fields.admit_card_template') }}</label>
+                            <input class="form-control" type="text" name="admit_card_template" id="admit_card_template" value="{{ old('admit_card_template', '') }}">
+                            @if($errors->has('admit_card_template'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('admit_card_template') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.postType.fields.admit_card_template_helper') }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="interview_letter_template">{{ trans('cruds.postType.fields.interview_letter_template') }}</label>
+                            <input class="form-control" type="text" name="interview_letter_template" id="interview_letter_template" value="{{ old('interview_letter_template', '') }}">
+                            @if($errors->has('interview_letter_template'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('interview_letter_template') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.postType.fields.interview_letter_template_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label for="submission_venue">{{ trans('cruds.postType.fields.submission_venue') }}</label>
                             <input class="form-control" type="text" name="submission_venue" id="submission_venue" value="{{ old('submission_venue', '') }}">
                             @if($errors->has('submission_venue'))

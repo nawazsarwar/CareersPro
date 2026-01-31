@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyPostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -12,11 +13,14 @@ use App\Models\PostType;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostsController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -65,9 +69,6 @@ class PostsController extends Controller
             });
             $table->editColumn('slug', function ($row) {
                 return $row->slug ? $row->slug : '';
-            });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
             });
             $table->editColumn('vacancies', function ($row) {
                 return $row->vacancies ? $row->vacancies : '';
@@ -147,6 +148,10 @@ class PostsController extends Controller
     {
         $post = Post::create($request->all());
 
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $post->id]);
+        }
+
         return redirect()->route('admin.posts.index');
     }
 
@@ -199,5 +204,17 @@ class PostsController extends Controller
         }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('post_create') && Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Post();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

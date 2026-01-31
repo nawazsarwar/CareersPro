@@ -48,6 +48,10 @@ class PhotosController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
+
             $table->editColumn('photograph', function ($row) {
                 if ($photo = $row->photograph) {
                     return sprintf(
@@ -81,16 +85,15 @@ class PhotosController extends Controller
 
                 return '';
             });
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
-            });
 
-            $table->rawColumns(['actions', 'placeholder', 'photograph', 'signature', 'thumb_impression', 'user']);
+            $table->rawColumns(['actions', 'placeholder', 'user', 'photograph', 'signature', 'thumb_impression']);
 
             return $table->make(true);
         }
 
-        return view('admin.photos.index');
+        $users = User::get();
+
+        return view('admin.photos.index', compact('users'));
     }
 
     public function create()

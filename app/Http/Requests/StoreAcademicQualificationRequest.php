@@ -43,7 +43,6 @@ class StoreAcademicQualificationRequest extends FormRequest
             ],
             'cgpa' => [
                 'numeric',
-                'required',
                 'min:0',
             ],
             'subjects' => [

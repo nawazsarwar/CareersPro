@@ -28,6 +28,14 @@
                                 </tr>
                                 <tr>
                                     <th>
+                                        {{ trans('cruds.eligibilityTest.fields.user') }}
+                                    </th>
+                                    <td>
+                                        {{ $eligibilityTest->user->name ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.eligibilityTest.fields.name') }}
                                     </th>
                                     <td>
@@ -56,14 +64,6 @@
                                     </th>
                                     <td>
                                         {{ $eligibilityTest->subject }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.eligibilityTest.fields.user') }}
-                                    </th>
-                                    <td>
-                                        {{ $eligibilityTest->user->name ?? '' }}
                                     </td>
                                 </tr>
                             </tbody>

@@ -14,6 +14,20 @@
                         @method('POST')
                         @csrf
                         <div class="form-group">
+                            <label class="required" for="user_id">{{ trans('cruds.eligibilityTest.fields.user') }}</label>
+                            <select class="form-control select2" name="user_id" id="user_id" required>
+                                @foreach($users as $id => $entry)
+                                    <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('user'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('user') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.eligibilityTest.fields.user_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label class="required" for="name">{{ trans('cruds.eligibilityTest.fields.name') }}</label>
                             <input class="form-control" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                             @if($errors->has('name'))
@@ -52,20 +66,6 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.eligibilityTest.fields.subject_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for="user_id">{{ trans('cruds.eligibilityTest.fields.user') }}</label>
-                            <select class="form-control select2" name="user_id" id="user_id" required>
-                                @foreach($users as $id => $entry)
-                                    <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('user'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('user') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.eligibilityTest.fields.user_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">

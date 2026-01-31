@@ -91,7 +91,11 @@ class AcademicQualificationsController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.academicQualifications.index');
+        $qualification_levels = QualificationLevel::get();
+        $boards               = Board::get();
+        $users                = User::get();
+
+        return view('admin.academicQualifications.index', compact('qualification_levels', 'boards', 'users'));
     }
 
     public function create()

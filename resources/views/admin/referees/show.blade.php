@@ -25,6 +25,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.referee.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $referee->user->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.referee.fields.name') }}
                         </th>
                         <td>

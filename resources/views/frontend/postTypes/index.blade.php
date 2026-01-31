@@ -32,6 +32,12 @@
                                         {{ trans('cruds.postType.fields.pdf_template') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.postType.fields.admit_card_template') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.postType.fields.interview_letter_template') }}
+                                    </th>
+                                    <th>
                                         {{ trans('cruds.postType.fields.submission_venue') }}
                                     </th>
                                     <th>
@@ -66,6 +72,12 @@
                                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                                     </td>
                                     <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
                                     </td>
                                 </tr>
                             </thead>
@@ -80,6 +92,12 @@
                                         </td>
                                         <td>
                                             {{ $postType->pdf_template ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $postType->admit_card_template ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $postType->interview_letter_template ?? '' }}
                                         </td>
                                         <td>
                                             {{ $postType->submission_venue ?? '' }}

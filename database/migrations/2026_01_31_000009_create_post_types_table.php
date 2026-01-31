@@ -12,6 +12,8 @@ class CreatePostTypesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('pdf_template');
+            $table->string('admit_card_template')->nullable();
+            $table->string('interview_letter_template')->nullable();
             $table->string('submission_venue')->nullable();
             $table->string('status')->nullable();
             $table->longText('remarks')->nullable();

@@ -9,6 +9,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('post-types', 'PostTypesApiController');
 
     // Posts
+    Route::post('posts/media', 'PostsApiController@storeMedia')->name('posts.storeMedia');
     Route::apiResource('posts', 'PostsApiController');
 
     // Marital Statuses
@@ -69,4 +70,17 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Advertisement Types
     Route::apiResource('advertisement-types', 'AdvertisementTypesApiController');
+
+    // Application Forms
+    Route::apiResource('application-forms', 'ApplicationFormsApiController');
+
+    // Institutions Attended
+    Route::apiResource('institutions-attendeds', 'InstitutionsAttendedApiController');
+
+    // Traed
+    Route::apiResource('traeds', 'TraedApiController');
+
+    // Other Details
+    Route::post('other-details/media', 'OtherDetailsApiController@storeMedia')->name('other-details.storeMedia');
+    Route::apiResource('other-details', 'OtherDetailsApiController');
 });

@@ -63,7 +63,9 @@ class EligibilityTestsController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.eligibilityTests.index');
+        $users = User::get();
+
+        return view('admin.eligibilityTests.index', compact('users'));
     }
 
     public function create()
