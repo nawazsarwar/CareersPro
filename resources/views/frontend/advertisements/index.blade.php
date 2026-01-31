@@ -32,9 +32,6 @@
                                         {{ trans('cruds.advertisement.fields.slug') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.advertisement.fields.description') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.advertisement.fields.dated') }}
                                     </th>
                                     <th>
@@ -50,16 +47,13 @@
                                         {{ trans('cruds.advertisement.fields.default_fee') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.advertisement.fields.default_open_date') }}
+                                        {{ trans('cruds.advertisement.fields.default_opening_date') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.advertisement.fields.default_end_date') }}
+                                        {{ trans('cruds.advertisement.fields.default_closing_date') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.advertisement.fields.default_payment_end_date') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.advertisement.fields.approved_at') }}
+                                        {{ trans('cruds.advertisement.fields.default_payment_closing_date') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.advertisement.fields.status') }}
@@ -74,8 +68,78 @@
                                         {{ trans('cruds.advertisement.fields.approved_by') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.advertisement.fields.approved_at') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($advertisement_types as $key => $item)
+                                                <option value="{{ $item->title }}">{{ $item->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,9 +153,6 @@
                                         </td>
                                         <td>
                                             {{ $advertisement->slug ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $advertisement->description ?? '' }}
                                         </td>
                                         <td>
                                             {{ $advertisement->dated ?? '' }}
@@ -113,16 +174,13 @@
                                             {{ $advertisement->default_fee ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $advertisement->default_open_date ?? '' }}
+                                            {{ $advertisement->default_opening_date ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $advertisement->default_end_date ?? '' }}
+                                            {{ $advertisement->default_closing_date ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $advertisement->default_payment_end_date ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $advertisement->approved_at ?? '' }}
+                                            {{ $advertisement->default_payment_closing_date ?? '' }}
                                         </td>
                                         <td>
                                             {{ $advertisement->status ?? '' }}
@@ -135,6 +193,9 @@
                                         </td>
                                         <td>
                                             {{ $advertisement->approved_by->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $advertisement->approved_at ?? '' }}
                                         </td>
                                         <td>
                                             @can('advertisement_show')
@@ -217,6 +278,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

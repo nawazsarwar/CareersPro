@@ -35,6 +35,10 @@ class UpdatePostRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'subject' => [
+                'string',
+                'nullable',
+            ],
             'slug' => [
                 'string',
                 'required',
@@ -61,15 +65,15 @@ class UpdatePostRequest extends FormRequest
             'fee' => [
                 'required',
             ],
-            'open_date' => [
+            'opening_date' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
-            'last_date' => [
+            'closing_date' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
-            'payment_end_date' => [
+            'payment_closing_date' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
@@ -88,6 +92,38 @@ class UpdatePostRequest extends FormRequest
             'added_by_id' => [
                 'required',
                 'integer',
+            ],
+            'test_date' => [
+                'date_format:' . config('panel.date_format'),
+                'nullable',
+            ],
+            'test_reporting_time' => [
+                'string',
+                'nullable',
+            ],
+            'gate_closing_time' => [
+                'string',
+                'nullable',
+            ],
+            'scheduled_test_start' => [
+                'string',
+                'nullable',
+            ],
+            'test_duration' => [
+                'string',
+                'nullable',
+            ],
+            'interview_date' => [
+                'date_format:' . config('panel.date_format'),
+                'nullable',
+            ],
+            'interview_time' => [
+                'string',
+                'nullable',
+            ],
+            'interview_venue' => [
+                'string',
+                'nullable',
             ],
         ];
     }

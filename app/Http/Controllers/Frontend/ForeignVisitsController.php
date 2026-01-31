@@ -19,18 +19,22 @@ class ForeignVisitsController extends Controller
     {
         abort_if(Gate::denies('foreign_visit_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $foreignVisits = ForeignVisit::with(['country', 'user'])->get();
+        $foreignVisits = ForeignVisit::with(['user', 'country'])->get();
 
-        return view('frontend.foreignVisits.index', compact('foreignVisits'));
+        $users = User::get();
+
+        $countries = Country::get();
+
+        return view('frontend.foreignVisits.index', compact('countries', 'foreignVisits', 'users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('foreign_visit_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('frontend.foreignVisits.create', compact('countries', 'users'));
     }
@@ -46,11 +50,11 @@ class ForeignVisitsController extends Controller
     {
         abort_if(Gate::denies('foreign_visit_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $foreignVisit->load('country', 'user');
+        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $foreignVisit->load('user', 'country');
 
         return view('frontend.foreignVisits.edit', compact('countries', 'foreignVisit', 'users'));
     }
@@ -66,7 +70,7 @@ class ForeignVisitsController extends Controller
     {
         abort_if(Gate::denies('foreign_visit_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $foreignVisit->load('country', 'user');
+        $foreignVisit->load('user', 'country');
 
         return view('frontend.foreignVisits.show', compact('foreignVisit'));
     }
@@ -82,7 +86,11 @@ class ForeignVisitsController extends Controller
 
     public function massDestroy(MassDestroyForeignVisitRequest $request)
     {
-        ForeignVisit::whereIn('id', request('ids'))->delete();
+        $foreignVisits = ForeignVisit::find(request('ids'));
+
+        foreach ($foreignVisits as $foreignVisit) {
+            $foreignVisit->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

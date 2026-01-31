@@ -18,24 +18,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Advertisements
-    Route::delete('advertisements/destroy', 'AdvertisementsController@massDestroy')->name('advertisements.massDestroy');
-    Route::post('advertisements/media', 'AdvertisementsController@storeMedia')->name('advertisements.storeMedia');
-    Route::post('advertisements/ckmedia', 'AdvertisementsController@storeCKEditorImages')->name('advertisements.storeCKEditorImages');
-    Route::resource('advertisements', 'AdvertisementsController');
-
-    // Advertisement Types
-    Route::delete('advertisement-types/destroy', 'AdvertisementTypesController@massDestroy')->name('advertisement-types.massDestroy');
-    Route::resource('advertisement-types', 'AdvertisementTypesController');
-
-    // Post Types
-    Route::delete('post-types/destroy', 'PostTypesController@massDestroy')->name('post-types.massDestroy');
-    Route::resource('post-types', 'PostTypesController');
-
-    // Posts
-    Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
-    Route::resource('posts', 'PostsController');
-
     // Audit Logs
     Route::resource('audit-logs', 'AuditLogsController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
 
@@ -47,9 +29,21 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('faq-questions/destroy', 'FaqQuestionController@massDestroy')->name('faq-questions.massDestroy');
     Route::resource('faq-questions', 'FaqQuestionController');
 
-    // Profiles
-    Route::delete('profiles/destroy', 'ProfilesController@massDestroy')->name('profiles.massDestroy');
-    Route::resource('profiles', 'ProfilesController');
+    // Advertisements
+    Route::delete('advertisements/destroy', 'AdvertisementsController@massDestroy')->name('advertisements.massDestroy');
+    Route::post('advertisements/media', 'AdvertisementsController@storeMedia')->name('advertisements.storeMedia');
+    Route::post('advertisements/ckmedia', 'AdvertisementsController@storeCKEditorImages')->name('advertisements.storeCKEditorImages');
+    Route::resource('advertisements', 'AdvertisementsController');
+
+    // Post Types
+    Route::delete('post-types/destroy', 'PostTypesController@massDestroy')->name('post-types.massDestroy');
+    Route::resource('post-types', 'PostTypesController');
+
+    // Posts
+    Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
+    Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
+    Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
+    Route::resource('posts', 'PostsController');
 
     // Marital Statuses
     Route::delete('marital-statuses/destroy', 'MaritalStatusesController@massDestroy')->name('marital-statuses.massDestroy');
@@ -83,6 +77,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('postal-codes/destroy', 'PostalCodesController@massDestroy')->name('postal-codes.massDestroy');
     Route::resource('postal-codes', 'PostalCodesController');
 
+    // Profiles
+    Route::delete('profiles/destroy', 'ProfilesController@massDestroy')->name('profiles.massDestroy');
+    Route::resource('profiles', 'ProfilesController');
+
     // Photos
     Route::delete('photos/destroy', 'PhotosController@massDestroy')->name('photos.massDestroy');
     Route::post('photos/media', 'PhotosController@storeMedia')->name('photos.storeMedia');
@@ -111,10 +109,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('eligibility-tests/destroy', 'EligibilityTestsController@massDestroy')->name('eligibility-tests.massDestroy');
     Route::resource('eligibility-tests', 'EligibilityTestsController');
 
-    // Employment History
-    Route::delete('employment-histories/destroy', 'EmploymentHistoryController@massDestroy')->name('employment-histories.massDestroy');
-    Route::resource('employment-histories', 'EmploymentHistoryController');
-
     // Foreign Visits
     Route::delete('foreign-visits/destroy', 'ForeignVisitsController@massDestroy')->name('foreign-visits.massDestroy');
     Route::resource('foreign-visits', 'ForeignVisitsController');
@@ -122,6 +116,32 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Referees
     Route::delete('referees/destroy', 'RefereesController@massDestroy')->name('referees.massDestroy');
     Route::resource('referees', 'RefereesController');
+
+    // Employment History
+    Route::delete('employment-histories/destroy', 'EmploymentHistoryController@massDestroy')->name('employment-histories.massDestroy');
+    Route::resource('employment-histories', 'EmploymentHistoryController');
+
+    // Advertisement Types
+    Route::delete('advertisement-types/destroy', 'AdvertisementTypesController@massDestroy')->name('advertisement-types.massDestroy');
+    Route::resource('advertisement-types', 'AdvertisementTypesController');
+
+    // Application Forms
+    Route::delete('application-forms/destroy', 'ApplicationFormsController@massDestroy')->name('application-forms.massDestroy');
+    Route::resource('application-forms', 'ApplicationFormsController');
+
+    // Institutions Attended
+    Route::delete('institutions-attendeds/destroy', 'InstitutionsAttendedController@massDestroy')->name('institutions-attendeds.massDestroy');
+    Route::resource('institutions-attendeds', 'InstitutionsAttendedController');
+
+    // Traed
+    Route::delete('traeds/destroy', 'TraedController@massDestroy')->name('traeds.massDestroy');
+    Route::resource('traeds', 'TraedController');
+
+    // Other Details
+    Route::delete('other-details/destroy', 'OtherDetailsController@massDestroy')->name('other-details.massDestroy');
+    Route::post('other-details/media', 'OtherDetailsController@storeMedia')->name('other-details.storeMedia');
+    Route::post('other-details/ckmedia', 'OtherDetailsController@storeCKEditorImages')->name('other-details.storeCKEditorImages');
+    Route::resource('other-details', 'OtherDetailsController');
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
@@ -149,24 +169,6 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Advertisements
-    Route::delete('advertisements/destroy', 'AdvertisementsController@massDestroy')->name('advertisements.massDestroy');
-    Route::post('advertisements/media', 'AdvertisementsController@storeMedia')->name('advertisements.storeMedia');
-    Route::post('advertisements/ckmedia', 'AdvertisementsController@storeCKEditorImages')->name('advertisements.storeCKEditorImages');
-    Route::resource('advertisements', 'AdvertisementsController');
-
-    // Advertisement Types
-    Route::delete('advertisement-types/destroy', 'AdvertisementTypesController@massDestroy')->name('advertisement-types.massDestroy');
-    Route::resource('advertisement-types', 'AdvertisementTypesController');
-
-    // Post Types
-    Route::delete('post-types/destroy', 'PostTypesController@massDestroy')->name('post-types.massDestroy');
-    Route::resource('post-types', 'PostTypesController');
-
-    // Posts
-    Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
-    Route::resource('posts', 'PostsController');
-
     // Faq Category
     Route::delete('faq-categories/destroy', 'FaqCategoryController@massDestroy')->name('faq-categories.massDestroy');
     Route::resource('faq-categories', 'FaqCategoryController');
@@ -175,9 +177,21 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::delete('faq-questions/destroy', 'FaqQuestionController@massDestroy')->name('faq-questions.massDestroy');
     Route::resource('faq-questions', 'FaqQuestionController');
 
-    // Profiles
-    Route::delete('profiles/destroy', 'ProfilesController@massDestroy')->name('profiles.massDestroy');
-    Route::resource('profiles', 'ProfilesController');
+    // Advertisements
+    Route::delete('advertisements/destroy', 'AdvertisementsController@massDestroy')->name('advertisements.massDestroy');
+    Route::post('advertisements/media', 'AdvertisementsController@storeMedia')->name('advertisements.storeMedia');
+    Route::post('advertisements/ckmedia', 'AdvertisementsController@storeCKEditorImages')->name('advertisements.storeCKEditorImages');
+    Route::resource('advertisements', 'AdvertisementsController');
+
+    // Post Types
+    Route::delete('post-types/destroy', 'PostTypesController@massDestroy')->name('post-types.massDestroy');
+    Route::resource('post-types', 'PostTypesController');
+
+    // Posts
+    Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
+    Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
+    Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
+    Route::resource('posts', 'PostsController');
 
     // Marital Statuses
     Route::delete('marital-statuses/destroy', 'MaritalStatusesController@massDestroy')->name('marital-statuses.massDestroy');
@@ -211,6 +225,10 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::delete('postal-codes/destroy', 'PostalCodesController@massDestroy')->name('postal-codes.massDestroy');
     Route::resource('postal-codes', 'PostalCodesController');
 
+    // Profiles
+    Route::delete('profiles/destroy', 'ProfilesController@massDestroy')->name('profiles.massDestroy');
+    Route::resource('profiles', 'ProfilesController');
+
     // Photos
     Route::delete('photos/destroy', 'PhotosController@massDestroy')->name('photos.massDestroy');
     Route::post('photos/media', 'PhotosController@storeMedia')->name('photos.storeMedia');
@@ -239,10 +257,6 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::delete('eligibility-tests/destroy', 'EligibilityTestsController@massDestroy')->name('eligibility-tests.massDestroy');
     Route::resource('eligibility-tests', 'EligibilityTestsController');
 
-    // Employment History
-    Route::delete('employment-histories/destroy', 'EmploymentHistoryController@massDestroy')->name('employment-histories.massDestroy');
-    Route::resource('employment-histories', 'EmploymentHistoryController');
-
     // Foreign Visits
     Route::delete('foreign-visits/destroy', 'ForeignVisitsController@massDestroy')->name('foreign-visits.massDestroy');
     Route::resource('foreign-visits', 'ForeignVisitsController');
@@ -250,6 +264,32 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     // Referees
     Route::delete('referees/destroy', 'RefereesController@massDestroy')->name('referees.massDestroy');
     Route::resource('referees', 'RefereesController');
+
+    // Employment History
+    Route::delete('employment-histories/destroy', 'EmploymentHistoryController@massDestroy')->name('employment-histories.massDestroy');
+    Route::resource('employment-histories', 'EmploymentHistoryController');
+
+    // Advertisement Types
+    Route::delete('advertisement-types/destroy', 'AdvertisementTypesController@massDestroy')->name('advertisement-types.massDestroy');
+    Route::resource('advertisement-types', 'AdvertisementTypesController');
+
+    // Application Forms
+    Route::delete('application-forms/destroy', 'ApplicationFormsController@massDestroy')->name('application-forms.massDestroy');
+    Route::resource('application-forms', 'ApplicationFormsController');
+
+    // Institutions Attended
+    Route::delete('institutions-attendeds/destroy', 'InstitutionsAttendedController@massDestroy')->name('institutions-attendeds.massDestroy');
+    Route::resource('institutions-attendeds', 'InstitutionsAttendedController');
+
+    // Traed
+    Route::delete('traeds/destroy', 'TraedController@massDestroy')->name('traeds.massDestroy');
+    Route::resource('traeds', 'TraedController');
+
+    // Other Details
+    Route::delete('other-details/destroy', 'OtherDetailsController@massDestroy')->name('other-details.massDestroy');
+    Route::post('other-details/media', 'OtherDetailsController@storeMedia')->name('other-details.storeMedia');
+    Route::post('other-details/ckmedia', 'OtherDetailsController@storeCKEditorImages')->name('other-details.storeCKEditorImages');
+    Route::resource('other-details', 'OtherDetailsController');
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');

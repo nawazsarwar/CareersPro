@@ -19,25 +19,25 @@ class ProvincesController extends Controller
         abort_if(Gate::denies('province_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Province::query()->select(sprintf('%s.*', (new Province())->table));
+            $query = Province::query()->select(sprintf('%s.*', (new Province)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'province_show';
-                $editGate = 'province_edit';
-                $deleteGate = 'province_delete';
+                $viewGate      = 'province_show';
+                $editGate      = 'province_edit';
+                $deleteGate    = 'province_delete';
                 $crudRoutePart = 'provinces';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -134,7 +134,11 @@ class ProvincesController extends Controller
 
     public function massDestroy(MassDestroyProvinceRequest $request)
     {
-        Province::whereIn('id', request('ids'))->delete();
+        $provinces = Province::find(request('ids'));
+
+        foreach ($provinces as $province) {
+            $province->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

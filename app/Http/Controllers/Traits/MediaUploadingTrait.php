@@ -28,7 +28,7 @@ trait MediaUploadingTrait
         $path = storage_path('tmp/uploads');
 
         try {
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 mkdir($path, 0755, true);
             }
         } catch (\Exception $e) {

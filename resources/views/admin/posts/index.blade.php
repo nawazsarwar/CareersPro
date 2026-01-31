@@ -37,10 +37,10 @@
                         {{ trans('cruds.post.fields.title') }}
                     </th>
                     <th>
-                        {{ trans('cruds.post.fields.slug') }}
+                        {{ trans('cruds.post.fields.subject') }}
                     </th>
                     <th>
-                        {{ trans('cruds.post.fields.description') }}
+                        {{ trans('cruds.post.fields.slug') }}
                     </th>
                     <th>
                         {{ trans('cruds.post.fields.vacancies') }}
@@ -58,13 +58,13 @@
                         {{ trans('cruds.post.fields.fee') }}
                     </th>
                     <th>
-                        {{ trans('cruds.post.fields.open_date') }}
+                        {{ trans('cruds.post.fields.opening_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.post.fields.last_date') }}
+                        {{ trans('cruds.post.fields.closing_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.post.fields.payment_last_date') }}
+                        {{ trans('cruds.post.fields.payment_closing_date') }}
                     </th>
                     <th>
                         {{ trans('cruds.post.fields.withdrawn') }}
@@ -79,8 +79,132 @@
                         {{ trans('cruds.post.fields.added_by') }}
                     </th>
                     <th>
+                        {{ trans('cruds.post.fields.test_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.test_reporting_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.gate_closing_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.scheduled_test_start') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.test_duration') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.interview_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.interview_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.post.fields.interview_venue') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($advertisements as $key => $item)
+                                <option value="{{ $item->title }}">{{ $item->title }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($post_types as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($users as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -139,20 +263,28 @@
 { data: 'posttype_name', name: 'posttype.name' },
 { data: 'serial_no', name: 'serial_no' },
 { data: 'title', name: 'title' },
+{ data: 'subject', name: 'subject' },
 { data: 'slug', name: 'slug' },
-{ data: 'description', name: 'description' },
 { data: 'vacancies', name: 'vacancies' },
 { data: 'location', name: 'location' },
 { data: 'pay_level', name: 'pay_level' },
 { data: 'pay_range', name: 'pay_range' },
 { data: 'fee', name: 'fee' },
-{ data: 'open_date', name: 'open_date' },
-{ data: 'last_date', name: 'last_date' },
-{ data: 'payment_last_date', name: 'payment_last_date' },
+{ data: 'opening_date', name: 'opening_date' },
+{ data: 'closing_date', name: 'closing_date' },
+{ data: 'payment_closing_date', name: 'payment_closing_date' },
 { data: 'withdrawn', name: 'withdrawn' },
 { data: 'status', name: 'status' },
 { data: 'remarks', name: 'remarks' },
 { data: 'added_by_name', name: 'added_by.name' },
+{ data: 'test_date', name: 'test_date' },
+{ data: 'test_reporting_time', name: 'test_reporting_time' },
+{ data: 'gate_closing_time', name: 'gate_closing_time' },
+{ data: 'scheduled_test_start', name: 'scheduled_test_start' },
+{ data: 'test_duration', name: 'test_duration' },
+{ data: 'interview_date', name: 'interview_date' },
+{ data: 'interview_time', name: 'interview_time' },
+{ data: 'interview_venue', name: 'interview_venue' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -165,6 +297,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 });
 
 </script>

@@ -5,11 +5,12 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('advertisements/media', 'AdvertisementsApiController@storeMedia')->name('advertisements.storeMedia');
     Route::apiResource('advertisements', 'AdvertisementsApiController');
 
-    // Posts
-    Route::apiResource('posts', 'PostsApiController');
+    // Post Types
+    Route::apiResource('post-types', 'PostTypesApiController');
 
-    // Profiles
-    Route::apiResource('profiles', 'ProfilesApiController');
+    // Posts
+    Route::post('posts/media', 'PostsApiController@storeMedia')->name('posts.storeMedia');
+    Route::apiResource('posts', 'PostsApiController');
 
     // Marital Statuses
     Route::apiResource('marital-statuses', 'MaritalStatusesApiController');
@@ -35,6 +36,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Postal Codes
     Route::apiResource('postal-codes', 'PostalCodesApiController');
 
+    // Profiles
+    Route::apiResource('profiles', 'ProfilesApiController');
+
     // Photos
     Route::post('photos/media', 'PhotosApiController@storeMedia')->name('photos.storeMedia');
     Route::apiResource('photos', 'PhotosApiController');
@@ -55,12 +59,28 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Eligibility Tests
     Route::apiResource('eligibility-tests', 'EligibilityTestsApiController');
 
-    // Employment History
-    Route::apiResource('employment-histories', 'EmploymentHistoryApiController');
-
     // Foreign Visits
     Route::apiResource('foreign-visits', 'ForeignVisitsApiController');
 
     // Referees
     Route::apiResource('referees', 'RefereesApiController');
+
+    // Employment History
+    Route::apiResource('employment-histories', 'EmploymentHistoryApiController');
+
+    // Advertisement Types
+    Route::apiResource('advertisement-types', 'AdvertisementTypesApiController');
+
+    // Application Forms
+    Route::apiResource('application-forms', 'ApplicationFormsApiController');
+
+    // Institutions Attended
+    Route::apiResource('institutions-attendeds', 'InstitutionsAttendedApiController');
+
+    // Traed
+    Route::apiResource('traeds', 'TraedApiController');
+
+    // Other Details
+    Route::post('other-details/media', 'OtherDetailsApiController@storeMedia')->name('other-details.storeMedia');
+    Route::apiResource('other-details', 'OtherDetailsApiController');
 });

@@ -14,18 +14,85 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdvertisementsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('advertisement_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $advertisements = Advertisement::with(['type', 'added_by', 'approved_by', 'media'])->get();
+        if ($request->ajax()) {
+            $query = Advertisement::with(['type', 'added_by', 'approved_by'])->select(sprintf('%s.*', (new Advertisement)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.advertisements.index', compact('advertisements'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'advertisement_show';
+                $editGate      = 'advertisement_edit';
+                $deleteGate    = 'advertisement_delete';
+                $crudRoutePart = 'advertisements';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('title', function ($row) {
+                return $row->title ? $row->title : '';
+            });
+            $table->editColumn('slug', function ($row) {
+                return $row->slug ? $row->slug : '';
+            });
+
+            $table->addColumn('type_title', function ($row) {
+                return $row->type ? $row->type->title : '';
+            });
+
+            $table->editColumn('advertisement_url', function ($row) {
+                return $row->advertisement_url ? $row->advertisement_url : '';
+            });
+            $table->editColumn('document', function ($row) {
+                return $row->document ? '<a href="' . $row->document->getUrl() . '" target="_blank">' . trans('global.downloadFile') . '</a>' : '';
+            });
+            $table->editColumn('default_fee', function ($row) {
+                return $row->default_fee ? $row->default_fee : '';
+            });
+
+            $table->editColumn('status', function ($row) {
+                return $row->status ? $row->status : '';
+            });
+            $table->editColumn('remarks', function ($row) {
+                return $row->remarks ? $row->remarks : '';
+            });
+            $table->addColumn('added_by_name', function ($row) {
+                return $row->added_by ? $row->added_by->name : '';
+            });
+
+            $table->addColumn('approved_by_name', function ($row) {
+                return $row->approved_by ? $row->approved_by->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'type', 'document', 'added_by', 'approved_by']);
+
+            return $table->make(true);
+        }
+
+        $advertisement_types = AdvertisementType::get();
+        $users               = User::get();
+
+        return view('admin.advertisements.index', compact('advertisement_types', 'users'));
     }
 
     public function create()
@@ -76,7 +143,7 @@ class AdvertisementsController extends Controller
         $advertisement->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$advertisement->document || $request->input('document') !== $advertisement->document->file_name) {
+            if (! $advertisement->document || $request->input('document') !== $advertisement->document->file_name) {
                 if ($advertisement->document) {
                     $advertisement->document->delete();
                 }
@@ -109,7 +176,11 @@ class AdvertisementsController extends Controller
 
     public function massDestroy(MassDestroyAdvertisementRequest $request)
     {
-        Advertisement::whereIn('id', request('ids'))->delete();
+        $advertisements = Advertisement::find(request('ids'));
+
+        foreach ($advertisements as $advertisement) {
+            $advertisement->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

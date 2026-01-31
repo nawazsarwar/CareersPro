@@ -68,7 +68,11 @@ class ReligionsController extends Controller
 
     public function massDestroy(MassDestroyReligionRequest $request)
     {
-        Religion::whereIn('id', request('ids'))->delete();
+        $religions = Religion::find(request('ids'));
+
+        foreach ($religions as $religion) {
+            $religion->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

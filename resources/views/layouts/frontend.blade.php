@@ -92,6 +92,11 @@
                                             {{ trans('cruds.adress.title') }}
                                         </a>
                                     @endcan
+                                    @can('institutions_attended_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.institutions-attendeds.index') }}">
+                                            {{ trans('cruds.institutionsAttended.title') }}
+                                        </a>
+                                    @endcan
                                     @can('academic_qualification_access')
                                         <a class="dropdown-item" href="{{ route('frontend.academic-qualifications.index') }}">
                                             {{ trans('cruds.academicQualification.title') }}
@@ -107,6 +112,11 @@
                                             {{ trans('cruds.employmentHistory.title') }}
                                         </a>
                                     @endcan
+                                    @can('traed_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.traeds.index') }}">
+                                            {{ trans('cruds.traed.title') }}
+                                        </a>
+                                    @endcan
                                     @can('foreign_visit_access')
                                         <a class="dropdown-item" href="{{ route('frontend.foreign-visits.index') }}">
                                             {{ trans('cruds.foreignVisit.title') }}
@@ -115,6 +125,11 @@
                                     @can('referee_access')
                                         <a class="dropdown-item" href="{{ route('frontend.referees.index') }}">
                                             {{ trans('cruds.referee.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('application_form_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.application-forms.index') }}">
+                                            {{ trans('cruds.applicationForm.title') }}
                                         </a>
                                     @endcan
                                     @can('career_access')
@@ -230,6 +245,11 @@
                                     @can('religion_access')
                                         <a class="dropdown-item ml-3" href="{{ route('frontend.religions.index') }}">
                                             {{ trans('cruds.religion.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('other_detail_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.other-details.index') }}">
+                                            {{ trans('cruds.otherDetail.title') }}
                                         </a>
                                     @endcan
 

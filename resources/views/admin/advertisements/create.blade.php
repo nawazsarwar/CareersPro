@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.advertisement.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description') }}</textarea>
+                <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description') !!}</textarea>
                 @if($errors->has('description'))
                     <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
@@ -79,36 +79,28 @@
                 <span class="help-block">{{ trans('cruds.advertisement.fields.default_fee_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="default_open_date">{{ trans('cruds.advertisement.fields.default_open_date') }}</label>
-                <input class="form-control datetime {{ $errors->has('default_open_date') ? 'is-invalid' : '' }}" type="text" name="default_open_date" id="default_open_date" value="{{ old('default_open_date') }}">
-                @if($errors->has('default_open_date'))
-                    <span class="text-danger">{{ $errors->first('default_open_date') }}</span>
+                <label for="default_opening_date">{{ trans('cruds.advertisement.fields.default_opening_date') }}</label>
+                <input class="form-control datetime {{ $errors->has('default_opening_date') ? 'is-invalid' : '' }}" type="text" name="default_opening_date" id="default_opening_date" value="{{ old('default_opening_date') }}">
+                @if($errors->has('default_opening_date'))
+                    <span class="text-danger">{{ $errors->first('default_opening_date') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.advertisement.fields.default_open_date_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.advertisement.fields.default_opening_date_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="default_end_date">{{ trans('cruds.advertisement.fields.default_end_date') }}</label>
-                <input class="form-control datetime {{ $errors->has('default_end_date') ? 'is-invalid' : '' }}" type="text" name="default_end_date" id="default_end_date" value="{{ old('default_end_date') }}">
-                @if($errors->has('default_end_date'))
-                    <span class="text-danger">{{ $errors->first('default_end_date') }}</span>
+                <label for="default_closing_date">{{ trans('cruds.advertisement.fields.default_closing_date') }}</label>
+                <input class="form-control datetime {{ $errors->has('default_closing_date') ? 'is-invalid' : '' }}" type="text" name="default_closing_date" id="default_closing_date" value="{{ old('default_closing_date') }}">
+                @if($errors->has('default_closing_date'))
+                    <span class="text-danger">{{ $errors->first('default_closing_date') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.advertisement.fields.default_end_date_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.advertisement.fields.default_closing_date_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="default_payment_end_date">{{ trans('cruds.advertisement.fields.default_payment_end_date') }}</label>
-                <input class="form-control datetime {{ $errors->has('default_payment_end_date') ? 'is-invalid' : '' }}" type="text" name="default_payment_end_date" id="default_payment_end_date" value="{{ old('default_payment_end_date') }}">
-                @if($errors->has('default_payment_end_date'))
-                    <span class="text-danger">{{ $errors->first('default_payment_end_date') }}</span>
+                <label for="default_payment_closing_date">{{ trans('cruds.advertisement.fields.default_payment_closing_date') }}</label>
+                <input class="form-control datetime {{ $errors->has('default_payment_closing_date') ? 'is-invalid' : '' }}" type="text" name="default_payment_closing_date" id="default_payment_closing_date" value="{{ old('default_payment_closing_date') }}">
+                @if($errors->has('default_payment_closing_date'))
+                    <span class="text-danger">{{ $errors->first('default_payment_closing_date') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.advertisement.fields.default_payment_end_date_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="approved_at">{{ trans('cruds.advertisement.fields.approved_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('approved_at') ? 'is-invalid' : '' }}" type="text" name="approved_at" id="approved_at" value="{{ old('approved_at') }}">
-                @if($errors->has('approved_at'))
-                    <span class="text-danger">{{ $errors->first('approved_at') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.advertisement.fields.approved_at_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.advertisement.fields.default_payment_closing_date_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="status">{{ trans('cruds.advertisement.fields.status') }}</label>
@@ -151,6 +143,14 @@
                 <span class="help-block">{{ trans('cruds.advertisement.fields.approved_by_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="approved_at">{{ trans('cruds.advertisement.fields.approved_at') }}</label>
+                <input class="form-control datetime {{ $errors->has('approved_at') ? 'is-invalid' : '' }}" type="text" name="approved_at" id="approved_at" value="{{ old('approved_at') }}">
+                @if($errors->has('approved_at'))
+                    <span class="text-danger">{{ $errors->first('approved_at') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.advertisement.fields.approved_at_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
@@ -164,6 +164,70 @@
 @endsection
 
 @section('scripts')
+<script>
+    $(document).ready(function () {
+  function SimpleUploadAdapter(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+      return {
+        upload: function() {
+          return loader.file
+            .then(function (file) {
+              return new Promise(function(resolve, reject) {
+                // Init request
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('admin.advertisements.storeCKEditorImages') }}', true);
+                xhr.setRequestHeader('x-csrf-token', window._token);
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.responseType = 'json';
+
+                // Init listeners
+                var genericErrorText = `Couldn't upload file: ${ file.name }.`;
+                xhr.addEventListener('error', function() { reject(genericErrorText) });
+                xhr.addEventListener('abort', function() { reject() });
+                xhr.addEventListener('load', function() {
+                  var response = xhr.response;
+
+                  if (!response || xhr.status !== 201) {
+                    return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
+                  }
+
+                  $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                  resolve({ default: response.url });
+                });
+
+                if (xhr.upload) {
+                  xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                      loader.uploadTotal = e.total;
+                      loader.uploaded = e.loaded;
+                    }
+                  });
+                }
+
+                // Send request
+                var data = new FormData();
+                data.append('upload', file);
+                data.append('crud_id', '{{ $advertisement->id ?? 0 }}');
+                xhr.send(data);
+              });
+            })
+        }
+      };
+    }
+  }
+
+  var allEditors = document.querySelectorAll('.ckeditor');
+  for (var i = 0; i < allEditors.length; ++i) {
+    ClassicEditor.create(
+      allEditors[i], {
+        extraPlugins: [SimpleUploadAdapter]
+      }
+    );
+  }
+});
+</script>
+
 <script>
     Dropzone.options.documentDropzone = {
     url: '{{ route('admin.advertisements.storeMedia') }}',

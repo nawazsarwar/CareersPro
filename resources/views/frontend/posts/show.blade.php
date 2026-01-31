@@ -60,6 +60,14 @@
                                 </tr>
                                 <tr>
                                     <th>
+                                        {{ trans('cruds.post.fields.subject') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->subject }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.post.fields.slug') }}
                                     </th>
                                     <td>
@@ -71,7 +79,7 @@
                                         {{ trans('cruds.post.fields.description') }}
                                     </th>
                                     <td>
-                                        {{ $post->description }}
+                                        {!! $post->description !!}
                                     </td>
                                 </tr>
                                 <tr>
@@ -116,26 +124,26 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.post.fields.open_date') }}
+                                        {{ trans('cruds.post.fields.opening_date') }}
                                     </th>
                                     <td>
-                                        {{ $post->open_date }}
+                                        {{ $post->opening_date }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.post.fields.last_date') }}
+                                        {{ trans('cruds.post.fields.closing_date') }}
                                     </th>
                                     <td>
-                                        {{ $post->last_date }}
+                                        {{ $post->closing_date }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.post.fields.payment_last_date') }}
+                                        {{ trans('cruds.post.fields.payment_closing_date') }}
                                     </th>
                                     <td>
-                                        {{ $post->payment_last_date }}
+                                        {{ $post->payment_closing_date }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -168,6 +176,70 @@
                                     </th>
                                     <td>
                                         {{ $post->added_by->name ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_date') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->test_date }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_reporting_time') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->test_reporting_time }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.gate_closing_time') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->gate_closing_time }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.scheduled_test_start') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->scheduled_test_start }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_duration') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->test_duration }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_date') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->interview_date }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_time') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->interview_time }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_venue') }}
+                                    </th>
+                                    <td>
+                                        {{ $post->interview_venue }}
                                     </td>
                                 </tr>
                             </tbody>

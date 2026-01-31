@@ -71,8 +71,8 @@
                 <span class="help-block">{{ trans('cruds.academicQualification.fields.percentage_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="cgpa">{{ trans('cruds.academicQualification.fields.cgpa') }}</label>
-                <input class="form-control {{ $errors->has('cgpa') ? 'is-invalid' : '' }}" type="number" name="cgpa" id="cgpa" value="{{ old('cgpa', '') }}" step="0.01" required>
+                <label for="cgpa">{{ trans('cruds.academicQualification.fields.cgpa') }}</label>
+                <input class="form-control {{ $errors->has('cgpa') ? 'is-invalid' : '' }}" type="number" name="cgpa" id="cgpa" value="{{ old('cgpa', '') }}" step="0.01">
                 @if($errors->has('cgpa'))
                     <span class="text-danger">{{ $errors->first('cgpa') }}</span>
                 @endif

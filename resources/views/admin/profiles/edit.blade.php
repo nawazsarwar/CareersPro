@@ -332,7 +332,7 @@
             </div>
             <div class="form-group">
                 <label for="conviction_reason">{{ trans('cruds.profile.fields.conviction_reason') }}</label>
-                <input class="form-control {{ $errors->has('conviction_reason') ? 'is-invalid' : '' }}" type="text" name="conviction_reason" id="conviction_reason" value="{{ old('conviction_reason', $profile->conviction_reason) }}">
+                <textarea class="form-control {{ $errors->has('conviction_reason') ? 'is-invalid' : '' }}" name="conviction_reason" id="conviction_reason">{{ old('conviction_reason', $profile->conviction_reason) }}</textarea>
                 @if($errors->has('conviction_reason'))
                     <span class="text-danger">{{ $errors->first('conviction_reason') }}</span>
                 @endif
@@ -353,7 +353,7 @@
             </div>
             <div class="form-group">
                 <label for="debarred_reason">{{ trans('cruds.profile.fields.debarred_reason') }}</label>
-                <input class="form-control {{ $errors->has('debarred_reason') ? 'is-invalid' : '' }}" type="text" name="debarred_reason" id="debarred_reason" value="{{ old('debarred_reason', $profile->debarred_reason) }}">
+                <textarea class="form-control {{ $errors->has('debarred_reason') ? 'is-invalid' : '' }}" name="debarred_reason" id="debarred_reason">{{ old('debarred_reason', $profile->debarred_reason) }}</textarea>
                 @if($errors->has('debarred_reason'))
                     <span class="text-danger">{{ $errors->first('debarred_reason') }}</span>
                 @endif
@@ -374,7 +374,7 @@
             </div>
             <div class="form-group">
                 <label for="vigilance_reason">{{ trans('cruds.profile.fields.vigilance_reason') }}</label>
-                <input class="form-control {{ $errors->has('vigilance_reason') ? 'is-invalid' : '' }}" type="text" name="vigilance_reason" id="vigilance_reason" value="{{ old('vigilance_reason', $profile->vigilance_reason) }}">
+                <textarea class="form-control {{ $errors->has('vigilance_reason') ? 'is-invalid' : '' }}" name="vigilance_reason" id="vigilance_reason">{{ old('vigilance_reason', $profile->vigilance_reason) }}</textarea>
                 @if($errors->has('vigilance_reason'))
                     <span class="text-danger">{{ $errors->first('vigilance_reason') }}</span>
                 @endif

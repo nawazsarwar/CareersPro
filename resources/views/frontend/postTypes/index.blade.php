@@ -32,6 +32,12 @@
                                         {{ trans('cruds.postType.fields.pdf_template') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.postType.fields.admit_card_template') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.postType.fields.interview_letter_template') }}
+                                    </th>
+                                    <th>
                                         {{ trans('cruds.postType.fields.submission_venue') }}
                                     </th>
                                     <th>
@@ -43,6 +49,36 @@
                                     <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,6 +92,12 @@
                                         </td>
                                         <td>
                                             {{ $postType->pdf_template ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $postType->admit_card_template ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $postType->interview_letter_template ?? '' }}
                                         </td>
                                         <td>
                                             {{ $postType->submission_venue ?? '' }}
@@ -147,6 +189,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

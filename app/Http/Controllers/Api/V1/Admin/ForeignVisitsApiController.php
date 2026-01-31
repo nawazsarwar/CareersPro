@@ -17,7 +17,7 @@ class ForeignVisitsApiController extends Controller
     {
         abort_if(Gate::denies('foreign_visit_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ForeignVisitResource(ForeignVisit::with(['country', 'user'])->get());
+        return new ForeignVisitResource(ForeignVisit::with(['user', 'country'])->get());
     }
 
     public function store(StoreForeignVisitRequest $request)
@@ -33,7 +33,7 @@ class ForeignVisitsApiController extends Controller
     {
         abort_if(Gate::denies('foreign_visit_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ForeignVisitResource($foreignVisit->load(['country', 'user']));
+        return new ForeignVisitResource($foreignVisit->load(['user', 'country']));
     }
 
     public function update(UpdateForeignVisitRequest $request, ForeignVisit $foreignVisit)

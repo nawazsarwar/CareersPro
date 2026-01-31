@@ -26,25 +26,25 @@ class AcademicQualificationsController extends Controller
         abort_if(Gate::denies('academic_qualification_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = AcademicQualification::with(['name', 'board', 'user'])->select(sprintf('%s.*', (new AcademicQualification())->table));
+            $query = AcademicQualification::with(['name', 'board', 'user'])->select(sprintf('%s.*', (new AcademicQualification)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'academic_qualification_show';
-                $editGate = 'academic_qualification_edit';
-                $deleteGate = 'academic_qualification_delete';
+                $viewGate      = 'academic_qualification_show';
+                $editGate      = 'academic_qualification_edit';
+                $deleteGate    = 'academic_qualification_delete';
                 $crudRoutePart = 'academic-qualifications';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -91,7 +91,11 @@ class AcademicQualificationsController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.academicQualifications.index');
+        $qualification_levels = QualificationLevel::get();
+        $boards               = Board::get();
+        $users                = User::get();
+
+        return view('admin.academicQualifications.index', compact('qualification_levels', 'boards', 'users'));
     }
 
     public function create()
@@ -142,7 +146,7 @@ class AcademicQualificationsController extends Controller
         $academicQualification->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
+            if (! $academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
                 if ($academicQualification->document) {
                     $academicQualification->document->delete();
                 }
@@ -175,7 +179,11 @@ class AcademicQualificationsController extends Controller
 
     public function massDestroy(MassDestroyAcademicQualificationRequest $request)
     {
-        AcademicQualification::whereIn('id', request('ids'))->delete();
+        $academicQualifications = AcademicQualification::find(request('ids'));
+
+        foreach ($academicQualifications as $academicQualification) {
+            $academicQualification->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

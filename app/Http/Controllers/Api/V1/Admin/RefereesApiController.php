@@ -17,7 +17,7 @@ class RefereesApiController extends Controller
     {
         abort_if(Gate::denies('referee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new RefereeResource(Referee::all());
+        return new RefereeResource(Referee::with(['user'])->get());
     }
 
     public function store(StoreRefereeRequest $request)
@@ -33,7 +33,7 @@ class RefereesApiController extends Controller
     {
         abort_if(Gate::denies('referee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new RefereeResource($referee);
+        return new RefereeResource($referee->load(['user']));
     }
 
     public function update(UpdateRefereeRequest $request, Referee $referee)

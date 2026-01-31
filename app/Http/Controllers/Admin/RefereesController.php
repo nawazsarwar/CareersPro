@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyRefereeRequest;
 use App\Http\Requests\StoreRefereeRequest;
 use App\Http\Requests\UpdateRefereeRequest;
 use App\Models\Referee;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,30 +20,34 @@ class RefereesController extends Controller
         abort_if(Gate::denies('referee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Referee::query()->select(sprintf('%s.*', (new Referee())->table));
+            $query = Referee::with(['user'])->select(sprintf('%s.*', (new Referee)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'referee_show';
-                $editGate = 'referee_edit';
-                $deleteGate = 'referee_delete';
+                $viewGate      = 'referee_show';
+                $editGate      = 'referee_edit';
+                $deleteGate    = 'referee_delete';
                 $crudRoutePart = 'referees';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
+
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -62,19 +67,23 @@ class RefereesController extends Controller
                 return $row->period_known ? $row->period_known : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder']);
+            $table->rawColumns(['actions', 'placeholder', 'user']);
 
             return $table->make(true);
         }
 
-        return view('admin.referees.index');
+        $users = User::get();
+
+        return view('admin.referees.index', compact('users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('referee_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.referees.create');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.referees.create', compact('users'));
     }
 
     public function store(StoreRefereeRequest $request)
@@ -88,7 +97,11 @@ class RefereesController extends Controller
     {
         abort_if(Gate::denies('referee_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.referees.edit', compact('referee'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $referee->load('user');
+
+        return view('admin.referees.edit', compact('referee', 'users'));
     }
 
     public function update(UpdateRefereeRequest $request, Referee $referee)
@@ -101,6 +114,8 @@ class RefereesController extends Controller
     public function show(Referee $referee)
     {
         abort_if(Gate::denies('referee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $referee->load('user');
 
         return view('admin.referees.show', compact('referee'));
     }
@@ -116,7 +131,11 @@ class RefereesController extends Controller
 
     public function massDestroy(MassDestroyRefereeRequest $request)
     {
-        Referee::whereIn('id', request('ids'))->delete();
+        $referees = Referee::find(request('ids'));
+
+        foreach ($referees as $referee) {
+            $referee->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

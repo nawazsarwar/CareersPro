@@ -20,7 +20,9 @@ class EmploymentHistoryController extends Controller
 
         $employmentHistories = EmploymentHistory::with(['user'])->get();
 
-        return view('frontend.employmentHistories.index', compact('employmentHistories'));
+        $users = User::get();
+
+        return view('frontend.employmentHistories.index', compact('employmentHistories', 'users'));
     }
 
     public function create()
@@ -77,7 +79,11 @@ class EmploymentHistoryController extends Controller
 
     public function massDestroy(MassDestroyEmploymentHistoryRequest $request)
     {
-        EmploymentHistory::whereIn('id', request('ids'))->delete();
+        $employmentHistories = EmploymentHistory::find(request('ids'));
+
+        foreach ($employmentHistories as $employmentHistory) {
+            $employmentHistory->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

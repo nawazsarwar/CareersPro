@@ -20,25 +20,25 @@ class EligibilityTestsController extends Controller
         abort_if(Gate::denies('eligibility_test_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = EligibilityTest::with(['user'])->select(sprintf('%s.*', (new EligibilityTest())->table));
+            $query = EligibilityTest::with(['user'])->select(sprintf('%s.*', (new EligibilityTest)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'eligibility_test_show';
-                $editGate = 'eligibility_test_edit';
-                $deleteGate = 'eligibility_test_delete';
+                $viewGate      = 'eligibility_test_show';
+                $editGate      = 'eligibility_test_edit';
+                $deleteGate    = 'eligibility_test_delete';
                 $crudRoutePart = 'eligibility-tests';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -63,7 +63,9 @@ class EligibilityTestsController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.eligibilityTests.index');
+        $users = User::get();
+
+        return view('admin.eligibilityTests.index', compact('users'));
     }
 
     public function create()
@@ -120,7 +122,11 @@ class EligibilityTestsController extends Controller
 
     public function massDestroy(MassDestroyEligibilityTestRequest $request)
     {
-        EligibilityTest::whereIn('id', request('ids'))->delete();
+        $eligibilityTests = EligibilityTest::find(request('ids'));
+
+        foreach ($eligibilityTests as $eligibilityTest) {
+            $eligibilityTest->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
