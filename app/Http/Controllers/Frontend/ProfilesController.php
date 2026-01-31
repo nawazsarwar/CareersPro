@@ -28,7 +28,25 @@ class ProfilesController extends Controller
 
         $profiles = Profile::with(['user', 'marital_status', 'disability_type', 'religion', 'category', 'caste', 'nationality', 'district_of_birth', 'state_of_birth', 'domicile_state', 'domicile_district'])->get();
 
-        return view('frontend.profiles.index', compact('profiles'));
+        $users = User::get();
+
+        $marital_statuses = MaritalStatus::get();
+
+        $disability_types = DisabilityType::get();
+
+        $religions = Religion::get();
+
+        $categories = Category::get();
+
+        $castes = Caste::get();
+
+        $countries = Country::get();
+
+        $postal_codes = PostalCode::get();
+
+        $provinces = Province::get();
+
+        return view('frontend.profiles.index', compact('castes', 'categories', 'countries', 'disability_types', 'marital_statuses', 'postal_codes', 'profiles', 'provinces', 'religions', 'users'));
     }
 
     public function create()

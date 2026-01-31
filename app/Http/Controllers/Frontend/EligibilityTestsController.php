@@ -20,7 +20,9 @@ class EligibilityTestsController extends Controller
 
         $eligibilityTests = EligibilityTest::with(['user'])->get();
 
-        return view('frontend.eligibilityTests.index', compact('eligibilityTests'));
+        $users = User::get();
+
+        return view('frontend.eligibilityTests.index', compact('eligibilityTests', 'users'));
     }
 
     public function create()

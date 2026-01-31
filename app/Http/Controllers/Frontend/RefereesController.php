@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyRefereeRequest;
 use App\Http\Requests\StoreRefereeRequest;
 use App\Http\Requests\UpdateRefereeRequest;
 use App\Models\Referee;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,16 +18,20 @@ class RefereesController extends Controller
     {
         abort_if(Gate::denies('referee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $referees = Referee::all();
+        $referees = Referee::with(['user'])->get();
 
-        return view('frontend.referees.index', compact('referees'));
+        $users = User::get();
+
+        return view('frontend.referees.index', compact('referees', 'users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('referee_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('frontend.referees.create');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('frontend.referees.create', compact('users'));
     }
 
     public function store(StoreRefereeRequest $request)
@@ -40,7 +45,11 @@ class RefereesController extends Controller
     {
         abort_if(Gate::denies('referee_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('frontend.referees.edit', compact('referee'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $referee->load('user');
+
+        return view('frontend.referees.edit', compact('referee', 'users'));
     }
 
     public function update(UpdateRefereeRequest $request, Referee $referee)
@@ -53,6 +62,8 @@ class RefereesController extends Controller
     public function show(Referee $referee)
     {
         abort_if(Gate::denies('referee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $referee->load('user');
 
         return view('frontend.referees.show', compact('referee'));
     }

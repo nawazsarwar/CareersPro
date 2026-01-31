@@ -25,6 +25,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.foreignVisit.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $foreignVisit->user->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.foreignVisit.fields.country') }}
                         </th>
                         <td>
@@ -53,14 +61,6 @@
                         </th>
                         <td>
                             {{ $foreignVisit->purpose }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.foreignVisit.fields.user') }}
-                        </th>
-                        <td>
-                            {{ $foreignVisit->user->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>

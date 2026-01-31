@@ -31,6 +31,12 @@
                         {{ trans('cruds.postType.fields.pdf_template') }}
                     </th>
                     <th>
+                        {{ trans('cruds.postType.fields.admit_card_template') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.postType.fields.interview_letter_template') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.postType.fields.submission_venue') }}
                     </th>
                     <th>
@@ -45,6 +51,12 @@
                 </tr>
                 <tr>
                     <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
@@ -122,6 +134,8 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'pdf_template', name: 'pdf_template' },
+{ data: 'admit_card_template', name: 'admit_card_template' },
+{ data: 'interview_letter_template', name: 'interview_letter_template' },
 { data: 'submission_venue', name: 'submission_venue' },
 { data: 'status', name: 'status' },
 { data: 'remarks', name: 'remarks' },

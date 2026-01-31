@@ -78,7 +78,9 @@ class EmploymentHistoryController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.employmentHistories.index');
+        $users = User::get();
+
+        return view('admin.employmentHistories.index', compact('users'));
     }
 
     public function create()

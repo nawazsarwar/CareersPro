@@ -25,6 +25,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.adress.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $adress->user->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.adress.fields.type') }}
                         </th>
                         <td>
@@ -117,14 +125,6 @@
                         </th>
                         <td>
                             {{ $adress->remarks }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.adress.fields.user') }}
-                        </th>
-                        <td>
-                            {{ $adress->user->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>

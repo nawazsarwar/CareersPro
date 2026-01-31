@@ -23,6 +23,8 @@ class PostType extends Model
     protected $fillable = [
         'name',
         'pdf_template',
+        'admit_card_template',
+        'interview_letter_template',
         'submission_venue',
         'status',
         'remarks',

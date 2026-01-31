@@ -20,7 +20,9 @@ class EmploymentHistoryController extends Controller
 
         $employmentHistories = EmploymentHistory::with(['user'])->get();
 
-        return view('frontend.employmentHistories.index', compact('employmentHistories'));
+        $users = User::get();
+
+        return view('frontend.employmentHistories.index', compact('employmentHistories', 'users'));
     }
 
     public function create()

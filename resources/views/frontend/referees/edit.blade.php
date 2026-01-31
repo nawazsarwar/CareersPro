@@ -14,6 +14,20 @@
                         @method('PUT')
                         @csrf
                         <div class="form-group">
+                            <label class="required" for="user_id">{{ trans('cruds.referee.fields.user') }}</label>
+                            <select class="form-control select2" name="user_id" id="user_id" required>
+                                @foreach($users as $id => $entry)
+                                    <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $referee->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('user'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('user') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.referee.fields.user_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label class="required" for="name">{{ trans('cruds.referee.fields.name') }}</label>
                             <input class="form-control" type="text" name="name" id="name" value="{{ old('name', $referee->name) }}" required>
                             @if($errors->has('name'))

@@ -11,6 +11,18 @@
             @method('PUT')
             @csrf
             <div class="form-group">
+                <label class="required" for="user_id">{{ trans('cruds.foreignVisit.fields.user') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                    @foreach($users as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $foreignVisit->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('user'))
+                    <span class="text-danger">{{ $errors->first('user') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.foreignVisit.fields.user_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="country_id">{{ trans('cruds.foreignVisit.fields.country') }}</label>
                 <select class="form-control select2 {{ $errors->has('country') ? 'is-invalid' : '' }}" name="country_id" id="country_id" required>
                     @foreach($countries as $id => $entry)
@@ -45,18 +57,6 @@
                     <span class="text-danger">{{ $errors->first('purpose') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.foreignVisit.fields.purpose_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.foreignVisit.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $foreignVisit->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.foreignVisit.fields.user_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

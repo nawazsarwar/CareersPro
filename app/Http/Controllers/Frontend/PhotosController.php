@@ -24,7 +24,9 @@ class PhotosController extends Controller
 
         $photos = Photo::with(['user', 'media'])->get();
 
-        return view('frontend.photos.index', compact('photos'));
+        $users = User::get();
+
+        return view('frontend.photos.index', compact('photos', 'users'));
     }
 
     public function create()

@@ -55,9 +55,6 @@ class AdvertisementsController extends Controller
             $table->editColumn('slug', function ($row) {
                 return $row->slug ? $row->slug : '';
             });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
-            });
 
             $table->addColumn('type_title', function ($row) {
                 return $row->type ? $row->type->title : '';

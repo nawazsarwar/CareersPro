@@ -14,6 +14,20 @@
                         @method('POST')
                         @csrf
                         <div class="form-group">
+                            <label class="required" for="user_id">{{ trans('cruds.academicQualification.fields.user') }}</label>
+                            <select class="form-control select2" name="user_id" id="user_id" required>
+                                @foreach($users as $id => $entry)
+                                    <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('user'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('user') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.academicQualification.fields.user_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label class="required" for="name_id">{{ trans('cruds.academicQualification.fields.name') }}</label>
                             <select class="form-control select2" name="name_id" id="name_id" required>
                                 @foreach($names as $id => $entry)
@@ -87,8 +101,8 @@
                             <span class="help-block">{{ trans('cruds.academicQualification.fields.percentage_helper') }}</span>
                         </div>
                         <div class="form-group">
-                            <label class="required" for="cgpa">{{ trans('cruds.academicQualification.fields.cgpa') }}</label>
-                            <input class="form-control" type="number" name="cgpa" id="cgpa" value="{{ old('cgpa', '') }}" step="0.01" required>
+                            <label for="cgpa">{{ trans('cruds.academicQualification.fields.cgpa') }}</label>
+                            <input class="form-control" type="number" name="cgpa" id="cgpa" value="{{ old('cgpa', '') }}" step="0.01">
                             @if($errors->has('cgpa'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('cgpa') }}
@@ -136,20 +150,6 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.academicQualification.fields.document_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for="user_id">{{ trans('cruds.academicQualification.fields.user') }}</label>
-                            <select class="form-control select2" name="user_id" id="user_id" required>
-                                @foreach($users as $id => $entry)
-                                    <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('user'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('user') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.user_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">

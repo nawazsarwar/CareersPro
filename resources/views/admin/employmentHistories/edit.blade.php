@@ -11,6 +11,18 @@
             @method('PUT')
             @csrf
             <div class="form-group">
+                <label class="required" for="user_id">{{ trans('cruds.employmentHistory.fields.user') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                    @foreach($users as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $employmentHistory->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('user'))
+                    <span class="text-danger">{{ $errors->first('user') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.employmentHistory.fields.user_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="employer">{{ trans('cruds.employmentHistory.fields.employer') }}</label>
                 <input class="form-control {{ $errors->has('employer') ? 'is-invalid' : '' }}" type="text" name="employer" id="employer" value="{{ old('employer', $employmentHistory->employer) }}" required>
                 @if($errors->has('employer'))
@@ -94,18 +106,6 @@
                     <span class="text-danger">{{ $errors->first('gross_pay') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.employmentHistory.fields.gross_pay_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.employmentHistory.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $employmentHistory->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.employmentHistory.fields.user_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

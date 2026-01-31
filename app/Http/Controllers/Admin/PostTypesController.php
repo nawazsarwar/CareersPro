@@ -49,6 +49,12 @@ class PostTypesController extends Controller
             $table->editColumn('pdf_template', function ($row) {
                 return $row->pdf_template ? $row->pdf_template : '';
             });
+            $table->editColumn('admit_card_template', function ($row) {
+                return $row->admit_card_template ? $row->admit_card_template : '';
+            });
+            $table->editColumn('interview_letter_template', function ($row) {
+                return $row->interview_letter_template ? $row->interview_letter_template : '';
+            });
             $table->editColumn('submission_venue', function ($row) {
                 return $row->submission_venue ? $row->submission_venue : '';
             });

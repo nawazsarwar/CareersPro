@@ -76,7 +76,7 @@
                             {{ trans('cruds.post.fields.description') }}
                         </th>
                         <td>
-                            {{ $post->description }}
+                            {!! $post->description !!}
                         </td>
                     </tr>
                     <tr>

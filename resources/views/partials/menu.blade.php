@@ -61,6 +61,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('institutions_attended_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.institutions-attendeds.index") }}" class="nav-link {{ request()->is("admin/institutions-attendeds") || request()->is("admin/institutions-attendeds/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-school">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.institutionsAttended.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('academic_qualification_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.academic-qualifications.index") }}" class="nav-link {{ request()->is("admin/academic-qualifications") || request()->is("admin/academic-qualifications/*") ? "active" : "" }}">
@@ -97,6 +109,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('traed_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.traeds.index") }}" class="nav-link {{ request()->is("admin/traeds") || request()->is("admin/traeds/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-chalkboard-teacher">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.traed.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('foreign_visit_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.foreign-visits.index") }}" class="nav-link {{ request()->is("admin/foreign-visits") || request()->is("admin/foreign-visits/*") ? "active" : "" }}">
@@ -117,6 +141,30 @@
                             </i>
                             <p>
                                 {{ trans('cruds.referee.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('other_detail_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.other-details.index") }}" class="nav-link {{ request()->is("admin/other-details") || request()->is("admin/other-details/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fab fa-audible">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.otherDetail.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('application_form_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.application-forms.index") }}" class="nav-link {{ request()->is("admin/application-forms") || request()->is("admin/application-forms/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-marker">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.applicationForm.title') }}
                             </p>
                         </a>
                     </li>

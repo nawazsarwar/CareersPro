@@ -44,9 +44,6 @@
                                         {{ trans('cruds.post.fields.slug') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.post.fields.description') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.post.fields.vacancies') }}
                                     </th>
                                     <th>
@@ -178,9 +175,6 @@
                                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                                     </td>
                                     <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
                                         <select class="search">
                                             <option value>{{ trans('global.all') }}</option>
                                             @foreach($users as $key => $item)
@@ -237,9 +231,6 @@
                                         </td>
                                         <td>
                                             {{ $post->slug ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $post->description ?? '' }}
                                         </td>
                                         <td>
                                             {{ $post->vacancies ?? '' }}

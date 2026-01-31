@@ -28,6 +28,14 @@
                                 </tr>
                                 <tr>
                                     <th>
+                                        {{ trans('cruds.employmentHistory.fields.user') }}
+                                    </th>
+                                    <td>
+                                        {{ $employmentHistory->user->name ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.employmentHistory.fields.employer') }}
                                     </th>
                                     <td>
@@ -104,14 +112,6 @@
                                     </th>
                                     <td>
                                         {{ $employmentHistory->gross_pay }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.employmentHistory.fields.user') }}
-                                    </th>
-                                    <td>
-                                        {{ $employmentHistory->user->name ?? '' }}
                                     </td>
                                 </tr>
                             </tbody>
