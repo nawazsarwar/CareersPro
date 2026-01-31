@@ -77,7 +77,11 @@ class EmploymentHistoryController extends Controller
 
     public function massDestroy(MassDestroyEmploymentHistoryRequest $request)
     {
-        EmploymentHistory::whereIn('id', request('ids'))->delete();
+        $employmentHistories = EmploymentHistory::find(request('ids'));
+
+        foreach ($employmentHistories as $employmentHistory) {
+            $employmentHistory->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

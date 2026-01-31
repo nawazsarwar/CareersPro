@@ -21,25 +21,25 @@ class ForeignVisitsController extends Controller
         abort_if(Gate::denies('foreign_visit_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = ForeignVisit::with(['country', 'user'])->select(sprintf('%s.*', (new ForeignVisit())->table));
+            $query = ForeignVisit::with(['country', 'user'])->select(sprintf('%s.*', (new ForeignVisit)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'foreign_visit_show';
-                $editGate = 'foreign_visit_edit';
-                $deleteGate = 'foreign_visit_delete';
+                $viewGate      = 'foreign_visit_show';
+                $editGate      = 'foreign_visit_edit';
+                $deleteGate    = 'foreign_visit_delete';
                 $crudRoutePart = 'foreign-visits';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -125,7 +125,11 @@ class ForeignVisitsController extends Controller
 
     public function massDestroy(MassDestroyForeignVisitRequest $request)
     {
-        ForeignVisit::whereIn('id', request('ids'))->delete();
+        $foreignVisits = ForeignVisit::find(request('ids'));
+
+        foreach ($foreignVisits as $foreignVisit) {
+            $foreignVisit->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

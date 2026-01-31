@@ -38,16 +38,7 @@
                                         {{ trans('cruds.profile.fields.last_name') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.profile.fields.spouse_name') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.marital_status') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.profile.fields.fathers_name') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.mothers_name') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.profile.fields.dob') }}
@@ -59,19 +50,7 @@
                                         {{ trans('cruds.profile.fields.mobile') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.profile.fields.mobile_verified_at') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.alternate_mobile') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.profile.fields.pwd') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.disability_type') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.disability_percent') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.profile.fields.aadhaar_no') }}
@@ -86,28 +65,7 @@
                                         {{ trans('cruds.profile.fields.caste') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.profile.fields.sub_caste') }}
-                                    </th>
-                                    <th>
                                         {{ trans('cruds.profile.fields.nationality') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.place_of_birth') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.district_of_birth') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.state_of_birth') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.domicile_state') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.domicile_district') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.identity_marks') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.profile.fields.remarks') }}
@@ -117,24 +75,6 @@
                                     </th>
                                     <th>
                                         {{ trans('cruds.profile.fields.locked') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.conviction') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.conviction_reason') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.debarred') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.debarred_reason') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.vigilance') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.profile.fields.vigilance_reason') }}
                                     </th>
                                     <th>
                                         &nbsp;
@@ -160,16 +100,7 @@
                                             {{ $profile->last_name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $profile->spouse_name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->marital_status->title ?? '' }}
-                                        </td>
-                                        <td>
                                             {{ $profile->fathers_name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->mothers_name ?? '' }}
                                         </td>
                                         <td>
                                             {{ $profile->dob ?? '' }}
@@ -181,19 +112,7 @@
                                             {{ $profile->mobile ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $profile->mobile_verified_at ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->alternate_mobile ?? '' }}
-                                        </td>
-                                        <td>
                                             {{ App\Models\Profile::PWD_SELECT[$profile->pwd] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->disability_type->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->disability_percent ?? '' }}
                                         </td>
                                         <td>
                                             {{ $profile->aadhaar_no ?? '' }}
@@ -208,28 +127,7 @@
                                             {{ $profile->caste->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $profile->sub_caste ?? '' }}
-                                        </td>
-                                        <td>
                                             {{ $profile->nationality->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ App\Models\Profile::PLACE_OF_BIRTH_SELECT[$profile->place_of_birth] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->district_of_birth->district ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->state_of_birth->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->domicile_state->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->domicile_district->district ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->identity_marks ?? '' }}
                                         </td>
                                         <td>
                                             {{ $profile->remarks ?? '' }}
@@ -239,24 +137,6 @@
                                         </td>
                                         <td>
                                             {{ $profile->locked ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ App\Models\Profile::CONVICTION_RADIO[$profile->conviction] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->conviction_reason ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ App\Models\Profile::DEBARRED_RADIO[$profile->debarred] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->debarred_reason ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ App\Models\Profile::VIGILANCE_RADIO[$profile->vigilance] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $profile->vigilance_reason ?? '' }}
                                         </td>
                                         <td>
                                             @can('profile_show')

@@ -10,7 +10,7 @@ class AddRelationshipFieldsToFaqQuestionsTable extends Migration
     {
         Schema::table('faq_questions', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id', 'category_fk_7957194')->references('id')->on('faq_categories');
+            $table->foreign('category_id', 'category_fk_8863516')->references('id')->on('faq_categories');
         });
     }
 }

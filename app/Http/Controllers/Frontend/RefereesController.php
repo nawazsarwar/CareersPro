@@ -68,7 +68,11 @@ class RefereesController extends Controller
 
     public function massDestroy(MassDestroyRefereeRequest $request)
     {
-        Referee::whereIn('id', request('ids'))->delete();
+        $referees = Referee::find(request('ids'));
+
+        foreach ($referees as $referee) {
+            $referee->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

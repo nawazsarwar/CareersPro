@@ -68,7 +68,11 @@ class CategoriesController extends Controller
 
     public function massDestroy(MassDestroyCategoryRequest $request)
     {
-        Category::whereIn('id', request('ids'))->delete();
+        $categories = Category::find(request('ids'));
+
+        foreach ($categories as $category) {
+            $category->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

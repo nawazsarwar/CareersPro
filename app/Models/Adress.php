@@ -2,22 +2,15 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
 use App\Traits\Auditable;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Adress extends Model
 {
-    use SoftDeletes;
-    use Auditable;
-    use HasFactory;
-
-    public const TYPE_SELECT = [
-        'Correspondence Address' => 'Correspondence Address',
-        'Permanent Address'      => 'Permanent Address',
-    ];
+    use SoftDeletes, Auditable, HasFactory;
 
     public $table = 'adresses';
 
@@ -25,6 +18,11 @@ class Adress extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    public const TYPE_SELECT = [
+        'Correspondence Address' => 'Correspondence Address',
+        'Permanent Address'      => 'Permanent Address',
     ];
 
     protected $fillable = [
@@ -46,6 +44,11 @@ class Adress extends Model
         'deleted_at',
     ];
 
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     public function postal_code()
     {
         return $this->belongsTo(PostalCode::class, 'postal_code_id');
@@ -64,10 +67,5 @@ class Adress extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
     }
 }

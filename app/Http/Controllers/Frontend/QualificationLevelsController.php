@@ -68,7 +68,11 @@ class QualificationLevelsController extends Controller
 
     public function massDestroy(MassDestroyQualificationLevelRequest $request)
     {
-        QualificationLevel::whereIn('id', request('ids'))->delete();
+        $qualificationLevels = QualificationLevel::find(request('ids'));
+
+        foreach ($qualificationLevels as $qualificationLevel) {
+            $qualificationLevel->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

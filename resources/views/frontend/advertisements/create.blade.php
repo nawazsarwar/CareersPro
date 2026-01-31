@@ -99,44 +99,34 @@
                             <span class="help-block">{{ trans('cruds.advertisement.fields.default_fee_helper') }}</span>
                         </div>
                         <div class="form-group">
-                            <label for="default_open_date">{{ trans('cruds.advertisement.fields.default_open_date') }}</label>
-                            <input class="form-control datetime" type="text" name="default_open_date" id="default_open_date" value="{{ old('default_open_date') }}">
-                            @if($errors->has('default_open_date'))
+                            <label for="default_opening_date">{{ trans('cruds.advertisement.fields.default_opening_date') }}</label>
+                            <input class="form-control datetime" type="text" name="default_opening_date" id="default_opening_date" value="{{ old('default_opening_date') }}">
+                            @if($errors->has('default_opening_date'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('default_open_date') }}
+                                    {{ $errors->first('default_opening_date') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_open_date_helper') }}</span>
+                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_opening_date_helper') }}</span>
                         </div>
                         <div class="form-group">
-                            <label for="default_end_date">{{ trans('cruds.advertisement.fields.default_end_date') }}</label>
-                            <input class="form-control datetime" type="text" name="default_end_date" id="default_end_date" value="{{ old('default_end_date') }}">
-                            @if($errors->has('default_end_date'))
+                            <label for="default_closing_date">{{ trans('cruds.advertisement.fields.default_closing_date') }}</label>
+                            <input class="form-control datetime" type="text" name="default_closing_date" id="default_closing_date" value="{{ old('default_closing_date') }}">
+                            @if($errors->has('default_closing_date'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('default_end_date') }}
+                                    {{ $errors->first('default_closing_date') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_end_date_helper') }}</span>
+                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_closing_date_helper') }}</span>
                         </div>
                         <div class="form-group">
-                            <label for="default_payment_end_date">{{ trans('cruds.advertisement.fields.default_payment_end_date') }}</label>
-                            <input class="form-control datetime" type="text" name="default_payment_end_date" id="default_payment_end_date" value="{{ old('default_payment_end_date') }}">
-                            @if($errors->has('default_payment_end_date'))
+                            <label for="default_payment_closing_date">{{ trans('cruds.advertisement.fields.default_payment_closing_date') }}</label>
+                            <input class="form-control datetime" type="text" name="default_payment_closing_date" id="default_payment_closing_date" value="{{ old('default_payment_closing_date') }}">
+                            @if($errors->has('default_payment_closing_date'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('default_payment_end_date') }}
+                                    {{ $errors->first('default_payment_closing_date') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_payment_end_date_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="approved_at">{{ trans('cruds.advertisement.fields.approved_at') }}</label>
-                            <input class="form-control datetime" type="text" name="approved_at" id="approved_at" value="{{ old('approved_at') }}">
-                            @if($errors->has('approved_at'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('approved_at') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.approved_at_helper') }}</span>
+                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_payment_closing_date_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="status">{{ trans('cruds.advertisement.fields.status') }}</label>
@@ -185,6 +175,16 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.advertisement.fields.approved_by_helper') }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="approved_at">{{ trans('cruds.advertisement.fields.approved_at') }}</label>
+                            <input class="form-control datetime" type="text" name="approved_at" id="approved_at" value="{{ old('approved_at') }}">
+                            @if($errors->has('approved_at'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('approved_at') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.advertisement.fields.approved_at_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">

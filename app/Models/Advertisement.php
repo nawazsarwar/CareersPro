@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
+use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,9 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Advertisement extends Model implements HasMedia
 {
-    use SoftDeletes;
-    use InteractsWithMedia;
-    use HasFactory;
+    use SoftDeletes, InteractsWithMedia, Auditable, HasFactory;
 
     public $table = 'advertisements';
 
@@ -25,9 +24,9 @@ class Advertisement extends Model implements HasMedia
 
     protected $dates = [
         'dated',
-        'default_open_date',
-        'default_end_date',
-        'default_payment_end_date',
+        'default_opening_date',
+        'default_closing_date',
+        'default_payment_closing_date',
         'approved_at',
         'created_at',
         'updated_at',
@@ -42,18 +41,23 @@ class Advertisement extends Model implements HasMedia
         'type_id',
         'advertisement_url',
         'default_fee',
-        'default_open_date',
-        'default_end_date',
-        'default_payment_end_date',
-        'approved_at',
+        'default_opening_date',
+        'default_closing_date',
+        'default_payment_closing_date',
         'status',
         'remarks',
         'added_by_id',
         'approved_by_id',
+        'approved_at',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -81,44 +85,34 @@ class Advertisement extends Model implements HasMedia
         return $this->getMedia('document')->last();
     }
 
-    public function getDefaultOpenDateAttribute($value)
+    public function getDefaultOpeningDateAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setDefaultOpenDateAttribute($value)
+    public function setDefaultOpeningDateAttribute($value)
     {
-        $this->attributes['default_open_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+        $this->attributes['default_opening_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
-    public function getDefaultEndDateAttribute($value)
+    public function getDefaultClosingDateAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setDefaultEndDateAttribute($value)
+    public function setDefaultClosingDateAttribute($value)
     {
-        $this->attributes['default_end_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+        $this->attributes['default_closing_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
-    public function getDefaultPaymentEndDateAttribute($value)
+    public function getDefaultPaymentClosingDateAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
 
-    public function setDefaultPaymentEndDateAttribute($value)
+    public function setDefaultPaymentClosingDateAttribute($value)
     {
-        $this->attributes['default_payment_end_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
-
-    public function getApprovedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-    }
-
-    public function setApprovedAtAttribute($value)
-    {
-        $this->attributes['approved_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+        $this->attributes['default_payment_closing_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
     public function added_by()
@@ -131,8 +125,13 @@ class Advertisement extends Model implements HasMedia
         return $this->belongsTo(User::class, 'approved_by_id');
     }
 
-    protected function serializeDate(DateTimeInterface $date)
+    public function getApprovedAtAttribute($value)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+    }
+
+    public function setApprovedAtAttribute($value)
+    {
+        $this->attributes['approved_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 }

@@ -23,25 +23,25 @@ class AdressesController extends Controller
         abort_if(Gate::denies('adress_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Adress::with(['postal_code', 'province', 'country', 'user'])->select(sprintf('%s.*', (new Adress())->table));
+            $query = Adress::with(['postal_code', 'province', 'country', 'user'])->select(sprintf('%s.*', (new Adress)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'adress_show';
-                $editGate = 'adress_edit';
-                $deleteGate = 'adress_delete';
+                $viewGate      = 'adress_show';
+                $editGate      = 'adress_edit';
+                $deleteGate    = 'adress_delete';
                 $crudRoutePart = 'adresses';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -164,7 +164,11 @@ class AdressesController extends Controller
 
     public function massDestroy(MassDestroyAdressRequest $request)
     {
-        Adress::whereIn('id', request('ids'))->delete();
+        $adresses = Adress::find(request('ids'));
+
+        foreach ($adresses as $adress) {
+            $adress->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -38,6 +38,9 @@
                                         {{ trans('cruds.post.fields.title') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.post.fields.subject') }}
+                                    </th>
+                                    <th>
                                         {{ trans('cruds.post.fields.slug') }}
                                     </th>
                                     <th>
@@ -59,13 +62,13 @@
                                         {{ trans('cruds.post.fields.fee') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.post.fields.open_date') }}
+                                        {{ trans('cruds.post.fields.opening_date') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.post.fields.last_date') }}
+                                        {{ trans('cruds.post.fields.closing_date') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.post.fields.payment_last_date') }}
+                                        {{ trans('cruds.post.fields.payment_closing_date') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.post.fields.withdrawn') }}
@@ -80,8 +83,135 @@
                                         {{ trans('cruds.post.fields.added_by') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.post.fields.test_date') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_reporting_time') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.gate_closing_time') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.scheduled_test_start') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_duration') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_date') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_time') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_venue') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($advertisements as $key => $item)
+                                                <option value="{{ $item->title }}">{{ $item->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($post_types as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,6 +231,9 @@
                                         </td>
                                         <td>
                                             {{ $post->title ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->subject ?? '' }}
                                         </td>
                                         <td>
                                             {{ $post->slug ?? '' }}
@@ -124,13 +257,13 @@
                                             {{ $post->fee ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $post->open_date ?? '' }}
+                                            {{ $post->opening_date ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $post->last_date ?? '' }}
+                                            {{ $post->closing_date ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $post->payment_last_date ?? '' }}
+                                            {{ $post->payment_closing_date ?? '' }}
                                         </td>
                                         <td>
                                             {{ $post->withdrawn ?? '' }}
@@ -143,6 +276,30 @@
                                         </td>
                                         <td>
                                             {{ $post->added_by->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->test_date ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->test_reporting_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->gate_closing_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->scheduled_test_start ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->test_duration ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->interview_date ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->interview_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->interview_venue ?? '' }}
                                         </td>
                                         <td>
                                             @can('post_show')
@@ -225,6 +382,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

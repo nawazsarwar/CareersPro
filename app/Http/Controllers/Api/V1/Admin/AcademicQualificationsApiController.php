@@ -48,7 +48,7 @@ class AcademicQualificationsApiController extends Controller
         $academicQualification->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
+            if (! $academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
                 if ($academicQualification->document) {
                     $academicQualification->document->delete();
                 }

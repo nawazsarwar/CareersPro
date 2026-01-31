@@ -14,8 +14,13 @@
                         @method('POST')
                         @csrf
                         <div class="form-group">
-                            <label for="title">{{ trans('cruds.advertisementType.fields.title') }}</label>
-                            <input class="form-control" type="text" name="title" id="title" value="{{ old('title', '') }}">
+                            <label class="required">{{ trans('cruds.advertisementType.fields.title') }}</label>
+                            <select class="form-control" name="title" id="title" required>
+                                <option value disabled {{ old('title', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                @foreach(App\Models\AdvertisementType::TITLE_SELECT as $key => $label)
+                                    <option value="{{ $key }}" {{ old('title', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                                @endforeach
+                            </select>
                             @if($errors->has('title'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('title') }}

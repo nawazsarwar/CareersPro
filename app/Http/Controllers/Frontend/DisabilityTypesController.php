@@ -68,7 +68,11 @@ class DisabilityTypesController extends Controller
 
     public function massDestroy(MassDestroyDisabilityTypeRequest $request)
     {
-        DisabilityType::whereIn('id', request('ids'))->delete();
+        $disabilityTypes = DisabilityType::find(request('ids'));
+
+        foreach ($disabilityTypes as $disabilityType) {
+            $disabilityType->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

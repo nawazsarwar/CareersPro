@@ -37,16 +37,7 @@
                         {{ trans('cruds.profile.fields.last_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.profile.fields.spouse_name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.marital_status') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.profile.fields.fathers_name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.mothers_name') }}
                     </th>
                     <th>
                         {{ trans('cruds.profile.fields.dob') }}
@@ -58,19 +49,7 @@
                         {{ trans('cruds.profile.fields.mobile') }}
                     </th>
                     <th>
-                        {{ trans('cruds.profile.fields.mobile_verified_at') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.alternate_mobile') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.profile.fields.pwd') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.disability_type') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.disability_percent') }}
                     </th>
                     <th>
                         {{ trans('cruds.profile.fields.aadhaar_no') }}
@@ -85,28 +64,7 @@
                         {{ trans('cruds.profile.fields.caste') }}
                     </th>
                     <th>
-                        {{ trans('cruds.profile.fields.sub_caste') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.profile.fields.nationality') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.place_of_birth') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.district_of_birth') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.state_of_birth') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.domicile_state') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.domicile_district') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.identity_marks') }}
                     </th>
                     <th>
                         {{ trans('cruds.profile.fields.remarks') }}
@@ -116,24 +74,6 @@
                     </th>
                     <th>
                         {{ trans('cruds.profile.fields.locked') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.conviction') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.conviction_reason') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.debarred') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.debarred_reason') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.vigilance') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.profile.fields.vigilance_reason') }}
                     </th>
                     <th>
                         &nbsp;
@@ -196,43 +136,23 @@
 { data: 'first_name', name: 'first_name' },
 { data: 'middle_name', name: 'middle_name' },
 { data: 'last_name', name: 'last_name' },
-{ data: 'spouse_name', name: 'spouse_name' },
-{ data: 'marital_status_title', name: 'marital_status.title' },
 { data: 'fathers_name', name: 'fathers_name' },
-{ data: 'mothers_name', name: 'mothers_name' },
 { data: 'dob', name: 'dob' },
 { data: 'gender', name: 'gender' },
 { data: 'mobile', name: 'mobile' },
-{ data: 'mobile_verified_at', name: 'mobile_verified_at' },
-{ data: 'alternate_mobile', name: 'alternate_mobile' },
 { data: 'pwd', name: 'pwd' },
-{ data: 'disability_type_name', name: 'disability_type.name' },
-{ data: 'disability_percent', name: 'disability_percent' },
 { data: 'aadhaar_no', name: 'aadhaar_no' },
 { data: 'religion_name', name: 'religion.name' },
 { data: 'category_name', name: 'category.name' },
 { data: 'caste_name', name: 'caste.name' },
-{ data: 'sub_caste', name: 'sub_caste' },
 { data: 'nationality_name', name: 'nationality.name' },
-{ data: 'place_of_birth', name: 'place_of_birth' },
-{ data: 'district_of_birth_district', name: 'district_of_birth.district' },
-{ data: 'state_of_birth_name', name: 'state_of_birth.name' },
-{ data: 'domicile_state_name', name: 'domicile_state.name' },
-{ data: 'domicile_district_district', name: 'domicile_district.district' },
-{ data: 'identity_marks', name: 'identity_marks' },
 { data: 'remarks', name: 'remarks' },
 { data: 'verified', name: 'verified' },
 { data: 'locked', name: 'locked' },
-{ data: 'conviction', name: 'conviction' },
-{ data: 'conviction_reason', name: 'conviction_reason' },
-{ data: 'debarred', name: 'debarred' },
-{ data: 'debarred_reason', name: 'debarred_reason' },
-{ data: 'vigilance', name: 'vigilance' },
-{ data: 'vigilance_reason', name: 'vigilance_reason' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 2, 'desc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-Profile').DataTable(dtOverrideGlobals);
