@@ -49,8 +49,6 @@ php artisan migrate --force
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-php artisan domains:initialize-valid
-php artisan domains:build-verified 
 php artisan octane:install --server=swoole -n
 
 
