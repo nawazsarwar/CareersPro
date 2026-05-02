@@ -74,15 +74,15 @@ RUN npm ci --no-audit --no-fund --ignore-scripts
 
 # Copy source files needed for build
 COPY resources/ ./resources/
-COPY vite.config.ts tsconfig.json tailwind.config.js ./
+COPY vite.config.js ./
 COPY public/ ./public/
 
 # Copy ziggy package from composer stage (needed for SSR build)
-COPY --from=composer-builder /app/vendor/tightenco/ziggy ./vendor/tightenco/ziggy
+# COPY --from=composer-builder /app/vendor/tightenco/ziggy ./vendor/tightenco/ziggy
 # Copy exported routes JSON for SSR (bundled at build time, not sent in page props)
-COPY --from=composer-builder /app/resources/js/ziggy-routes.json ./resources/js/
+# COPY --from=composer-builder /app/resources/js/ziggy-routes.json ./resources/js/
 # Copy exported translations JSON for SSR (bundled at build time, not sent in page props)
-COPY --from=composer-builder /app/resources/js/lang ./resources/js/lang
+# COPY --from=composer-builder /app/resources/js/lang ./resources/js/lang
 
 # Build assets (skip PHP export scripts since we already ran them in composer-builder stage)
 RUN npm run build && npm run build -- --ssr
