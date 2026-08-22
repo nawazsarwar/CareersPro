@@ -56,7 +56,7 @@ class PhotosApiController extends Controller
         $photo->update($request->all());
 
         if ($request->input('photograph', false)) {
-            if (!$photo->photograph || $request->input('photograph') !== $photo->photograph->file_name) {
+            if (! $photo->photograph || $request->input('photograph') !== $photo->photograph->file_name) {
                 if ($photo->photograph) {
                     $photo->photograph->delete();
                 }
@@ -67,7 +67,7 @@ class PhotosApiController extends Controller
         }
 
         if ($request->input('signature', false)) {
-            if (!$photo->signature || $request->input('signature') !== $photo->signature->file_name) {
+            if (! $photo->signature || $request->input('signature') !== $photo->signature->file_name) {
                 if ($photo->signature) {
                     $photo->signature->delete();
                 }
@@ -78,7 +78,7 @@ class PhotosApiController extends Controller
         }
 
         if ($request->input('thumb_impression', false)) {
-            if (!$photo->thumb_impression || $request->input('thumb_impression') !== $photo->thumb_impression->file_name) {
+            if (! $photo->thumb_impression || $request->input('thumb_impression') !== $photo->thumb_impression->file_name) {
                 if ($photo->thumb_impression) {
                     $photo->thumb_impression->delete();
                 }

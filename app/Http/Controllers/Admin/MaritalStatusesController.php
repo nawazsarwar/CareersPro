@@ -19,25 +19,25 @@ class MaritalStatusesController extends Controller
         abort_if(Gate::denies('marital_status_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = MaritalStatus::query()->select(sprintf('%s.*', (new MaritalStatus())->table));
+            $query = MaritalStatus::query()->select(sprintf('%s.*', (new MaritalStatus)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'marital_status_show';
-                $editGate = 'marital_status_edit';
-                $deleteGate = 'marital_status_delete';
+                $viewGate      = 'marital_status_show';
+                $editGate      = 'marital_status_edit';
+                $deleteGate    = 'marital_status_delete';
                 $crudRoutePart = 'marital-statuses';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -101,7 +101,11 @@ class MaritalStatusesController extends Controller
 
     public function massDestroy(MassDestroyMaritalStatusRequest $request)
     {
-        MaritalStatus::whereIn('id', request('ids'))->delete();
+        $maritalStatuses = MaritalStatus::find(request('ids'));
+
+        foreach ($maritalStatuses as $maritalStatus) {
+            $maritalStatus->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

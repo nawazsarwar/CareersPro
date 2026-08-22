@@ -6,7 +6,7 @@
             @can('advertisement_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.advertisements.create') }}">
+                        <a class="btn btn-success" href="{{ route('frontend.advertisements.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.advertisement.title_singular') }}
                         </a>
                     </div>
@@ -18,133 +18,194 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Advertisement">
-                            <thead class="bg-gray-50 dark:bg-white/5">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover datatable datatable-Advertisement">
+                            <thead>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.id') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.title') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.slug') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.advertisement.fields.description') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.dated') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.type') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.advertisement_url') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.document') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.default_fee') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.advertisement.fields.default_open_date') }}
+                                    <th>
+                                        {{ trans('cruds.advertisement.fields.default_opening_date') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.advertisement.fields.default_end_date') }}
+                                    <th>
+                                        {{ trans('cruds.advertisement.fields.default_closing_date') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.advertisement.fields.default_payment_end_date') }}
+                                    <th>
+                                        {{ trans('cruds.advertisement.fields.default_payment_closing_date') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.advertisement.fields.approved_at') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.status') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.remarks') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.added_by') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.advertisement.fields.approved_by') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.advertisement.fields.approved_at') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($advertisement_types as $key => $item)
+                                                <option value="{{ $item->title }}">{{ $item->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($advertisements as $key => $advertisement)
                                     <tr data-entry-id="{{ $advertisement->id }}">
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->id ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->title ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->slug ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $advertisement->description ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->dated ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->type->title ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->advertisement_url ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             @if($advertisement->document)
                                                 <a href="{{ $advertisement->document->getUrl() }}" target="_blank">
                                                     {{ trans('global.view_file') }}
                                                 </a>
                                             @endif
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->default_fee ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $advertisement->default_open_date ?? '' }}
+                                        <td>
+                                            {{ $advertisement->default_opening_date ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $advertisement->default_end_date ?? '' }}
+                                        <td>
+                                            {{ $advertisement->default_closing_date ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $advertisement->default_payment_end_date ?? '' }}
+                                        <td>
+                                            {{ $advertisement->default_payment_closing_date ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $advertisement->approved_at ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->status ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->remarks ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->added_by->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $advertisement->approved_by->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
+                                            {{ $advertisement->approved_at ?? '' }}
+                                        </td>
+                                        <td>
                                             @can('advertisement_show')
-                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.advertisements.show', $advertisement->id) }}">
+                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.advertisements.show', $advertisement->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('advertisement_edit')
-                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.advertisements.edit', $advertisement->id) }}">
+                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.advertisements.edit', $advertisement->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -153,7 +214,7 @@
                                                 <form action="{{ route('frontend.advertisements.destroy', $advertisement->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -162,7 +223,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -211,12 +272,33 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Advertisement:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-Advertisement:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

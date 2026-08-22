@@ -16,25 +16,25 @@ class AuditLogsController extends Controller
         abort_if(Gate::denies('audit_log_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = AuditLog::query()->select(sprintf('%s.*', (new AuditLog())->table));
+            $query = AuditLog::query()->select(sprintf('%s.*', (new AuditLog)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'audit_log_show';
-                $editGate = 'audit_log_edit';
-                $deleteGate = 'audit_log_delete';
+                $viewGate      = 'audit_log_show';
+                $editGate      = 'audit_log_edit';
+                $deleteGate    = 'audit_log_delete';
                 $crudRoutePart = 'audit-logs';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {

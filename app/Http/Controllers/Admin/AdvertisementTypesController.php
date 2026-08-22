@@ -10,16 +10,49 @@ use App\Models\AdvertisementType;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdvertisementTypesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('advertisement_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $advertisementTypes = AdvertisementType::all();
+        if ($request->ajax()) {
+            $query = AdvertisementType::query()->select(sprintf('%s.*', (new AdvertisementType)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.advertisementTypes.index', compact('advertisementTypes'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'advertisement_type_show';
+                $editGate      = 'advertisement_type_edit';
+                $deleteGate    = 'advertisement_type_delete';
+                $crudRoutePart = 'advertisement-types';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('title', function ($row) {
+                return $row->title ? AdvertisementType::TITLE_SELECT[$row->title] : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.advertisementTypes.index');
     }
 
     public function create()
@@ -68,7 +101,11 @@ class AdvertisementTypesController extends Controller
 
     public function massDestroy(MassDestroyAdvertisementTypeRequest $request)
     {
-        AdvertisementType::whereIn('id', request('ids'))->delete();
+        $advertisementTypes = AdvertisementType::find(request('ids'));
+
+        foreach ($advertisementTypes as $advertisementType) {
+            $advertisementType->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

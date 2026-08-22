@@ -6,7 +6,7 @@
             @can('post_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.posts.create') }}">
+                        <a class="btn btn-success" href="{{ route('frontend.posts.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.post.title_singular') }}
                         </a>
                     </div>
@@ -18,141 +18,289 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Post">
-                            <thead class="bg-gray-50 dark:bg-white/5">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover datatable datatable-Post">
+                            <thead>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.id') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.advertisement') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.posttype') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.serial_no') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.title') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.post.fields.subject') }}
+                                    </th>
+                                    <th>
                                         {{ trans('cruds.post.fields.slug') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.post.fields.description') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.vacancies') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.location') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.pay_level') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.pay_range') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.fee') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.post.fields.open_date') }}
+                                    <th>
+                                        {{ trans('cruds.post.fields.opening_date') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.post.fields.last_date') }}
+                                    <th>
+                                        {{ trans('cruds.post.fields.closing_date') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.post.fields.payment_last_date') }}
+                                    <th>
+                                        {{ trans('cruds.post.fields.payment_closing_date') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.withdrawn') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.status') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.remarks') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.post.fields.added_by') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_date') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_reporting_time') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.gate_closing_time') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.scheduled_test_start') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.test_duration') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_date') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_time') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.post.fields.interview_venue') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($advertisements as $key => $item)
+                                                <option value="{{ $item->title }}">{{ $item->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($post_types as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($posts as $key => $post)
                                     <tr data-entry-id="{{ $post->id }}">
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->id ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->advertisement->title ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->posttype->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->serial_no ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->title ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
+                                            {{ $post->subject ?? '' }}
+                                        </td>
+                                        <td>
                                             {{ $post->slug ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $post->description ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->vacancies ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->location ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->pay_level ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->pay_range ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->fee ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $post->open_date ?? '' }}
+                                        <td>
+                                            {{ $post->opening_date ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $post->last_date ?? '' }}
+                                        <td>
+                                            {{ $post->closing_date ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $post->payment_last_date ?? '' }}
+                                        <td>
+                                            {{ $post->payment_closing_date ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->withdrawn ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->status ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->remarks ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $post->added_by->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
+                                            {{ $post->test_date ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->test_reporting_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->gate_closing_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->scheduled_test_start ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->test_duration ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->interview_date ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->interview_time ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $post->interview_venue ?? '' }}
+                                        </td>
+                                        <td>
                                             @can('post_show')
-                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.posts.show', $post->id) }}">
+                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.posts.show', $post->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('post_edit')
-                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.posts.edit', $post->id) }}">
+                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.posts.edit', $post->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -161,7 +309,7 @@
                                                 <form action="{{ route('frontend.posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -170,7 +318,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -219,12 +367,33 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

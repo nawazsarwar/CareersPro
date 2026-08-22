@@ -77,7 +77,11 @@ class PostalCodesController extends Controller
 
     public function massDestroy(MassDestroyPostalCodeRequest $request)
     {
-        PostalCode::whereIn('id', request('ids'))->delete();
+        $postalCodes = PostalCode::find(request('ids'));
+
+        foreach ($postalCodes as $postalCode) {
+            $postalCode->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

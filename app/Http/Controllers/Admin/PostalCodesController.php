@@ -20,25 +20,25 @@ class PostalCodesController extends Controller
         abort_if(Gate::denies('postal_code_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = PostalCode::with(['province'])->select(sprintf('%s.*', (new PostalCode())->table));
+            $query = PostalCode::with(['province'])->select(sprintf('%s.*', (new PostalCode)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'postal_code_show';
-                $editGate = 'postal_code_edit';
-                $deleteGate = 'postal_code_delete';
+                $viewGate      = 'postal_code_show';
+                $editGate      = 'postal_code_edit';
+                $deleteGate    = 'postal_code_delete';
                 $crudRoutePart = 'postal-codes';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -125,7 +125,11 @@ class PostalCodesController extends Controller
 
     public function massDestroy(MassDestroyPostalCodeRequest $request)
     {
-        PostalCode::whereIn('id', request('ids'))->delete();
+        $postalCodes = PostalCode::find(request('ids'));
+
+        foreach ($postalCodes as $postalCode) {
+            $postalCode->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

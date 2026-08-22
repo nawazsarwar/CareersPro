@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use App\Traits\Auditable;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,10 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Photo extends Model implements HasMedia
 {
-    use SoftDeletes;
-    use InteractsWithMedia;
-    use Auditable;
-    use HasFactory;
+    use SoftDeletes, InteractsWithMedia, Auditable, HasFactory;
 
     public $table = 'photos';
 

@@ -48,7 +48,7 @@ class AdvertisementsApiController extends Controller
         $advertisement->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$advertisement->document || $request->input('document') !== $advertisement->document->file_name) {
+            if (! $advertisement->document || $request->input('document') !== $advertisement->document->file_name) {
                 if ($advertisement->document) {
                     $advertisement->document->delete();
                 }

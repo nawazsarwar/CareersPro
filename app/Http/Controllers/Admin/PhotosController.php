@@ -24,37 +24,41 @@ class PhotosController extends Controller
         abort_if(Gate::denies('photo_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Photo::with(['user'])->select(sprintf('%s.*', (new Photo())->table));
+            $query = Photo::with(['user'])->select(sprintf('%s.*', (new Photo)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'photo_show';
-                $editGate = 'photo_edit';
-                $deleteGate = 'photo_delete';
+                $viewGate      = 'photo_show';
+                $editGate      = 'photo_edit';
+                $deleteGate    = 'photo_delete';
                 $crudRoutePart = 'photos';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
+
             $table->editColumn('photograph', function ($row) {
                 if ($photo = $row->photograph) {
                     return sprintf(
-        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-        $photo->url,
-        $photo->thumbnail
-    );
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
 
                 return '';
@@ -62,10 +66,10 @@ class PhotosController extends Controller
             $table->editColumn('signature', function ($row) {
                 if ($photo = $row->signature) {
                     return sprintf(
-        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-        $photo->url,
-        $photo->thumbnail
-    );
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
 
                 return '';
@@ -73,24 +77,23 @@ class PhotosController extends Controller
             $table->editColumn('thumb_impression', function ($row) {
                 if ($photo = $row->thumb_impression) {
                     return sprintf(
-        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-        $photo->url,
-        $photo->thumbnail
-    );
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
 
                 return '';
             });
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
-            });
 
-            $table->rawColumns(['actions', 'placeholder', 'photograph', 'signature', 'thumb_impression', 'user']);
+            $table->rawColumns(['actions', 'placeholder', 'user', 'photograph', 'signature', 'thumb_impression']);
 
             return $table->make(true);
         }
 
-        return view('admin.photos.index');
+        $users = User::get();
+
+        return view('admin.photos.index', compact('users'));
     }
 
     public function create()
@@ -141,7 +144,7 @@ class PhotosController extends Controller
         $photo->update($request->all());
 
         if ($request->input('photograph', false)) {
-            if (!$photo->photograph || $request->input('photograph') !== $photo->photograph->file_name) {
+            if (! $photo->photograph || $request->input('photograph') !== $photo->photograph->file_name) {
                 if ($photo->photograph) {
                     $photo->photograph->delete();
                 }
@@ -152,7 +155,7 @@ class PhotosController extends Controller
         }
 
         if ($request->input('signature', false)) {
-            if (!$photo->signature || $request->input('signature') !== $photo->signature->file_name) {
+            if (! $photo->signature || $request->input('signature') !== $photo->signature->file_name) {
                 if ($photo->signature) {
                     $photo->signature->delete();
                 }
@@ -163,7 +166,7 @@ class PhotosController extends Controller
         }
 
         if ($request->input('thumb_impression', false)) {
-            if (!$photo->thumb_impression || $request->input('thumb_impression') !== $photo->thumb_impression->file_name) {
+            if (! $photo->thumb_impression || $request->input('thumb_impression') !== $photo->thumb_impression->file_name) {
                 if ($photo->thumb_impression) {
                     $photo->thumb_impression->delete();
                 }
@@ -196,7 +199,11 @@ class PhotosController extends Controller
 
     public function massDestroy(MassDestroyPhotoRequest $request)
     {
-        Photo::whereIn('id', request('ids'))->delete();
+        $photos = Photo::find(request('ids'));
+
+        foreach ($photos as $photo) {
+            $photo->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

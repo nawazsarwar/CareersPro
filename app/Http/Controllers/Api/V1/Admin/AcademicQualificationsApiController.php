@@ -20,7 +20,7 @@ class AcademicQualificationsApiController extends Controller
     {
         abort_if(Gate::denies('academic_qualification_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new AcademicQualificationResource(AcademicQualification::with(['name', 'board', 'user'])->get());
+        return new AcademicQualificationResource(AcademicQualification::with(['user', 'name', 'board'])->get());
     }
 
     public function store(StoreAcademicQualificationRequest $request)
@@ -40,7 +40,7 @@ class AcademicQualificationsApiController extends Controller
     {
         abort_if(Gate::denies('academic_qualification_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new AcademicQualificationResource($academicQualification->load(['name', 'board', 'user']));
+        return new AcademicQualificationResource($academicQualification->load(['user', 'name', 'board']));
     }
 
     public function update(UpdateAcademicQualificationRequest $request, AcademicQualification $academicQualification)
@@ -48,7 +48,7 @@ class AcademicQualificationsApiController extends Controller
         $academicQualification->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
+            if (! $academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
                 if ($academicQualification->document) {
                     $academicQualification->document->delete();
                 }

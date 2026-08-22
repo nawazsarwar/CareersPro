@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\Admin\PostResource;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostsApiController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index()
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

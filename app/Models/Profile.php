@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Profile extends Model
 {
-    use SoftDeletes;
-    use Auditable;
-    use HasFactory;
+    use SoftDeletes, Auditable, HasFactory;
+
+    public $table = 'profiles';
 
     public const PWD_SELECT = [
         'No'  => 'No',
@@ -46,8 +46,6 @@ class Profile extends Model
         'Transgender' => 'Transgender',
         'Other'       => 'Other',
     ];
-
-    public $table = 'profiles';
 
     public static $searchable = [
         'first_name',

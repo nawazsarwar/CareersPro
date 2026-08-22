@@ -68,7 +68,11 @@ class PostTypesController extends Controller
 
     public function massDestroy(MassDestroyPostTypeRequest $request)
     {
-        PostType::whereIn('id', request('ids'))->delete();
+        $postTypes = PostType::find(request('ids'));
+
+        foreach ($postTypes as $postType) {
+            $postType->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

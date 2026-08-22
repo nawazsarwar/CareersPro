@@ -79,7 +79,11 @@ class RolesController extends Controller
 
     public function massDestroy(MassDestroyRoleRequest $request)
     {
-        Role::whereIn('id', request('ids'))->delete();
+        $roles = Role::find(request('ids'));
+
+        foreach ($roles as $role) {
+            $role->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

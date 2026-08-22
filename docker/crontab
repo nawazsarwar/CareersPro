@@ -1,0 +1,2 @@
+# Run Laravel scheduler every minute via cron (Alpine busybox crond)
+* * * * * php -d variables_order=EGPCS /var/www/html/artisan schedule:run >> /var/www/html/storage/logs/cron.log 2>&1

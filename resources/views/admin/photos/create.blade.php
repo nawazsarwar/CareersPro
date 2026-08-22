@@ -1,55 +1,55 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
-    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
+<div class="card">
+    <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.photo.title_singular') }}
     </div>
 
-    <div class="p-6">
+    <div class="card-body">
         <form method="POST" action="{{ route("admin.photos.store") }}" enctype="multipart/form-data">
             @csrf
-            <div class="mb-4">
-                <label for="photograph">{{ trans('cruds.photo.fields.photograph') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('photograph') ? 'is-invalid' : '' }}" id="photograph-dropzone">
-                </div>
-                @if($errors->has('photograph'))
-                    <span class="text-error-500">{{ $errors->first('photograph') }}</span>
-                @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.photo.fields.photograph_helper') }}</span>
-            </div>
-            <div class="mb-4">
-                <label for="signature">{{ trans('cruds.photo.fields.signature') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('signature') ? 'is-invalid' : '' }}" id="signature-dropzone">
-                </div>
-                @if($errors->has('signature'))
-                    <span class="text-error-500">{{ $errors->first('signature') }}</span>
-                @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.photo.fields.signature_helper') }}</span>
-            </div>
-            <div class="mb-4">
-                <label for="thumb_impression">{{ trans('cruds.photo.fields.thumb_impression') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('thumb_impression') ? 'is-invalid' : '' }}" id="thumb_impression-dropzone">
-                </div>
-                @if($errors->has('thumb_impression'))
-                    <span class="text-error-500">{{ $errors->first('thumb_impression') }}</span>
-                @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.photo.fields.thumb_impression_helper') }}</span>
-            </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="user_id">{{ trans('cruds.photo.fields.user') }}</label>
-                <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
                     @foreach($users as $id => $entry)
                         <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('user'))
-                    <span class="text-error-500">{{ $errors->first('user') }}</span>
+                    <span class="text-danger">{{ $errors->first('user') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.photo.fields.user_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.photo.fields.user_helper') }}</span>
             </div>
-            <div class="mb-4">
-                <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
+            <div class="form-group">
+                <label for="photograph">{{ trans('cruds.photo.fields.photograph') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('photograph') ? 'is-invalid' : '' }}" id="photograph-dropzone">
+                </div>
+                @if($errors->has('photograph'))
+                    <span class="text-danger">{{ $errors->first('photograph') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.photo.fields.photograph_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="signature">{{ trans('cruds.photo.fields.signature') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('signature') ? 'is-invalid' : '' }}" id="signature-dropzone">
+                </div>
+                @if($errors->has('signature'))
+                    <span class="text-danger">{{ $errors->first('signature') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.photo.fields.signature_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="thumb_impression">{{ trans('cruds.photo.fields.thumb_impression') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('thumb_impression') ? 'is-invalid' : '' }}" id="thumb_impression-dropzone">
+                </div>
+                @if($errors->has('thumb_impression'))
+                    <span class="text-danger">{{ $errors->first('thumb_impression') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.photo.fields.thumb_impression_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
             </div>

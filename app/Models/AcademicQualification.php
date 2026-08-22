@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,17 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AcademicQualification extends Model implements HasMedia
 {
-    use SoftDeletes;
-    use InteractsWithMedia;
-    use Auditable;
-    use HasFactory;
-
-    public const DIVISION_SELECT = [
-        'I'   => '1st Division',
-        'II'  => '2nd Division',
-        'III' => '3rd Division',
-        'NA'  => 'Not Applicable',
-    ];
+    use SoftDeletes, InteractsWithMedia, Auditable, HasFactory;
 
     public $table = 'academic_qualifications';
 
@@ -37,6 +27,13 @@ class AcademicQualification extends Model implements HasMedia
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+    ];
+
+    public const DIVISION_SELECT = [
+        'I'   => '1st Division',
+        'II'  => '2nd Division',
+        'III' => '3rd Division',
+        'NA'  => 'Not Applicable',
     ];
 
     protected $fillable = [

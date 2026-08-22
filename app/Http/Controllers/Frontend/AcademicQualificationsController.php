@@ -24,20 +24,26 @@ class AcademicQualificationsController extends Controller
     {
         abort_if(Gate::denies('academic_qualification_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $academicQualifications = AcademicQualification::with(['name', 'board', 'user', 'media'])->get();
+        $academicQualifications = AcademicQualification::with(['user', 'name', 'board', 'media'])->get();
 
-        return view('frontend.academicQualifications.index', compact('academicQualifications'));
+        $users = User::get();
+
+        $qualification_levels = QualificationLevel::get();
+
+        $boards = Board::get();
+
+        return view('frontend.academicQualifications.index', compact('academicQualifications', 'boards', 'qualification_levels', 'users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('academic_qualification_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $names = QualificationLevel::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $boards = Board::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('frontend.academicQualifications.create', compact('boards', 'names', 'users'));
     }
@@ -61,13 +67,13 @@ class AcademicQualificationsController extends Controller
     {
         abort_if(Gate::denies('academic_qualification_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $names = QualificationLevel::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $boards = Board::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $academicQualification->load('name', 'board', 'user');
+        $academicQualification->load('user', 'name', 'board');
 
         return view('frontend.academicQualifications.edit', compact('academicQualification', 'boards', 'names', 'users'));
     }
@@ -77,7 +83,7 @@ class AcademicQualificationsController extends Controller
         $academicQualification->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
+            if (! $academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
                 if ($academicQualification->document) {
                     $academicQualification->document->delete();
                 }
@@ -94,7 +100,7 @@ class AcademicQualificationsController extends Controller
     {
         abort_if(Gate::denies('academic_qualification_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $academicQualification->load('name', 'board', 'user');
+        $academicQualification->load('user', 'name', 'board');
 
         return view('frontend.academicQualifications.show', compact('academicQualification'));
     }
@@ -110,7 +116,11 @@ class AcademicQualificationsController extends Controller
 
     public function massDestroy(MassDestroyAcademicQualificationRequest $request)
     {
-        AcademicQualification::whereIn('id', request('ids'))->delete();
+        $academicQualifications = AcademicQualification::find(request('ids'));
+
+        foreach ($academicQualifications as $academicQualification) {
+            $academicQualification->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

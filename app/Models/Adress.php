@@ -2,22 +2,15 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use App\Traits\Auditable;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Adress extends Model
 {
-    use SoftDeletes;
-    use Auditable;
-    use HasFactory;
-
-    public const TYPE_SELECT = [
-        'Correspondence Address' => 'Correspondence Address',
-        'Permanent Address'      => 'Permanent Address',
-    ];
+    use SoftDeletes, Auditable, HasFactory;
 
     public $table = 'adresses';
 
@@ -25,6 +18,11 @@ class Adress extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+    ];
+
+    public const TYPE_SELECT = [
+        'Correspondence Address' => 'Correspondence Address',
+        'Permanent Address'      => 'Permanent Address',
     ];
 
     protected $fillable = [

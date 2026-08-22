@@ -6,7 +6,7 @@
             @can('adress_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.adresses.create') }}">
+                        <a class="btn btn-success" href="{{ route('frontend.adresses.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.adress.title_singular') }}
                         </a>
                     </div>
@@ -18,111 +18,184 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Adress">
-                            <thead class="bg-gray-50 dark:bg-white/5">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover datatable datatable-Adress">
+                            <thead>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.adress.fields.id') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.type') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.house_no') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.street') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.landmark') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.locality') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.city') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.postal_code') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.district') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.province') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.country') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.status') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.adress.fields.remarks') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.adress.fields.user') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.adress.fields.type') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.house_no') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.street') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.landmark') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.locality') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.city') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.postal_code') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.district') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.province') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.country') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.status') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.adress.fields.remarks') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search" strict="true">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach(App\Models\Adress::TYPE_SELECT as $key => $item)
+                                                <option value="{{ $item }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($postal_codes as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($provinces as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($countries as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($adresses as $key => $adress)
                                     <tr data-entry-id="{{ $adress->id }}">
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $adress->id ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ App\Models\Adress::TYPE_SELECT[$adress->type] ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->house_no ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->street ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->landmark ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->locality ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->city ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->postal_code->name ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->district ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->province->name ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->country->name ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->status ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $adress->remarks ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $adress->user->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
+                                            {{ App\Models\Adress::TYPE_SELECT[$adress->type] ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->house_no ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->street ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->landmark ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->locality ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->city ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->postal_code->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->district ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->province->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->country->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->status ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $adress->remarks ?? '' }}
+                                        </td>
+                                        <td>
                                             @can('adress_show')
-                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.adresses.show', $adress->id) }}">
+                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.adresses.show', $adress->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('adress_edit')
-                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.adresses.edit', $adress->id) }}">
+                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.adresses.edit', $adress->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -131,7 +204,7 @@
                                                 <form action="{{ route('frontend.adresses.destroy', $adress->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -140,7 +213,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -189,12 +262,33 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Adress:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-Adress:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

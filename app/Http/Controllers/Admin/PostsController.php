@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyPostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -12,35 +13,38 @@ use App\Models\PostType;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostsController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Post::with(['advertisement', 'posttype', 'added_by'])->select(sprintf('%s.*', (new Post())->table));
+            $query = Post::with(['advertisement', 'posttype', 'added_by'])->select(sprintf('%s.*', (new Post)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'post_show';
-                $editGate = 'post_edit';
-                $deleteGate = 'post_delete';
+                $viewGate      = 'post_show';
+                $editGate      = 'post_edit';
+                $deleteGate    = 'post_delete';
                 $crudRoutePart = 'posts';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -60,11 +64,11 @@ class PostsController extends Controller
             $table->editColumn('title', function ($row) {
                 return $row->title ? $row->title : '';
             });
+            $table->editColumn('subject', function ($row) {
+                return $row->subject ? $row->subject : '';
+            });
             $table->editColumn('slug', function ($row) {
                 return $row->slug ? $row->slug : '';
-            });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
             });
             $table->editColumn('vacancies', function ($row) {
                 return $row->vacancies ? $row->vacancies : '';
@@ -95,12 +99,36 @@ class PostsController extends Controller
                 return $row->added_by ? $row->added_by->name : '';
             });
 
+            $table->editColumn('test_reporting_time', function ($row) {
+                return $row->test_reporting_time ? $row->test_reporting_time : '';
+            });
+            $table->editColumn('gate_closing_time', function ($row) {
+                return $row->gate_closing_time ? $row->gate_closing_time : '';
+            });
+            $table->editColumn('scheduled_test_start', function ($row) {
+                return $row->scheduled_test_start ? $row->scheduled_test_start : '';
+            });
+            $table->editColumn('test_duration', function ($row) {
+                return $row->test_duration ? $row->test_duration : '';
+            });
+
+            $table->editColumn('interview_time', function ($row) {
+                return $row->interview_time ? $row->interview_time : '';
+            });
+            $table->editColumn('interview_venue', function ($row) {
+                return $row->interview_venue ? $row->interview_venue : '';
+            });
+
             $table->rawColumns(['actions', 'placeholder', 'advertisement', 'posttype', 'added_by']);
 
             return $table->make(true);
         }
 
-        return view('admin.posts.index');
+        $advertisements = Advertisement::get();
+        $post_types     = PostType::get();
+        $users          = User::get();
+
+        return view('admin.posts.index', compact('advertisements', 'post_types', 'users'));
     }
 
     public function create()
@@ -119,6 +147,10 @@ class PostsController extends Controller
     public function store(StorePostRequest $request)
     {
         $post = Post::create($request->all());
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $post->id]);
+        }
 
         return redirect()->route('admin.posts.index');
     }
@@ -165,8 +197,24 @@ class PostsController extends Controller
 
     public function massDestroy(MassDestroyPostRequest $request)
     {
-        Post::whereIn('id', request('ids'))->delete();
+        $posts = Post::find(request('ids'));
+
+        foreach ($posts as $post) {
+            $post->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('post_create') && Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Post();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

@@ -68,7 +68,11 @@ class ProvincesController extends Controller
 
     public function massDestroy(MassDestroyProvinceRequest $request)
     {
-        Province::whereIn('id', request('ids'))->delete();
+        $provinces = Province::find(request('ids'));
+
+        foreach ($provinces as $province) {
+            $province->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

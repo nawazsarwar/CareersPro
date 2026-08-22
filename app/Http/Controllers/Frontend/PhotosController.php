@@ -24,7 +24,9 @@ class PhotosController extends Controller
 
         $photos = Photo::with(['user', 'media'])->get();
 
-        return view('frontend.photos.index', compact('photos'));
+        $users = User::get();
+
+        return view('frontend.photos.index', compact('photos', 'users'));
     }
 
     public function create()
@@ -75,7 +77,7 @@ class PhotosController extends Controller
         $photo->update($request->all());
 
         if ($request->input('photograph', false)) {
-            if (!$photo->photograph || $request->input('photograph') !== $photo->photograph->file_name) {
+            if (! $photo->photograph || $request->input('photograph') !== $photo->photograph->file_name) {
                 if ($photo->photograph) {
                     $photo->photograph->delete();
                 }
@@ -86,7 +88,7 @@ class PhotosController extends Controller
         }
 
         if ($request->input('signature', false)) {
-            if (!$photo->signature || $request->input('signature') !== $photo->signature->file_name) {
+            if (! $photo->signature || $request->input('signature') !== $photo->signature->file_name) {
                 if ($photo->signature) {
                     $photo->signature->delete();
                 }
@@ -97,7 +99,7 @@ class PhotosController extends Controller
         }
 
         if ($request->input('thumb_impression', false)) {
-            if (!$photo->thumb_impression || $request->input('thumb_impression') !== $photo->thumb_impression->file_name) {
+            if (! $photo->thumb_impression || $request->input('thumb_impression') !== $photo->thumb_impression->file_name) {
                 if ($photo->thumb_impression) {
                     $photo->thumb_impression->delete();
                 }
@@ -130,7 +132,11 @@ class PhotosController extends Controller
 
     public function massDestroy(MassDestroyPhotoRequest $request)
     {
-        Photo::whereIn('id', request('ids'))->delete();
+        $photos = Photo::find(request('ids'));
+
+        foreach ($photos as $photo) {
+            $photo->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

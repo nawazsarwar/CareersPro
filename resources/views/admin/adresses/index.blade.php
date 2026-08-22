@@ -3,69 +3,142 @@
 @can('adress_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.adresses.create') }}">
+            <a class="btn btn-success" href="{{ route('admin.adresses.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.adress.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
-    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
+<div class="card">
+    <div class="card-header">
         {{ trans('cruds.adress.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="p-6">
-        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-Adress\">
-            <thead class="bg-gray-50 dark:bg-white/5">
+    <div class="card-body">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Adress">
+            <thead>
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
                         {{ trans('cruds.adress.fields.id') }}
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.type') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.house_no') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.street') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.landmark') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.locality') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.city') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.postal_code') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.district') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.province') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.country') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.status') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.adress.fields.remarks') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
                         {{ trans('cruds.adress.fields.user') }}
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
+                        {{ trans('cruds.adress.fields.type') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.house_no') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.street') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.landmark') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.locality') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.city') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.postal_code') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.district') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.province') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.country') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.status') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.adress.fields.remarks') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($users as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select class="search" strict="true">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach(App\Models\Adress::TYPE_SELECT as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($postal_codes as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($provinces as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($countries as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -120,6 +193,7 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
+{ data: 'user_name', name: 'user.name' },
 { data: 'type', name: 'type' },
 { data: 'house_no', name: 'house_no' },
 { data: 'street', name: 'street' },
@@ -132,7 +206,6 @@
 { data: 'country_name', name: 'country.name' },
 { data: 'status', name: 'status' },
 { data: 'remarks', name: 'remarks' },
-{ data: 'user_name', name: 'user.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -145,6 +218,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 });
 
 </script>

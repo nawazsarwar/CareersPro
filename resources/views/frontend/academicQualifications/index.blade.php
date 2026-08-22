@@ -6,7 +6,7 @@
             @can('academic_qualification_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.academic-qualifications.create') }}">
+                        <a class="btn btn-success" href="{{ route('frontend.academic-qualifications.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.academicQualification.title_singular') }}
                         </a>
                     </div>
@@ -18,109 +18,172 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-AcademicQualification">
-                            <thead class="bg-gray-50 dark:bg-white/5">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover datatable datatable-AcademicQualification">
+                            <thead>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.academicQualification.fields.id') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.name') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.course') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.board') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.year') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.division') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.percentage') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.cgpa') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.subjects') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.title') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.remarks') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.academicQualification.fields.document') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.academicQualification.fields.user') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.name') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.course') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.board') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.year') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.division') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.percentage') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.cgpa') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.subjects') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.title') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.remarks') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.academicQualification.fields.document') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($qualification_levels as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($boards as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <select class="search" strict="true">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach(App\Models\AcademicQualification::DIVISION_SELECT as $key => $item)
+                                                <option value="{{ $item }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($academicQualifications as $key => $academicQualification)
                                     <tr data-entry-id="{{ $academicQualification->id }}">
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->id ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
+                                            {{ $academicQualification->user->name ?? '' }}
+                                        </td>
+                                        <td>
                                             {{ $academicQualification->name->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->course ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->board->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->year ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ App\Models\AcademicQualification::DIVISION_SELECT[$academicQualification->division] ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->percentage ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->cgpa ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->subjects ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->title ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $academicQualification->remarks ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             @if($academicQualification->document)
                                                 <a href="{{ $academicQualification->document->getUrl() }}" target="_blank">
                                                     {{ trans('global.view_file') }}
                                                 </a>
                                             @endif
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $academicQualification->user->name ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             @can('academic_qualification_show')
-                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.academic-qualifications.show', $academicQualification->id) }}">
+                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.academic-qualifications.show', $academicQualification->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('academic_qualification_edit')
-                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.academic-qualifications.edit', $academicQualification->id) }}">
+                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.academic-qualifications.edit', $academicQualification->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -129,7 +192,7 @@
                                                 <form action="{{ route('frontend.academic-qualifications.destroy', $academicQualification->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -138,7 +201,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -187,12 +250,33 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-AcademicQualification:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-AcademicQualification:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

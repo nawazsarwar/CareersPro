@@ -9,15 +9,16 @@ use Illuminate\Support\Str;
 class GlobalSearchController extends Controller
 {
     private $models = [
-        'Profile'       => 'cruds.profile.title',
-        'MaritalStatus' => 'cruds.maritalStatus.title',
+        'MaritalStatus'   => 'cruds.maritalStatus.title',
+        'Profile'         => 'cruds.profile.title',
+        'ApplicationForm' => 'cruds.applicationForm.title',
     ];
 
     public function search(Request $request)
     {
         $search = $request->input('search');
 
-        if ($search === null || !isset($search['term'])) {
+        if ($search === null || ! isset($search['term'])) {
             abort(400);
         }
 

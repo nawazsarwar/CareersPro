@@ -11,7 +11,7 @@ class VerifyUserNotification extends Notification
 {
     use Queueable;
 
-    private $user;
+    private $user = null;
 
     public function __construct(User $user)
     {
@@ -25,7 +25,7 @@ class VerifyUserNotification extends Notification
 
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->line(trans('global.verifyYourUser'))
             ->action(trans('global.clickHereToVerify'), route('userVerification', $this->user->verification_token))
             ->line(trans('global.thankYouForUsingOurApplication'));

@@ -68,7 +68,11 @@ class MaritalStatusesController extends Controller
 
     public function massDestroy(MassDestroyMaritalStatusRequest $request)
     {
-        MaritalStatus::whereIn('id', request('ids'))->delete();
+        $maritalStatuses = MaritalStatus::find(request('ids'));
+
+        foreach ($maritalStatuses as $maritalStatus) {
+            $maritalStatus->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

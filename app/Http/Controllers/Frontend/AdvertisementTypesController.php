@@ -68,7 +68,11 @@ class AdvertisementTypesController extends Controller
 
     public function massDestroy(MassDestroyAdvertisementTypeRequest $request)
     {
-        AdvertisementType::whereIn('id', request('ids'))->delete();
+        $advertisementTypes = AdvertisementType::find(request('ids'));
+
+        foreach ($advertisementTypes as $advertisementType) {
+            $advertisementType->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

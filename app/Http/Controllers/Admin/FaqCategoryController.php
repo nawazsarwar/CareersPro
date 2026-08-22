@@ -68,7 +68,11 @@ class FaqCategoryController extends Controller
 
     public function massDestroy(MassDestroyFaqCategoryRequest $request)
     {
-        FaqCategory::whereIn('id', request('ids'))->delete();
+        $faqCategories = FaqCategory::find(request('ids'));
+
+        foreach ($faqCategories as $faqCategory) {
+            $faqCategory->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

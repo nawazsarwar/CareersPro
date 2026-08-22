@@ -20,7 +20,9 @@ class EligibilityTestsController extends Controller
 
         $eligibilityTests = EligibilityTest::with(['user'])->get();
 
-        return view('frontend.eligibilityTests.index', compact('eligibilityTests'));
+        $users = User::get();
+
+        return view('frontend.eligibilityTests.index', compact('eligibilityTests', 'users'));
     }
 
     public function create()
@@ -77,7 +79,11 @@ class EligibilityTestsController extends Controller
 
     public function massDestroy(MassDestroyEligibilityTestRequest $request)
     {
-        EligibilityTest::whereIn('id', request('ids'))->delete();
+        $eligibilityTests = EligibilityTest::find(request('ids'));
+
+        foreach ($eligibilityTests as $eligibilityTest) {
+            $eligibilityTest->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -1,172 +1,244 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
-    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
+<div class="card">
+    <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.post.title_singular') }}
     </div>
 
-    <div class="p-6">
+    <div class="card-body">
         <form method="POST" action="{{ route("admin.posts.store") }}" enctype="multipart/form-data">
             @csrf
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="advertisement_id">{{ trans('cruds.post.fields.advertisement') }}</label>
-                <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2 {{ $errors->has('advertisement') ? 'is-invalid' : '' }}" name="advertisement_id" id="advertisement_id" required>
+                <select class="form-control select2 {{ $errors->has('advertisement') ? 'is-invalid' : '' }}" name="advertisement_id" id="advertisement_id" required>
                     @foreach($advertisements as $id => $entry)
                         <option value="{{ $id }}" {{ old('advertisement_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('advertisement'))
-                    <span class="text-error-500">{{ $errors->first('advertisement') }}</span>
+                    <span class="text-danger">{{ $errors->first('advertisement') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.advertisement_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.advertisement_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="posttype_id">{{ trans('cruds.post.fields.posttype') }}</label>
-                <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2 {{ $errors->has('posttype') ? 'is-invalid' : '' }}" name="posttype_id" id="posttype_id" required>
+                <select class="form-control select2 {{ $errors->has('posttype') ? 'is-invalid' : '' }}" name="posttype_id" id="posttype_id" required>
                     @foreach($posttypes as $id => $entry)
                         <option value="{{ $id }}" {{ old('posttype_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('posttype'))
-                    <span class="text-error-500">{{ $errors->first('posttype') }}</span>
+                    <span class="text-danger">{{ $errors->first('posttype') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.posttype_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.posttype_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label for="serial_no">{{ trans('cruds.post.fields.serial_no') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('serial_no') ? 'is-invalid' : '' }}" type="number" name="serial_no" id="serial_no" value="{{ old('serial_no', '') }}" step="1">
+                <input class="form-control {{ $errors->has('serial_no') ? 'is-invalid' : '' }}" type="number" name="serial_no" id="serial_no" value="{{ old('serial_no', '') }}" step="1">
                 @if($errors->has('serial_no'))
-                    <span class="text-error-500">{{ $errors->first('serial_no') }}</span>
+                    <span class="text-danger">{{ $errors->first('serial_no') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.serial_no_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.serial_no_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="title">{{ trans('cruds.post.fields.title') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', '') }}" required>
+                <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', '') }}" required>
                 @if($errors->has('title'))
-                    <span class="text-error-500">{{ $errors->first('title') }}</span>
+                    <span class="text-danger">{{ $errors->first('title') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.title_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.title_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
+                <label for="subject">{{ trans('cruds.post.fields.subject') }}</label>
+                <input class="form-control {{ $errors->has('subject') ? 'is-invalid' : '' }}" type="text" name="subject" id="subject" value="{{ old('subject', '') }}">
+                @if($errors->has('subject'))
+                    <span class="text-danger">{{ $errors->first('subject') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.subject_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="slug">{{ trans('cruds.post.fields.slug') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}" required>
+                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}" required>
                 @if($errors->has('slug'))
-                    <span class="text-error-500">{{ $errors->first('slug') }}</span>
+                    <span class="text-danger">{{ $errors->first('slug') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.slug_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.slug_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label for="description">{{ trans('cruds.post.fields.description') }}</label>
-                <textarea class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description') }}</textarea>
+                <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description') !!}</textarea>
                 @if($errors->has('description'))
-                    <span class="text-error-500">{{ $errors->first('description') }}</span>
+                    <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.description_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.description_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="vacancies">{{ trans('cruds.post.fields.vacancies') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('vacancies') ? 'is-invalid' : '' }}" type="number" name="vacancies" id="vacancies" value="{{ old('vacancies', '') }}" step="1" required>
+                <input class="form-control {{ $errors->has('vacancies') ? 'is-invalid' : '' }}" type="number" name="vacancies" id="vacancies" value="{{ old('vacancies', '') }}" step="1" required>
                 @if($errors->has('vacancies'))
-                    <span class="text-error-500">{{ $errors->first('vacancies') }}</span>
+                    <span class="text-danger">{{ $errors->first('vacancies') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.vacancies_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.vacancies_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="location">{{ trans('cruds.post.fields.location') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('location') ? 'is-invalid' : '' }}" type="text" name="location" id="location" value="{{ old('location', '') }}" required>
+                <input class="form-control {{ $errors->has('location') ? 'is-invalid' : '' }}" type="text" name="location" id="location" value="{{ old('location', '') }}" required>
                 @if($errors->has('location'))
-                    <span class="text-error-500">{{ $errors->first('location') }}</span>
+                    <span class="text-danger">{{ $errors->first('location') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.location_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.location_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="pay_level">{{ trans('cruds.post.fields.pay_level') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('pay_level') ? 'is-invalid' : '' }}" type="text" name="pay_level" id="pay_level" value="{{ old('pay_level', '') }}" required>
+                <input class="form-control {{ $errors->has('pay_level') ? 'is-invalid' : '' }}" type="text" name="pay_level" id="pay_level" value="{{ old('pay_level', '') }}" required>
                 @if($errors->has('pay_level'))
-                    <span class="text-error-500">{{ $errors->first('pay_level') }}</span>
+                    <span class="text-danger">{{ $errors->first('pay_level') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.pay_level_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.pay_level_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="pay_range">{{ trans('cruds.post.fields.pay_range') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('pay_range') ? 'is-invalid' : '' }}" type="text" name="pay_range" id="pay_range" value="{{ old('pay_range', '') }}" required>
+                <input class="form-control {{ $errors->has('pay_range') ? 'is-invalid' : '' }}" type="text" name="pay_range" id="pay_range" value="{{ old('pay_range', '') }}" required>
                 @if($errors->has('pay_range'))
-                    <span class="text-error-500">{{ $errors->first('pay_range') }}</span>
+                    <span class="text-danger">{{ $errors->first('pay_range') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.pay_range_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.pay_range_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="fee">{{ trans('cruds.post.fields.fee') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('fee') ? 'is-invalid' : '' }}" type="number" name="fee" id="fee" value="{{ old('fee', '') }}" step="0.01" required>
+                <input class="form-control {{ $errors->has('fee') ? 'is-invalid' : '' }}" type="number" name="fee" id="fee" value="{{ old('fee', '') }}" step="0.01" required>
                 @if($errors->has('fee'))
-                    <span class="text-error-500">{{ $errors->first('fee') }}</span>
+                    <span class="text-danger">{{ $errors->first('fee') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.fee_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.fee_helper') }}</span>
             </div>
-            <div class="mb-4">
-                <label for="open_date">{{ trans('cruds.post.fields.open_date') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime {{ $errors->has('open_date') ? 'is-invalid' : '' }}" type="text" name="open_date" id="open_date" value="{{ old('open_date') }}">
-                @if($errors->has('open_date'))
-                    <span class="text-error-500">{{ $errors->first('open_date') }}</span>
+            <div class="form-group">
+                <label for="opening_date">{{ trans('cruds.post.fields.opening_date') }}</label>
+                <input class="form-control datetime {{ $errors->has('opening_date') ? 'is-invalid' : '' }}" type="text" name="opening_date" id="opening_date" value="{{ old('opening_date') }}">
+                @if($errors->has('opening_date'))
+                    <span class="text-danger">{{ $errors->first('opening_date') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.open_date_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.opening_date_helper') }}</span>
             </div>
-            <div class="mb-4">
-                <label for="last_date">{{ trans('cruds.post.fields.last_date') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime {{ $errors->has('last_date') ? 'is-invalid' : '' }}" type="text" name="last_date" id="last_date" value="{{ old('last_date') }}">
-                @if($errors->has('last_date'))
-                    <span class="text-error-500">{{ $errors->first('last_date') }}</span>
+            <div class="form-group">
+                <label for="closing_date">{{ trans('cruds.post.fields.closing_date') }}</label>
+                <input class="form-control datetime {{ $errors->has('closing_date') ? 'is-invalid' : '' }}" type="text" name="closing_date" id="closing_date" value="{{ old('closing_date') }}">
+                @if($errors->has('closing_date'))
+                    <span class="text-danger">{{ $errors->first('closing_date') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.last_date_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.closing_date_helper') }}</span>
             </div>
-            <div class="mb-4">
-                <label for="payment_end_date">{{ trans('cruds.post.fields.payment_end_date') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime {{ $errors->has('payment_end_date') ? 'is-invalid' : '' }}" type="text" name="payment_end_date" id="payment_end_date" value="{{ old('payment_end_date') }}">
-                @if($errors->has('payment_end_date'))
-                    <span class="text-error-500">{{ $errors->first('payment_end_date') }}</span>
+            <div class="form-group">
+                <label for="payment_closing_date">{{ trans('cruds.post.fields.payment_closing_date') }}</label>
+                <input class="form-control datetime {{ $errors->has('payment_closing_date') ? 'is-invalid' : '' }}" type="text" name="payment_closing_date" id="payment_closing_date" value="{{ old('payment_closing_date') }}">
+                @if($errors->has('payment_closing_date'))
+                    <span class="text-danger">{{ $errors->first('payment_closing_date') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.payment_end_date_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.payment_closing_date_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="withdrawn">{{ trans('cruds.post.fields.withdrawn') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('withdrawn') ? 'is-invalid' : '' }}" type="number" name="withdrawn" id="withdrawn" value="{{ old('withdrawn', '0') }}" step="1" required>
+                <input class="form-control {{ $errors->has('withdrawn') ? 'is-invalid' : '' }}" type="number" name="withdrawn" id="withdrawn" value="{{ old('withdrawn', '0') }}" step="1" required>
                 @if($errors->has('withdrawn'))
-                    <span class="text-error-500">{{ $errors->first('withdrawn') }}</span>
+                    <span class="text-danger">{{ $errors->first('withdrawn') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.withdrawn_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.withdrawn_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="status">{{ trans('cruds.post.fields.status') }}</label>
-                <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('status') ? 'is-invalid' : '' }}" type="number" name="status" id="status" value="{{ old('status', '1') }}" step="1" required>
+                <input class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" type="number" name="status" id="status" value="{{ old('status', '1') }}" step="1" required>
                 @if($errors->has('status'))
-                    <span class="text-error-500">{{ $errors->first('status') }}</span>
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.status_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.status_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label for="remarks">{{ trans('cruds.post.fields.remarks') }}</label>
-                <textarea class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 {{ $errors->has('remarks') ? 'is-invalid' : '' }}" name="remarks" id="remarks">{{ old('remarks') }}</textarea>
+                <textarea class="form-control {{ $errors->has('remarks') ? 'is-invalid' : '' }}" name="remarks" id="remarks">{{ old('remarks') }}</textarea>
                 @if($errors->has('remarks'))
-                    <span class="text-error-500">{{ $errors->first('remarks') }}</span>
+                    <span class="text-danger">{{ $errors->first('remarks') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.remarks_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.remarks_helper') }}</span>
             </div>
-            <div class="mb-4">
+            <div class="form-group">
                 <label class="required" for="added_by_id">{{ trans('cruds.post.fields.added_by') }}</label>
-                <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2 {{ $errors->has('added_by') ? 'is-invalid' : '' }}" name="added_by_id" id="added_by_id" required>
+                <select class="form-control select2 {{ $errors->has('added_by') ? 'is-invalid' : '' }}" name="added_by_id" id="added_by_id" required>
                     @foreach($added_bies as $id => $entry)
                         <option value="{{ $id }}" {{ old('added_by_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('added_by'))
-                    <span class="text-error-500">{{ $errors->first('added_by') }}</span>
+                    <span class="text-danger">{{ $errors->first('added_by') }}</span>
                 @endif
-                <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.post.fields.added_by_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.post.fields.added_by_helper') }}</span>
             </div>
-            <div class="mb-4">
-                <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
+            <div class="form-group">
+                <label for="test_date">{{ trans('cruds.post.fields.test_date') }}</label>
+                <input class="form-control date {{ $errors->has('test_date') ? 'is-invalid' : '' }}" type="text" name="test_date" id="test_date" value="{{ old('test_date') }}">
+                @if($errors->has('test_date'))
+                    <span class="text-danger">{{ $errors->first('test_date') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.test_date_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="test_reporting_time">{{ trans('cruds.post.fields.test_reporting_time') }}</label>
+                <input class="form-control {{ $errors->has('test_reporting_time') ? 'is-invalid' : '' }}" type="text" name="test_reporting_time" id="test_reporting_time" value="{{ old('test_reporting_time', '') }}">
+                @if($errors->has('test_reporting_time'))
+                    <span class="text-danger">{{ $errors->first('test_reporting_time') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.test_reporting_time_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="gate_closing_time">{{ trans('cruds.post.fields.gate_closing_time') }}</label>
+                <input class="form-control {{ $errors->has('gate_closing_time') ? 'is-invalid' : '' }}" type="text" name="gate_closing_time" id="gate_closing_time" value="{{ old('gate_closing_time', '') }}">
+                @if($errors->has('gate_closing_time'))
+                    <span class="text-danger">{{ $errors->first('gate_closing_time') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.gate_closing_time_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="scheduled_test_start">{{ trans('cruds.post.fields.scheduled_test_start') }}</label>
+                <input class="form-control {{ $errors->has('scheduled_test_start') ? 'is-invalid' : '' }}" type="text" name="scheduled_test_start" id="scheduled_test_start" value="{{ old('scheduled_test_start', '') }}">
+                @if($errors->has('scheduled_test_start'))
+                    <span class="text-danger">{{ $errors->first('scheduled_test_start') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.scheduled_test_start_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="test_duration">{{ trans('cruds.post.fields.test_duration') }}</label>
+                <input class="form-control {{ $errors->has('test_duration') ? 'is-invalid' : '' }}" type="text" name="test_duration" id="test_duration" value="{{ old('test_duration', '') }}">
+                @if($errors->has('test_duration'))
+                    <span class="text-danger">{{ $errors->first('test_duration') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.test_duration_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="interview_date">{{ trans('cruds.post.fields.interview_date') }}</label>
+                <input class="form-control date {{ $errors->has('interview_date') ? 'is-invalid' : '' }}" type="text" name="interview_date" id="interview_date" value="{{ old('interview_date') }}">
+                @if($errors->has('interview_date'))
+                    <span class="text-danger">{{ $errors->first('interview_date') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.interview_date_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="interview_time">{{ trans('cruds.post.fields.interview_time') }}</label>
+                <input class="form-control {{ $errors->has('interview_time') ? 'is-invalid' : '' }}" type="text" name="interview_time" id="interview_time" value="{{ old('interview_time', '') }}">
+                @if($errors->has('interview_time'))
+                    <span class="text-danger">{{ $errors->first('interview_time') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.interview_time_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="interview_venue">{{ trans('cruds.post.fields.interview_venue') }}</label>
+                <input class="form-control {{ $errors->has('interview_venue') ? 'is-invalid' : '' }}" type="text" name="interview_venue" id="interview_venue" value="{{ old('interview_venue', '') }}">
+                @if($errors->has('interview_venue'))
+                    <span class="text-danger">{{ $errors->first('interview_venue') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.post.fields.interview_venue_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
             </div>
@@ -175,5 +247,72 @@
 </div>
 
 
+
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function () {
+  function SimpleUploadAdapter(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+      return {
+        upload: function() {
+          return loader.file
+            .then(function (file) {
+              return new Promise(function(resolve, reject) {
+                // Init request
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('admin.posts.storeCKEditorImages') }}', true);
+                xhr.setRequestHeader('x-csrf-token', window._token);
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.responseType = 'json';
+
+                // Init listeners
+                var genericErrorText = `Couldn't upload file: ${ file.name }.`;
+                xhr.addEventListener('error', function() { reject(genericErrorText) });
+                xhr.addEventListener('abort', function() { reject() });
+                xhr.addEventListener('load', function() {
+                  var response = xhr.response;
+
+                  if (!response || xhr.status !== 201) {
+                    return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
+                  }
+
+                  $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                  resolve({ default: response.url });
+                });
+
+                if (xhr.upload) {
+                  xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                      loader.uploadTotal = e.total;
+                      loader.uploaded = e.loaded;
+                    }
+                  });
+                }
+
+                // Send request
+                var data = new FormData();
+                data.append('upload', file);
+                data.append('crud_id', '{{ $post->id ?? 0 }}');
+                xhr.send(data);
+              });
+            })
+        }
+      };
+    }
+  }
+
+  var allEditors = document.querySelectorAll('.ckeditor');
+  for (var i = 0; i < allEditors.length; ++i) {
+    ClassicEditor.create(
+      allEditors[i], {
+        extraPlugins: [SimpleUploadAdapter]
+      }
+    );
+  }
+});
+</script>
 
 @endsection

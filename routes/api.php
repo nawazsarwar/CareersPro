@@ -1,37 +1,47 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\Admin\AdvertisementsApiController;
-use App\Http\Controllers\Api\V1\Admin\PostsApiController;
-use App\Http\Controllers\Api\V1\Admin\ProfilesApiController;
-use App\Http\Controllers\Api\V1\Admin\MaritalStatusesApiController;
-use App\Http\Controllers\Api\V1\Admin\DisabilityTypesApiController;
-use App\Http\Controllers\Api\V1\Admin\ReligionsApiController;
-use App\Http\Controllers\Api\V1\Admin\CategoriesApiController;
-use App\Http\Controllers\Api\V1\Admin\CastesApiController;
-use App\Http\Controllers\Api\V1\Admin\CountriesApiController;
-use App\Http\Controllers\Api\V1\Admin\ProvincesApiController;
-use App\Http\Controllers\Api\V1\Admin\PostalCodesApiController;
-use App\Http\Controllers\Api\V1\Admin\PhotosApiController;
-use App\Http\Controllers\Api\V1\Admin\AdressesApiController;
-use App\Http\Controllers\Api\V1\Admin\QualificationLevelsApiController;
-use App\Http\Controllers\Api\V1\Admin\BoardsApiController;
 use App\Http\Controllers\Api\V1\Admin\AcademicQualificationsApiController;
+use App\Http\Controllers\Api\V1\Admin\AdressesApiController;
+use App\Http\Controllers\Api\V1\Admin\AdvertisementTypesApiController;
+use App\Http\Controllers\Api\V1\Admin\AdvertisementsApiController;
+use App\Http\Controllers\Api\V1\Admin\ApplicationFormsApiController;
+use App\Http\Controllers\Api\V1\Admin\BoardsApiController;
+use App\Http\Controllers\Api\V1\Admin\CastesApiController;
+use App\Http\Controllers\Api\V1\Admin\CategoriesApiController;
+use App\Http\Controllers\Api\V1\Admin\CountriesApiController;
+use App\Http\Controllers\Api\V1\Admin\DisabilityTypesApiController;
 use App\Http\Controllers\Api\V1\Admin\EligibilityTestsApiController;
 use App\Http\Controllers\Api\V1\Admin\EmploymentHistoryApiController;
 use App\Http\Controllers\Api\V1\Admin\ForeignVisitsApiController;
+use App\Http\Controllers\Api\V1\Admin\InstitutionsAttendedApiController;
+use App\Http\Controllers\Api\V1\Admin\MaritalStatusesApiController;
+use App\Http\Controllers\Api\V1\Admin\OtherDetailsApiController;
+use App\Http\Controllers\Api\V1\Admin\PhotosApiController;
+use App\Http\Controllers\Api\V1\Admin\PostTypesApiController;
+use App\Http\Controllers\Api\V1\Admin\PostalCodesApiController;
+use App\Http\Controllers\Api\V1\Admin\PostsApiController;
+use App\Http\Controllers\Api\V1\Admin\ProfilesApiController;
+use App\Http\Controllers\Api\V1\Admin\ProvincesApiController;
+use App\Http\Controllers\Api\V1\Admin\QualificationLevelsApiController;
 use App\Http\Controllers\Api\V1\Admin\RefereesApiController;
+use App\Http\Controllers\Api\V1\Admin\ReligionsApiController;
+use App\Http\Controllers\Api\V1\Admin\TraedApiController;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']], function () {
     // Advertisements
     Route::post('advertisements/media', [AdvertisementsApiController::class, 'storeMedia'])->name('advertisements.storeMedia');
     Route::apiResource('advertisements', AdvertisementsApiController::class);
 
-    // Posts
-    Route::apiResource('posts', PostsApiController::class);
+    // Advertisement Types
+    Route::apiResource('advertisement-types', AdvertisementTypesApiController::class);
 
-    // Profiles
-    Route::apiResource('profiles', ProfilesApiController::class);
+    // Post Types
+    Route::apiResource('post-types', PostTypesApiController::class);
+
+    // Posts
+    Route::post('posts/media', [PostsApiController::class, 'storeMedia'])->name('posts.storeMedia');
+    Route::apiResource('posts', PostsApiController::class);
 
     // Marital Statuses
     Route::apiResource('marital-statuses', MaritalStatusesApiController::class);
@@ -56,6 +66,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']
 
     // Postal Codes
     Route::apiResource('postal-codes', PostalCodesApiController::class);
+
+    // Profiles
+    Route::apiResource('profiles', ProfilesApiController::class);
 
     // Photos
     Route::post('photos/media', [PhotosApiController::class, 'storeMedia'])->name('photos.storeMedia');
@@ -85,4 +98,17 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']
 
     // Referees
     Route::apiResource('referees', RefereesApiController::class);
+
+    // Application Forms
+    Route::apiResource('application-forms', ApplicationFormsApiController::class);
+
+    // Institutions Attended
+    Route::apiResource('institutions-attendeds', InstitutionsAttendedApiController::class);
+
+    // Traed
+    Route::apiResource('traeds', TraedApiController::class);
+
+    // Other Details
+    Route::post('other-details/media', [OtherDetailsApiController::class, 'storeMedia'])->name('other-details.storeMedia');
+    Route::apiResource('other-details', OtherDetailsApiController::class);
 });

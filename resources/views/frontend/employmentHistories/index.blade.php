@@ -6,7 +6,7 @@
             @can('employment_history_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.employment-histories.create') }}">
+                        <a class="btn btn-success" href="{{ route('frontend.employment-histories.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.employmentHistory.title_singular') }}
                         </a>
                     </div>
@@ -18,99 +18,149 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-EmploymentHistory">
-                            <thead class="bg-gray-50 dark:bg-white/5">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover datatable datatable-EmploymentHistory">
+                            <thead>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.employmentHistory.fields.id') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.employer') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.type') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.designation') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.from') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.to') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.responsibilities') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.reason_for_leaving') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.pay_band') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.basic_pay') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.employmentHistory.fields.gross_pay') }}
-                                    </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.employmentHistory.fields.user') }}
                                     </th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.employer') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.type') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.designation') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.from') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.to') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.responsibilities') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.reason_for_leaving') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.pay_band') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.basic_pay') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.employmentHistory.fields.gross_pay') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach($users as $key => $item)
+                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <select class="search" strict="true">
+                                            <option value>{{ trans('global.all') }}</option>
+                                            @foreach(App\Models\EmploymentHistory::TYPE_SELECT as $key => $item)
+                                                <option value="{{ $item }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                                    </td>
+                                    <td>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($employmentHistories as $key => $employmentHistory)
                                     <tr data-entry-id="{{ $employmentHistory->id }}">
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $employmentHistory->id ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->employer ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ App\Models\EmploymentHistory::TYPE_SELECT[$employmentHistory->type] ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->designation ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->from ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->to ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->responsibilities ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->reason_for_leaving ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->pay_band ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->basic_pay ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                            {{ $employmentHistory->gross_pay ?? '' }}
-                                        </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
                                             {{ $employmentHistory->user->name ?? '' }}
                                         </td>
-                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                        <td>
+                                            {{ $employmentHistory->employer ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ App\Models\EmploymentHistory::TYPE_SELECT[$employmentHistory->type] ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->designation ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->from ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->to ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->responsibilities ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->reason_for_leaving ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->pay_band ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->basic_pay ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $employmentHistory->gross_pay ?? '' }}
+                                        </td>
+                                        <td>
                                             @can('employment_history_show')
-                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.employment-histories.show', $employmentHistory->id) }}">
+                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.employment-histories.show', $employmentHistory->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('employment_history_edit')
-                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.employment-histories.edit', $employmentHistory->id) }}">
+                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.employment-histories.edit', $employmentHistory->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -119,7 +169,7 @@
                                                 <form action="{{ route('frontend.employment-histories.destroy', $employmentHistory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -128,7 +178,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -177,12 +227,33 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-EmploymentHistory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-EmploymentHistory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>

@@ -10,74 +10,82 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="mb-4">
-                        <div class="mb-4">
-                            <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('frontend.referees.index') }}">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <a class="btn btn-default" href="{{ route('frontend.referees.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                        <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.referee.fields.id') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->id }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.referee.fields.user') }}
+                                    </th>
+                                    <td>
+                                        {{ $referee->user->name ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.referee.fields.name') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->name }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.referee.fields.designation') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->designation }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.referee.fields.mobile') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->mobile }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.referee.fields.email') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->email }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.referee.fields.address') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->address }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.referee.fields.period_known') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $referee->period_known }}
                                     </td>
                                 </tr>
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
-                        <div class="mb-4">
-                            <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('frontend.referees.index') }}">
+                        </table>
+                        <div class="form-group">
+                            <a class="btn btn-default" href="{{ route('frontend.referees.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>

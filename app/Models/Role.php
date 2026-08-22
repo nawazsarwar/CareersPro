@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    use SoftDeletes;
-    use HasFactory;
+    use SoftDeletes, HasFactory;
 
     public $table = 'roles';
 

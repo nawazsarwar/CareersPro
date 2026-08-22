@@ -3,42 +3,65 @@
 @can('photo_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.photos.create') }}">
+            <a class="btn btn-success" href="{{ route('admin.photos.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.photo.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
-    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
+<div class="card">
+    <div class="card-header">
         {{ trans('cruds.photo.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="p-6">
-        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-Photo\">
-            <thead class="bg-gray-50 dark:bg-white/5">
+    <div class="card-body">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Photo">
+            <thead>
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
                         {{ trans('cruds.photo.fields.id') }}
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.photo.fields.photograph') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.photo.fields.signature') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.photo.fields.thumb_impression') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
                         {{ trans('cruds.photo.fields.user') }}
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
+                        {{ trans('cruds.photo.fields.photograph') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.signature') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.photo.fields.thumb_impression') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($users as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -93,10 +116,10 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
+{ data: 'user_name', name: 'user.name' },
 { data: 'photograph', name: 'photograph', sortable: false, searchable: false },
 { data: 'signature', name: 'signature', sortable: false, searchable: false },
 { data: 'thumb_impression', name: 'thumb_impression', sortable: false, searchable: false },
-{ data: 'user_name', name: 'user.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -109,6 +132,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 });
 
 </script>

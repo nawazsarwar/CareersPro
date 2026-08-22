@@ -19,25 +19,25 @@ class CategoriesController extends Controller
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Category::query()->select(sprintf('%s.*', (new Category())->table));
+            $query = Category::query()->select(sprintf('%s.*', (new Category)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'category_show';
-                $editGate = 'category_edit';
-                $deleteGate = 'category_delete';
+                $viewGate      = 'category_show';
+                $editGate      = 'category_edit';
+                $deleteGate    = 'category_delete';
                 $crudRoutePart = 'categories';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -101,7 +101,11 @@ class CategoriesController extends Controller
 
     public function massDestroy(MassDestroyCategoryRequest $request)
     {
-        Category::whereIn('id', request('ids'))->delete();
+        $categories = Category::find(request('ids'));
+
+        foreach ($categories as $category) {
+            $category->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

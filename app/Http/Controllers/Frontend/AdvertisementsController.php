@@ -25,7 +25,11 @@ class AdvertisementsController extends Controller
 
         $advertisements = Advertisement::with(['type', 'added_by', 'approved_by', 'media'])->get();
 
-        return view('frontend.advertisements.index', compact('advertisements'));
+        $advertisement_types = AdvertisementType::get();
+
+        $users = User::get();
+
+        return view('frontend.advertisements.index', compact('advertisement_types', 'advertisements', 'users'));
     }
 
     public function create()
@@ -76,7 +80,7 @@ class AdvertisementsController extends Controller
         $advertisement->update($request->all());
 
         if ($request->input('document', false)) {
-            if (!$advertisement->document || $request->input('document') !== $advertisement->document->file_name) {
+            if (! $advertisement->document || $request->input('document') !== $advertisement->document->file_name) {
                 if ($advertisement->document) {
                     $advertisement->document->delete();
                 }
@@ -109,7 +113,11 @@ class AdvertisementsController extends Controller
 
     public function massDestroy(MassDestroyAdvertisementRequest $request)
     {
-        Advertisement::whereIn('id', request('ids'))->delete();
+        $advertisements = Advertisement::find(request('ids'));
+
+        foreach ($advertisements as $advertisement) {
+            $advertisement->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

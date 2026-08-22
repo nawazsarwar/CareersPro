@@ -19,25 +19,25 @@ class CountriesController extends Controller
         abort_if(Gate::denies('country_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Country::query()->select(sprintf('%s.*', (new Country())->table));
+            $query = Country::query()->select(sprintf('%s.*', (new Country)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'country_show';
-                $editGate = 'country_edit';
-                $deleteGate = 'country_delete';
+                $viewGate      = 'country_show';
+                $editGate      = 'country_edit';
+                $deleteGate    = 'country_delete';
                 $crudRoutePart = 'countries';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -104,7 +104,11 @@ class CountriesController extends Controller
 
     public function massDestroy(MassDestroyCountryRequest $request)
     {
-        Country::whereIn('id', request('ids'))->delete();
+        $countries = Country::find(request('ids'));
+
+        foreach ($countries as $country) {
+            $country->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

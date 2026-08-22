@@ -10,66 +10,82 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="mb-4">
-                        <div class="mb-4">
-                            <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('frontend.post-types.index') }}">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <a class="btn btn-default" href="{{ route('frontend.post-types.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                        <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.postType.fields.id') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $postType->id }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.postType.fields.name') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $postType->name }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.postType.fields.pdf_template') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $postType->pdf_template }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.postType.fields.admit_card_template') }}
+                                    </th>
+                                    <td>
+                                        {{ $postType->admit_card_template }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.postType.fields.interview_letter_template') }}
+                                    </th>
+                                    <td>
+                                        {{ $postType->interview_letter_template }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.postType.fields.submission_venue') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $postType->submission_venue }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.postType.fields.status') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $postType->status }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.postType.fields.remarks') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $postType->remarks }}
                                     </td>
                                 </tr>
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
-                        <div class="mb-4">
-                            <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('frontend.post-types.index') }}">
+                        </table>
+                        <div class="form-group">
+                            <a class="btn btn-default" href="{{ route('frontend.post-types.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>

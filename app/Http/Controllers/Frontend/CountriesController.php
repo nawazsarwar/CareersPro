@@ -68,7 +68,11 @@ class CountriesController extends Controller
 
     public function massDestroy(MassDestroyCountryRequest $request)
     {
-        Country::whereIn('id', request('ids'))->delete();
+        $countries = Country::find(request('ids'));
+
+        foreach ($countries as $country) {
+            $country->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

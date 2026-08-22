@@ -19,25 +19,25 @@ class QualificationLevelsController extends Controller
         abort_if(Gate::denies('qualification_level_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = QualificationLevel::query()->select(sprintf('%s.*', (new QualificationLevel())->table));
+            $query = QualificationLevel::query()->select(sprintf('%s.*', (new QualificationLevel)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'qualification_level_show';
-                $editGate = 'qualification_level_edit';
-                $deleteGate = 'qualification_level_delete';
+                $viewGate      = 'qualification_level_show';
+                $editGate      = 'qualification_level_edit';
+                $deleteGate    = 'qualification_level_delete';
                 $crudRoutePart = 'qualification-levels';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -110,7 +110,11 @@ class QualificationLevelsController extends Controller
 
     public function massDestroy(MassDestroyQualificationLevelRequest $request)
     {
-        QualificationLevel::whereIn('id', request('ids'))->delete();
+        $qualificationLevels = QualificationLevel::find(request('ids'));
+
+        foreach ($qualificationLevels as $qualificationLevel) {
+            $qualificationLevel->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

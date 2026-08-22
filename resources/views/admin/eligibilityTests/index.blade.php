@@ -3,45 +3,73 @@
 @can('eligibility_test_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.eligibility-tests.create') }}">
+            <a class="btn btn-success" href="{{ route('admin.eligibility-tests.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.eligibilityTest.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
-    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
+<div class="card">
+    <div class="card-header">
         {{ trans('cruds.eligibilityTest.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="p-6">
-        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-EligibilityTest\">
-            <thead class="bg-gray-50 dark:bg-white/5">
+    <div class="card-body">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-EligibilityTest">
+            <thead>
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
                         {{ trans('cruds.eligibilityTest.fields.id') }}
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.eligibilityTest.fields.name') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.eligibilityTest.fields.agency') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.eligibilityTest.fields.year') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {{ trans('cruds.eligibilityTest.fields.subject') }}
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
                         {{ trans('cruds.eligibilityTest.fields.user') }}
                     </th>
-                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    <th>
+                        {{ trans('cruds.eligibilityTest.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.eligibilityTest.fields.agency') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.eligibilityTest.fields.year') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.eligibilityTest.fields.subject') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($users as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -96,11 +124,11 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
+{ data: 'user_name', name: 'user.name' },
 { data: 'name', name: 'name' },
 { data: 'agency', name: 'agency' },
 { data: 'year', name: 'year' },
 { data: 'subject', name: 'subject' },
-{ data: 'user_name', name: 'user.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -113,6 +141,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 });
 
 </script>

@@ -10,66 +10,66 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="mb-4">
-                        <div class="mb-4">
-                            <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('frontend.foreign-visits.index') }}">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <a class="btn btn-default" href="{{ route('frontend.foreign-visits.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
-                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                        <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.foreignVisit.fields.id') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $foreignVisit->id }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
+                                        {{ trans('cruds.foreignVisit.fields.user') }}
+                                    </th>
+                                    <td>
+                                        {{ $foreignVisit->user->name ?? '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.foreignVisit.fields.country') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $foreignVisit->country->name ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.foreignVisit.fields.date') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $foreignVisit->date }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.foreignVisit.fields.duration') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $foreignVisit->duration }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                    <th>
                                         {{ trans('cruds.foreignVisit.fields.purpose') }}
                                     </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
+                                    <td>
                                         {{ $foreignVisit->purpose }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        {{ trans('cruds.foreignVisit.fields.user') }}
-                                    </th>
-                                    <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
-                                        {{ $foreignVisit->user->name ?? '' }}
-                                    </td>
-                                </tr>
                             </tbody>
-                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
-                        <div class="mb-4">
-                            <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('frontend.foreign-visits.index') }}">
+                        </table>
+                        <div class="form-group">
+                            <a class="btn btn-default" href="{{ route('frontend.foreign-visits.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>

@@ -18,8 +18,7 @@ class UpdateAdvertisementTypeRequest extends FormRequest
     {
         return [
             'title' => [
-                'string',
-                'nullable',
+                'required',
             ],
         ];
     }

@@ -8,4 +8,5 @@ return [
         'en' => 'English',
     ],
     'registration_default_role' => '2',
+
 ];

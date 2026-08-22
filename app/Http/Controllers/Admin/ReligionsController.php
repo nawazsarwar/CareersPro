@@ -19,25 +19,25 @@ class ReligionsController extends Controller
         abort_if(Gate::denies('religion_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Religion::query()->select(sprintf('%s.*', (new Religion())->table));
+            $query = Religion::query()->select(sprintf('%s.*', (new Religion)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'religion_show';
-                $editGate = 'religion_edit';
-                $deleteGate = 'religion_delete';
+                $viewGate      = 'religion_show';
+                $editGate      = 'religion_edit';
+                $deleteGate    = 'religion_delete';
                 $crudRoutePart = 'religions';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -101,7 +101,11 @@ class ReligionsController extends Controller
 
     public function massDestroy(MassDestroyReligionRequest $request)
     {
-        Religion::whereIn('id', request('ids'))->delete();
+        $religions = Religion::find(request('ids'));
+
+        foreach ($religions as $religion) {
+            $religion->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

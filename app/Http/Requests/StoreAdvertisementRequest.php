@@ -37,25 +37,25 @@ class StoreAdvertisementRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'default_open_date' => [
+            'default_opening_date' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
-            'default_end_date' => [
+            'default_closing_date' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
-            'default_payment_end_date' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'approved_at' => [
+            'default_payment_closing_date' => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
                 'nullable',
             ],
             'status' => [
                 'string',
                 'required',
+            ],
+            'approved_at' => [
+                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'nullable',
             ],
         ];
     }

@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use App\Traits\Auditable;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Referee extends Model
 {
-    use SoftDeletes;
-    use Auditable;
-    use HasFactory;
+    use SoftDeletes, Auditable, HasFactory;
 
     public $table = 'referees';
 
@@ -23,6 +21,7 @@ class Referee extends Model
     ];
 
     protected $fillable = [
+        'user_id',
         'name',
         'designation',
         'mobile',
@@ -33,6 +32,11 @@ class Referee extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     protected function serializeDate(DateTimeInterface $date): string
     {

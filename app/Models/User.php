@@ -15,9 +15,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use SoftDeletes;
-    use Notifiable;
-    use HasFactory;
+    use SoftDeletes, Notifiable, HasFactory;
 
     public $table = 'users';
 
@@ -65,8 +63,6 @@ class User extends Authenticatable
         return $this->roles()->where('id', 1)->exists();
     }
 
-
-
     public function setPasswordAttribute(?string $input): void
     {
         if ($input) {
@@ -78,8 +74,6 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPassword($token));
     }
-
-
 
     public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
