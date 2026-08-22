@@ -3,31 +3,31 @@
 @can('board_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.boards.create') }}">
+            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.boards.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.board.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.board.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Board">
-            <thead>
+    <div class="p-6">
+        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-Board\">
+            <thead class="bg-gray-50 dark:bg-white/5">
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.board.fields.id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.board.fields.name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         &nbsp;
                     </th>
                 </tr>

@@ -6,7 +6,7 @@
             @can('country_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.countries.create') }}">
+                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.countries.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.country.title_singular') }}
                         </a>
                     </div>
@@ -18,20 +18,20 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Country">
-                            <thead>
+                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
+                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Country">
+                            <thead class="bg-gray-50 dark:bg-white/5">
                                 <tr>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.country.fields.id') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.country.fields.name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.country.fields.short_code') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -39,24 +39,24 @@
                             <tbody>
                                 @foreach($countries as $key => $country)
                                     <tr data-entry-id="{{ $country->id }}">
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $country->id ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $country->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $country->short_code ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @can('country_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.countries.show', $country->id) }}">
+                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.countries.show', $country->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('country_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.countries.edit', $country->id) }}">
+                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.countries.edit', $country->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -65,7 +65,7 @@
                                                 <form action="{{ route('frontend.countries.destroy', $country->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -74,7 +74,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-Country:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Country:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

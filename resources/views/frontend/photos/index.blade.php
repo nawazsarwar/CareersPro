@@ -6,7 +6,7 @@
             @can('photo_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.photos.create') }}">
+                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.photos.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.photo.title_singular') }}
                         </a>
                     </div>
@@ -18,26 +18,26 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Photo">
-                            <thead>
+                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
+                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Photo">
+                            <thead class="bg-gray-50 dark:bg-white/5">
                                 <tr>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.photo.fields.id') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.photo.fields.photograph') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.photo.fields.signature') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.photo.fields.thumb_impression') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.photo.fields.user') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -45,42 +45,42 @@
                             <tbody>
                                 @foreach($photos as $key => $photo)
                                     <tr data-entry-id="{{ $photo->id }}">
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $photo->id ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @if($photo->photograph)
                                                 <a href="{{ $photo->photograph->getUrl() }}" target="_blank" style="display: inline-block">
                                                     <img src="{{ $photo->photograph->getUrl('thumb') }}">
                                                 </a>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @if($photo->signature)
                                                 <a href="{{ $photo->signature->getUrl() }}" target="_blank" style="display: inline-block">
                                                     <img src="{{ $photo->signature->getUrl('thumb') }}">
                                                 </a>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @if($photo->thumb_impression)
                                                 <a href="{{ $photo->thumb_impression->getUrl() }}" target="_blank" style="display: inline-block">
                                                     <img src="{{ $photo->thumb_impression->getUrl('thumb') }}">
                                                 </a>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $photo->user->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @can('photo_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.photos.show', $photo->id) }}">
+                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.photos.show', $photo->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('photo_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.photos.edit', $photo->id) }}">
+                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.photos.edit', $photo->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -89,7 +89,7 @@
                                                 <form action="{{ route('frontend.photos.destroy', $photo->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -98,7 +98,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-Photo:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Photo:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

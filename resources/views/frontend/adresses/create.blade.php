@@ -13,9 +13,9 @@
                     <form method="POST" action="{{ route("frontend.adresses.store") }}" enctype="multipart/form-data">
                         @method('POST')
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required">{{ trans('cruds.adress.fields.type') }}</label>
-                            <select class="form-control" name="type" id="type" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" name="type" id="type" required>
                                 <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                                 @foreach(App\Models\Adress::TYPE_SELECT as $key => $label)
                                     <option value="{{ $key }}" {{ old('type', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
@@ -26,61 +26,61 @@
                                     {{ $errors->first('type') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.type_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.type_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="house_no">{{ trans('cruds.adress.fields.house_no') }}</label>
-                            <input class="form-control" type="text" name="house_no" id="house_no" value="{{ old('house_no', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="house_no" id="house_no" value="{{ old('house_no', '') }}" required>
                             @if($errors->has('house_no'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('house_no') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.house_no_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.house_no_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="street">{{ trans('cruds.adress.fields.street') }}</label>
-                            <input class="form-control" type="text" name="street" id="street" value="{{ old('street', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="street" id="street" value="{{ old('street', '') }}" required>
                             @if($errors->has('street'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('street') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.street_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.street_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="landmark">{{ trans('cruds.adress.fields.landmark') }}</label>
-                            <input class="form-control" type="text" name="landmark" id="landmark" value="{{ old('landmark', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="landmark" id="landmark" value="{{ old('landmark', '') }}" required>
                             @if($errors->has('landmark'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('landmark') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.landmark_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.landmark_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="locality">{{ trans('cruds.adress.fields.locality') }}</label>
-                            <input class="form-control" type="text" name="locality" id="locality" value="{{ old('locality', '') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="locality" id="locality" value="{{ old('locality', '') }}">
                             @if($errors->has('locality'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('locality') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.locality_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.locality_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="city">{{ trans('cruds.adress.fields.city') }}</label>
-                            <input class="form-control" type="text" name="city" id="city" value="{{ old('city', '') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="city" id="city" value="{{ old('city', '') }}">
                             @if($errors->has('city'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('city') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.city_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.city_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="postal_code_id">{{ trans('cruds.adress.fields.postal_code') }}</label>
-                            <select class="form-control select2" name="postal_code_id" id="postal_code_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="postal_code_id" id="postal_code_id" required>
                                 @foreach($postal_codes as $id => $entry)
                                     <option value="{{ $id }}" {{ old('postal_code_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -90,21 +90,21 @@
                                     {{ $errors->first('postal_code') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.postal_code_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.postal_code_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="district">{{ trans('cruds.adress.fields.district') }}</label>
-                            <input class="form-control" type="text" name="district" id="district" value="{{ old('district', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="district" id="district" value="{{ old('district', '') }}" required>
                             @if($errors->has('district'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('district') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.district_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.district_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="province_id">{{ trans('cruds.adress.fields.province') }}</label>
-                            <select class="form-control select2" name="province_id" id="province_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="province_id" id="province_id" required>
                                 @foreach($provinces as $id => $entry)
                                     <option value="{{ $id }}" {{ old('province_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -114,11 +114,11 @@
                                     {{ $errors->first('province') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.province_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.province_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="country_id">{{ trans('cruds.adress.fields.country') }}</label>
-                            <select class="form-control select2" name="country_id" id="country_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="country_id" id="country_id" required>
                                 @foreach($countries as $id => $entry)
                                     <option value="{{ $id }}" {{ old('country_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -128,31 +128,31 @@
                                     {{ $errors->first('country') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.country_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.country_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="status">{{ trans('cruds.adress.fields.status') }}</label>
-                            <input class="form-control" type="number" name="status" id="status" value="{{ old('status', '1') }}" step="1" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="number" name="status" id="status" value="{{ old('status', '1') }}" step="1" required>
                             @if($errors->has('status'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('status') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.status_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.status_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="remarks">{{ trans('cruds.adress.fields.remarks') }}</label>
-                            <textarea class="form-control" name="remarks" id="remarks">{{ old('remarks') }}</textarea>
+                            <textarea class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" name="remarks" id="remarks">{{ old('remarks') }}</textarea>
                             @if($errors->has('remarks'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('remarks') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.remarks_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.remarks_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="user_id">{{ trans('cruds.adress.fields.user') }}</label>
-                            <select class="form-control select2" name="user_id" id="user_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="user_id" id="user_id" required>
                                 @foreach($users as $id => $entry)
                                     <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -162,10 +162,10 @@
                                     {{ $errors->first('user') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.adress.fields.user_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.adress.fields.user_helper') }}</span>
                         </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                        <div class="mb-4">
+                            <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>

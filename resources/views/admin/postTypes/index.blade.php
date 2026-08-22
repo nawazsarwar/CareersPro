@@ -3,44 +3,44 @@
 @can('post_type_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.post-types.create') }}">
+            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.post-types.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.postType.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.postType.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-PostType">
-                <thead>
+    <div class="p-6">
+        <div class="w-full text-left text-sm text-gray-500 overflow-x-auto">
+            <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-PostType\">
+                <thead class="bg-gray-50 dark:bg-white/5">
                     <tr>
                         <th width="10">
 
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.postType.fields.id') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.postType.fields.name') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.postType.fields.pdf_template') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.postType.fields.submission_venue') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.postType.fields.status') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.postType.fields.remarks') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             &nbsp;
                         </th>
                     </tr>
@@ -48,36 +48,36 @@
                 <tbody>
                     @foreach($postTypes as $key => $postType)
                         <tr data-entry-id="{{ $postType->id }}">
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
 
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $postType->id ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $postType->name ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $postType->pdf_template ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $postType->submission_venue ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $postType->status ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $postType->remarks ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 @can('post_type_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.post-types.show', $postType->id) }}">
+                                    <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('admin.post-types.show', $postType->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
                                 @can('post_type_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.post-types.edit', $postType->id) }}">
+                                    <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('admin.post-types.edit', $postType->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
@@ -86,7 +86,7 @@
                                     <form action="{{ route('admin.post-types.destroy', $postType->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
 

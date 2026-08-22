@@ -13,43 +13,43 @@
                     <form method="POST" action="{{ route("frontend.users.update", [$user->id]) }}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
-                            <input class="form-control" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
                             @if($errors->has('name'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('name') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.user.fields.name_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
-                            <input class="form-control" type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required>
                             @if($errors->has('email'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('email') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.email_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.user.fields.email_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="password">{{ trans('cruds.user.fields.password') }}</label>
-                            <input class="form-control" type="password" name="password" id="password">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="password" name="password" id="password">
                             @if($errors->has('password'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('password') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.user.fields.password_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
                             <div style="padding-bottom: 4px">
-                                <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                                <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                                <span class="inline-flex rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-600 btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                                <span class="inline-flex rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-600 btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                             </div>
-                            <select class="form-control select2" name="roles[]" id="roles" multiple required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="roles[]" id="roles" multiple required>
                                 @foreach($roles as $id => $role)
                                     <option value="{{ $id }}" {{ (in_array($id, old('roles', [])) || $user->roles->contains($id)) ? 'selected' : '' }}>{{ $role }}</option>
                                 @endforeach
@@ -59,10 +59,10 @@
                                     {{ $errors->first('roles') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.roles_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.user.fields.roles_helper') }}</span>
                         </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                        <div class="mb-4">
+                            <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>

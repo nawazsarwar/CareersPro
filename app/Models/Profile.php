@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
+use DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -60,12 +60,12 @@ class Profile extends Model
         'alternate_mobile',
     ];
 
-    protected $dates = [
-        'dob',
-        'mobile_verified_at',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    protected $casts = [
+        'dob' => 'datetime',
+        'mobile_verified_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     protected $fillable = [
@@ -186,7 +186,7 @@ class Profile extends Model
         return $this->belongsTo(PostalCode::class, 'domicile_district_id');
     }
 
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }

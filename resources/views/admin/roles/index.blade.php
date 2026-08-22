@@ -3,35 +3,35 @@
 @can('role_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.roles.create') }}">
+            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.roles.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.role.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.role.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
-                <thead>
+    <div class="p-6">
+        <div class="w-full text-left text-sm text-gray-500 overflow-x-auto">
+            <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Role\">
+                <thead class="bg-gray-50 dark:bg-white/5">
                     <tr>
                         <th width="10">
 
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.role.fields.id') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.role.fields.title') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.role.fields.permissions') }}
                         </th>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             &nbsp;
                         </th>
                     </tr>
@@ -39,29 +39,29 @@
                 <tbody>
                     @foreach($roles as $key => $role)
                         <tr data-entry-id="{{ $role->id }}">
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
 
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $role->id ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 {{ $role->title ?? '' }}
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 @foreach($role->permissions as $key => $item)
                                     <span class="badge badge-info">{{ $item->title }}</span>
                                 @endforeach
                             </td>
-                            <td>
+                            <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                 @can('role_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
+                                    <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('admin.roles.show', $role->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
                                 @can('role_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.roles.edit', $role->id) }}">
+                                    <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('admin.roles.edit', $role->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
@@ -70,7 +70,7 @@
                                     <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
 

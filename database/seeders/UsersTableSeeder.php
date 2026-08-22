@@ -13,8 +13,8 @@ class UsersTableSeeder extends Seeder
             [
                 'id'                 => 1,
                 'name'               => 'Admin',
-                'email'              => 'admin@admin.com',
-                'password'           => bcrypt('password'),
+                'email'              => 'sampark.nawaz@gmail.com',
+                'password'           => bcrypt('Zaq!@#45'),
                 'remember_token'     => null,
                 'verified'           => 1,
                 'verified_at'        => '2023-01-31 19:18:03',

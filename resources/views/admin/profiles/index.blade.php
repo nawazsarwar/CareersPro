@@ -3,139 +3,139 @@
 @can('profile_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.profiles.create') }}">
+            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.profiles.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.profile.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.profile.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Profile">
-            <thead>
+    <div class="p-6">
+        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-Profile\">
+            <thead class="bg-gray-50 dark:bg-white/5">
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.user') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.first_name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.middle_name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.last_name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.spouse_name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.marital_status') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.fathers_name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.mothers_name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.dob') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.gender') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.mobile') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.mobile_verified_at') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.alternate_mobile') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.pwd') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.disability_type') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.disability_percent') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.aadhaar_no') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.religion') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.category') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.caste') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.sub_caste') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.nationality') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.place_of_birth') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.district_of_birth') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.state_of_birth') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.domicile_state') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.domicile_district') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.identity_marks') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.remarks') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.verified') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.locked') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.conviction') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.conviction_reason') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.debarred') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.debarred_reason') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.vigilance') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.profile.fields.vigilance_reason') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         &nbsp;
                     </th>
                 </tr>

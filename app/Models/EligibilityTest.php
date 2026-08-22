@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
+use DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,11 +21,11 @@ class EligibilityTest extends Model
 
     public $table = 'eligibility_tests';
 
-    protected $dates = [
-        'year',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    protected $casts = [
+        'year' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     protected $fillable = [
@@ -54,7 +54,7 @@ class EligibilityTest extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }

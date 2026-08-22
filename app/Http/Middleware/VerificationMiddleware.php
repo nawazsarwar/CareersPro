@@ -2,16 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Role;
 use Closure;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class VerificationMiddleware
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check()) {
-            if (!auth()->user()->verified) {
+            if (! auth()->user()->verified) {
                 auth()->logout();
 
                 return redirect()->route('login')->with('message', trans('global.verifyYourEmail'));

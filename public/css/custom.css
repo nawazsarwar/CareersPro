@@ -103,3 +103,80 @@ div.dt-button-collection {
     background-color: rgba(128, 128, 128, 0.1);
     font-weight: bolder;
 }
+
+
+/* Added by Nawaz Sarwar */
+.bg-gradient-success {
+    background: #28a745 linear-gradient(180deg,#48b461,#28a745) repeat-x!important;
+    color: #fff;
+}
+
+.bg-gradient-primary {
+    background: #007bff linear-gradient(180deg,#268fff,#007bff) repeat-x!important;
+    color: #fff;
+}
+
+.bg-gradient-info {
+    background: #17a2b8 linear-gradient(180deg,#3ab0c3,#17a2b8) repeat-x!important;
+    color: #fff;
+}
+
+.sidebar-dark-primary {
+    background-color: #063!important;
+}
+
+[class*=sidebar-dark] .brand-link {
+    color: rgba(255,255,255,.8);
+    border-bottom: 1px solid #063;
+}
+
+.nav-sidebar .nav-item>.nav-link {
+    color: white;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
+    color: #fff;
+    background-color: darkred;
+}
+
+.brand-text {
+    color: white;
+}
+
+.nav-link {
+    padding: 0.5rem 0.2rem;
+}
+
+.nav-sidebar .nav-link>p>.right {
+    right: 0.3rem;
+}
+
+
+
+
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+body::-webkit-scrollbar {
+    background-color: #fff;
+    width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+body::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+/* scrollbar itself */
+body::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 4px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+body::-webkit-scrollbar-button {
+    display:none;
+}

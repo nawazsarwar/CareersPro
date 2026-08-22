@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \DateTimeInterface;
+use DateTimeInterface;
 use App\Traits\Auditable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,13 +17,13 @@ class Post extends Model
 
     public $table = 'posts';
 
-    protected $dates = [
-        'open_date',
-        'last_date',
-        'payment_last_date',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    protected $casts = [
+        'open_date' => 'datetime',
+        'last_date' => 'datetime',
+        'payment_last_date' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     protected $fillable = [
@@ -95,7 +95,7 @@ class Post extends Model
         return $this->belongsTo(User::class, 'added_by_id');
     }
 
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }

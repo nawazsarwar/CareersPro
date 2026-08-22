@@ -3,67 +3,67 @@
 @can('adress_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.adresses.create') }}">
+            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.adresses.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.adress.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.adress.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Adress">
-            <thead>
+    <div class="p-6">
+        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-Adress\">
+            <thead class="bg-gray-50 dark:bg-white/5">
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.type') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.house_no') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.street') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.landmark') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.locality') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.city') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.postal_code') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.district') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.province') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.country') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.status') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.remarks') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.adress.fields.user') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         &nbsp;
                     </th>
                 </tr>

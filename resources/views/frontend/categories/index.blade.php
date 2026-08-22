@@ -6,7 +6,7 @@
             @can('category_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.categories.create') }}">
+                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.categories.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.category.title_singular') }}
                         </a>
                     </div>
@@ -18,17 +18,17 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Category">
-                            <thead>
+                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
+                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Category">
+                            <thead class="bg-gray-50 dark:bg-white/5">
                                 <tr>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.category.fields.id') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.category.fields.name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -36,21 +36,21 @@
                             <tbody>
                                 @foreach($categories as $key => $category)
                                     <tr data-entry-id="{{ $category->id }}">
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $category->id ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $category->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @can('category_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.categories.show', $category->id) }}">
+                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.categories.show', $category->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('category_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.categories.edit', $category->id) }}">
+                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.categories.edit', $category->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -59,7 +59,7 @@
                                                 <form action="{{ route('frontend.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -68,7 +68,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-Category:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Category:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

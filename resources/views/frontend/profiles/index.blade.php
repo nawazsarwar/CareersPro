@@ -6,7 +6,7 @@
             @can('profile_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.profiles.create') }}">
+                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.profiles.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.profile.title_singular') }}
                         </a>
                     </div>
@@ -18,125 +18,125 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Profile">
-                            <thead>
+                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
+                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-Profile">
+                            <thead class="bg-gray-50 dark:bg-white/5">
                                 <tr>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.id') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.user') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.first_name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.middle_name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.last_name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.spouse_name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.marital_status') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.fathers_name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.mothers_name') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.dob') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.gender') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.mobile') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.mobile_verified_at') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.alternate_mobile') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.pwd') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.disability_type') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.disability_percent') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.aadhaar_no') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.religion') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.category') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.caste') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.sub_caste') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.nationality') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.place_of_birth') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.district_of_birth') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.state_of_birth') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.domicile_state') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.domicile_district') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.identity_marks') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.remarks') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.verified') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.locked') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.conviction') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.conviction_reason') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.debarred') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.debarred_reason') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.vigilance') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.profile.fields.vigilance_reason') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -144,129 +144,129 @@
                             <tbody>
                                 @foreach($profiles as $key => $profile)
                                     <tr data-entry-id="{{ $profile->id }}">
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->id ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->user->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->first_name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->middle_name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->last_name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->spouse_name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->marital_status->title ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->fathers_name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->mothers_name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->dob ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\Profile::GENDER_SELECT[$profile->gender] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->mobile ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->mobile_verified_at ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->alternate_mobile ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\Profile::PWD_SELECT[$profile->pwd] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->disability_type->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->disability_percent ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->aadhaar_no ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->religion->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->category->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->caste->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->sub_caste ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->nationality->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\Profile::PLACE_OF_BIRTH_SELECT[$profile->place_of_birth] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->district_of_birth->district ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->state_of_birth->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->domicile_state->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->domicile_district->district ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->identity_marks ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->remarks ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->verified ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->locked ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\Profile::CONVICTION_RADIO[$profile->conviction] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->conviction_reason ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\Profile::DEBARRED_RADIO[$profile->debarred] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->debarred_reason ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\Profile::VIGILANCE_RADIO[$profile->vigilance] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $profile->vigilance_reason ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @can('profile_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.profiles.show', $profile->id) }}">
+                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.profiles.show', $profile->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('profile_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.profiles.edit', $profile->id) }}">
+                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.profiles.edit', $profile->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -275,7 +275,7 @@
                                                 <form action="{{ route('frontend.profiles.destroy', $profile->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -284,7 +284,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
                     </div>
                 </div>
             </div>
@@ -333,7 +333,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-Profile:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-Profile:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

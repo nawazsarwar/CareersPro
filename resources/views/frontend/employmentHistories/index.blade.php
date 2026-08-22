@@ -6,7 +6,7 @@
             @can('employment_history_create')
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.employment-histories.create') }}">
+                        <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('frontend.employment-histories.create') }}">
                             {{ trans('global.add') }} {{ trans('cruds.employmentHistory.title_singular') }}
                         </a>
                     </div>
@@ -18,47 +18,47 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-EmploymentHistory">
-                            <thead>
+                    <div class="w-full text-left text-sm text-gray-500 dark:text-gray-400-responsive">
+                        <w-full text-left text-sm text-gray-500 dark:text-gray-400 class=" w-full text-left text-sm text-gray-500 dark:text-gray-400 datatable datatable-EmploymentHistory">
+                            <thead class="bg-gray-50 dark:bg-white/5">
                                 <tr>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.id') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.employer') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.type') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.designation') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.from') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.to') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.responsibilities') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.reason_for_leaving') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.pay_band') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.basic_pay') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.gross_pay') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         {{ trans('cruds.employmentHistory.fields.user') }}
                                     </th>
-                                    <th>
+                                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -66,51 +66,51 @@
                             <tbody>
                                 @foreach($employmentHistories as $key => $employmentHistory)
                                     <tr data-entry-id="{{ $employmentHistory->id }}">
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->id ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->employer ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ App\Models\EmploymentHistory::TYPE_SELECT[$employmentHistory->type] ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->designation ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->from ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->to ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->responsibilities ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->reason_for_leaving ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->pay_band ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->basic_pay ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->gross_pay ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             {{ $employmentHistory->user->name ?? '' }}
                                         </td>
-                                        <td>
+                                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                                             @can('employment_history_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.employment-histories.show', $employmentHistory->id) }}">
+                                                <a class="inline-flex rounded bg-brand-500 px-2 py-1 text-xs font-medium text-white hover:bg-brand-600" href="{{ route('frontend.employment-histories.show', $employmentHistory->id) }}">
                                                     {{ trans('global.view') }}
                                                 </a>
                                             @endcan
 
                                             @can('employment_history_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.employment-histories.edit', $employmentHistory->id) }}">
+                                                <a class="inline-flex rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white hover:bg-blue-600" href="{{ route('frontend.employment-histories.edit', $employmentHistory->id) }}">
                                                     {{ trans('global.edit') }}
                                                 </a>
                                             @endcan
@@ -119,7 +119,7 @@
                                                 <form action="{{ route('frontend.employment-histories.destroy', $employmentHistory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    <input type="submit" class="inline-flex rounded bg-error-500 px-2 py-1 text-xs font-medium text-white hover:bg-error-600" value="{{ trans('global.delete') }}">
                                                 </form>
                                             @endcan
 
@@ -128,7 +128,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </w-full text-left text-sm text-gray-500 dark:text-gray-400>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  let table = $('.datatable-EmploymentHistory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let w-full text-left text-sm text-gray-500 dark:text-gray-400 = $('.datatable-EmploymentHistory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

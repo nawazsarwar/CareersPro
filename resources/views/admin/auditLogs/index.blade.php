@@ -1,40 +1,40 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.auditLog.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-AuditLog">
-            <thead>
+    <div class="p-6">
+        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-AuditLog\">
+            <thead class="bg-gray-50 dark:bg-white/5">
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.description') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.subject_id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.subject_type') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.user_id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.host') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.auditLog.fields.created_at') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         &nbsp;
                     </th>
                 </tr>

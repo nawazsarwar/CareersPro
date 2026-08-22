@@ -39,12 +39,6 @@ return [
             'driver'   => 'session',
             'provider' => 'users',
         ],
-
-        'api' => [
-            'driver'   => 'token',
-            'provider' => 'users',
-            'hash'     => false,
-        ],
     ],
 
     /*
@@ -94,8 +88,11 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table'    => 'password_resets',
+            'table'    => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire'   => 60,
+            'throttle' => 60,
         ],
     ],
+
+    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 ];

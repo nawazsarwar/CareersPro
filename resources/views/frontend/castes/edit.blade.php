@@ -13,18 +13,18 @@
                     <form method="POST" action="{{ route("frontend.castes.update", [$caste->id]) }}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="name">{{ trans('cruds.caste.fields.name') }}</label>
-                            <input class="form-control" type="text" name="name" id="name" value="{{ old('name', $caste->name) }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="name" id="name" value="{{ old('name', $caste->name) }}" required>
                             @if($errors->has('name'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('name') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.caste.fields.name_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.caste.fields.name_helper') }}</span>
                         </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                        <div class="mb-4">
+                            <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>

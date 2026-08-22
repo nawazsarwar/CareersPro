@@ -3,64 +3,64 @@
 @can('province_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.provinces.create') }}">
+            <a class="inline-flex rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-600" href="{{ route('admin.provinces.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.province.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('cruds.province.title_singular') }} {{ trans('global.list') }}
     </div>
 
-    <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Province">
-            <thead>
+    <div class="p-6">
+        <table class=\" w-full text-left text-sm text-gray-500 dark:text-gray-400 ajaxTable datatable datatable-Province\">
+            <thead class="bg-gray-50 dark:bg-white/5">
                 <tr>
                     <th width="10">
 
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.id') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.type') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.name') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.iso_3166_2_in') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.vehicle_code') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.zone') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.capital') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.largest_city') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.statehood') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.population') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.area') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.official_languages') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         {{ trans('cruds.province.fields.additional_official_languages') }}
                     </th>
-                    <th>
+                    <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                         &nbsp;
                     </th>
                 </tr>

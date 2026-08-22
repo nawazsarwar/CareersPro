@@ -1,56 +1,56 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
+<div class="rounded-2xl border border-gray-200 bg-white shadow-theme-sm dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden">
+    <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-800 font-bold text-gray-800 dark:text-white">
         {{ trans('global.show') }} {{ trans('cruds.faqQuestion.title') }}
     </div>
 
-    <div class="card-body">
-        <div class="form-group">
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.faq-questions.index') }}">
+    <div class="p-6">
+        <div class="mb-4">
+            <div class="mb-4">
+                <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('admin.faq-questions.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
-            <table class="table table-bordered table-striped">
+            <table class=\"w-full text-left text-sm text-gray-500 dark:text-gray-400\">
                 <tbody>
                     <tr>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.faqQuestion.fields.id') }}
                         </th>
-                        <td>
+                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                             {{ $faqQuestion->id }}
                         </td>
                     </tr>
                     <tr>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.faqQuestion.fields.category') }}
                         </th>
-                        <td>
+                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                             {{ $faqQuestion->category->category ?? '' }}
                         </td>
                     </tr>
                     <tr>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.faqQuestion.fields.question') }}
                         </th>
-                        <td>
+                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                             {{ $faqQuestion->question }}
                         </td>
                     </tr>
                     <tr>
-                        <th>
+                        <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                             {{ trans('cruds.faqQuestion.fields.answer') }}
                         </th>
-                        <td>
+                        <td class="border-b border-gray-200 px-5 py-4 text-sm text-gray-700 dark:border-gray-800 dark:text-gray-300">
                             {{ $faqQuestion->answer }}
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.faq-questions.index') }}">
+            <div class="mb-4">
+                <a class="inline-flex rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800" href="{{ route('admin.faq-questions.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

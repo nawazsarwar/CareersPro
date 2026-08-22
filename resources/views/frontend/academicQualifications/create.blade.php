@@ -13,9 +13,9 @@
                     <form method="POST" action="{{ route("frontend.academic-qualifications.store") }}" enctype="multipart/form-data">
                         @method('POST')
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="name_id">{{ trans('cruds.academicQualification.fields.name') }}</label>
-                            <select class="form-control select2" name="name_id" id="name_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="name_id" id="name_id" required>
                                 @foreach($names as $id => $entry)
                                     <option value="{{ $id }}" {{ old('name_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -25,21 +25,21 @@
                                     {{ $errors->first('name') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.name_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.name_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="course">{{ trans('cruds.academicQualification.fields.course') }}</label>
-                            <input class="form-control" type="text" name="course" id="course" value="{{ old('course', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="course" id="course" value="{{ old('course', '') }}" required>
                             @if($errors->has('course'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('course') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.course_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.course_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="board_id">{{ trans('cruds.academicQualification.fields.board') }}</label>
-                            <select class="form-control select2" name="board_id" id="board_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="board_id" id="board_id" required>
                                 @foreach($boards as $id => $entry)
                                     <option value="{{ $id }}" {{ old('board_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -49,21 +49,21 @@
                                     {{ $errors->first('board') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.board_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.board_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="year">{{ trans('cruds.academicQualification.fields.year') }}</label>
-                            <input class="form-control date" type="text" name="year" id="year" value="{{ old('year') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 date" type="text" name="year" id="year" value="{{ old('year') }}" required>
                             @if($errors->has('year'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('year') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.year_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.year_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required">{{ trans('cruds.academicQualification.fields.division') }}</label>
-                            <select class="form-control" name="division" id="division" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" name="division" id="division" required>
                                 <option value disabled {{ old('division', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                                 @foreach(App\Models\AcademicQualification::DIVISION_SELECT as $key => $label)
                                     <option value="{{ $key }}" {{ old('division', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
@@ -74,59 +74,59 @@
                                     {{ $errors->first('division') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.division_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.division_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="percentage">{{ trans('cruds.academicQualification.fields.percentage') }}</label>
-                            <input class="form-control" type="number" name="percentage" id="percentage" value="{{ old('percentage', '') }}" step="0.01" max="100">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="number" name="percentage" id="percentage" value="{{ old('percentage', '') }}" step="0.01" max="100">
                             @if($errors->has('percentage'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('percentage') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.percentage_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.percentage_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="cgpa">{{ trans('cruds.academicQualification.fields.cgpa') }}</label>
-                            <input class="form-control" type="number" name="cgpa" id="cgpa" value="{{ old('cgpa', '') }}" step="0.01" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="number" name="cgpa" id="cgpa" value="{{ old('cgpa', '') }}" step="0.01" required>
                             @if($errors->has('cgpa'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('cgpa') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.cgpa_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.cgpa_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="subjects">{{ trans('cruds.academicQualification.fields.subjects') }}</label>
-                            <input class="form-control" type="text" name="subjects" id="subjects" value="{{ old('subjects', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="subjects" id="subjects" value="{{ old('subjects', '') }}" required>
                             @if($errors->has('subjects'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('subjects') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.subjects_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.subjects_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="title">{{ trans('cruds.academicQualification.fields.title') }}</label>
-                            <input class="form-control" type="text" name="title" id="title" value="{{ old('title', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="title" id="title" value="{{ old('title', '') }}" required>
                             @if($errors->has('title'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('title') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.title_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.title_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="remarks">{{ trans('cruds.academicQualification.fields.remarks') }}</label>
-                            <input class="form-control" type="text" name="remarks" id="remarks" value="{{ old('remarks', '') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="remarks" id="remarks" value="{{ old('remarks', '') }}">
                             @if($errors->has('remarks'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('remarks') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.remarks_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.remarks_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="document">{{ trans('cruds.academicQualification.fields.document') }}</label>
                             <div class="needsclick dropzone" id="document-dropzone">
                             </div>
@@ -135,11 +135,11 @@
                                     {{ $errors->first('document') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.document_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.document_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="user_id">{{ trans('cruds.academicQualification.fields.user') }}</label>
-                            <select class="form-control select2" name="user_id" id="user_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="user_id" id="user_id" required>
                                 @foreach($users as $id => $entry)
                                     <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -149,10 +149,10 @@
                                     {{ $errors->first('user') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.academicQualification.fields.user_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.academicQualification.fields.user_helper') }}</span>
                         </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                        <div class="mb-4">
+                            <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>

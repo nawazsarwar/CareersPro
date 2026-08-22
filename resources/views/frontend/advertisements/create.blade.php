@@ -13,49 +13,49 @@
                     <form method="POST" action="{{ route("frontend.advertisements.store") }}" enctype="multipart/form-data">
                         @method('POST')
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="title">{{ trans('cruds.advertisement.fields.title') }}</label>
-                            <input class="form-control" type="text" name="title" id="title" value="{{ old('title', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="title" id="title" value="{{ old('title', '') }}" required>
                             @if($errors->has('title'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('title') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.title_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.title_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="slug">{{ trans('cruds.advertisement.fields.slug') }}</label>
-                            <input class="form-control" type="text" name="slug" id="slug" value="{{ old('slug', '') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="slug" id="slug" value="{{ old('slug', '') }}">
                             @if($errors->has('slug'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('slug') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.slug_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.slug_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="description">{{ trans('cruds.advertisement.fields.description') }}</label>
-                            <textarea class="form-control" name="description" id="description">{{ old('description') }}</textarea>
+                            <textarea class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" name="description" id="description">{{ old('description') }}</textarea>
                             @if($errors->has('description'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('description') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.description_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.description_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="dated">{{ trans('cruds.advertisement.fields.dated') }}</label>
-                            <input class="form-control date" type="text" name="dated" id="dated" value="{{ old('dated') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 date" type="text" name="dated" id="dated" value="{{ old('dated') }}">
                             @if($errors->has('dated'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('dated') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.dated_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.dated_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="type_id">{{ trans('cruds.advertisement.fields.type') }}</label>
-                            <select class="form-control select2" name="type_id" id="type_id" required>
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="type_id" id="type_id" required>
                                 @foreach($types as $id => $entry)
                                     <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -65,19 +65,19 @@
                                     {{ $errors->first('type') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.type_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.type_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="advertisement_url">{{ trans('cruds.advertisement.fields.advertisement_url') }}</label>
-                            <input class="form-control" type="text" name="advertisement_url" id="advertisement_url" value="{{ old('advertisement_url', '') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="advertisement_url" id="advertisement_url" value="{{ old('advertisement_url', '') }}">
                             @if($errors->has('advertisement_url'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('advertisement_url') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.advertisement_url_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.advertisement_url_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="document">{{ trans('cruds.advertisement.fields.document') }}</label>
                             <div class="needsclick dropzone" id="document-dropzone">
                             </div>
@@ -86,81 +86,81 @@
                                     {{ $errors->first('document') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.document_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.document_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="default_fee">{{ trans('cruds.advertisement.fields.default_fee') }}</label>
-                            <input class="form-control" type="number" name="default_fee" id="default_fee" value="{{ old('default_fee', '') }}" step="0.01">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="number" name="default_fee" id="default_fee" value="{{ old('default_fee', '') }}" step="0.01">
                             @if($errors->has('default_fee'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('default_fee') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_fee_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.default_fee_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="default_open_date">{{ trans('cruds.advertisement.fields.default_open_date') }}</label>
-                            <input class="form-control datetime" type="text" name="default_open_date" id="default_open_date" value="{{ old('default_open_date') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime" type="text" name="default_open_date" id="default_open_date" value="{{ old('default_open_date') }}">
                             @if($errors->has('default_open_date'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('default_open_date') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_open_date_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.default_open_date_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="default_end_date">{{ trans('cruds.advertisement.fields.default_end_date') }}</label>
-                            <input class="form-control datetime" type="text" name="default_end_date" id="default_end_date" value="{{ old('default_end_date') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime" type="text" name="default_end_date" id="default_end_date" value="{{ old('default_end_date') }}">
                             @if($errors->has('default_end_date'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('default_end_date') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_end_date_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.default_end_date_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="default_payment_end_date">{{ trans('cruds.advertisement.fields.default_payment_end_date') }}</label>
-                            <input class="form-control datetime" type="text" name="default_payment_end_date" id="default_payment_end_date" value="{{ old('default_payment_end_date') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime" type="text" name="default_payment_end_date" id="default_payment_end_date" value="{{ old('default_payment_end_date') }}">
                             @if($errors->has('default_payment_end_date'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('default_payment_end_date') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.default_payment_end_date_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.default_payment_end_date_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="approved_at">{{ trans('cruds.advertisement.fields.approved_at') }}</label>
-                            <input class="form-control datetime" type="text" name="approved_at" id="approved_at" value="{{ old('approved_at') }}">
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 datetime" type="text" name="approved_at" id="approved_at" value="{{ old('approved_at') }}">
                             @if($errors->has('approved_at'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('approved_at') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.approved_at_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.approved_at_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label class="required" for="status">{{ trans('cruds.advertisement.fields.status') }}</label>
-                            <input class="form-control" type="text" name="status" id="status" value="{{ old('status', '') }}" required>
+                            <input class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" type="text" name="status" id="status" value="{{ old('status', '') }}" required>
                             @if($errors->has('status'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('status') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.status_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.status_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="remarks">{{ trans('cruds.advertisement.fields.remarks') }}</label>
-                            <textarea class="form-control" name="remarks" id="remarks">{{ old('remarks') }}</textarea>
+                            <textarea class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" name="remarks" id="remarks">{{ old('remarks') }}</textarea>
                             @if($errors->has('remarks'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('remarks') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.remarks_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.remarks_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="added_by_id">{{ trans('cruds.advertisement.fields.added_by') }}</label>
-                            <select class="form-control select2" name="added_by_id" id="added_by_id">
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="added_by_id" id="added_by_id">
                                 @foreach($added_bies as $id => $entry)
                                     <option value="{{ $id }}" {{ old('added_by_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -170,11 +170,11 @@
                                     {{ $errors->first('added_by') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.added_by_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.added_by_helper') }}</span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-4">
                             <label for="approved_by_id">{{ trans('cruds.advertisement.fields.approved_by') }}</label>
-                            <select class="form-control select2" name="approved_by_id" id="approved_by_id">
+                            <select class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 select2" name="approved_by_id" id="approved_by_id">
                                 @foreach($approved_bies as $id => $entry)
                                     <option value="{{ $id }}" {{ old('approved_by_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                                 @endforeach
@@ -184,10 +184,10 @@
                                     {{ $errors->first('approved_by') }}
                                 </div>
                             @endif
-                            <span class="help-block">{{ trans('cruds.advertisement.fields.approved_by_helper') }}</span>
+                            <span class="mt-1 text-xs text-gray-500">{{ trans('cruds.advertisement.fields.approved_by_helper') }}</span>
                         </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                        <div class="mb-4">
+                            <button class="inline-flex rounded-lg bg-error-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-error-600" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>
