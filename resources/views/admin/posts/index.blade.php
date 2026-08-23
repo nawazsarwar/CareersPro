@@ -12,7 +12,7 @@
         @endcan
     </div>
 
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-8">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-8 overflow-x-auto">
         <form action="{{ route('admin.posts.index') }}" method="GET" class="flex flex-col sm:flex-row gap-4 mb-4">
             <input type="text" name="search" placeholder="{{ trans('global.search') }} by Title or Subject..." class="flex-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 focus:ring focus:ring-blue-500" value="{{ request('search') }}">
             <select name="status" class="rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2">
@@ -41,8 +41,8 @@
         </button>
         @endcan
 
-        <div class="overflow-x-auto border rounded-lg border-gray-200 dark:border-gray-700">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+        <div class="border rounded-lg border-gray-200 dark:border-gray-700 w-full overflow-x-scroll">
+            <table class="w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm whitespace-nowrap min-w-max">
                 <thead class="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                     <tr>
                         <th class="px-4 py-3 text-left w-10">
@@ -54,6 +54,13 @@
                         <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.title') }}</th>
                         <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.subject') }}</th>
                         <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.vacancies') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.pay_level') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.location') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.fee') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.opening_date') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.closing_date') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.test_date') }}</th>
+                        <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.interview_venue') }}</th>
                         <th class="px-4 py-3 text-left font-medium uppercase tracking-wider">{{ trans('cruds.post.fields.status') }}</th>
                         <th class="px-4 py-3 text-right font-medium uppercase tracking-wider">{{ trans('global.actions') }}</th>
                     </tr>
@@ -68,12 +75,19 @@
                         <td class="px-4 py-3 font-medium">{{ $post->title }}</td>
                         <td class="px-4 py-3">{{ $post->subject ?? '-' }}</td>
                         <td class="px-4 py-3">{{ $post->vacancies }}</td>
+                        <td class="px-4 py-3">{{ $post->pay_level ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $post->location ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $post->fee ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $post->opening_date ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $post->closing_date ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $post->test_date ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $post->interview_venue ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span class="px-2 py-1 rounded text-xs font-semibold {{ $post->status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                 {{ $post->status ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-right space-x-2 whitespace-nowrap">
+                        <td class="px-4 py-3 text-right space-x-2">
                             @can('post_show')
                                 <a href="{{ route('admin.posts.show', $post->id) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">{{ trans('global.view') }}</a>
                             @endcan
@@ -91,7 +105,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                        <td colspan="14" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
                             {{ trans('global.no_results') }}
                         </td>
                     </tr>

@@ -198,6 +198,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
 
     // Application Forms
     Route::delete('application-forms/destroy', [AdminApplicationFormsController::class, 'massDestroy'])->name('application-forms.massDestroy');
+    Route::get('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'create'])->name('application-forms.create');
+    Route::post('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'store'])->name('application-forms.store');
     Route::resource('application-forms', AdminApplicationFormsController::class);
 
     // Institutions Attended
@@ -212,6 +214,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::delete('other-details/destroy', [AdminOtherDetailsController::class, 'massDestroy'])->name('other-details.massDestroy');
     Route::post('other-details/media', [AdminOtherDetailsController::class, 'storeMedia'])->name('other-details.storeMedia');
     Route::post('other-details/ckmedia', [AdminOtherDetailsController::class, 'storeCKEditorImages'])->name('other-details.storeCKEditorImages');
+    Route::resource('research-publications', AppHttpControllersFrontendResearchPublicationsController::class);
     Route::resource('other-details', AdminOtherDetailsController::class);
 
     Route::get('global-search', [AdminGlobalSearchController::class, 'search'])->name('globalSearch');
@@ -348,6 +351,8 @@ Route::group(['as' => 'frontend.'], function () {
 
     // Application Forms
     Route::delete('application-forms/destroy', [FrontendApplicationFormsController::class, 'massDestroy'])->name('application-forms.massDestroy');
+    Route::get('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'create'])->name('application-forms.create');
+    Route::post('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'store'])->name('application-forms.store');
     Route::resource('application-forms', FrontendApplicationFormsController::class);
 
     // Institutions Attended
@@ -362,6 +367,7 @@ Route::group(['as' => 'frontend.'], function () {
     Route::delete('other-details/destroy', [FrontendOtherDetailsController::class, 'massDestroy'])->name('other-details.massDestroy');
     Route::post('other-details/media', [FrontendOtherDetailsController::class, 'storeMedia'])->name('other-details.storeMedia');
     Route::post('other-details/ckmedia', [FrontendOtherDetailsController::class, 'storeCKEditorImages'])->name('other-details.storeCKEditorImages');
+    Route::resource('research-publications', AppHttpControllersFrontendResearchPublicationsController::class);
     Route::resource('other-details', FrontendOtherDetailsController::class);
 
     Route::get('frontend/profile', [FrontendProfileController::class, 'index'])->name('profile.index');
