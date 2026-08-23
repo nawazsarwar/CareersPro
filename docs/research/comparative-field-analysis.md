@@ -1,33 +1,108 @@
-# Comparative Field Analysis: AMU Careers vs. CU Chayan vs. UGC Requirements
+# Comprehensive Field-Level Comparative Analysis
 
-## 1. Candidate Profile & Demographics
-| Field | AMU Careers Portal (v1) | CU Chayan Portal | Target Target / UGC Mandate | Coverage |
-| :--- | :--- | :--- | :--- | :--- |
-| **Personal Details** | Name, DOB, Gender, Father/Mother Name, Nationality | Name, DOB, Gender, Parents Name, Marital Status, Nationality | Core identity required for all GOI processes. | Both |
-| **Category/Reservation** | SC/ST/OBC/General, PwBD type, Ex-Serviceman | Extensive reservation mapping (backlogs, specific PwBD benchmarks). | **Mandatory** for statutory roster calculation (Post-Based Roster). | CU Chayan superior. Target must adopt CU Chayan depth. |
-| **Contact Info** | Address, Email, Phone | Address (Permanent/Corr), Email (Verified), Phone (OTP) | Required for Admit Cards / Offer letters. | Both |
+This table maps every granular field across the major applicant profile modules. Fields originating from CU Chayan that do not exist in AMU v1 will be built as **configurable (optional visibility)**.
 
-## 2. Academic Qualifications
-| Field | AMU Careers Portal (v1) | CU Chayan Portal | Target Target / UGC Mandate | Coverage |
-| :--- | :--- | :--- | :--- | :--- |
-| **Degrees (10th to PG)** | Board/Univ, Year, Marks %, Division, Subjects | Institution, Year, CGPA/%, Subjects, Document Proof | Required for basic eligibility check. | Both |
-| **PhD / M.Phil** | Title, Year, University | Detailed PhD metadata (Date of Award, Compliance with UGC 2009/2016 regulations). | **Mandatory** for Assistant Professor screening (UGC API rules). | CU Chayan captures specific regulation compliance needed for API. |
-| **Eligibility Tests** | NET/SLET/SET details, Gate | NET/JRF/SLET details with cert numbers. | **Mandatory** minimum qualification. | Both |
+## 1. Personal Profile Module
 
-## 3. Experience & Employment History
-| Field | AMU Careers Portal (v1) | CU Chayan Portal | Target Target / UGC Mandate | Coverage |
-| :--- | :--- | :--- | :--- | :--- |
-| **Work History** | Designation, Employer, From/To, Salary | Grade Pay / Pay Level, temporary/permanent nature, NOC status. | **Mandatory** for API (2 marks per year of teaching/post-doc). | CU Chayan superior for API mapping. |
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| First/Middle/Last Name | Yes | Yes | Mandatory | Include | No |
+| Date of Birth | Yes | Yes | Mandatory | Include | No |
+| Gender | Yes | Yes | Mandatory | Include | No |
+| Father's Name | Yes | Yes | Administrative | Include | No |
+| Mother's Name | Yes | Yes | Administrative | Include | No |
+| Nationality | Yes | Yes | Mandatory | Include | No |
+| Marital Status | No | Yes | Administrative | Include | Yes |
+| Religion | Yes | Yes | Demographic | Include | No |
+| Category (UR/SC/ST/OBC/EWS) | Yes | Yes | **Mandatory** | Include | No |
+| PwBD Status & Benchmark Type | Yes | Yes | **Mandatory** | Include | No |
+| PwBD % of Disability | No | Yes | **Mandatory** | Include | Yes |
+| Ex-Serviceman Status | Yes | Yes | **Mandatory** | Include | No |
+| Government ID Type & Number | No | Yes | Security | Include | Yes |
 
-## 4. Research, Publications & API Parameters (The Scoring Engine)
-| Field | AMU Careers Portal (v1) | CU Chayan Portal | Target Target / UGC Mandate | Coverage |
-| :--- | :--- | :--- | :--- | :--- |
-| **Publications** | Title, Journal, ISSN/ISBN | Title, Journal (UGC-CARE list boolean), Peer-reviewed flag, Impact Factor, Authorship position (First/Corresponding). | **Strict UGC API Mandate** (Table 2 of 2018 Regs). Marks depend heavily on peer-review status, impact factor, and authorship role. | AMU v1 entirely lacks the granular metadata required to auto-compute API. |
-| **Books/Chapters** | Title, Publisher | Publisher type (International/National), ISBN. | Required for API. | Target must add publisher type. |
-| **Projects/Consultancy** | Title, Agency, Amount | Principal Investigator vs Co-PI, exact grant amounts. | Required for API. | Target must distinguish PI roles. |
-| **Patents/Awards** | Name, Year | Patent level (International/National), Awarding body type. | Required for API. | Target must add levels. |
+## 2. Contact & Address Module
 
-## 5. Conclusion & Gap Analysis
-The AMU v1 portal functioned as a digital filing cabinet (simple digitization of Word forms). It **cannot** fulfill the UGC mandate for automated scoring because it lacks the structured, granular metadata (e.g., UGC-CARE listing status, impact factor, precise PhD regulation compliance, PI vs Co-PI roles).
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Email Address | Yes | Yes | Mandatory | Include (Verified) | No |
+| Mobile Number | Yes | Yes | Mandatory | Include (Verified) | No |
+| Permanent Address (Line 1, 2) | Yes | Yes | Mandatory | Include | No |
+| Permanent City, State, Pincode | Yes | Yes | Mandatory | Include | No |
+| Correspondence Address | Yes | Yes | Mandatory | Include | No |
 
-To achieve maximum automation, CareersPro v2 must adopt the CU Chayan data model for Academic and Research fields, ensuring every parameter defined in **UGC Regulations 2018 (Table 2 & 3)** is captured as a distinct, scorable boolean or enum field.
+## 3. Academic Qualifications Module
+*Note: Sequential validation mandated (10th -> 12th -> UG -> PG -> PhD).*
+
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Qualification Level (10th/12th/UG/PG) | Yes | Yes | Mandatory | Include (Enforce sequence) | No |
+| Degree/Examination Name | Yes | Yes | Mandatory | Include | No |
+| Subject/Specialization | Yes | Yes | Mandatory | Include | No |
+| Board/University/Institution | Yes | Yes | Mandatory | Include | No |
+| Year of Passing | Yes | Yes | Mandatory | Include | No |
+| Max Marks / CGPA Scale | Yes | Yes | Mandatory | Include | No |
+| Marks Obtained / CGPA Obtained | Yes | Yes | Mandatory | Include | No |
+| Percentage (Auto-calc or Manual) | Yes | Yes | Mandatory | Include | No |
+| Division / Class | Yes | Yes | Mandatory | Include | No |
+| Upload: Final Marksheet | Yes | Yes | Mandatory | Include (PDF/JPG, <= 2MB) | No |
+| Upload: Degree Certificate | No | Yes | Mandatory | Include (PDF/JPG, <= 2MB) | Yes |
+
+## 4. Doctoral / Research Qualifications (PhD/M.Phil)
+
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Degree Type (PhD/M.Phil) | Yes | Yes | Mandatory | Include | No |
+| Thesis Title | Yes | Yes | Administrative | Include | No |
+| University | Yes | Yes | Mandatory | Include | No |
+| Date of Award / Notification | Yes | Yes | **Mandatory API** | Include | No |
+| Subject | Yes | Yes | Mandatory | Include | No |
+| Compliant with UGC 2009/2016 Regs | No | Yes | **Mandatory API** | Include (Crucial for NET exemption) | Yes |
+
+## 5. Eligibility Tests (NET/SLET/SET/GATE)
+
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Test Type (NET with JRF, NET, SET) | Yes | Yes | **Mandatory API** | Include | No |
+| Subject | Yes | Yes | Mandatory | Include | No |
+| Year of Passing | Yes | Yes | Mandatory | Include | No |
+| Roll Number / Certificate No. | No | Yes | Security | Include | Yes |
+| Upload: Certificate | Yes | Yes | Mandatory | Include (PDF/JPG, <= 2MB) | No |
+
+## 6. Employment / Work Experience Module
+
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Designation / Post Held | Yes | Yes | Mandatory | Include | No |
+| Organization / Employer | Yes | Yes | Mandatory | Include | No |
+| Nature of Appointment (Temp/Perm) | No | Yes | **Mandatory API** | Include | Yes |
+| From Date | Yes | Yes | **Mandatory API** | Include | No |
+| To Date (or Present) | Yes | Yes | **Mandatory API** | Include | No |
+| Duration (Auto-calculated Days/Yrs) | Yes | Yes | **Mandatory API** | Include (Auto-calc for API) | No |
+| Pay Band / Pay Level / Salary | Yes | Yes | Mandatory | Include | No |
+| Upload: Experience Certificate | Yes | Yes | Mandatory | Include | No |
+| NOC Required / Upload | No | Yes | Administrative | Include | Yes |
+
+## 7. Research Publications & API Outputs
+
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Publication Type (Journal, Book, etc.) | Yes | Yes | **Mandatory API** | Include | No |
+| Title of Paper/Book | Yes | Yes | Mandatory | Include | No |
+| Journal / Publisher Name | Yes | Yes | Mandatory | Include | No |
+| ISSN / ISBN | Yes | Yes | Mandatory | Include | No |
+| Peer-Reviewed Flag | No | Yes | **Mandatory API** | Include | Yes |
+| UGC-CARE Listed Flag | No | Yes | **Mandatory API** | Include | Yes |
+| Impact Factor | No | Yes | **Mandatory API** | Include | Yes |
+| Authorship Position (First/Corr/Co) | No | Yes | **Mandatory API** | Include | Yes |
+| Number of Co-Authors | No | Yes | **Mandatory API** | Include | Yes |
+| Link/DOI | No | Yes | Verification | Include | Yes |
+
+## 8. Projects, Consultancy & Patents
+
+| Field Name | AMU v1 | CU Chayan | UGC Mandate | Target Implementation | Configurable? |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Project Title | Yes | Yes | Mandatory | Include | No |
+| Funding Agency | Yes | Yes | Mandatory | Include | No |
+| Grant Amount | Yes | Yes | **Mandatory API** | Include | No |
+| Role (PI, Co-PI) | No | Yes | **Mandatory API** | Include | Yes |
+| Patent Level (National/International) | No | Yes | **Mandatory API** | Include | Yes |
