@@ -1,6 +1,30 @@
 RequirementID,SourceCitation,Module,SpecSection,CodeArtefact,TestCase
-REQ-001,Master Directive §5.1,Public Vacancy Listing,SRS-001,app/Http/Controllers/FrontendPostsController.php,tests/Feature/VacancyFilterTest.php
-REQ-002,Master Directive §5.4,Editable Academic History,SRS-002,app/Http/Controllers/FrontendAcademicQualificationsController.php,tests/Feature/AcademicHistoryEditTest.php
-REQ-003,Master Directive §5.8,Fee Module,SRS-003,app/Models/Category.php,tests/Feature/FeeCalculationTest.php
-REQ-004,Master Directive §6,Tailwind 4 / Alpine Stack,UI-UX-001,resources/views/layouts/app.blade.php,tests/Feature/UITest.php
-REQ-005,Master Directive §4,Scoring Engine,SRS-004,app/Services/ScoringEngine.php,tests/Feature/ScoringEngineTest.php
+REQ-001,MD §5.1,Public Vacancy Listing,SRS-001,TODO,TODO
+REQ-002,MD §5.2,Advertisement Detail,SRS-002,TODO,TODO
+REQ-003,MD §5.3,Registration & Profile,SRS-003,TODO,TODO
+REQ-004,MD §5.4,Editable Academic & Work History,SRS-004,TODO,TODO
+REQ-005,MD §5.5,Application Wizard,SRS-005,TODO,TODO
+REQ-006,MD §5.6,Publication & Research Claims,SRS-006,TODO,TODO
+REQ-007,MD §5.7,Document Vault,SRS-007,TODO,TODO
+REQ-008,MD §5.8,Fee Module,SRS-008,TODO,TODO
+REQ-009,MD §5.9,Application PDF Generation,SRS-009,TODO,TODO
+REQ-010,MD §5.10,Applicant Dashboard,SRS-010,TODO,TODO
+REQ-011,MD §5.11,Admit Card & Centre Allotment,SRS-011,TODO,TODO
+REQ-012,MD §5.12,Examination Delivery Module,SRS-012,TODO,TODO
+REQ-013,MD §5.13,Interview Scheduling,SRS-013,TODO,TODO
+REQ-014,MD §5.14,Results & Merit Lists,SRS-014,TODO,TODO
+REQ-015,MD §5.15,Grievance & Notification Center,SRS-015,TODO,TODO
+REQ-016,MD §5.16,Advertisement Builder,SRS-016,TODO,TODO
+REQ-017,MD §5.17,Reservation & Roster Engine,SRS-017,TODO,TODO
+REQ-018,MD §5.18,Scrutiny Workbench,SRS-018,TODO,TODO
+REQ-019,MD §5.19,Committee Workspace,SRS-019,TODO,TODO
+REQ-020,MD §5.20,Scoring Engine Admin,SRS-020,TODO,TODO
+REQ-021,MD §5.21,Shortlisting & Cut-offs,SRS-021,TODO,TODO
+REQ-022,MD §5.22,Examination Admin,SRS-022,TODO,TODO
+REQ-023,MD §5.23,Analytics & Reporting,SRS-023,TODO,TODO
+REQ-024,MD §5.24,Master Data Management,SRS-024,TODO,TODO
+REQ-025,MD §5.25,RBAC & Impersonation,SRS-025,TODO,TODO
+REQ-026,MD §5.26,Audit & Traceability,SRS-026,TODO,TODO
+REQ-027,MD §5.27,RTI / Legal Support,SRS-027,TODO,TODO
+REQ-028,MD §5.28,System Administration,SRS-028,TODO,TODO
+REQ-029,MD §5.29,Public API / Integration Layer,SRS-029,TODO,TODO
