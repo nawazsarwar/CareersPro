@@ -1,0 +1,6 @@
+RequirementID,SourceCitation,Module,SpecSection,CodeArtefact,TestCase
+REQ-001,Master Directive §5.1,Public Vacancy Listing,SRS-001,app/Http/Controllers/FrontendPostsController.php,tests/Feature/VacancyFilterTest.php
+REQ-002,Master Directive §5.4,Editable Academic History,SRS-002,app/Http/Controllers/FrontendAcademicQualificationsController.php,tests/Feature/AcademicHistoryEditTest.php
+REQ-003,Master Directive §5.8,Fee Module,SRS-003,app/Models/Category.php,tests/Feature/FeeCalculationTest.php
+REQ-004,Master Directive §6,Tailwind 4 / Alpine Stack,UI-UX-001,resources/views/layouts/app.blade.php,tests/Feature/UITest.php
+REQ-005,Master Directive §4,Scoring Engine,SRS-004,app/Services/ScoringEngine.php,tests/Feature/ScoringEngineTest.php
