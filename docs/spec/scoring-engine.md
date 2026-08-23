@@ -13,3 +13,10 @@ The heart of the system is a versioned, declarative rules engine for calculating
 ## Mechanism
 - The `ScoringEngine` service evaluates a candidate's snapshot data against the linked `RuleSet`.
 - Re-running the engine on the same snapshot and ruleset is guaranteed to be idempotent and byte-identical.
+
+## API Parameters & Scrutiny Alignment
+The rules engine must specifically handle the following granular inputs gathered from the candidate:
+1.  **Research Publications:** Must ingest `is_ugc_care`, `is_peer_reviewed`, `impact_factor`, and `authorship_position` to calculate varying weights (e.g., 8 marks for peer-reviewed, 10 for IF < 1, 15 for IF 1-2).
+2.  **PhD Compliance:** Must ingest `is_ugc_2009_compliant` to validate if the PhD can exempt the candidate from NET/SLET.
+3.  **Experience:** Must calculate exact days of experience, divided by 365, multiplied by 2, capped at a maximum as per UGC rules.
+4.  **Projects:** Must differentiate between PI and Co-PI to split marks appropriately.

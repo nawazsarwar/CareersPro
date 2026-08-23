@@ -1,258 +1,74 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">{{ $post->title }}</h1>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">{{ $post->description ?? 'No description provided.' }}</p>
 
-            <div class="card">
-                <div class="card-header">
-                    {{ trans('global.show') }} {{ trans('cruds.post.title') }}
-                </div>
-
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('frontend.posts.index') }}">
-                                {{ trans('global.back_to_list') }}
-                            </a>
-                        </div>
-                        <table class="table table-bordered table-striped">
-                            <tbody>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.id') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->id }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.advertisement') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->advertisement->title ?? '' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.posttype') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->posttype->name ?? '' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.serial_no') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->serial_no }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.title') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->title }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.subject') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->subject }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.slug') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->slug }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.description') }}
-                                    </th>
-                                    <td>
-                                        {!! $post->description !!}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.vacancies') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->vacancies }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.location') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->location }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.pay_level') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->pay_level }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.pay_range') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->pay_range }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.fee') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->fee }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.opening_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->opening_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.closing_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->closing_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.payment_closing_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->payment_closing_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.withdrawn') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->withdrawn }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.status') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->status }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.remarks') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->remarks }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.added_by') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->added_by->name ?? '' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.test_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->test_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.test_reporting_time') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->test_reporting_time }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.gate_closing_time') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->gate_closing_time }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.scheduled_test_start') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->scheduled_test_start }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.test_duration') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->test_duration }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.interview_date') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->interview_date }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.interview_time') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->interview_time }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.post.fields.interview_venue') }}
-                                    </th>
-                                    <td>
-                                        {{ $post->interview_venue }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('frontend.posts.index') }}">
-                                {{ trans('global.back_to_list') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 border-t pt-6 dark:border-gray-700">
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Subject</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->subject ?? '-' }}</p>
             </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Vacancies</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->vacancies ?? '-' }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Location</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->location ?? '-' }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Pay Level</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->pay_level ?? '-' }} ({{ $post->pay_range ?? '-' }})</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Fee</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">₹{{ number_format($post->fee ?? 0, 2) }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->status ? 'Active' : 'Inactive' }}</p>
+            </div>
+        </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 border-t pt-6 dark:border-gray-700">
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Opening Date</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->opening_date ? \Carbon\Carbon::parse($post->opening_date)->format('d M, Y') : '-' }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Closing Date</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->closing_date ? \Carbon\Carbon::parse($post->closing_date)->format('d M, Y') : '-' }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Payment Closing Date</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->payment_closing_date ? \Carbon\Carbon::parse($post->payment_closing_date)->format('d M, Y') : '-' }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 border-t pt-6 dark:border-gray-700">
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Test Date</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->test_date ? \Carbon\Carbon::parse($post->test_date)->format('d M, Y') : '-' }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Interview Date</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->interview_date ? \Carbon\Carbon::parse($post->interview_date)->format('d M, Y') : '-' }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Interview Venue</h3>
+                <p class="mt-1 text-base text-gray-900 dark:text-white">{{ $post->interview_venue ?? '-' }}</p>
+            </div>
+        </div>
+
+        <div class="mt-8 flex gap-4">
+            <a href="{{ route('frontend.application-forms.create', ['post_id' => $post->id]) }}" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-lg font-medium shadow-sm transition">
+                Apply Now
+            </a>
+            <a href="{{ route('frontend.posts.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 px-6 py-3 rounded-lg font-medium shadow-sm transition">
+                Back to Vacancies
+            </a>
         </div>
     </div>
 </div>

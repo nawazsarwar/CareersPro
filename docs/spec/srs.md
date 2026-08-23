@@ -26,3 +26,8 @@ CareersPro v2 is an end-to-end recruitment automation engine for universities an
 *   **NFR-ACC-01:** System shall conform to WCAG 2.2 AA and GIGW standards.
 *   **NFR-PERF-01:** System shall respond to general queries in < 500ms and support N+1 query optimized structures.
 *   **NFR-ARCH-01:** The application will be server-rendered using Laravel Blade, Tailwind CSS 4, and Alpine.js.
+
+### 2.3 Strict Implementation Mandates (UI & Logic)
+*   **REQ-MAND-01:** The UI must strictly utilize Tailwind CSS 4 and Alpine.js. Bootstrap, jQuery, and heavy SPA frameworks are explicitly prohibited.
+*   **REQ-MAND-02:** All tables (e.g., DataTables equivalents) must be rebuilt natively using server-side pagination (Blade) and Alpine.js for interactivity (sorting/filtering).
+*   **REQ-MAND-03:** The Scoring Engine must fully account for API calculations including granular research parameters (UGC-CARE status, impact factors, PI roles, PhD regulation compliance).

@@ -11,11 +11,11 @@
   "require": {
     "php": "^8.2",
     "guzzlehttp/guzzle": "^7.2",
-    "laravel/framework": "^11.0",
+    "laravel/framework": "^13.0",
     "laravel/sanctum": "^4.0",
     "laravel/tinker": "^3.0",
     "laravel/ui": "^4.0",
-    "yajra/laravel-datatables-oracle": "^11.0",
+    "yajra/laravel-datatables-oracle": "^13.0",
     "spatie/laravel-medialibrary": "^11.0"
   },
   "require-dev": {
@@ -69,7 +69,8 @@
       "php-http/discovery": true
     },
     "audit": {
-      "block-insecure": false
+      "block-insecure": false,
+      "abandoned": "ignore"
     }
   },
   "minimum-stability": "stable",

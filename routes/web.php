@@ -227,7 +227,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
     }
 });
 
-Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
+Route::group(['as' => 'frontend.'], function () {
     Route::get('/home', [FrontendHomeController::class, 'index'])->name('home');
 
     // Permissions
@@ -268,7 +268,7 @@ Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
     Route::delete('posts/destroy', [FrontendPostsController::class, 'massDestroy'])->name('posts.massDestroy');
     Route::post('posts/media', [FrontendPostsController::class, 'storeMedia'])->name('posts.storeMedia');
     Route::post('posts/ckmedia', [FrontendPostsController::class, 'storeCKEditorImages'])->name('posts.storeCKEditorImages');
-    Route::resource('posts', FrontendPostsController::class);
+    Route::resource('posts', FrontendPostsController::class)->withoutMiddleware('auth');
 
     // Marital Statuses
     Route::delete('marital-statuses/destroy', [FrontendMaritalStatusesController::class, 'massDestroy'])->name('marital-statuses.massDestroy');

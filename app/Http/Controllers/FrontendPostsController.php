@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class PostsController extends Controller
+class FrontendPostsController extends Controller
 {
     /**
      * Display a listing of the public vacancies.
@@ -30,6 +29,12 @@ class PostsController extends Controller
         }
 
         $posts = $query->paginate(10);
+
+        Log::info("Found " . $posts->count() . " posts.");
+
+        if (!\Gate::allows('post_access')) {
+            // abort(403);
+        }
 
         return view('frontend.posts.index', compact('posts'));
     }
