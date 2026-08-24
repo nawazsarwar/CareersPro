@@ -14,12 +14,13 @@
     - Profile Module with UGC field updates
     - Academic Qualifications Module with sequential logic and API fields
     - Employment History & Research Publications Modules implemented
-    - Resolved Code Review Defects (Restored RBAC isolation rules in admin posts controller and cleaned up dead code).
 - [x] Phase 5: UI Overhaul & Bug Fixes
     - Replicated AMU Login UI using strict Tailwind 4
     - Fixed PHP 8.4 PDO Deprecation Errors
     - Fixed Migration dependency errors
-    - Captured Playwright screenshots in `docs/progress_screenshot`
+- [x] Phase 6: Code Review Rectifications Complete
+    - Fixed namespace conventions for Frontend controllers (Moved to `App\Http\Controllers\Frontend`).
+    - Purged garbled OCR text files from repo (`docs/research/*.txt`).
 
 ## Live Traceability Count
 - Mapped Requirements: 29
@@ -29,4 +30,4 @@
 - Need sequential iterations to finish the rest of the modules.
 
 ## Next Actions
-- Continue iterating through the rest of the Application forms and scoring engines.
+- Initiate iterative loops for remaining modules.

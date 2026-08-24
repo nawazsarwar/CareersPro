@@ -1,203 +1,60 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            @can('photo_create')
-                <div style="margin-bottom: 10px;" class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.photos.create') }}">
-                            {{ trans('global.add') }} {{ trans('cruds.photo.title_singular') }}
-                        </a>
-                    </div>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Document Vault: Photo & Signature</h2>
+
+        @if(session('status'))
+            <div class="mb-4 bg-green-100 text-green-800 p-4 rounded">{{ session('status') }}</div>
+        @endif
+        @if($errors->any())
+            <div class="mb-4 bg-red-100 text-red-800 p-4 rounded">
+                <ul class="list-disc pl-5">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('frontend.photos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            @csrf
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Photograph Upload -->
+                <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Passport Size Photograph</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Format: JPG/PNG. Max size: 2MB.</p>
+
+                    @if($photoRecord->photo)
+                        <div class="mb-4 flex justify-center">
+                            <img src="{{ $photoRecord->photo->getUrl() }}" alt="Current Photo" class="h-32 w-32 object-cover rounded shadow">
+                        </div>
+                    @endif
+
+                    <input type="file" name="photo" accept=".jpg,.jpeg,.png" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-gray-700 dark:file:text-white">
                 </div>
-            @endcan
-            <div class="card">
-                <div class="card-header">
-                    {{ trans('cruds.photo.title_singular') }} {{ trans('global.list') }}
-                </div>
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Photo">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.photo.fields.id') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.photo.fields.user') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.photo.fields.photograph') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.photo.fields.signature') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.photo.fields.thumb_impression') }}
-                                    </th>
-                                    <th>
-                                        &nbsp;
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <select class="search">
-                                            <option value>{{ trans('global.all') }}</option>
-                                            @foreach($users as $key => $item)
-                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($photos as $key => $photo)
-                                    <tr data-entry-id="{{ $photo->id }}">
-                                        <td>
-                                            {{ $photo->id ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $photo->user->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            @if($photo->photograph)
-                                                <a href="{{ $photo->photograph->getUrl() }}" target="_blank" style="display: inline-block">
-                                                    <img src="{{ $photo->photograph->getUrl('thumb') }}">
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($photo->signature)
-                                                <a href="{{ $photo->signature->getUrl() }}" target="_blank" style="display: inline-block">
-                                                    <img src="{{ $photo->signature->getUrl('thumb') }}">
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($photo->thumb_impression)
-                                                <a href="{{ $photo->thumb_impression->getUrl() }}" target="_blank" style="display: inline-block">
-                                                    <img src="{{ $photo->thumb_impression->getUrl('thumb') }}">
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @can('photo_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.photos.show', $photo->id) }}">
-                                                    {{ trans('global.view') }}
-                                                </a>
-                                            @endcan
+                <!-- Signature Upload -->
+                <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Scanned Signature</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Format: JPG/PNG. Max size: 2MB.</p>
 
-                                            @can('photo_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.photos.edit', $photo->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
+                    @if($photoRecord->signature)
+                        <div class="mb-4 flex justify-center">
+                            <img src="{{ $photoRecord->signature->getUrl() }}" alt="Current Signature" class="h-16 w-32 object-contain border bg-white shadow">
+                        </div>
+                    @endif
 
-                                            @can('photo_delete')
-                                                <form action="{{ route('frontend.photos.destroy', $photo->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                </form>
-                                            @endcan
-
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    <input type="file" name="signature" accept=".jpg,.jpeg,.png" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-gray-700 dark:file:text-white">
                 </div>
             </div>
 
-        </div>
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded shadow hover:bg-indigo-700 transition">Upload Documents</button>
+            </div>
+        </form>
     </div>
 </div>
-@endsection
-@section('scripts')
-@parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('photo_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('frontend.photos.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Photo:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-let visibleColumnsIndexes = null;
-$('.datatable thead').on('input', '.search', function () {
-      let strict = $(this).attr('strict') || false
-      let value = strict && this.value ? "^" + this.value + "$" : this.value
-
-      let index = $(this).parent().index()
-      if (visibleColumnsIndexes !== null) {
-        index = visibleColumnsIndexes[index]
-      }
-
-      table
-        .column(index)
-        .search(value, strict)
-        .draw()
-  });
-table.on('column-visibility.dt', function(e, settings, column, state) {
-      visibleColumnsIndexes = []
-      table.columns(":visible").every(function(colIdx) {
-          visibleColumnsIndexes.push(colIdx);
-      });
-  })
-})
-
-</script>
 @endsection

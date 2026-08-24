@@ -200,6 +200,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::delete('application-forms/destroy', [AdminApplicationFormsController::class, 'massDestroy'])->name('application-forms.massDestroy');
     Route::get('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'create'])->name('application-forms.create');
     Route::post('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'store'])->name('application-forms.store');
+    Route::get('checkout/{application}', [AppHttpControllersFrontendPaymentController::class, 'checkout'])->name('payments.checkout');
+    Route::post('payments/callback', [AppHttpControllersFrontendPaymentController::class, 'callback'])->name('payments.callback');
     Route::resource('application-forms', AdminApplicationFormsController::class);
 
     // Institutions Attended
@@ -313,7 +315,8 @@ Route::group(['as' => 'frontend.'], function () {
     Route::delete('photos/destroy', [FrontendPhotosController::class, 'massDestroy'])->name('photos.massDestroy');
     Route::post('photos/media', [FrontendPhotosController::class, 'storeMedia'])->name('photos.storeMedia');
     Route::post('photos/ckmedia', [FrontendPhotosController::class, 'storeCKEditorImages'])->name('photos.storeCKEditorImages');
-    Route::resource('photos', FrontendPhotosController::class);
+    Route::get('photos', [AppHttpControllersFrontendPhotosController::class, 'index'])->name('photos.index');
+    Route::post('photos', [AppHttpControllersFrontendPhotosController::class, 'store'])->name('photos.store');
 
     // Adresses
     Route::delete('adresses/destroy', [FrontendAdressesController::class, 'massDestroy'])->name('adresses.massDestroy');
@@ -353,6 +356,8 @@ Route::group(['as' => 'frontend.'], function () {
     Route::delete('application-forms/destroy', [FrontendApplicationFormsController::class, 'massDestroy'])->name('application-forms.massDestroy');
     Route::get('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'create'])->name('application-forms.create');
     Route::post('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'store'])->name('application-forms.store');
+    Route::get('checkout/{application}', [AppHttpControllersFrontendPaymentController::class, 'checkout'])->name('payments.checkout');
+    Route::post('payments/callback', [AppHttpControllersFrontendPaymentController::class, 'callback'])->name('payments.callback');
     Route::resource('application-forms', FrontendApplicationFormsController::class);
 
     // Institutions Attended

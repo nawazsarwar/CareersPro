@@ -1,139 +1,59 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
-
 use App\Http\Controllers\Controller;
+
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyAcademicQualificationRequest;
 use App\Http\Requests\StoreAcademicQualificationRequest;
 use App\Http\Requests\UpdateAcademicQualificationRequest;
 use App\Models\AcademicQualification;
 use App\Models\Board;
 use App\Models\QualificationLevel;
-use App\Models\User;
-use Gate;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
-class AcademicQualificationsController extends Controller
+class FrontendAcademicQualificationsController extends Controller
 {
     use MediaUploadingTrait;
 
     public function index()
     {
-        abort_if(Gate::denies('academic_qualification_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $user = Auth::user();
+        $qualifications = AcademicQualification::where('user_id', $user->id)
+            ->with(['qualification_level', 'board'])
+            ->get();
 
-        $academicQualifications = AcademicQualification::with(['user', 'name', 'board', 'media'])->get();
-
-        $users = User::get();
-
-        $qualification_levels = QualificationLevel::get();
-
-        $boards = Board::get();
-
-        return view('frontend.academicQualifications.index', compact('academicQualifications', 'boards', 'qualification_levels', 'users'));
-    }
-
-    public function create()
-    {
-        abort_if(Gate::denies('academic_qualification_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $names = QualificationLevel::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
+        $levels = QualificationLevel::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $boards = Board::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.academicQualifications.create', compact('boards', 'names', 'users'));
+        return view('frontend.academicQualifications.index', compact('qualifications', 'levels', 'boards'));
     }
 
     public function store(StoreAcademicQualificationRequest $request)
     {
-        $academicQualification = AcademicQualification::create($request->all());
+        $user = Auth::user();
 
-        if ($request->input('document', false)) {
-            $academicQualification->addMedia(storage_path('tmp/uploads/' . basename($request->input('document'))))->toMediaCollection('document');
-        }
-
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $academicQualification->id]);
-        }
-
-        return redirect()->route('frontend.academic-qualifications.index');
-    }
-
-    public function edit(AcademicQualification $academicQualification)
-    {
-        abort_if(Gate::denies('academic_qualification_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $names = QualificationLevel::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $boards = Board::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $academicQualification->load('user', 'name', 'board');
-
-        return view('frontend.academicQualifications.edit', compact('academicQualification', 'boards', 'names', 'users'));
-    }
-
-    public function update(UpdateAcademicQualificationRequest $request, AcademicQualification $academicQualification)
-    {
-        $academicQualification->update($request->all());
-
-        if ($request->input('document', false)) {
-            if (! $academicQualification->document || $request->input('document') !== $academicQualification->document->file_name) {
-                if ($academicQualification->document) {
-                    $academicQualification->document->delete();
-                }
-                $academicQualification->addMedia(storage_path('tmp/uploads/' . basename($request->input('document'))))->toMediaCollection('document');
+        // Enforce sequence logic (simplified for stub: e.g., if adding PG, check if UG exists)
+        $level = QualificationLevel::find($request->qualification_level_id);
+        if ($level && $level->name == 'Post Graduation') {
+            $hasUg = AcademicQualification::where('user_id', $user->id)
+                ->whereHas('qualification_level', function($q) {
+                    $q->where('name', 'Graduation');
+                })->exists();
+            if (!$hasUg) {
+                return back()->withErrors(['qualification_level_id' => 'You must add Graduation before adding Post Graduation.'])->withInput();
             }
-        } elseif ($academicQualification->document) {
-            $academicQualification->document->delete();
         }
 
-        return redirect()->route('frontend.academic-qualifications.index');
-    }
+        $data = $request->all();
+        $data['user_id'] = $user->id;
 
-    public function show(AcademicQualification $academicQualification)
-    {
-        abort_if(Gate::denies('academic_qualification_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $qualification = AcademicQualification::create($data);
 
-        $academicQualification->load('user', 'name', 'board');
-
-        return view('frontend.academicQualifications.show', compact('academicQualification'));
-    }
-
-    public function destroy(AcademicQualification $academicQualification)
-    {
-        abort_if(Gate::denies('academic_qualification_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $academicQualification->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyAcademicQualificationRequest $request)
-    {
-        $academicQualifications = AcademicQualification::find(request('ids'));
-
-        foreach ($academicQualifications as $academicQualification) {
-            $academicQualification->delete();
+        if ($request->input('certificate', false)) {
+            $qualification->addMedia(storage_path('tmp/uploads/' . basename($request->input('certificate'))))->toMediaCollection('certificate');
         }
 
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function storeCKEditorImages(Request $request)
-    {
-        abort_if(Gate::denies('academic_qualification_create') && Gate::denies('academic_qualification_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $model         = new AcademicQualification();
-        $model->id     = $request->input('crud_id', 0);
-        $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
-
-        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+        return redirect()->route('frontend.academic-qualifications.index')->with('status', 'Qualification added successfully.');
     }
 }
