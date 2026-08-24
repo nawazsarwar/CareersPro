@@ -3,19 +3,16 @@ const assert = require('assert');
 
 (async () => {
   const browser = await chromium.launch();
-  const page = await browser.newPage();
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 
   try {
-      const response = await page.goto('http://127.0.0.1:8000/login');
-      console.log("Status: " + response.status());
-      await page.waitForLoadState('networkidle');
-      await page.screenshot({ path: 'docs/images/login-tailwind.png' });
+      await page.goto('http://127.0.0.1:8000/login', { waitUntil: 'networkidle' });
+      await page.screenshot({ path: 'docs/progress_screenshot/login_recreated_tailwind.png' });
 
       const bodyText = await page.textContent('body');
-      console.log("Body text extract: " + bodyText.substring(0, 100));
 
-      if(bodyText.includes('Login to CareersPro')) {
-          console.log("Auth visually verified with Tailwind.");
+      if(bodyText.includes('Welcome back') && bodyText.includes('CareersPro')) {
+          console.log("Auth visually verified with Tailwind split-pane design.");
       } else {
           console.log("Expected heading missing.");
       }

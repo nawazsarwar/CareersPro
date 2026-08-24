@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::table('employment_histories', function (Blueprint $table) {
             $table->boolean('is_permanent')->default(1)->after('designation');
-            $table->string('pay_level')->nullable()->after('salary');
-            $table->integer('duration_days')->default(0)->after('end_date');
+            $table->string('pay_level')->nullable()->after('gross_pay');
+            $table->integer('duration_days')->default(0)->after('to');
         });
     }
 

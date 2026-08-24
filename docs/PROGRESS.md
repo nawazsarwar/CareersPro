@@ -15,6 +15,11 @@
     - Academic Qualifications Module with sequential logic and API fields
     - Employment History & Research Publications Modules implemented
     - Resolved Code Review Defects (Restored RBAC isolation rules in admin posts controller and cleaned up dead code).
+- [x] Phase 5: UI Overhaul & Bug Fixes
+    - Replicated AMU Login UI using strict Tailwind 4
+    - Fixed PHP 8.4 PDO Deprecation Errors
+    - Fixed Migration dependency errors
+    - Captured Playwright screenshots in `docs/progress_screenshot`
 
 ## Live Traceability Count
 - Mapped Requirements: 29

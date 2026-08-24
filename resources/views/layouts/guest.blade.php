@@ -16,19 +16,15 @@
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             if (systemTheme === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.body.classList.add('dark', 'bg-gray-900');
+                document.body.classList.add('dark', 'bg-[#0c120f]');
             } else {
                 document.documentElement.classList.remove('dark');
-                document.body.classList.remove('dark', 'bg-gray-900');
+                document.body.classList.remove('dark', 'bg-[#0c120f]');
             }
         })();
     </script>
 </head>
-<body class="font-sans text-gray-900 antialiased dark:bg-gray-900">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            @yield('content')
-        </div>
-    </div>
+<body class="min-h-screen bg-gray-50 dark:bg-[#0c120f] text-gray-900 dark:text-gray-100 font-sans antialiased overflow-x-hidden selection:bg-indigo-600 selection:text-white relative">
+    @yield('content')
 </body>
 </html>

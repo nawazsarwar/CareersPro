@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="en" data-theme="light" data-palette="amu"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f4d2e">
+    <title>Sign In — Office of the Controller of Examinations — AMU</title>
+    <meta name="description" content="Secure login for Aligarh Muslim University examination and administrative portal.">
+    <meta name="csrf-token" content="QPALKrr4pS3ZEcxZOmifKMWHbmjSQfk0C44Wpgd7">
+    <link rel="icon" type="image/png" href="https://amuonline.ac.in/images/logo-qr.png">
+
+
+    <script>
+        (function () {
+            try {
+                var mode = localStorage.getItem('amu:theme') || 'auto';
+                var dark = mode === 'dark' || (mode === 'auto' &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches);
+                var root = document.documentElement;
+                root.setAttribute('data-theme', dark ? 'dark' : 'light');
+                root.setAttribute('data-palette', localStorage.getItem('amu:palette') || 'amu');
+            } catch (e) {}
+        })();
+    </script>
+
+    <link rel="preload" as="style" href="https://amuonline.ac.in/build/assets/app-njZuYo_m.css"><link rel="modulepreload" as="script" href="https://amuonline.ac.in/build/assets/app-BBD9ebFu.js"><link rel="stylesheet" href="https://amuonline.ac.in/build/assets/app-njZuYo_m.css"><script type="module" src="https://amuonline.ac.in/build/assets/app-BBD9ebFu.js"></script>    <style>
+    /* 1px subtle background blur for Victoria Gate AMU */
+    :root {
+        --bg-blur: 1px;
+    }
+    .amu-victoria-bg {
+        filter: blur(var(--bg-blur));
+    }
+
+    /* Integral Symbol (∫) Seam Transition on Desktop */
+    @media (min-width: 1024px) {
+        /* 1. Solid background with 50px rounded corner at the bottom */
+        .integral-solid-pane {
+            border-bottom-right-radius: 50px;
+            z-index: 20;
+        }
+
+        /* 2. Image pane keeps overflow hidden */
+        .integral-image-pane {
+            overflow: hidden;
+        }
+
+        /* 3. Slanted dividing line (15%) with 50px curve at top via SVG clipPath */
+        .integral-seam-cut {
+            clip-path: url(#integral-clip);
+        }
+    }
+</style>
+</head>
+
+<body x-data="{ isSubmitting: false, showPassword: false, theme: localStorage.getItem('amu:theme') || 'auto' }" class="min-h-screen bg-surface-2 dark:bg-[#0c120f] text-ink font-sans antialiased overflow-x-hidden selection:bg-brand-600 selection:text-white relative">
+
+
+    <svg class="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+        <defs>
+
+
+
+
+            <clipPath id="integral-clip" clipPathUnits="objectBoundingBox">
+                <path d="M 0.078,0.05 Q 0.082,0 0.13,0 L 1,0 L 1,1 L 0.045,1 Q 0,1 0.004,0.954 Z"></path>
+            </clipPath>
+        </defs>
+    </svg>
+
+
+    <div class="min-h-screen w-full flex flex-col lg:flex-row relative font-sans overflow-x-hidden bg-surface-2 dark:bg-[#0c120f]">
+
+
+
+
+        <header class="lg:hidden w-full px-4 py-3.5 flex items-center justify-center z-20 shrink-0 border-b border-line-soft/40 bg-surface/80 dark:bg-[#0c120f]/80 backdrop-blur-md">
+            <a href="https://amuonline.ac.in" class="group inline-flex items-center gap-3 transition-opacity hover:opacity-90">
+                <img src="https://amuonline.ac.in/images/logo-qr.png" alt="AMU Logo" class="w-9 h-9 rounded-full bg-white p-0.5 shadow-xs shrink-0">
+                <div class="text-left">
+                    <div class="text-[0.8rem] font-bold tracking-wider uppercase text-ink font-sans leading-tight">Aligarh Muslim University</div>
+                    <div class="text-[0.68rem] text-ink-3 font-sans leading-tight">Office of the Controller of Examinations</div>
+                </div>
+            </a>
+        </header>
+
+
+
+
+        <div class="integral-solid-pane hidden lg:flex w-1/3 min-h-screen bg-surface-2 dark:bg-[#0c120f] relative flex-col justify-between p-6 sm:p-10 shrink-0 shadow-lg lg:shadow-none">
+
+
+            <div class="z-20">
+                <a href="https://amuonline.ac.in" class="group inline-flex items-center gap-3 transition-opacity hover:opacity-90">
+                    <img src="https://amuonline.ac.in/images/logo-qr.png" alt="AMU Logo" class="w-10 h-10 rounded-full bg-white p-0.5 shadow-xs">
+                    <div>
+                        <div class="text-xs font-bold tracking-wider uppercase text-ink font-sans leading-tight">Aligarh Muslim University</div>
+                        <div class="text-[0.72rem] text-ink-3 font-sans leading-tight">Office of the Controller of Examinations</div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="z-20 hidden lg:block text-xs text-ink-3 font-sans">
+                <p>© 2026 Aligarh Muslim University. All rights reserved.</p>
+            </div>
+        </div>
+
+
+
+
+        <div class="integral-image-pane integral-seam-cut relative hidden lg:block w-2/3 min-h-screen bg-brand-900 shrink-0">
+
+
+            <img src="https://amuonline.ac.in/images/victoria-gate-amu.jpg" alt="Victoria Gate — Aligarh Muslim University" class="amu-victoria-bg absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none transition-all duration-700 opacity-90">
+
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent lg:bg-gradient-to-l lg:from-black/40 lg:via-black/10 lg:to-black/30 pointer-events-none"></div>
+
+
+            <div class="absolute bottom-6 right-6 z-20 hidden lg:block text-white/90">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-black/40 backdrop-blur-md border border-white/15 text-xs shadow-lg font-sans">
+                    <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                    <span class="font-medium text-white font-sans">Victoria Gate</span>
+                    <span class="text-white/40">·</span>
+                    <span class="text-white/70 font-sans">AMU Aligarh</span>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-0 lg:absolute lg:top-1/2 lg:left-1/3 lg:-translate-x-1/2 lg:-translate-y-1/2 z-30 w-full sm:w-[480px] lg:w-[480px]">
+
+
+            <div class="w-full rounded-2xl bg-surface dark:bg-[#141a17] border border-line shadow-lg sm:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] p-6 sm:p-8 lg:p-10 transition-all duration-300">
+
+
+                <div class="flex flex-col items-center justify-center mb-6">
+                    <img src="https://amuonline.ac.in/images/logo-qr.png" alt="Aligarh Muslim University Logo" class="w-14 h-14 object-contain rounded-full shadow-xs mb-3 bg-white p-0.5 border border-line-soft">
+
+
+                    <h1 class="text-xl sm:text-2xl font-bold text-ink tracking-tight font-sans">Sign In</h1>
+                </div>
+
+
+
+
+
+                <form method="POST" action="https://amuonline.ac.in/login" @submit="isSubmitting = true" class="space-y-4">
+                    <input type="hidden" name="_token" value="QPALKrr4pS3ZEcxZOmifKMWHbmjSQfk0C44Wpgd7" autocomplete="off">
+
+
+                    <div>
+                        <label for="email" class="block text-[0.72rem] font-semibold uppercase tracking-wider text-ink-2 mb-1.5 font-sans">
+                            Username or Email
+                        </label>
+                        <div class="relative">
+                            <input id="email" type="text" name="email" value="" required="" autofocus="" autocomplete="username" placeholder="e.g. user@amu.ac.in or username" class="w-full px-4 py-3 text-sm rounded-xl border border-line bg-surface-2 dark:bg-[#1a2220] text-ink placeholder:text-ink-3/50 focus:bg-surface dark:focus:bg-[#1a2220] focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-all font-sans">
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <label for="password" class="block text-[0.72rem] font-semibold uppercase tracking-wider text-ink-2 mb-1.5 font-sans">
+                            Password
+                        </label>
+                        <div class="relative">
+                            <input id="password" :type="showPassword ? 'text' : 'password'" name="password" required="" autocomplete="current-password" placeholder="••••••••••••" class="w-full pl-4 pr-11 py-3 text-sm rounded-xl border border-line bg-surface-2 dark:bg-[#1a2220] text-ink placeholder:text-ink-3/50 focus:bg-surface dark:focus:bg-[#1a2220] focus:outline-none focus:ring-1 focus:ring-brand-600 focus:border-brand-600 transition-all font-sans" type="password">
+                            <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-ink-3 hover:text-ink transition-colors" tabindex="-1" aria-label="Toggle password visibility">
+                                <svg x-show="!showPassword" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                <svg x-show="showPassword" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="flex items-center justify-between text-xs pt-1">
+                        <label class="inline-flex items-center gap-2 cursor-pointer text-ink-2 select-none font-sans">
+                            <input type="checkbox" name="remember" class="rounded-md border-line text-brand-800 dark:text-accent focus:ring-accent w-4 h-4 bg-surface-2">
+                            <span>Keep me signed in</span>
+                        </label>
+                    </div>
+
+
+                    <div class="pt-2">
+                        <button type="submit" :disabled="isSubmitting" class="w-full py-3.5 px-5 rounded-xl font-bold text-sm text-white bg-brand-800 hover:bg-brand-700 dark:bg-brand-700 dark:hover:bg-brand-600 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2 focus:ring-offset-surface shadow-sm transition-all duration-150 disabled:opacity-70 disabled:pointer-events-none flex items-center justify-center gap-2 font-sans">
+                            <span x-show="!isSubmitting">Sign In</span>
+                            <span x-show="isSubmitting" class="inline-flex items-center gap-2" style="display: none;">
+                                <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Signing in...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+
+
+                <div class="mt-6 text-center">
+                    <a href="https://amuonline.ac.in#help" class="text-xs text-ink-3 hover:text-ink transition-colors font-medium font-sans">
+                        Need help signing in?
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <footer class="lg:hidden w-full py-4 text-center text-xs text-ink-3 font-sans shrink-0">
+            <p>© 2026 Aligarh Muslim University. All rights reserved.</p>
+        </footer>
+    </div>
+
+
+
+</body></html>
