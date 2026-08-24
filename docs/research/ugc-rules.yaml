@@ -1,0 +1,32 @@
+# Machine-readable UGC 2018 API rules corpus
+ugc_regulations:
+  version: "2018"
+  status: "active"
+  api_scoring:
+    table_2_research_publications:
+      peer_reviewed:
+        base_marks: 8
+      ugc_care_listed:
+        base_marks: 8
+      impact_factor_adjustments:
+        no_if: 5
+        if_less_than_1: 10
+        if_1_to_2: 15
+        if_2_to_5: 20
+        if_5_to_10: 25
+        if_greater_than_10: 30
+      authorship_distribution:
+        first_or_corresponding: 0.70 # 70% of total
+        co_author: 0.30 # 30% of total
+    table_2_books:
+      international_publisher: 12
+      national_publisher: 10
+      chapter_in_edited_book: 5
+    table_2_projects:
+      more_than_10_lakhs: 10
+      less_than_10_lakhs: 5
+      pi_vs_copi:
+        pi: 1.0 # 100%
+        co_pi: 0.5 # 50%
+  phd_net_exemption:
+    requires_ugc_2009_2016_compliance: true

@@ -11,11 +11,10 @@ use App\Models\Advertisement;
 use App\Models\Post;
 use App\Models\PostType;
 use App\Models\User;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\Facades\DataTables;
 
 class PostsController extends Controller
 {
@@ -23,112 +22,35 @@ class PostsController extends Controller
 
     public function index(Request $request)
     {
-        abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($request->ajax()) {
-            $query = Post::with(['advertisement', 'posttype', 'added_by'])->select(sprintf('%s.*', (new Post)->table));
-            $table = Datatables::of($query);
+        $query = Post::with(['advertisement', 'posttype', 'added_by']);
 
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'post_show';
-                $editGate      = 'post_edit';
-                $deleteGate    = 'post_delete';
-                $crudRoutePart = 'posts';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
-
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->addColumn('advertisement_title', function ($row) {
-                return $row->advertisement ? $row->advertisement->title : '';
-            });
-
-            $table->addColumn('posttype_name', function ($row) {
-                return $row->posttype ? $row->posttype->name : '';
-            });
-
-            $table->editColumn('serial_no', function ($row) {
-                return $row->serial_no ? $row->serial_no : '';
-            });
-            $table->editColumn('title', function ($row) {
-                return $row->title ? $row->title : '';
-            });
-            $table->editColumn('subject', function ($row) {
-                return $row->subject ? $row->subject : '';
-            });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
-            });
-            $table->editColumn('vacancies', function ($row) {
-                return $row->vacancies ? $row->vacancies : '';
-            });
-            $table->editColumn('location', function ($row) {
-                return $row->location ? $row->location : '';
-            });
-            $table->editColumn('pay_level', function ($row) {
-                return $row->pay_level ? $row->pay_level : '';
-            });
-            $table->editColumn('pay_range', function ($row) {
-                return $row->pay_range ? $row->pay_range : '';
-            });
-            $table->editColumn('fee', function ($row) {
-                return $row->fee ? $row->fee : '';
-            });
-
-            $table->editColumn('withdrawn', function ($row) {
-                return $row->withdrawn ? $row->withdrawn : '';
-            });
-            $table->editColumn('status', function ($row) {
-                return $row->status ? $row->status : '';
-            });
-            $table->editColumn('remarks', function ($row) {
-                return $row->remarks ? $row->remarks : '';
-            });
-            $table->addColumn('added_by_name', function ($row) {
-                return $row->added_by ? $row->added_by->name : '';
-            });
-
-            $table->editColumn('test_reporting_time', function ($row) {
-                return $row->test_reporting_time ? $row->test_reporting_time : '';
-            });
-            $table->editColumn('gate_closing_time', function ($row) {
-                return $row->gate_closing_time ? $row->gate_closing_time : '';
-            });
-            $table->editColumn('scheduled_test_start', function ($row) {
-                return $row->scheduled_test_start ? $row->scheduled_test_start : '';
-            });
-            $table->editColumn('test_duration', function ($row) {
-                return $row->test_duration ? $row->test_duration : '';
-            });
-
-            $table->editColumn('interview_time', function ($row) {
-                return $row->interview_time ? $row->interview_time : '';
-            });
-            $table->editColumn('interview_venue', function ($row) {
-                return $row->interview_venue ? $row->interview_venue : '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'advertisement', 'posttype', 'added_by']);
-
-            return $table->make(true);
+        // Handle Search
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'like', "%{$search}%")
+                  ->orWhere('subject', 'like', "%{$search}%")
+                  ->orWhere('serial_no', 'like', "%{$search}%");
         }
+
+        // Handle Status Filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        // Sorting
+        $sortField = $request->input('sort', 'id');
+        $sortDir = $request->input('direction', 'desc');
+        $query->orderBy($sortField, $sortDir);
+
+        $posts = $query->paginate(15)->withQueryString();
 
         $advertisements = Advertisement::get();
         $post_types     = PostType::get();
         $users          = User::get();
 
-        return view('admin.posts.index', compact('advertisements', 'post_types', 'users'));
+        return view('admin.posts.index', compact('posts', 'advertisements', 'post_types', 'users'));
     }
 
     public function create()
@@ -136,9 +58,7 @@ class PostsController extends Controller
         abort_if(Gate::denies('post_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $advertisements = Advertisement::pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $posttypes = PostType::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $added_bies = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.posts.create', compact('added_bies', 'advertisements', 'posttypes'));
@@ -160,9 +80,7 @@ class PostsController extends Controller
         abort_if(Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $advertisements = Advertisement::pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $posttypes = PostType::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $added_bies = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $post->load('advertisement', 'posttype', 'added_by');
@@ -181,7 +99,7 @@ class PostsController extends Controller
     {
         abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $post->load('advertisement', 'posttype', 'added_by');
+        $post->load('advertisement', 'posttype', 'added_by', 'postApplicationForms');
 
         return view('admin.posts.show', compact('post'));
     }

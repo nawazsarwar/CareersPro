@@ -198,6 +198,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
 
     // Application Forms
     Route::delete('application-forms/destroy', [AdminApplicationFormsController::class, 'massDestroy'])->name('application-forms.massDestroy');
+    Route::get('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'create'])->name('application-forms.create');
+    Route::post('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'store'])->name('application-forms.store');
     Route::resource('application-forms', AdminApplicationFormsController::class);
 
     // Institutions Attended
@@ -212,6 +214,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
     Route::delete('other-details/destroy', [AdminOtherDetailsController::class, 'massDestroy'])->name('other-details.massDestroy');
     Route::post('other-details/media', [AdminOtherDetailsController::class, 'storeMedia'])->name('other-details.storeMedia');
     Route::post('other-details/ckmedia', [AdminOtherDetailsController::class, 'storeCKEditorImages'])->name('other-details.storeCKEditorImages');
+    Route::resource('research-publications', AppHttpControllersFrontendResearchPublicationsController::class);
     Route::resource('other-details', AdminOtherDetailsController::class);
 
     Route::get('global-search', [AdminGlobalSearchController::class, 'search'])->name('globalSearch');
@@ -227,7 +230,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
     }
 });
 
-Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
+Route::group(['as' => 'frontend.'], function () {
     Route::get('/home', [FrontendHomeController::class, 'index'])->name('home');
 
     // Permissions
@@ -268,7 +271,7 @@ Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
     Route::delete('posts/destroy', [FrontendPostsController::class, 'massDestroy'])->name('posts.massDestroy');
     Route::post('posts/media', [FrontendPostsController::class, 'storeMedia'])->name('posts.storeMedia');
     Route::post('posts/ckmedia', [FrontendPostsController::class, 'storeCKEditorImages'])->name('posts.storeCKEditorImages');
-    Route::resource('posts', FrontendPostsController::class);
+    Route::resource('posts', FrontendPostsController::class)->withoutMiddleware('auth');
 
     // Marital Statuses
     Route::delete('marital-statuses/destroy', [FrontendMaritalStatusesController::class, 'massDestroy'])->name('marital-statuses.massDestroy');
@@ -348,6 +351,8 @@ Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
 
     // Application Forms
     Route::delete('application-forms/destroy', [FrontendApplicationFormsController::class, 'massDestroy'])->name('application-forms.massDestroy');
+    Route::get('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'create'])->name('application-forms.create');
+    Route::post('apply', [AppHttpControllersFrontendApplicationWizardController::class, 'store'])->name('application-forms.store');
     Route::resource('application-forms', FrontendApplicationFormsController::class);
 
     // Institutions Attended
@@ -362,6 +367,7 @@ Route::group(['as' => 'frontend.', 'middleware' => ['auth']], function () {
     Route::delete('other-details/destroy', [FrontendOtherDetailsController::class, 'massDestroy'])->name('other-details.massDestroy');
     Route::post('other-details/media', [FrontendOtherDetailsController::class, 'storeMedia'])->name('other-details.storeMedia');
     Route::post('other-details/ckmedia', [FrontendOtherDetailsController::class, 'storeCKEditorImages'])->name('other-details.storeCKEditorImages');
+    Route::resource('research-publications', AppHttpControllersFrontendResearchPublicationsController::class);
     Route::resource('other-details', FrontendOtherDetailsController::class);
 
     Route::get('frontend/profile', [FrontendProfileController::class, 'index'])->name('profile.index');

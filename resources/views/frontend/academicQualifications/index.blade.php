@@ -1,283 +1,109 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            @can('academic_qualification_create')
-                <div style="margin-bottom: 10px;" class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('frontend.academic-qualifications.create') }}">
-                            {{ trans('global.add') }} {{ trans('cruds.academicQualification.title_singular') }}
-                        </a>
-                    </div>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="{ showForm: false }">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Academic Qualifications</h2>
+        <button @click="showForm = !showForm" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+            <span x-text="showForm ? 'Cancel' : 'Add Qualification'"></span>
+        </button>
+    </div>
+
+    @if(session('status'))
+        <div class="mb-4 bg-green-100 text-green-800 p-4 rounded">{{ session('status') }}</div>
+    @endif
+    @if($errors->any())
+        <div class="mb-4 bg-red-100 text-red-800 p-4 rounded">
+            <ul class="list-disc pl-5">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div x-show="showForm" x-cloak class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-8">
+        <form action="{{ route('frontend.academic-qualifications.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Level</label>
+                    <select name="qualification_level_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                        @foreach($levels as $id => $entry)
+                            <option value="{{ $id }}">{{ $entry }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            @endcan
-            <div class="card">
-                <div class="card-header">
-                    {{ trans('cruds.academicQualification.title_singular') }} {{ trans('global.list') }}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Degree / Course</label>
+                    <input type="text" name="course" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" required>
                 </div>
-
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-AcademicQualification">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.id') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.user') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.name') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.course') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.board') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.year') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.division') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.percentage') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.cgpa') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.subjects') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.title') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.remarks') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.academicQualification.fields.document') }}
-                                    </th>
-                                    <th>
-                                        &nbsp;
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <select class="search">
-                                            <option value>{{ trans('global.all') }}</option>
-                                            @foreach($users as $key => $item)
-                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="search">
-                                            <option value>{{ trans('global.all') }}</option>
-                                            @foreach($qualification_levels as $key => $item)
-                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <select class="search">
-                                            <option value>{{ trans('global.all') }}</option>
-                                            @foreach($boards as $key => $item)
-                                                <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <select class="search" strict="true">
-                                            <option value>{{ trans('global.all') }}</option>
-                                            @foreach(App\Models\AcademicQualification::DIVISION_SELECT as $key => $item)
-                                                <option value="{{ $item }}">{{ $item }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($academicQualifications as $key => $academicQualification)
-                                    <tr data-entry-id="{{ $academicQualification->id }}">
-                                        <td>
-                                            {{ $academicQualification->id ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->user->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->name->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->course ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->board->name ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->year ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ App\Models\AcademicQualification::DIVISION_SELECT[$academicQualification->division] ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->percentage ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->cgpa ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->subjects ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->title ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ $academicQualification->remarks ?? '' }}
-                                        </td>
-                                        <td>
-                                            @if($academicQualification->document)
-                                                <a href="{{ $academicQualification->document->getUrl() }}" target="_blank">
-                                                    {{ trans('global.view_file') }}
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @can('academic_qualification_show')
-                                                <a class="btn btn-xs btn-primary" href="{{ route('frontend.academic-qualifications.show', $academicQualification->id) }}">
-                                                    {{ trans('global.view') }}
-                                                </a>
-                                            @endcan
-
-                                            @can('academic_qualification_edit')
-                                                <a class="btn btn-xs btn-info" href="{{ route('frontend.academic-qualifications.edit', $academicQualification->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
-
-                                            @can('academic_qualification_delete')
-                                                <form action="{{ route('frontend.academic-qualifications.destroy', $academicQualification->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                </form>
-                                            @endcan
-
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Board / University</label>
+                    <select name="board_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                        @foreach($boards as $id => $entry)
+                            <option value="{{ $id }}">{{ $entry }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Passing Year</label>
+                    <input type="date" name="year" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Percentage</label>
+                    <input type="number" step="0.01" name="percentage" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subjects</label>
+                    <input type="text" name="subjects" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Final Marksheet (PDF/JPG, Max 2MB)</label>
+                    <input type="file" name="marksheet" accept=".pdf,.jpg,.jpeg" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Degree Certificate (PDF/JPG, Max 2MB)</label>
+                    <input type="file" name="certificate" accept=".pdf,.jpg,.jpeg" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" required>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="is_ugc_2009_compliant" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">If PhD/M.Phil, is it compliant with UGC 2009/2016 regulations?</span>
+                    </label>
                 </div>
             </div>
+            <div class="mt-6 flex justify-end">
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">Save</button>
+            </div>
+        </form>
+    </div>
 
-        </div>
+    <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-gray-900">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Level</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                @forelse($qualifications as $qual)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ $qual->qualification_level->name ?? '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ $qual->course }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ \Carbon\Carbon::parse($qual->year)->format('Y') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ $qual->percentage ?? $qual->cgpa }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No qualifications added yet.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
-@endsection
-@section('scripts')
-@parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('academic_qualification_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('frontend.academic-qualifications.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-AcademicQualification:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-let visibleColumnsIndexes = null;
-$('.datatable thead').on('input', '.search', function () {
-      let strict = $(this).attr('strict') || false
-      let value = strict && this.value ? "^" + this.value + "$" : this.value
-
-      let index = $(this).parent().index()
-      if (visibleColumnsIndexes !== null) {
-        index = visibleColumnsIndexes[index]
-      }
-
-      table
-        .column(index)
-        .search(value, strict)
-        .draw()
-  });
-table.on('column-visibility.dt', function(e, settings, column, state) {
-      visibleColumnsIndexes = []
-      table.columns(":visible").every(function(colIdx) {
-          visibleColumnsIndexes.push(colIdx);
-      });
-  })
-})
-
-</script>
 @endsection
