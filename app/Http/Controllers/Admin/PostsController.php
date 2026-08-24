@@ -22,7 +22,7 @@ class PostsController extends Controller
 
     public function index(Request $request)
     {
-        // abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $query = Post::with(['advertisement', 'posttype', 'added_by']);
 

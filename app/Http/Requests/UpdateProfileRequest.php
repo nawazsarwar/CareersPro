@@ -15,11 +15,10 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,' . auth()->id()],
-            'category_id' => ['nullable', 'exists:categories,id'],
             'gender' => ['nullable', 'string', 'in:Male,Female,Other'],
             'dob' => ['nullable', 'date'],
-            'pwbd_status' => ['nullable', 'boolean'],
+            'mobile' => ['nullable', 'string', 'max:20'],
+            'pwd_status' => ['nullable', 'boolean'],
             'ex_serviceman' => ['nullable', 'boolean'],
         ];
     }

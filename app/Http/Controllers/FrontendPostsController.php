@@ -33,7 +33,7 @@ class FrontendPostsController extends Controller
         Log::info("Found " . $posts->count() . " posts.");
 
         if (!\Gate::allows('post_access')) {
-            // abort(403);
+            abort(403);
         }
 
         return view('frontend.posts.index', compact('posts'));

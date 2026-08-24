@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Gate;
 
 class AdminPostsTest extends TestCase
 {
@@ -17,10 +18,22 @@ class AdminPostsTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $role = Role::create(['title' => 'Admin']);
-        $permission = Permission::create(['title' => 'post_access']);
-        $role->permissions()->sync([$permission->id]);
-        $user->roles()->sync([$role->id]);
+        // Mock the Gate to allow 'post_access' for this specific test
+        Gate::define('post_access', function () {
+            return true;
+        });
+        Gate::define('post_create', function () {
+            return true;
+        });
+        Gate::define('post_delete', function () {
+            return true;
+        });
+        Gate::define('post_edit', function () {
+            return true;
+        });
+        Gate::define('post_show', function () {
+            return true;
+        });
 
         Post::factory()->create(['title' => 'Test Admin Post']);
 

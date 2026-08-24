@@ -3,45 +3,49 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use Gate;
+use App\Models\Profile;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     public function index()
     {
-        return view('frontend.profile');
+        $user = Auth::user();
+        $profile = $user->profile()->firstOrCreate([], ['first_name' => $user->name, 'verified' => 0, 'locked' => 0]);
+
+        return view('frontend.profile.index', compact('user', 'profile'));
     }
 
     public function update(UpdateProfileRequest $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
-        $user->update($request->validated());
+        // Split name fallback
+        $nameParts = explode(' ', $request->name, 2);
 
-        return redirect()->route('frontend.profile.index')->with('message', __('global.update_profile_success'));
-    }
+        $profile = $user->profile()->firstOrCreate([], ['first_name' => $user->name, 'verified' => 0, 'locked' => 0]);
 
-    public function destroy()
-    {
-        $user = auth()->user();
+        // Prevent editing if locked (Application active state)
+        if ($profile->locked) {
+            return back()->withErrors(['locked' => 'Your profile is currently locked from editing due to an active application.']);
+        }
 
         $user->update([
-            'email' => time() . '_' . $user->email,
+            'name' => $request->name,
         ]);
 
-        $user->delete();
+        $profile->update([
+            'first_name' => $nameParts[0] ?? $user->name,
+            'last_name' => $nameParts[1] ?? '',
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'mobile' => $request->mobile,
+            'ex_serviceman' => $request->ex_serviceman ?? 0,
+            'pwd' => $request->pwd_status ? 'Yes' : 'No',
+        ]);
 
-        return redirect()->route('login')->with('message', __('global.delete_account_success'));
-    }
-
-    public function password(UpdatePasswordRequest $request)
-    {
-        auth()->user()->update($request->validated());
-
-        return redirect()->route('frontend.profile.index')->with('message', __('global.change_password_success'));
+        return redirect()->route('frontend.profile.index')->with('status', 'Profile updated successfully.');
     }
 }
