@@ -1,0 +1,1076 @@
+# ---------------------------------------------------------------------------
+# CareersPro v2 — Rules Catalogue
+#
+# REPLACES docs/research/ugc-rules.yaml, which contained five substantive errors
+# against the notified Gazette (see docs/v3/00-clarify/decision-register.md §5).
+#
+# THE RULE OF THIS FILE
+# ---------------------
+# No value enters this file without a `citation`. Every value is verified against
+# the source PDF by a SECOND READER before the ruleset status moves to `active`.
+# Values are TRANSCRIBED, never recalled. If the Gazette is ambiguous, the rule
+# carries `pending_ratification: true` and the engine REFUSES TO SCORE rather
+# than guessing — see `engine_contract.on_pending_ratification`.
+#
+# This file is data, not code. Adding a regulation is an import, not a release.
+# ---------------------------------------------------------------------------
+
+meta:
+  schema_version: 1
+  generated: "2026-08-27"
+  owner: implementation-team
+  source_of_truth: >
+    The notified Gazette PDFs in docs/. The .txt extractions in docs/research/ are
+    OCR-derived and demonstrably lossy (DOC-007) and are used only for line
+    references, never as the authority for a figure.
+  second_reader_verified: false      # MUST be true before any ruleset goes active
+  sources:
+    ugc_teaching_2018:
+      pdf: docs/UGC_Regulations_Teaching_Staff_2018.pdf
+      text: docs/research/ugc_regulations_2018.txt
+      notification: "F.1-2/2017(EC/PS)"
+      gazette: "Part III-Sec.4, No. 271, 18 July 2018"
+    ugc_teaching_2025_draft:
+      pdf: docs/UGC_Draft_Regulations_Teaching_2025.pdf
+      released: "2025-01-06"
+      consultation_closed: "2025-02-28"
+      notified: false
+    ugc_crr_non_teaching_2022:
+      pdf: docs/UGC_Model_Cadre_Recruitment_Rules_Non_Teaching.pdf
+      text: docs/research/ugc_model_non_teaching.txt
+
+# ---------------------------------------------------------------------------
+# ENGINE CONTRACT — how a consumer must behave. Not advisory.
+# ---------------------------------------------------------------------------
+engine_contract:
+  binding: >
+    A ruleset version is resolved at ADVERTISEMENT PUBLISH time and frozen onto the
+    advertisement. Scoring always uses the frozen version, never the currently
+    active one. This is what makes an application reproducible years later.
+
+  on_pending_ratification: refuse
+  # `refuse` = if any rule required for a computation carries
+  # pending_ratification: true, the engine raises PendingRatificationError and
+  # produces NO score. It must never silently apply `recommended`.
+  # A recommended value becomes usable only when an EC decision sets
+  # pending_ratification: false and records `ratified_by` / `ratified_on`.
+
+  explainability: >
+    Every score line MUST carry the rule `id` and its `citation`. A total without
+    per-line citations is not a valid output.
+
+  determinism: >
+    Re-running the engine over the same application snapshot and the same ruleset
+    version MUST produce byte-identical output. Guaranteed by construction: both
+    inputs are immutable.
+
+  evidence_required: >
+    UGC 2018 Appendix II Table 2 header requires assessment "based on evidence
+    produced by the teacher". Any claim mapped to a rule with
+    `evidence_required: true` scores ZERO without a linked document.
+
+# ---------------------------------------------------------------------------
+rulesets:
+
+  # =========================================================================
+  # UGC TEACHING 2018 — ACTIVE
+  # =========================================================================
+  - id: ugc-teaching-2018
+    title: UGC Regulations 2018 — teaching cadres
+    status: active
+    applies_to: [teaching, library, physical_education]
+    effective_from: "2018-07-18"
+    effective_to: null
+    supersedes: ugc-regulations-2010
+    design_doc: docs/v3/01-design/regulatory/ugc-teaching-2018.md
+
+    # --- Invariant that overrides all scoring ------------------------------
+    invariants:
+      - id: TCH-INV-01
+        citation: "cl. 4.1 I Note (:4547-4549); cl. 5.3 (:5769-5773)"
+        statement: >
+          The Table 3A/3B academic score is for SHORTLISTING ONLY. A teaching merit
+          list is built from interview performance alone.
+        enforcement: >
+          MeritStrategy for any teaching designation MUST reject a shortlisting
+          score as an input. Enforced at the type level, not by convention.
+        severity: statutory_violation
+
+      - id: TCH-INV-02
+        citation: "cl. 5.1 VIII(c), cl. 5.3"
+        statement: >
+          The selection process completes on the day of the selection committee
+          meeting.
+        enforcement: >
+          No post-committee objection window is compatible. A grievance window may
+          exist only at the SCREENING stage.
+
+    # --- Faculty columns for Table 2 ---------------------------------------
+    faculty_columns:
+      column_i:
+        citation: "App. II Table 2 header"
+        faculties: [sciences, engineering, agriculture, medical, veterinary_sciences]
+      column_ii:
+        citation: "App. II Table 2 header"
+        faculties:
+          [languages, humanities, arts, social_sciences, library, education,
+           physical_education, commerce, management, other_related]
+      amu_override:
+        status: pending_document      # DOC-001
+        note: >
+          FN-1 Part B adds Unani Medicine to Column I and Theology + International
+          Studies to Column II, and DROPS library, education and physical_education
+          from Column II. Resolve against AMU's Ordinances (DOC-001) before use.
+          Until then the Gazette mapping above governs.
+
+    # --- Cadre eligibility --------------------------------------------------
+    cadres:
+      - id: assistant_professor
+        citation: "cl. 4.1 I (:4483-4549)"
+        masters_min_percent: 55
+        net_required: true
+        net_exemption_ref: TCH-EXEMPT-01
+        phd_required: false
+        phd_mandatory_from:
+          value: "2021-07-01"
+          citation: "cl. 3.10 (:4451-4454)"
+          scope: universities_direct_recruitment
+          pending_document: DOC-002   # a 2021 amendment deferred this date
+        alt_route:
+          id: foreign_phd_top_500
+          citation: "cl. 4.1 I B"
+          rankings: [QS, THE, ARWU]
+          rank_within: 500
+        experience_years: null
+        publications_min: null
+        research_score_min: null
+
+      - id: associate_professor
+        citation: "cl. 4.1 II (:4550-4563)"
+        masters_min_percent: 55
+        net_required: false
+        phd_required: true
+        phd_citation: "cl. 3.8 (:4441-4444)"
+        experience_years: 8
+        experience_note: "teaching and/or research at a level equivalent to Assistant Professor"
+        publications_min: 7
+        research_score_min: 75
+
+      - id: professor
+        citation: "cl. 4.1 III (:4564-4585)"
+        masters_min_percent: 55
+        net_required: false
+        phd_required: true
+        phd_citation: "cl. 3.7 (:4437-4439)"
+        experience_years: 10
+        experience_note: "as Asst./Assoc./Professor, WITH evidence of having successfully guided a doctoral candidate"
+        requires_doctoral_guidance: true
+        publications_min: 10
+        research_score_min: 120
+        alt_route:
+          id: outstanding_professional
+          citation: "cl. 4.1 III B (:4588-4595)"
+          experience_years: 10
+          note: "from an academic institution not in Option A, or from industry; contribution supported by documentary evidence"
+          publications_min: null       # not stated in the Gazette
+          research_score_min: null     # not stated in the Gazette
+
+      - id: senior_professor
+        citation: "cl. 4.1 IV (:4596-4611)"
+        cap_percent_of_professor_strength: 10
+        experience_years: 10
+        experience_note: "as Professor or equivalent grade"
+        publications_min: 10
+        publications_note: "10 best publications"
+        phd_awarded_under_supervision_min: 2
+        phd_awarded_within_years: 10
+        assessment: { by: eminent_experts, count: 3, min_rank: professor, min_experience_years: 10 }
+
+      - id: college_principal_professor
+        citation: "cl. 4.1 V (:4612-4639)"
+        phd_required: true
+        experience_years: 15
+        publications_min: 10
+        research_score_min: 110
+
+      - id: assistant_librarian
+        citation: "cl. 4.7 I (:5094-5134)"
+        masters_min_percent: 55
+        masters_subjects: [library_science, information_science, documentation_science]
+        additional_requirement: "consistently good academic record with knowledge of library computerisation"
+        net_required: true
+        net_exemption_ref: TCH-EXEMPT-01
+        phd_required: false
+        research_score_min: null
+
+      - id: deputy_librarian
+        citation: "cl. 4.7 II (:5142-5151)"
+        masters_min_percent: 55
+        phd_required: true
+        phd_subjects: [library_science, information_science, documentation_science,
+                       archives_and_manuscript_keeping, library_computerisation]
+        experience_years: 8
+        experience_note: "as Assistant University Librarian / College Librarian"
+        additional_requirement: "evidence of innovative library services including ICT integration"
+
+      - id: university_librarian
+        citation: "cl. 4.7 III (:5152-5161)"
+        masters_min_percent: 55
+        phd_required: true
+        experience_years: 10
+        experience_alternatives:
+          - "10 years as Librarian at any level in a University Library"
+          - "10 years teaching Library Science as Asst./Assoc. Professor"
+          - "10 years as College Librarian"
+
+      - id: assistant_director_pes
+        citation: "cl. 4.8 I (:5168-5231)"
+        masters_min_percent: 55
+        masters_subjects: [physical_education_and_sports, physical_education, sports_science]
+        net_required: true
+        net_exemption_ref: TCH-EXEMPT-01
+        phd_required: false
+        physical_fitness_test_required: true
+        additional_requirement: >
+          record of having represented the university/college at inter-university /
+          inter-collegiate competitions or State and/or national championships
+        alt_route:
+          id: games_medallist
+          games: [asian_games, commonwealth_games]
+          min_qualification: postgraduate
+
+      - id: deputy_director_pes
+        citation: "cl. 4.8 II (:5232-5264)"
+        phd_required: true
+        masters_min_percent: 55
+        masters_percent_applies_to: candidates_from_outside_university_system
+        experience_years: 8
+        physical_fitness_test_required: true
+        additional_requirements:
+          - "evidence of organising competitions and conducting coaching camps of at least two weeks"
+          - "evidence of having produced good performance of teams/athletes"
+        alt_route:
+          id: elite_medallist
+          games: [olympic_games, world_cup, world_championship]
+          min_qualification: postgraduate
+
+      - id: director_pes
+        citation: "cl. 4.8 III (:5265-5283)"
+        phd_required: true
+        experience_years: 10
+        physical_fitness_test_required: false   # not listed for this post — confirm
+
+    # --- Discipline variants ------------------------------------------------
+    discipline_variants:
+      - { disciplines: [music, performing_arts, visual_arts], citation: "cl. 4.2",
+          professor: { publications_min: 6, research_score_min: 120 },
+          associate_professor: { experience_years: 8, research_score_min: null } }
+      - { disciplines: [drama], citation: "cl. 4.3",
+          professor: { publications_min: 6, research_score_min: 120 },
+          associate_professor: { experience_years: 8, research_score_min: null } }
+      - { disciplines: [yoga], citation: "cl. 4.4",
+          associate_professor: { publications_min: 7, research_score_min: 75 },
+          professor: { publications_min: 10, research_score_min: 120 } }
+      - { disciplines: [occupational_therapy], citation: "cl. 4.5",
+          net_required: false, publications_min: null, research_score_min: null,
+          assistant_professor: { requires: [bachelors_in_discipline, masters_in_discipline], masters_min_percent: 55 },
+          associate_professor: { experience_years: 8 }, professor: { experience_years: 10 } }
+      - { disciplines: [physiotherapy], citation: "cl. 4.6",
+          net_required: false, publications_min: null, research_score_min: null,
+          associate_professor: { experience_years: 8 }, professor: { experience_years: 10 } }
+
+    # --- NET/SET exemption --------------------------------------------------
+    exemptions:
+      - id: TCH-EXEMPT-01
+        citation: "cl. 3.3 I; cl. 4.1 I A(ii) (:4512-4536)"
+        title: NET/SET exemption via a compliant PhD
+        phd_compliant_with:
+          values: ["2009", "2016"]
+          verbatim_qualifier: "and their subsequent amendments from time to time"
+          pending_document: DOC-002
+          note: >
+            PhD Regulations 2022 superseded 2016 and abolished M.Phil. Whether a
+            2022-compliant PhD triggers exemption is NOT resolvable from the
+            documents held. Modelled as an enum (2009|2016|2022|none) so a decision
+            applies without a schema change. THIS IS THE MOST-USED PATHWAY.
+        pre_2009_registrants:
+          applies_if_registered_before: "2009-07-11"
+          all_conditions_required: true
+          conditions:
+            - { id: a, text: "The Ph.D. degree of the candidate has been awarded in a regular mode" }
+            - { id: b, text: "The Ph.D. thesis has been evaluated by at least two external examiners",
+                source_defect: "cl. 3.3 I(b) reads 'awarded' — OCR/drafting error; 'evaluated' is correct" }
+            - { id: c, text: "An open Ph.D. viva voce of the candidate has been conducted" }
+            - { id: d, text: "The candidate has published two research papers from his/her Ph.D. work, out of which at least one is in a refereed journal" }
+            - { id: e, text: "The candidate has presented at least two papers based on his/her Ph.D. work in conferences/seminars sponsored/funded/supported by the UGC/ICSSR/CSIR or any similar agency",
+                variant_note: "At cl. 4.8 I (DPES) condition (e) OMITS the funding-agency requirement (:5209-5212)" }
+          certifying_authority:
+            gazette: ["registrar", "dean_academic_affairs"]
+            conflict: >
+              FN-1 item 20 says "Registrar/Controller". A wrong issuing authority is
+              a common ground for rejection. AMU must settle which it accepts.
+      - id: TCH-EXEMPT-02
+        citation: "cl. 3.3"
+        title: Discipline in which NET/SLET/SET is not conducted
+        net_required: false
+
+    # --- Percentage thresholds and relaxations ------------------------------
+    qualification_thresholds:
+      base:
+        id: TCH-QUAL-01
+        citation: "cl. 3.4 (:4410-4414)"
+        masters_min_percent: 55
+        grace_marks_excluded: true
+        grace_marks_citation: "cl. 3.4 I — 'based only on the qualifying marks without including any grace mark procedure'"
+      relaxations:
+        - id: TCH-REL-01
+          citation: "cl. 3.4 I (:4416-4425)"
+          percent: 5
+          applies_at: [bachelors, masters]
+          categories: [sc, st, obc_ncl, differently_abled]
+          differently_abled_definition:
+            - blindness_and_low_vision
+            - deaf_and_hard_of_hearing
+            - locomotor_disability_incl_cerebral_palsy_leprosy_cured_dwarfism_acid_attack_muscular_dystrophy
+            - autism_intellectual_disability_specific_learning_disability_mental_illness
+            - multiple_disabilities_incl_deaf_blindness
+        - id: TCH-REL-02
+          citation: "cl. 3.5 (:4427-4430)"
+          percent: 5
+          result: "55% -> 50%"
+          applies_to: phd_holders_only
+          condition: "Master's degree obtained before 1991-09-19"
+      stacking_permitted: false
+      stacking_note: >
+        TCH-REL-01 and TCH-REL-02 are SEPARATE grounds. The Regulations do not
+        authorise stacking them to 45%. The engine must reject any path reaching 45%.
+      grade_equivalence:
+        id: TCH-QUAL-02
+        citation: "cl. 3.6 (:4432-4435)"
+        rule: "the AWARDING university's own equivalence formula governs"
+        implementable_as_single_algorithm: false
+        open_question: OQ-010
+        required_design: >
+          A per-university conversion register, OR a documented default plus a
+          mandatory applicant declaration with documentary proof of the awarding
+          institution's formula.
+
+    # --- Experience ---------------------------------------------------------
+    experience_rules:
+      - id: TCH-EXP-01
+        citation: "cl. 3.11 (:4456-4463)"
+        rule: exclude
+        subject: "time taken to acquire M.Phil. and/or Ph.D."
+        note: "Requires PhD registration, submission and award dates to be computable rather than self-declared."
+      - id: TCH-EXP-02
+        citation: "cl. 3.11 (:4456-4463)"
+        rule: include
+        subject: "active service spent pursuing a Research Degree simultaneously with a teaching assignment"
+        condition: "without taking any kind of leave"
+        evidence_standard: undefined
+        pending_ratification: true
+        provisional: "service certificate from the employer stating no leave was taken"
+      - id: TCH-EXP-03
+        status: unresolved
+        question: >
+          Does post-doctoral experience count at the same rate as teaching? Is
+          ad-hoc / guest / contractual teaching countable? NOT STATED in the Gazette.
+
+    # --- Physical fitness test ---------------------------------------------
+    physical_fitness_test:
+      citation: "cl. 4.8 IV (:5284-5331)"
+      prerequisite: medical_fitness_certificate
+      men:   { duration_minutes: 12, bands: [{ max_age: 30, metres: 1800 }, { max_age: 40, metres: 1500 }, { max_age: 45, metres: 1200 }, { max_age: 50, metres: 800 }] }
+      women: { duration_minutes: 8,  bands: [{ max_age: 30, metres: 1000 }, { max_age: 40, metres: 800 },  { max_age: 45, metres: 600 },  { max_age: 50, metres: 400 }] }
+      under_specified:
+        - who conducts the test
+        - whether it precedes or follows shortlisting
+        - whether qualifying or scored
+        - consequence of failure and re-test rights
+        - whether age-band relaxation extends to PwBD candidates
+
+    # =======================================================================
+    # APPENDIX II TABLE 2 — RESEARCH SCORE
+    # =======================================================================
+    research_score:
+      citation: "App. II Table 2 (:8250-8619)"
+      evidence_required: true
+      evidence_types_verbatim: >
+        copy of publications, project sanction letter, utilization and completion
+        certificates issued by the University and acknowledgements for patent filing
+        and approval letters, students' Ph.D. award letter
+
+      categories:
+
+        - id: T2-1
+          label: Research papers in peer-reviewed or UGC-listed journals
+          citation: "App. II Table 2 row 1"
+          unit: per_paper
+          points: { column_i: 8, column_ii: 10 }
+          journal_list_ambiguity: T2-AMB-04
+
+        - id: T2-2a
+          label: Publications other than research papers — books
+          citation: "App. II Table 2 row 2(a)"
+          points:
+            book_authored_international_publisher: 12
+            book_authored_national_publisher: 10
+            chapter_in_edited_book: 5
+            editor_of_book_international_publisher: 10
+            editor_of_book_national_publisher: 8
+
+        - id: T2-2b
+          label: Translation works in Indian and foreign languages by qualified faculties
+          citation: "App. II Table 2 row 2(b)"
+          points: { chapter_or_research_paper: 3, book: 8 }
+
+        - id: T2-3
+          label: ICT-mediated teaching-learning pedagogy, content, new courses and curricula
+          citation: "App. II Table 2 row 3"
+          points:
+            innovative_pedagogy: 5                        # 3(a)
+            new_curriculum_or_course: 2                   # 3(b) — per curriculum/course
+            mooc_complete_4_quadrants_4_credit: 20        # 3(c)
+            mooc_per_module_or_lecture: 5
+            mooc_content_writer_per_module: 2
+            mooc_course_coordinator_4_credit: 8
+            econtent_complete_course_or_ebook: 12         # 3(d)
+            econtent_per_module: 5
+            econtent_contribution_min_one_quadrant: 2
+            econtent_editor: 10
+          pro_rata:
+            mooc_complete: { per_credit: 5, note: "for MOOCs of lesser credits" }
+            mooc_coordinator: { per_credit: 2, note: "for courses of lesser credits" }
+
+        - id: T2-4a
+          label: Research guidance
+          citation: "App. II Table 2 row 4(a)"
+          points:
+            phd_degree_awarded: 10
+            phd_thesis_submitted: 5
+            mphil_or_pg_dissertation_awarded: 2
+
+        - id: T2-4b
+          label: Research projects completed
+          citation: "App. II Table 2 row 4(b)"
+          points: { above_10_lakh: 10, below_10_lakh: 5 }
+
+        - id: T2-4c
+          label: Research projects ongoing
+          citation: "App. II Table 2 row 4(c)"
+          points: { above_10_lakh: 5, below_10_lakh: 2 }
+          correction_note: >
+            ugc-rules.yaml merged completed and ongoing into one row. They are
+            SEPARATE with different values. Decision register §5, correction 4.
+
+        - id: T2-4d
+          label: Consultancy
+          citation: "App. II Table 2 row 4(d)"
+          points: { flat: 3 }
+
+        - id: T2-5a
+          label: Patents
+          citation: "App. II Table 2 row 5(a)"
+          points: { international: 10, national: 7 }
+
+        - id: T2-5b
+          label: Policy document
+          citation: "App. II Table 2 row 5(b)"
+          scope_verbatim: >
+            Submitted to an International body/organisation like UNO/UNESCO/World
+            Bank/International Monetary Fund etc. or Central Government or State
+            Government
+          points: { international: 10, national: 7, state: 4 }
+          subject_to_cap: T2-CAP-01
+
+        - id: T2-5c
+          label: Awards / fellowship
+          citation: "App. II Table 2 row 5(c)"
+          points: { international: 7, national: 5 }
+
+        - id: T2-6
+          label: Invited lectures / resource person / paper presentation
+          citation: "App. II Table 2 row 6"
+          points: { international_abroad: 7, international_within_country: 5, national: 3, state_or_university: 2 }
+          subject_to_cap: T2-CAP-01
+          double_count_rule: >
+            A paper presented at a seminar/conference AND published as a full paper
+            in the conference proceedings is counted ONLY ONCE.
+
+      # --- Impact-factor augmentation --------------------------------------
+      impact_factor_augmentation:
+        id: T2-IF
+        citation: "App. II Table 2 (:8535-8583)"
+        verbatim: "The Research score for research papers would be augmented as follows"
+        source_list: "Thomson Reuters list"
+        bands:
+          - { id: T2-IF-i,   condition: "refereed journal without impact factor", points: 5 }
+          - { id: T2-IF-ii,  condition: "impact factor less than 1",              points: 10 }
+          - { id: T2-IF-iii, condition: "impact factor between 1 and 2",          points: 15 }
+          - { id: T2-IF-iv,  condition: "impact factor between 2 and 5",          points: 20 }
+          - { id: T2-IF-v,   condition: "impact factor between 5 and 10",         points: 25 }
+          - { id: T2-IF-vi,  condition: "impact factor greater than 10",          points: 30 }
+        correction_note: >
+          UGC_TEACHING_RECRUITMENT_REGULATIONS.md:203-207 omits the "less than 1"
+          band and shifts every band down one. Decision register §5, correction 2.
+        # ---- AMBIGUITIES -------------------------------------------------
+        pending_ratification: true
+        ambiguities: [T2-AMB-01, T2-AMB-02, T2-AMB-03, T2-AMB-04]
+
+      # --- Apportionment ---------------------------------------------------
+      apportionment:
+        authorship:
+          id: T2-AUTH
+          citation: "App. II Table 2 (:8585-8594)"
+          two_authors:
+            share_each: 0.70
+            verbatim: "Two authors: 70% of total value of publication for each author."
+            note: "Sums to 140% of the publication's value. This is what the text says and what FN-1 reproduces. Confirm; do not 'correct'."
+          more_than_two_authors:
+            first_or_principal_or_corresponding: 0.70
+            each_joint_author: 0.30
+            verbatim: >
+              More than two authors: 70% of total value of publication for the
+              First/Principal/Corresponding author and 30% of total value of
+              publication for each of the joint authors.
+        joint_projects:
+          id: T2-PI
+          citation: "App. II Table 2 (:8594)"
+          principal_investigator: 0.50
+          co_investigator: 0.50
+          verbatim: "Joint Projects: Principal Investigator and Co-investigator would get 50% each."
+          correction_note: >
+            ugc-rules.yaml encoded PI 1.0 / Co-PI 0.5. THIS IS THE ERROR THAT WOULD
+            HAVE MADE EVERY ASSOCIATE PROFESSOR AND PROFESSOR DETERMINATION WRONG.
+            Decision register §5, correction 3.
+        joint_supervision:
+          id: T2-SUP
+          citation: "App. II Table 2 (:8607-8609)"
+          verbatim: >
+            For joint supervision of research students, the formula shall be 70% of
+            the total score for Supervisor and Co-supervisor. Supervisor and
+            Co-supervisor, both shall get 7 marks each.
+          encoded_value: { supervisor: 7, co_supervisor: 7 }
+          pending_ratification: true
+          ambiguity: T2-AMB-05
+
+      # --- Caps -------------------------------------------------------------
+      caps:
+        - id: T2-CAP-01
+          citation: "App. II Table 2 (:8613-8615)"
+          applies_to_combined: [T2-5b, T2-6]
+          limit_percent_of_total: 30
+          verbatim: >
+            the combined research score from the categories of 5(b). Policy Document
+            and 6. Invited lectures/Resource Person/Paper presentation shall have an
+            upper capping of thirty percent of the total research score
+          pending_ratification: true
+          ambiguity: T2-AMB-06
+          correction_note: >
+            UGC_TEACHING_RECRUITMENT_REGULATIONS.md:217 applies this to category 6
+            alone. It is the COMBINED 5(b) + 6. Decision register §5, correction 5.
+      no_other_maxima: true
+      no_other_maxima_note: >
+        There are no per-category ceilings and no overall ceiling anywhere in Table 2.
+
+      # --- Floor -------------------------------------------------------------
+      floor:
+        id: T2-FLOOR-01
+        citation: "App. II Table 2 (:8617-8619)"
+        verbatim: "The research score shall be from the minimum of three categories out of six categories."
+        min_categories: 3
+        of_categories: 6
+        pending_ratification: true
+        ambiguity: T2-AMB-06
+
+      # --- Thresholds --------------------------------------------------------
+      thresholds:
+        associate_professor: { value: 75,  citation: "cl. 4.1 II" }
+        professor:           { value: 120, citation: "cl. 4.1 III" }
+        college_principal:   { value: 110, citation: "cl. 4.1 V" }
+        cas_l12_to_l13a:     { value: 70,  citation: "cl. 6.4 C III", scope: universities }
+        cas_l13a_to_l14:     { value: 110, citation: "cl. 6.4 C IV, B IV" }
+
+    # =======================================================================
+    # APPENDIX II TABLES 3A / 3B — SHORTLISTING ONLY (see TCH-INV-01)
+    # =======================================================================
+    shortlisting:
+      citation: "App. II Tables 3A, 3B (:8620-8897)"
+      purpose: shortlisting_only
+      invariant: TCH-INV-01
+
+      table_3a:
+        scope: universities
+        total: 100
+        subtotals: { academic: 80, publications: 10, experience: 10 }
+        rows:
+          graduation:      [{ min_percent: 80, points: 15 }, { min_percent: 60, points: 13 }, { min_percent: 55, points: 10 }, { min_percent: 45, points: 5 }]
+          post_graduation: [{ min_percent: 80, points: 25 }, { min_percent: 60, points: 23 }, { min_percent: 55, points: 20, relaxed_min_percent: 50, relaxed_categories: [sc, st, obc_ncl, pwd] }]
+          mphil:           [{ min_percent: 60, points: 7 },  { min_percent: 55, points: 5 }]
+          phd:             { points: 30 }
+          net_set:         { net_with_jrf: 7, net: 5, slet_set: 3 }
+          publications:    { per_publication: 2, max: 10, qualifying: "peer-reviewed or UGC-listed journals" }
+          experience:      { per_year: 2, max: 10, subject: "teaching / post-doctoral",
+                             pro_rata_verbatim: "if the period of teaching/Post-doctoral experience is less than one year then the marks shall be reduced proportionately" }
+          awards:          { international_or_national: 3, state: 2 }
+        caps:
+          mphil_plus_phd: 30
+          jrf_net_set: 7
+          awards: 3
+
+      table_3b:
+        scope: colleges
+        total: 100
+        subtotals: { academic: 84, publications: 6, experience: 10 }
+        rows:
+          graduation:      [{ min_percent: 80, points: 21 }, { min_percent: 60, points: 19 }, { min_percent: 55, points: 16 }, { min_percent: 45, points: 10 }]
+          post_graduation: [{ min_percent: 80, points: 25 }, { min_percent: 60, points: 23 }, { min_percent: 55, points: 20, relaxed_min_percent: 50, relaxed_categories: [sc, st, obc_ncl, pwd] }]
+          mphil:           [{ min_percent: 60, points: 7 },  { min_percent: 55, points: 5 }]
+          phd:             { points: 25 }
+          net_set:         { net_with_jrf: 10, net: 8, slet_set: 5 }
+          publications:    { per_publication: 2, max: 6 }
+          experience:      { per_year: 2, max: 10, subject: "teaching / post-doctoral" }
+          awards:          { international_or_national: 3, state: 2 }
+        caps:
+          mphil_plus_phd: 25
+          jrf_net_set: 10
+          awards: 3
+
+      notes:
+        relaxation_scope: >
+          The 50% carve-out applies to the POST-GRADUATION row only. Tables 3A/3B do
+          NOT extend it to the graduation row.
+        shortlist_count: "decided by the university (3A Note B) / the college (3B Note B)"
+        undefined:
+          - id: T3-UND-01
+            question: "Which graduation / which PG where a candidate holds several?"
+            provisional: "the qualification establishing eligibility for the advertised subject"
+            pending_ratification: true
+          - id: T3-UND-02
+            question: "'Government of India recognised National Level Bodies' (awards) is undefined"
+            required: "a curated, admin-maintained master list"
+            pending_ratification: true
+          - id: T3-UND-03
+            note: "Note D is garbled in 3A relative to 3B. Adopt 3B's phrasing for both; flag."
+          - id: T3-UND-04
+            note: "FN-1's AMU gloss 'JRF/NET/SET (UP states) Maximum – 07 Marks' has no Gazette equivalent."
+
+    # =======================================================================
+    # AMBIGUITY REGISTER — OQ-009. Engine REFUSES while pending.
+    # =======================================================================
+    ambiguities:
+      - id: T2-AMB-01
+        title: '"Augmented" — replace or add?'
+        question: >
+          Does the impact-factor value REPLACE the base 8/10 per paper, or is it
+          ADDED to it? Not stated.
+        materiality: >
+          For a Professor applicant with 20 papers: a 160-200 point swing against a
+          120-point threshold. Determinative.
+        recommended: null
+        pending_ratification: true
+        owner: executive_council
+
+      - id: T2-AMB-02
+        title: Band boundaries overlap and are non-exhaustive
+        question: >
+          "less than 1 / between 1 and 2 / between 2 and 5 / between 5 and 10 / >10"
+          — IF exactly 1, 2 or 5 falls in TWO bands; IF exactly 10 falls in NONE.
+        recommended:
+          rule: upper_inclusive
+          intervals: ["(0,1) -> 10", "[1,2] -> 15", "(2,5] -> 20", "(5,10] -> 25", ">10 -> 30"]
+        pending_ratification: true
+        owner: executive_council
+
+      - id: T2-AMB-03
+        title: Which impact factor, which year?
+        question: >
+          "as per Thomson Reuters list" = Clarivate JCR, but the edition is unstated
+          — year of publication, or year of application?
+        recommended: null
+        pending_ratification: true
+        owner: executive_council
+
+      - id: T2-AMB-04
+        title: '"UGC listed" is a moving target'
+        question: >
+          UGC-CARE replaced the UGC Approved List in 2019 and was itself discontinued
+          in 2024. Which list governs a 2015 paper?
+        materiality: determines whether a paper scores at all
+        recommended: null
+        pending_ratification: true
+        owner: executive_council
+
+      - id: T2-AMB-05
+        title: Joint supervision is self-contradictory
+        question: >
+          "70% of the total score for Supervisor and Co-supervisor. Supervisor and
+          Co-supervisor, both shall get 7 marks each." 7 + 7 = 14 against a base of 10.
+        recommended: { action: encode_literal, supervisor: 7, co_supervisor: 7 }
+        pending_ratification: true
+        owner: executive_council
+
+      - id: T2-AMB-06
+        title: The 30% cap is circular; and the three-of-six floor is undefined
+        question: >
+          The cap on 5(b)+6 is "thirty percent of the TOTAL research score", but the
+          total includes 5(b) and 6. Separately: is a candidate scoring in only two
+          categories INELIGIBLE, or is the excess DISREGARDED?
+        recommended:
+          cap_formula: "capped_5b6 = min(raw_5b6, (3/7) * other_categories_total)"
+          floor_interpretation: null
+        pending_ratification: true
+        owner: executive_council
+
+    resolved_by_document: DOC-001
+    resolved_by_document_note: >
+      FN-1 Part B states it applies "where the qualifications are advertised as per
+      Ordinances (Executive) framed in the light of the UGC Regulations, 2018" and
+      directs the reader to "Appendix II of the Ordinances". AMU's Ordinances are the
+      OPERATIVE INSTRUMENT and may resolve several of these outright.
+
+  # =========================================================================
+  # UGC TEACHING 2025 — DRAFT, NOT NOTIFIED
+  # =========================================================================
+  - id: ugc-teaching-2025
+    title: UGC Draft Regulations 2025 — teaching cadres
+    status: draft
+    notified: false
+    applies_to: [teaching, library, physical_education]
+    effective_from: null
+    effective_to: null
+    supersedes: ugc-teaching-2018
+    design_doc: docs/v3/01-design/regulatory/ugc-teaching-2025-draft.md
+    activation_policy:
+      citation: DR-006
+      rule: >
+        Applies to NEW advertisements only, from the date of notification.
+        Advertisements already published remain bound to their frozen ruleset.
+      on_amendment_before_notification: "amend this ruleset in place; no code change"
+    transcription_status: partial
+    second_reader_verified: false
+    transcription_note: >
+      Source obtained at docs/UGC_Draft_Regulations_Teaching_2025.pdf (ugc.gov.in
+      ref. 3045759) and extracted to docs/research/ugc_draft_regulations_2025.txt by
+      inflating FlateDecode content streams and parsing Tj/TJ operators — the host
+      has no poppler and no Python PDF library. THAT EXTRACTION IS MECHANICAL AND
+      UNVALIDATED: it drops layout, may reorder text across columns, and loses table
+      structure. Adequate to identify WHAT CHANGED; NOT adequate as the authority for
+      a figure. The numeric fields below are marked verified: false and MUST NOT be
+      used for any determination until confirmed against the PDF by a second reader.
+
+    # --- STRUCTURAL FACTS: verified by exhaustive term search, not by transcription.
+    #     These are certain and they drive the architecture.
+    scoring_model:
+      type: none
+      verified: true
+      evidence: >
+        Exhaustive search of the full extracted draft returns ZERO occurrences of
+        "research score", "academic score", "API", "appendix", "table 2", "table 3A"
+        and "table 3B". The entire Appendix II apparatus is absent.
+      replaced_by:
+        mechanism: committee_determination
+        citation: "cl. 3.11"
+        verbatim: >
+          The selection committee shall decide whether the research publications are
+          in a peer-reviewed journal, whether the publication of a book/book chapter
+          is by a reputed publisher, and whether the contributions are notable, based
+          on the recommendations of the three external subject experts.
+      engine_implication: >
+        ScoringStrategy MUST be polymorphic per ruleset, not one Table-2 calculator
+        with configurable numbers. 2018 = WeightedPointsStrategy.
+        2025 = ThresholdCountStrategy (count qualifying outputs against a minimum,
+        then hand a structured dossier to the committee). A system that parameterised
+        Table 2 would need a REWRITE, not a data change, to support 2025.
+
+    qualification_framework:
+      type: ncrf
+      verified: true
+      note: >
+        Qualifications are expressed in National Credit Framework levels
+        (UG 5.5/6, PG 6.5/7, PhD 8), not bare percentages. Requires an `ncrf_level`
+        field on the qualification model — nullable under 2018, required under 2025.
+
+    notable_contributions:
+      verified: true
+      required_areas_min: 4
+      of_areas: 9
+      citation: "cl. 3.8 (teachers), 3.9 (librarian), 3.10 (DPES)"
+      applies_to_cadres: [associate_professor, professor]
+      claim_type: narrative_with_evidence
+      engine_implication: >
+        Not scored. Captured as first-class evidenced claims and judged by the
+        committee. Many areas are institutional rather than bibliometric (startups,
+        community engagement, Indian Knowledge System, indigenous games, disability
+        services), so M06 must accommodate narrative claims — building M06 for
+        Table 2 alone would not survive the 2025 transition.
+
+    publication_substitution:
+      verified: true
+      note: >
+        Publications, book chapters, books and GRANTED PATENTS are interchangeable
+        toward one total ("A combination ... totalling eight can be considered").
+        The claim model must allow heterogeneous units to sum to a single threshold —
+        2018 counts publications only.
+
+    ews_included:
+      verified: true
+      citation: "cl. 3.4"
+      note: "EWS appears in the 5% relaxation. It is ABSENT entirely from UGC 2018."
+
+    # --- NUMERIC FIELDS: transcribed but NOT second-reader verified. Do not use.
+    cadres_draft:
+      verified: false
+      assistant_professor:
+        academic_level: 10
+        citation: "cl. 4.1 I"
+        routes:
+          - { id: A, requires: ["UG NCrF 6 >= 75% OR PG NCrF 6.5 >= 55%", "PhD NCrF 8"] }
+          - { id: B, requires: ["PG NCrF 6.5 >= 55%", "NET (UGC/CSIR/ICAR) or SLET/SET"] }
+          - { id: C, requires: ["PG NCrF Level 7 (e.g. M.E., M.Tech.) >= 55%"],
+              note: "no NET, no PhD — the widely reported change" }
+        arts_route: { min_qualification: "UG NCrF 5.5/6", professional_experience_years: 5,
+                      determined_by: selection_committee_on_three_external_experts }
+      associate_professor:
+        academic_level: 13A
+        citation: "cl. 4.1 II"
+        requires: ["UG NCrF 6 >= 75% OR PG NCrF 6.5/7 >= 55%", "PhD NCrF 8"]
+        experience_years: 8
+        outputs_min: 8
+        outputs_substitutable: [peer_reviewed_publication, book_chapter, granted_patent]
+        outputs_book_equivalents: { book_as_author: 1, books_as_co_author: 2 }
+        notable_contributions_min: 4
+        arts_route: { professional_experience_years: 10 }
+      professor:
+        academic_level: 14
+        citation: "cl. 4.1 III"
+        requires: ["UG NCrF 6 >= 75% OR PG NCrF 6.5/7 >= 55%", "PhD NCrF 8"]
+        experience_years: 10
+        experience_min_years_at_associate_level: 3
+        outputs_min: 10
+        outputs_substitutable: [peer_reviewed_publication, book_chapter, granted_patent]
+        outputs_book_equivalents: { books_as_author: 4, books_as_co_author: 8 }
+        supervision: { sole_supervisor_phd_awarded: 1, or_co_supervisor_phd_awarded: 2 }
+        notable_contributions_min: 4
+        arts_route: { professional_experience_years: 15, achievement_level: [national, international] }
+
+    selection_committee_draft:
+      verified: false
+      citation: "cl. 5.7 I"
+      scope: universities
+      chairperson: vice_chancellor
+      chairperson_note: "The VC chairs ALL these levels — 2018 permitted a nominee for Assistant and Associate Professor."
+      external_subject_experts: 3
+      quorum: { members: 5, min_external_experts: 2 }
+      quorum_note: "2018 quorum was 4 including 2 external experts."
+
+    outstanding_transcription:
+      - "cl. 4.1 IV-VI — Assistant Librarian, Assistant DPES and remaining cadres"
+      - "cl. 5.0-5.6 — promotion pathways (CAS) and cl. 5.4/5.5 eligibility criteria"
+      - "cl. 5.7 II-IV — selection committee for colleges and remaining levels"
+      - "cl. 6.0 — counting of past service"
+      - "cl. 7.0-7.3 — tenure and selection procedure"
+      - "cl. 10.0-10.1 — Vice-Chancellor qualifications and selection"
+      - "cl. 11.0 — consequences of violation of UGC Regulations"
+      - "cl. 3.16, 3.17 — full text"
+
+  # =========================================================================
+  # UGC MODEL CRR 2022 — NON-TEACHING — ACTIVE
+  # =========================================================================
+  - id: ugc-crr-non-teaching-2022
+    title: Central University Non-teaching and Other Academic Posts Model Recruitment Rules 2022
+    status: active
+    applies_to: [non_teaching, administrative, technical]
+    effective_from: "2022-01-01"      # verify exact date against the PDF (DOC-007)
+    effective_to: null
+    design_doc: docs/v3/01-design/regulatory/ugc-crr-non-teaching-2022.md
+
+    supremacy:
+      - id: CRR-SUP-01
+        citation: "Rule 38"
+        verbatim: >
+          In case any particular provision in these Rules is in conflict with any
+          provision of the UGC Regulations/guidelines or Govt. of India Orders, the
+          provisions of the UGC Regulations/guidelines or Govt. of India Orders
+          shall prevail.
+        enforcement: >
+          University-level configuration can NEVER override a UGC rule. The engine
+          enforces this precedence; it is not left to administrators.
+      - id: CRR-SUP-02
+        citation: "Rule 22.11"
+        scope: [registrar, finance_officer, controller_of_examinations, librarian,
+                deputy_registrar, assistant_registrar, assistant_librarian]
+        rule: "governed strictly as per UGC guidelines/regulations; future amendments adopted mutatis-mutandis"
+
+    classification:
+      citation: "Rule 4 (:918-929)"
+      groups:
+        - { id: A, pay_levels: "10 and above" }
+        - { id: B, pay_levels: "6 to 9" }
+        - { id: C, pay_levels: "1 to 5", includes: [mts] }
+
+    appointing_authority:
+      citation: "Rule 6 (:938-954)"
+      executive_council: "all permanent Group A"
+      vice_chancellor: "permanent Group B; temporary Group A and B"
+      registrar: "permanent and temporary Group C"
+
+    age:
+      id: CRR-AGE-01
+      citation: "Rule 14 (:1145-1147)"
+      reference_date: application_closing_date
+      verbatim: "The crucial date for determining the age shall be the closing date of the application."
+      enforcement: >
+        HARD ENGINE RULE. Age is computed against posts.reg_end_date — never the
+        submission, payment or interview date.
+
+    selection_process:
+      citation: "Rule 11 III(f)-(j) (:1063-1113)"
+      mandatory_for: [group_b, group_c]
+      stages:
+        - { id: paper_i,    label: "Objective type test",  marks: 100, qualifying_percent: 40, additive: true }
+        - { id: paper_ii,   label: "Descriptive test",     marks: 100, qualifying_percent: 50, additive: true,
+            precondition: "evaluated ONLY for candidates who qualify Paper I" }
+        - { id: skill_test, label: "Skill test",           marks: 50,  qualifying_min: 25,     additive: false,
+            note: "QUALIFYING ONLY — never added to the merit total" }
+        - { id: interview,  label: "Interview",            weight_percent_of_total: 20,        additive: true }
+      merit_verbatim: >
+        The merit list of the candidates shall be drawn based on the performance in
+        Paper I (Objective Type Test) and Paper II (Descriptive test) and Interview
+        (wherever applicable) subject to qualifying the skill test, wherever applicable.
+      single_test_option: "the University may hold a single descriptive test plus skill test, at its discretion"
+      syllabus_authority: { role: vice_chancellor, citation: "Rule 11 III(h)" }
+      reserved_category_relaxation: { source: government_of_india_guidelines, citation: "Rule 11 III(i)", pending_document: DOC-003 }
+      group_a: { mandatory: false, citation: "Rule 11 III(j)", note: "the University MAY at its discretion adopt similar procedures" }
+
+      conflict:
+        id: CRR-AMB-01
+        open_question: OQ-008
+        rule_a: { citation: "Rule 11 III(f)/(g)", position: "20%-weighted interview IS part of the Group B/C merit list" }
+        rule_b: { citation: "Rule 22.8 (:1384-1386)", position: "there shall be NO interview for Group B and C posts",
+                  authority: "MHRD Letter No. 19-50/2015-Desk-U dated 22.12.2015" }
+        recommended: "Rule 22.8 prevails — interview is Group A only"
+        pending_ratification: true
+        owner: legal_cell
+        dependent_ambiguity:
+          id: CRR-AMB-02
+          question: >
+            If interview is "20% of the total marks" and is "added to" Paper I +
+            Paper II, is the total 240 (200 + 40 on top) or 100 (normalised
+            composite with interview = 20)? NOT DERIVABLE from the text.
+          pending_ratification: true
+
+    screening_ratio:
+      id: CRR-SCR-01
+      citation: "Rule 16 (:1199-1214)"
+      max_ratio: "1:15"
+      exempt_posts: [registrar, finance_officer, controller_of_examinations, librarian, director_physical_education]
+      min_eligible_applicants: 3
+      below_minimum_action: "re-advertise at least twice"
+      common_written_test_exception: >
+        Where a common written test is held, all eligible candidates (minimum 3) may
+        be called notwithstanding the ratio; successful candidates are then called
+        for interview in order of merit subject to 1:15.
+
+    structural_rules:
+      - id: CRR-STR-01
+        citation: "Rule 34.3"
+        verbatim: "wherever there is only one sanctioned post in any cadre, the post shall be filled through direct recruitment only"
+        enforcement: "guard on the advertisement builder, reading organisational_unit_designation.sanctioned_count"
+      - id: CRR-STR-02
+        citation: "Rule 34.4"
+        rule: "adopt the CRR only for posts sanctioned by the UGC; do not create posts merely because they appear in the model"
+
+    sla_clocks:
+      - { id: CRR-SLA-01, name: minimum_advertisement_window, days: 30 }
+      - { id: CRR-SLA-02, name: process_completion_cap, months: 6, extendable_once_to_months: 12,
+          citation: "DoPT O.M. Misc.14017/15/2015-Estt.(RR)",
+          requires: "recorded VC approval artefact for the extension" }
+
+    disqualifications:
+      citation: "Rule 33"
+      items:
+        - id: "33.1"
+          rule: "convicted by any court OR criminal proceedings pending"
+          automatic: true
+        - id: "33.2"
+          rule: "unsound mind, questionable conduct, or not medically fit"
+          automatic: false
+        - id: "33.3"
+          rule: "contracted a marriage with a person having a living spouse"
+          proviso: >
+            Competent Authority may exempt where such marriage is permissible under
+            the personal law applicable to both parties and there are other grounds.
+          automatic: false
+          open_question: OQ-012
+          pending_ratification: true
+          note: >
+            OBVIOUS EQUALITY-LAW EXPOSURE. Must NOT become a validation rule without
+            written legal sign-off. Until then the application captures the
+            declaration and the engine applies NO automatic disqualification.
+        - id: "33.4"
+          rule: "not a citizen of India"
+          automatic: true
+        - id: "33.5"
+          rule: "any other category disqualified by GoI/State/UGC"
+          automatic: false
+
+    cadres_seed_ref: docs/v3/01-design/regulatory/ugc-crr-non-teaching-2022.md#2-the-58-cadres
+    cadres_count: 58
+    cadres_missing:
+      pending_document: DOC-004
+      note: >
+        The 58 contain no Medical Officer, Nursing, Pharmacist, Paramedical,
+        Radiographer, hospital Laboratory Technician or Physiotherapist cadre —
+        despite Rule 28(a) providing DACP for Medical Officers. AMU operates JNMC
+        Hospital, Ajmal Khan Tibbiya College Hospital and a Dental College. Rule 19.1
+        lets the University frame its own rules where UGC guidelines do not exist.
+
+# ---------------------------------------------------------------------------
+# REGRESSION TESTS — the five errors this file exists to prevent.
+# Every one of these MUST be asserted in the test suite.
+# ---------------------------------------------------------------------------
+regression_tests:
+  - id: REG-01
+    asserts: "T2-PI.principal_investigator == 0.50 AND T2-PI.co_investigator == 0.50"
+    guards_against: "ugc-rules.yaml:28-30 encoded PI 1.0 / Co-PI 0.5"
+    severity: critical
+    note: "This error alone would make every Associate Professor and Professor determination wrong."
+  - id: REG-02
+    asserts: "T2-IF has exactly 6 bands and includes 'impact factor less than 1' -> 10"
+    guards_against: "UGC_TEACHING_RECRUITMENT_REGULATIONS.md:203-207 omits the <1 band and shifts every band down one"
+    severity: critical
+  - id: REG-03
+    asserts: "T2-4b and T2-4c are distinct categories with values {10,5} and {5,2}"
+    guards_against: "the derived doc merged completed and ongoing projects"
+    severity: high
+  - id: REG-04
+    asserts: "T2-CAP-01.applies_to_combined == [T2-5b, T2-6]"
+    guards_against: "the derived doc applied the 30% cap to category 6 alone"
+    severity: high
+  - id: REG-05
+    asserts: "T2-1.points.column_ii == 10 AND T2-1.points.column_i == 8"
+    guards_against: "ugc-rules.yaml set a flat base of 8, ignoring the Column II rate"
+    severity: high
+  - id: REG-06
+    asserts: "shortlisting.table_3a and table_3b both exist and each total 100"
+    guards_against: "ugc-rules.yaml contained no Table 3A at all — without it no Assistant Professor recruitment can be shortlisted"
+    severity: critical
+  - id: REG-07
+    asserts: "engine raises PendingRatificationError when any required rule has pending_ratification: true"
+    guards_against: "silently applying a `recommended` value as if it were ratified"
+    severity: critical
+  - id: REG-08
+    asserts: "MeritStrategy for any teaching designation rejects a shortlisting score as input"
+    guards_against: "TCH-INV-01 — a statutory violation, not a bug"
+    severity: critical
+
+# ---------------------------------------------------------------------------
+change_log:
+  - date: "2026-08-27"
+    change: >
+      Created. ugc-teaching-2018 and ugc-crr-non-teaching-2022 transcribed with
+      clause citations; ugc-teaching-2025 stubbed pending PDF transcription.
+      6 Table 2 ambiguities and 2 CRR ambiguities recorded as pending_ratification.
+      8 regression tests defined from the five known errors.
+    by: implementation-team
