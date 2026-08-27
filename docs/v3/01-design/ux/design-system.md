@@ -336,7 +336,11 @@ Tailwind 4 with `@theme` in `resources/css/app.css` — no `tailwind.config.js`,
 setup. Tokens declared once as CSS custom properties and exposed to Tailwind; **no hex value appears
 in a Blade template.**
 
-Alpine for interaction. Blade components for structure. **No jQuery, no SPA.**
+Alpine for interaction. Blade components for structure. **No jQuery, no SPA, and no Livewire**
+(DR-021) — one paradigm across the whole application. **Alpine is progressive enhancement: every
+screen works with JavaScript disabled.** Interactive screens use a JSON endpoint plus Alpine `fetch`
+with a non-JS form fallback on the same route — see
+[`../engineering-standards.md`](../engineering-standards.md) §10.1.
 
 ```
 resources/views/components/

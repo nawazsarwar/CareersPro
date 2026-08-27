@@ -958,7 +958,7 @@ reversal.
 
 ---
 
-### DR-021 — UI: Blade + Alpine, with Livewire on three named admin screens
+### DR-021 — UI: Blade + Alpine + Tailwind 4 everywhere. No Livewire.
 
 | | |
 |---|---|
@@ -967,32 +967,56 @@ reversal.
 | **Decided on** | 2026-08-28 |
 | **Blocks** | every UI module |
 
-**Decision.**
+**Decision.** **Blade + Alpine.js + Tailwind CSS 4 across the whole application**, candidate-facing
+and admin alike. **No Livewire, no Inertia, no Vue, React, jQuery or SPA of any kind.** One paradigm,
+one language, one mental model, for the whole system and its whole life.
 
-| Surface | Stack |
-|---|---|
-| **All candidate-facing** (M01–M15) | **Blade + Alpine.** Must work with JavaScript disabled |
-| **Admin, default** | **Blade + Alpine** |
-| **M18** scrutiny workbench · **M08** reconciliation queue · **M20** ruleset authoring and sandbox | **Livewire 4** |
+**Everything works with JavaScript disabled.** Alpine is progressive enhancement, never a
+dependency: every form is a real `<form method="POST">`, every filter a real `GET`, every link a real
+link.
 
-**Rejected: Inertia + Vue/React** — it cannot render without JavaScript, which the candidate side
-requires for GIGW and for candidates on poor connections, and it adds a second language to a
+**Rejected: Inertia + Vue/React** — cannot render without JavaScript, which the candidate side
+requires for GIGW and for candidates on poor connections; and it adds a second language to a
 PHP-first team on a system with a five-year statutory life.
 
-**Rejected: Filament as the admin framework** — and this was the close call. Of the 36 modules,
-roughly **3** are plain CRUD. **Filament earns its keep on about 8% of the surface while imposing its
-design language on 100%** of it, against a specified AMU visual identity built on `#0c4a2e` and
-Victoria Gate, and every custom reference screen — the composite count cell, the three-panel pipeline
-widget, the 7-column dossier record, the three-gate control. If master-data CRUD becomes a
-bottleneck, the cheaper answer is a generator command over the shared table component.
+**Rejected: Filament** — the close call. Of 36 modules roughly **3** are plain CRUD, so **Filament
+earns its keep on about 8% of the surface while imposing its design language on 100%** of it, against
+the specified AMU identity (`#0c4a2e`, Victoria Gate) and every custom reference screen. If
+master-data CRUD becomes a bottleneck, a generator command over the shared table component is
+cheaper.
 
-**Rejected: Flux UI** — good, but it brings its own design language and this project has one.
+**Rejected: Livewire** — initially proposed for three dense admin screens, **rejected by the sponsor,
+who has worked with it and does not want it.** On reflection the reasoning holds independently of
+preference:
 
-**Two constraints on the Livewire exception.** A fourth Livewire screen requires a decision-register
-entry stating why Alpine is insufficient. And **no statutory action may be performable only through
-Livewire** — every gate decision, submission and approval keeps a non-Livewire path.
+- **A second paradigm is a permanent tax** — two ways to build a screen, two ways to debug one, and a
+  standing "which should this be?" at the top of every ticket.
+- **It would have cost the no-JS path on precisely the screens that most need resilience** — scrutiny
+  and reconciliation, where an officer must be able to act on a degraded connection.
+- **Server-side component state is state to reason about**, on a system where every statutory action
+  must be auditable and reproducible.
 
-Full comparison: [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) §12.
+**Rejected: Flux UI** — follows Livewire out, and brings its own design language besides.
+
+**How the three dense screens work instead.** M18 scrutiny workbench, M08 reconciliation queue and
+M20 ruleset sandbox use one pattern, and it is the only pattern permitted: **a small JSON endpoint
+plus `fetch` from Alpine, with a non-JS form fallback on the same route.** The controller returns
+JSON when the request wants JSON and a redirect otherwise. Long-running work — reconciliation, bulk
+generation, sandbox runs — is a queued job with a status endpoint Alpine polls every two seconds;
+all three were already queued for their own reasons.
+
+**Cost, stated plainly:** an interaction takes an endpoint *and* a handler where Livewire would take
+one component method — roughly 15–20 extra lines on each of three screens. **Paid deliberately**, for
+explicitness, testability and one paradigm.
+
+**Worked example.** An officer verifies a claim in M18. The row is a real `<form>` posting to
+`admin.scrutiny.claims.verify`. With Alpine, `submit.prevent` calls `fetch`, the row updates in place
+and the officer moves on. With JavaScript off, the same form posts, the controller redirects back
+with a flash message, and the officer moves on. **One route, one Form Request, one policy check, one
+audit entry — two representations.**
+
+Full comparison: [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md)
+§10 and §12.
 
 **Reversal trigger.** A measured accessibility or performance failure attributable to the choice.
 
@@ -1199,5 +1223,6 @@ enforces this: the full test suite must pass with both connections removed from
 | 2026-08-27 | DR-006 and DR-007 confirmed. **DR-008…DR-012 added and decided.** OQ-002/003/005/006/007/011/014 closed. OQ-015, OQ-016 raised. **§6 Data Lake schema review added.** | Implementation team |
 | 2026-08-27 | OQ-016 closed — legacy organigram tables confirmed superseded. Source-data hygiene items moved to `data-hygiene-backlog.md`. | Implementation team |
 | 2026-08-28 | **DR-020 and DR-021 added and decided** — engineering standards and the UI framework choice. New: `01-design/engineering-standards.md`. | Implementation team |
+| 2026-08-28 | **DR-021 revised — Livewire rejected outright.** Blade + Alpine + Tailwind 4 everywhere, one paradigm. The three dense admin screens use JSON endpoints + Alpine `fetch` with a non-JS form fallback, which also preserves the no-JS path on the admin side. | Implementation team |
 | 2026-08-27 | **AMU CRR and 4 advertisements obtained.** **DR-017…DR-019 added and decided**; OQ-001, OQ-013, OQ-018 closed; DOC-004 closed, DOC-003 superseded, DOC-005 partly closed, DOC-009 raised. Findings in `amu-source-documents-findings.md`. | Implementation team |
 | 2026-08-27 | **DOC-001 obtained and closed.** **DR-013…DR-016 added and decided**; OQ-009, OQ-010, OQ-015, OQ-017 closed; OQ-018 and DOC-008 raised. Findings in `doc-001-ordinances-findings.md`. | Implementation team |

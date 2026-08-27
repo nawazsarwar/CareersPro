@@ -133,6 +133,11 @@ pending state. That sentence is the whole difference from the legacy behaviour.
 **Admin:** the reconciliation queue as the dashboard financial strip's destination, showing matched,
 unmatched and double-payment counts, with per-row drill-down.
 
+**Interaction pattern (DR-021).** Reconciliation is **already a queued job**, so "live" progress is
+simply Alpine polling `GET /admin/payments/reconcile/{id}/status` every two seconds and re-rendering
+the three counters. **No Livewire, no websockets.** With JavaScript off the page still works —
+reload it and the same counters are current. Upload is a real `<form enctype="multipart/form-data">`.
+
 ## 8. Worked example — the failure this module exists for
 
 Aisha pays ₹500 for post 2599 at 23:47 on the closing date.
@@ -174,13 +179,14 @@ the discrepancy queue for refund — rather than being silently absorbed.
 | M08-R16 | Given a Razorpay MIS file and a BillDesk MIS file, when reconciled, then both map to `ReconciliationRow` and the same reconciler handles both |
 | M08-R17 | Given a PwD candidate with a valid certificate, when the fee is computed, then it is **₹0** and no order is created |
 | M08-R18 | Given an advertisement, when its gateway is set, then orders created under it use that gateway |
+| M08-R19 | Given JavaScript disabled, when an MIS file is uploaded and the page reloaded, then reconciliation progress and results are visible |
 
 ## 10. Test cases
 
 `tests/Feature/Frontend/Payment/IdempotencyTest` — **R01, R14 (concurrent)** ·
 `ReconciliationTest` — R02, R05, R13 · `CallbackSecurityTest` — R03, R04 ·
 `PaymentWindowTest` — R06, R07 · `FeeComputationTest` — R08 ·
-`Authz/PaymentScopeTest` — R09, R10 · `AuditTest` — R11 · `SnapshotIntegrityTest` — R12 ·
+`Authz/PaymentScopeTest` — R09, R10 · `AuditTest` — R11 · `SnapshotIntegrityTest` — R12 · `NoJavascriptTest` — **R19** ·
 `tests/Architecture/GatewayAgnosticTest` — **R15** ·
 `MultiGatewayReconciliationTest` — **R16, R18** · `FeeExemptionTest` — R17.
 

@@ -205,8 +205,9 @@ The rules below are *domain* rules, and they apply everywhere too.
 7. **Every acceptance criterion has a named test.** CI fails on an unmapped requirement ID.
 8. **`axe-core` clean** on every rendered route.
 9. **No `n+1`.** `assertQueryCount` budgets on list routes.
-10. **Blade + Alpine** (DR-021). No jQuery, no SPA. Livewire only on M18, M08 and M20, and never as
-    the sole path to a statutory action.
+10. **Blade + Alpine + Tailwind 4** (DR-021). **No Livewire, no Inertia, no SPA, no jQuery.**
+    Alpine is progressive enhancement — **every screen works with JavaScript disabled.** Interactive
+    screens use a JSON endpoint + Alpine `fetch` with a non-JS form fallback on the same route.
 
 ---
 

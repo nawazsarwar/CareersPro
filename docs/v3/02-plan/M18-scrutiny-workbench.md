@@ -134,6 +134,20 @@ The **gate control** (M34) sits at the foot, rendering only active gates.
 **Deficiency composer:** section checkboxes, description, window length, and a preview of exactly
 what the candidate will see.
 
+**Interaction pattern (DR-021).** This is one of the three densest screens in the system, and it uses
+**a JSON endpoint + Alpine `fetch`, with a non-JS form fallback on the same route** — the only
+pattern permitted (`../01-design/engineering-standards.md` §10.1). Each claim row is a real
+`<form method="POST">`; Alpine intercepts with `submit.prevent`, posts, and updates the row in place.
+With JavaScript off the same form posts, the controller redirects back with a flash message, and the
+officer continues. **One route, one Form Request, one policy check, one audit entry — two
+representations.**
+
+```php
+return $request->expectsJson()
+    ? response()->json(ClaimResource::make($claim))
+    : back()->with('status', __('scrutiny.claim_verified'));
+```
+
 ## 8. Worked example
 
 Dr Rehman, `dean_office_scrutiny` scoped to **Faculty of Arts** (`/1/11/`), opens the queue.
@@ -176,12 +190,14 @@ scrutiny gate to `rejected` with *"deficiency not rectified"*.
 | M18-R14 | Given a Scrutiny Committee member below the advertised Pay Level, when constituted, then it is refused, naming the member |
 | M18-R15 | Given a committee without one external-to-department nominee, when constituted, then it is refused |
 | M18-R16 | Given a conditional recommendation, when the conditions are unmet at the test date, then the candidature remains **provisional** and the candidate is not admitted |
+| M18-R17 | Given JavaScript disabled, when a claim is verified and a gate decided, then both succeed through the plain form path |
+| M18-R18 | Given the same route, when called with `Accept: application/json`, then it returns JSON; otherwise it redirects |
 
 ## 10. Test cases
 
 `tests/Feature/Admin/Scrutiny/QueueScopeTest` — **R01, R02, R09** · `PreconditionTest` — R03, R10 ·
 `DeficiencyTest` — R04, R05, R07, R08 · `ExpiryTest` — R06 · `AuditTest` — R11, R12 ·
-`QueuePerformanceTest` — R13 ·
+`QueuePerformanceTest` — R13 · `NoJavascriptTest` — **R17** · `ContentNegotiationTest` — R18 ·
 `ScrutinyCommitteeCompositionTest` — **R14, R15** · `ConditionalRecommendationTest` — R16.
 
 Fixtures: two faculties each with local posts and applications, so scope tests cannot pass by

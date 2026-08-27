@@ -132,6 +132,11 @@ between versions.
 changes eligibility, by how much, with names. This answers *"if we ratify T2-AMB-01 as additive, what
 happens?"* **before** the Executive Council decides.
 
+**Interaction pattern (DR-021).** A sandbox run over a historical cohort is **a queued job**. The
+form is a plain `POST`; Alpine polls `GET /admin/rulesets/sandbox/{run}/status` and renders the diff
+when ready. **No Livewire.** With JavaScript off, the run still queues and the report is at its own
+URL when complete.
+
 ## 8. Worked example
 
 Dr Farooqui, Associate Professor, **Faculty of Arts → Column II** (10 per paper), frozen ruleset
@@ -188,6 +193,7 @@ threshold. Guessing is not a convenience; it decides careers.
 | M20-R18 | Given `ugc-teaching-2025`, when the strategy resolves, then it is `ThresholdCountStrategy`, **not** `WeightedPointsStrategy` |
 | M20-R19 | Given an Assistant Librarian or DPES candidate, when a paper is scored, then it is **Column II at 10 points** — **DR-014** |
 | M20-R20 | Given AMU's faculty mapping, when a Faculty of Theology candidate is scored, then Column II applies; a Faculty of Unani Medicine candidate gets Column I |
+| M20-R21 | Given JavaScript disabled, when a sandbox run is submitted, then it queues and the report is reachable at its own URL |
 
 ## 10. Test cases
 
@@ -198,7 +204,7 @@ citing the clause it exercises. **This is the test that would have caught the fa
 `ApportionmentTest` — R06, R07 · `FacultyColumnTest` — R08 · `RuleCatalogueRegressionTest` —
 **R09–R11, asserting REG-01…REG-08 directly against the YAML** · `CategoryFloorTest` — R12 ·
 `SeparationOfDutiesTest` — R13–R15 · `SandboxTest` — R17 · `StrategyResolutionTest` — R18 ·
-`AmuFacultyColumnTest` — **R19, R20**.
+`AmuFacultyColumnTest` — **R19, R20** · `NoJavascriptTest` — R21.
 
 **Coverage gate: 100% on `app/Domain/Scoring`.** Today a coverage driver is not even installed.
 

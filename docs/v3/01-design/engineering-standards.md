@@ -422,20 +422,85 @@ it('applies 50% to a Co-Investigator', function () {
 
 ## 10. UI framework — decision
 
-**See §12 for the comparison.** The decision:
+**Blade + Alpine.js + Tailwind CSS 4. Everywhere. No exceptions.**
 
 | Surface | Stack |
 |---|---|
-| **Everything candidate-facing** (M01–M15) | **Blade + Alpine.** Must work with JavaScript disabled |
-| **Admin, default** | **Blade + Alpine** |
-| **Three named admin screens** | **Livewire 4** — M18 scrutiny workbench, M08 reconciliation queue, M20 ruleset authoring and sandbox |
+| Candidate-facing (M01–M15) | Blade + Alpine + Tailwind 4 |
+| Admin (M16–M35) | Blade + Alpine + Tailwind 4 |
 
-**Livewire is permitted only on those three screens.** Adding a fourth requires a decision-register
-entry stating why Alpine is insufficient. And **no statutory action may be performable only through
-Livewire** — every gate decision, every submission, every approval has a non-Livewire path, because
-a candidate or an officer on a degraded connection must still be able to act.
+**No Livewire. No Inertia. No Vue, React, jQuery or SPA of any kind.** One paradigm, one language,
+one mental model, for the whole application and its whole life.
 
----
+**Everything works with JavaScript disabled.** Alpine is progressive enhancement, never a
+dependency. Every form is a real `<form method="POST">`, every filter a real `GET`, every link a
+real link. Alpine makes those interactions nicer; it is never the only way to perform them. See
+§10.2.
+
+### 10.1 How dense interactive screens work without Livewire
+
+Three screens are genuinely interaction-dense — M18 scrutiny workbench, M08 reconciliation queue,
+M20 ruleset sandbox. They use **one pattern**, and it is the only pattern permitted:
+
+> **A small JSON endpoint + `fetch` from Alpine, with a non-JS form fallback on the same route.**
+
+```blade
+{{-- Non-JS path: a real form. Works with Alpine absent. --}}
+<form method="POST" action="{{ route('admin.scrutiny.claims.verify', [$application, $claim]) }}"
+      x-data="claimRow({{ $claim->id }})"
+      x-on:submit.prevent="verify()">
+    @csrf
+    <button type="submit" x-text="busy ? 'Saving…' : 'Verify'">Verify</button>
+</form>
+```
+
+```js
+// resources/js/scrutiny.js
+Alpine.data('claimRow', (id) => ({
+    busy: false,
+    async verify() {
+        this.busy = true;
+        const res = await fetch(`/admin/scrutiny/claims/${id}/verify`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': token, 'Accept': 'application/json' },
+        });
+        this.busy = false;
+        this.$dispatch('claim-verified', await res.json());   // row updates in place
+    },
+}));
+```
+
+The controller returns **JSON when the request wants JSON, a redirect otherwise** — one action, two
+representations:
+
+```php
+return $request->expectsJson()
+    ? response()->json(ClaimResource::make($claim))
+    : back()->with('status', __('scrutiny.claim_verified'));
+```
+
+**Long-running work is a queued job plus a status endpoint that Alpine polls.** Reconciliation, bulk
+document generation and sandbox runs are already queued for their own reasons; polling
+`GET /admin/…/{id}/status` every two seconds is all the "live" any of them needs, and the page still
+works if you simply reload it.
+
+### 10.2 What this buys, and what it costs
+
+**Buys:** one paradigm instead of two · no component state on the server · every interactive endpoint
+is an ordinary route with an ordinary test · **the no-JS path survives on the admin side too**, which
+under a Livewire plan those three screens would have lost · no additional dependency on a
+five-year-lived statutory system.
+
+**Costs, stated plainly:** an interaction takes an endpoint *and* a handler, where Livewire would
+take one component method. That is perhaps 15–20 extra lines on each of three screens. **We are
+paying it deliberately**, and it buys explicitness and testability.
+
+### 10.3 Tailwind
+
+Tailwind CSS 4, `@theme` in `resources/css/app.css`, **no `tailwind.config.js`**, tokens per
+[`ux/design-system.md`](ux/design-system.md) §2. **No hex value in a Blade template.** Bootstrap,
+jQuery, DataTables, Select2, Dropzone, CKEditor and perfect-scrollbar are removed and CI greps the
+built output to keep them out.
 
 ## 11. Tooling and CI
 
@@ -488,71 +553,67 @@ Plus the project-specific ones already named in the specs: `NoRosterTest` (DR-01
 Assessed against **this** project: 78,232-row admin tables, an 11-section statutory form, WCAG 2.2 AA
 and GIGW, a PHP-first team, and a system with a 5+ year statutory life.
 
-| | Blade + Alpine | **Livewire 4** | Inertia + Vue/React | Filament 5 | Flux UI |
+| | **Blade + Alpine** | Livewire 4 | Inertia + Vue/React | Filament 5 | Flux UI |
 |---|---|---|---|---|---|
 | Server-rendered HTML | ✅ | ✅ | ❌ | ✅ | ✅ |
 | **Works with JS disabled** | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Second language required | ❌ | ❌ | ✅ JS/TS | ❌ | ❌ |
 | Accessibility effort | **lowest** | low | **highest** | low | low |
-| 78K-row server-side tables | ✅ built | ✅ | ✅ | ✅ **built-in** | ✅ |
-| Dense interactive screens | ⚠️ verbose | ✅ **best** | ✅ | ✅ | ✅ |
+| 78K-row server-side tables | ✅ built | ✅ | ✅ | ✅ built-in | ✅ |
+| Dense interactive screens | ✅ via §10.1 | ✅ terser | ✅ | ✅ | ✅ |
 | Matches the reference screenshots | ✅ full control | ✅ full control | ✅ | ⚠️ **fights it** | ⚠️ own design language |
 | Custom design system | ✅ | ✅ | ✅ | ⚠️ theming only | ❌ opinionated |
-| Requests per interaction | 0 (client) | **1 per action** | 0 | 1 | 1 |
+| Paradigms in the codebase | **1** | 2 | 2 | 2 | 2 |
+| Server-side component state | **none** | per component | none | per component | per component |
 | Team skill surface | **smallest** | small | **largest** | small | small |
 | Upgrade risk over 5 years | **lowest** | low | medium | **highest** | medium |
 | Licence | free | free | free | free | **$99/dev** |
-| Laravel 13 support | n/a | ✅ 4.4.2 | ✅ | ⚠️ verify | ✅ 2.17.1 |
+| **Verdict** | **✅ adopted** | rejected | rejected | rejected | rejected |
 
 ### 12.1 Why not Inertia
 
-**It fails the hard constraint.** The candidate side must work without JavaScript — that is a GIGW
-expectation, it is in `ux/data-table.md` §9, and it matters practically for candidates applying on
-poor connections. Inertia cannot render without JS. It also introduces a second language and a second
-skill set for a team that is PHP-first, on a system that must be maintainable by whoever inherits it
-in 2031.
+**It fails a hard constraint.** The candidate side must work without JavaScript — a GIGW expectation,
+recorded in [`ux/data-table.md`](ux/data-table.md) §9, and a practical one for candidates applying on
+poor connections. Inertia cannot render without JS. It also introduces a second language and skill
+set for a PHP-first team, on a system that must be maintainable by whoever inherits it in 2031.
 
-### 12.2 Why not Filament as the admin framework
+### 12.2 Why not Filament
 
-This is the closest call, and it deserves an honest number.
+The closest call, and it deserves an honest number.
 
-**What it would buy:** M24 is 20-odd master-data CRUDs. Filament would build those in a fraction of
-the time, with tables, filters and exports for free.
+**What it would buy:** M24 is 20-odd master-data CRUDs, built in a fraction of the time with tables,
+filters and exports for free.
 
-**What it would cost:** of the 36 modules, roughly **3** are plain CRUD. The other 33 need custom UI
-that matches your production reference screens — the composite `106 / 63 / 58 / 13⚑` cell, the
-three-panel pipeline widget, the 7-column dossier record, the three-gate control, the attendance and
+**What it would cost:** of 36 modules roughly **3** are plain CRUD. The other 33 need custom UI
+matching the production reference screens — the composite `106 / 63 / 58 / 13⚑` cell, the three-panel
+pipeline widget, the 7-column dossier record, the three-gate control, the attendance and
 bulk-document generators. **Filament earns its keep on about 8% of the surface while imposing its
-design language on 100% of it** — and `ux/design-system.md` specifies a deliberate AMU visual
-identity built on `#0c4a2e` and Victoria Gate, not a generic admin skin.
+design language on 100% of it**, against the deliberate AMU identity in
+[`ux/design-system.md`](ux/design-system.md) built on `#0c4a2e` and Victoria Gate.
 
-It is also a large dependency with its own major-version cadence, on a system with a five-year
-statutory life and an audit obligation.
+It is also a large dependency with its own major-version cadence, on a five-year statutory system
+carrying an audit obligation.
 
-**Verdict: no.** If master-data CRUD becomes a genuine bottleneck, the cheaper answer is a generator
-command producing controller + Form Request + Blade from the shared table component.
+**If master-data CRUD becomes a bottleneck**, the cheaper answer is a generator command emitting
+controller + Form Request + Blade against the shared table component.
 
-### 12.3 Why Blade + Alpine, with Livewire on three screens
+### 12.3 Why not Livewire
 
-Blade + Alpine satisfies every hard constraint, is already what `design-system.md` and
-`data-table.md` specify, and keeps one paradigm and one language.
+Livewire was initially proposed for three admin screens. **It is not adopted anywhere**, by sponsor
+decision, and on reflection the reasoning is sound beyond preference:
 
-But three admin screens are genuinely interaction-dense, and Alpine there would mean either a full
-page reload per action or hand-written fetch plumbing:
+- **A second paradigm is a permanent tax.** Two ways to build a screen means two ways to debug one,
+  two sets of conventions to teach, and a standing question of "which should this be?" at the top of
+  every ticket. One paradigm removes the question.
+- **It would have cost the no-JS path on exactly the screens that most need resilience.** Scrutiny
+  and reconciliation are where an officer must be able to act on a degraded connection.
+- **Server-side component state is state to reason about**, on a system where every statutory action
+  must be auditable and reproducible. Plain endpoints keep the audit boundary where the domain
+  action already is.
+- The interaction density is real but modest, and §10.1 handles it in ~20 extra lines per screen.
 
-| Screen | Why Livewire |
-|---|---|
-| **M18 scrutiny workbench** | Claims left, document right, verify/reject each without leaving the page. An officer works a queue of 106 |
-| **M08 reconciliation queue** | Upload an MIS file, watch matched / unmatched / double-payment resolve live |
-| **M20 ruleset authoring + sandbox** | *"If we ratify T2-AMB-01 as additive, who changes eligibility?"* — run against historical snapshots and diff, interactively |
-
-All three are staff-only, behind authentication, on managed machines. **None is on the candidate
-path**, so the no-JS constraint is not engaged.
-
-**Flux UI is not adopted.** It is good, but it brings its own design language, and this project has a
-specified one.
-
----
+**Flux UI** follows Livewire out, and would in any case have conflicted with a specified design
+system.
 
 ## 13. Change log
 
