@@ -27,7 +27,7 @@ update/modify… in any circumstances."*
 `applications` · `application_snapshots` · `eligibility_decisions` — schema in
 `../01-design/domain/domain-model.md` §7.
 
-**Critically:** `applications.rule_set_version_id` and `.reservation_policy_version_id` are **copied
+**Critically:** `applications.rule_set_version_id` and `.relaxation_policy_version_id` are **copied
 from the advertisement at submit** and are read-only thereafter. `lifecycle_state` is a **PHP enum**,
 not a nullable integer that the code writes the string `'Submitted'` into.
 

@@ -2,8 +2,7 @@
 
 **Wave:** 2 · **Scope:** v1
 **Depends on:** DR-012 · M24
-**Blocked by:** DOC-004 *(cadres AMU has that the model rules omit — medical, paramedical and
-others. The mechanism ships; those rows land when the document arrives.)*
+*(DOC-004 closed — the **AMU Cadre Recruitment Rules** are obtained and are the seed source.)*
 
 ## 1. Purpose and statutory basis
 
@@ -49,15 +48,28 @@ organisational_unit_designation
   id · organisational_unit_id · designation_id
   sanctioned_count unsigned NOT NULL
   sanction_order_ref · sanctioned_on
-  reserved_breakup json
   UNIQUE(organisational_unit_id, designation_id)
 ```
 
 **Indexes:** `designations(cadre, status)` · `designations(group)` ·
 `organisational_unit_designation(organisational_unit_id)`.
 
-**Seed:** the 58 CRR cadres from `../01-design/regulatory/ugc-crr-non-teaching-2022.md` §2 and the
-11 UGC teaching cadres from `ugc-teaching-2018.md` §1. Data Lake's 346 designation names are used
+**Seed: the AMU Cadre Recruitment Rules** (`docs/AMU_Cadre_Recruitment_Rules.pdf`, 1.07M chars) —
+**Schedule-1, pages 1–358**, which lists every post **organisational unit by organisational unit**:
+Common Pool of Non-Teaching Posts (pages 1–18), then each Faculty and Department, and — critically —
+**JNMC Hospital (137–164), College of Nursing (165), Modern Trauma Centre (166–175) and
+Dr. Ziauddin Ahmad Dental College (176–178)**, which are the medical and paramedical cadres the UGC
+model rules omit.
+
+**AMU's Schedule-1 is keyed *organisational unit × post*, which is exactly this module's model** —
+`designations` × `organisational_unit_designation`. Each entry carries 14 columns including number of
+posts, Group, Pay Level, selection/non-selection, age limit, essential and desirable qualifications,
+probation, method of recruitment, **and the Selection Committee composition inline** (which feeds
+M19).
+
+Cross-referenced against the 58 UGC model cadres (`../01-design/regulatory/ugc-crr-non-teaching-2022.md` §2)
+and the 11 UGC teaching cadres (`ugc-teaching-2018.md` §1); **where AMU's rules differ, AMU's govern**
+for non-teaching. Data Lake's 346 designation names are used
 **only as a vocabulary cross-check** — that table has `code`, `pay_grade`, `retirement_age` and
 `type_id` **NULL on every one of its 346 rows**, and `designation_types` is empty.
 
@@ -123,8 +135,7 @@ side by side with their **`.citation`** treatment, so the author can see the cla
 from while editing.
 
 **Establishment matrix:** organisational units down, designations across, `sanctioned_count` in the
-cell, with filled and available beneath. This is the roster's denominator and it should read like a
-register page.
+cell, with filled and available beneath. It should read like a register page.
 
 ## 8. Worked example
 
@@ -149,7 +160,8 @@ filled. `AvailableVacancies` returns **1**.
 
 | ID | Given / When / Then |
 |---|---|
-| M35-R01 | Given a fresh seed, when designations are counted, then **58 non-teaching** and **11 teaching** cadres exist |
+| M35-R01 | Given a fresh seed, when designations are counted, then every post in AMU CRR Schedule-1 is present, including the JNMC Hospital, Nursing, Trauma Centre and Dental College cadres |
+| M35-R13 | Given a designation seeded from Schedule-1, when inspected, then its Selection Committee composition is recorded for M19 |
 | M35-R02 | Given a non-teaching designation without a group, when saved, then validation fails |
 | M35-R03 | Given a teaching designation with a group, when saved, then validation fails |
 | M35-R04 | Given a ruleset that does not govern the cadre, when linked, then validation fails |
@@ -164,7 +176,7 @@ filled. `AvailableVacancies` returns **1**.
 
 ## 10. Test cases
 
-`tests/Feature/Establishment/DesignationSeedTest` — R01 · `DesignationValidationTest` — R02–R04,
+`tests/Feature/Establishment/DesignationSeedTest` — R01, R13 · `DesignationValidationTest` — R02–R04,
 R07 · `SanctionedStrengthTest` — R05, R08 · `Rule343Test` — R06 · `AgeReferenceTest` — R09, R10 ·
 `Authz/EstablishmentScopeTest` — R11 · `AuditTest` — R12.
 

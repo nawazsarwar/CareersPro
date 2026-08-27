@@ -20,7 +20,7 @@ Produce the ranked merit list, waitlist and offers.
 ## 2. Data
 
 ```
-merit_lists    id · post_id · rule_set_version_id · reservation_policy_version_id NULL
+merit_lists    id · post_id · rule_set_version_id · relaxation_policy_version_id NULL
                strategy enum(teaching_interview_only, non_teaching_composite)
                committee_id · generated_at · generated_by_id
                approved_by_id NULL · approved_at NULL · published_at NULL
@@ -33,6 +33,10 @@ merit_entries  id · merit_list_id · application_id
                waitlist_position NULL
                UNIQUE (merit_list_id, application_id)
                UNIQUE (merit_list_id, rank)
+
+-- merit_lists additionally records the committee's Ch. V §3 recommendations:
+--   recommend_waive_probation bool · recommend_advance_increments int NULL
+--   order_of_preference json NULL
 
 offers         id · merit_entry_id · issued_at · valid_until
                status enum(issued, accepted, declined, lapsed, withdrawn)
@@ -71,8 +75,8 @@ considered. **REG-08.**
 **Other invariants.** The strategy resolves from the **frozen ruleset**, never a runtime flag ·
 only candidates with **all active gates `eligible`** are rankable · `NonTeachingMeritStrategy`
 **refuses to finalise while OQ-008 is open** and reports `PendingRatificationError` rather than
-choosing between a 240 and a 100 composite · ties resolve by a **recorded rule**, never database
-order · a merit list is **superseded, never edited** after approval.
+choosing between a 240 and a 100 composite · **ties resolve by the Chairperson's casting vote** (AMU Ordinances Ch. V §4),
+recorded on the merit list — never by database order · a merit list is **superseded, never edited** after approval.
 
 ## 4. Routes and controllers
 
@@ -94,7 +98,7 @@ order · a merit list is **superseded, never edited** after approval.
 | | **all attending members signed off** | |
 | | **every candidate has all active gates decided** | {n} candidates have undecided gates. |
 | | **teaching: interview scores recorded for all attendees** | |
-| `tie_break_rule` | required, in:… | Record how ties are broken. |
+| `tie_break_rule` | required · **must be `chairperson_casting_vote`** for a selection-committee merit list (AMU Ord. Ch. V §4) | Ties are broken by the Chairperson's casting vote. |
 | approve | **status `draft`**, approver ≠ generator | The approver must differ from the generator. |
 | | **approver matches the appointing authority for the group** (CRR Rule 6) | |
 | publish | **status `approved`** | |
@@ -155,7 +159,7 @@ and the UI states which legal question is outstanding and who owns it.
 | M14-R05 | Given undecided gates, when generating, then it is refused with the count |
 | M14-R06 | Given the same generator and approver, when approving, then it is refused |
 | M14-R07 | Given a Group A post, when approved by a non-EC role, then it is refused, citing Rule 6 |
-| M14-R08 | Given tied scores, when ranked, then the recorded tie-break resolves them deterministically |
+| M14-R08 | Given tied scores, when ranked, then the **Chairperson's casting vote** resolves them and is recorded on the merit list |
 | M14-R09 | Given an approved list, when edited, then it is refused; superseding creates a new version |
 | M14-R10 | Given a declined offer, when the waitlist is promoted, then the merit list is **unchanged** |
 | M14-R11 | Given a draft list, when the public result is requested, then **404** |
@@ -167,7 +171,7 @@ and the UI states which legal question is outstanding and who owns it.
 
 **`tests/Unit/Merit/TeachingMeritStrategyTest` — R01, R02 (REG-08)** ·
 `NonTeachingMeritTest` — R03, R14 · `GenerationGuardTest` — R04, R05 ·
-`ApprovalAuthorityTest` — **R06, R07** · `TieBreakTest` — R08 · `SupersessionTest` — R09, R10 ·
+`ApprovalAuthorityTest` — **R06, R07** · `CastingVoteTieBreakTest` — R08 · `SupersessionTest` — R09, R10 ·
 `PublicResultTest` — R11, R12 · `Authz/OfferTest` — R13.
 
 Fixtures: a concluded committee with 13 interview scores including a deliberate tie; posts in

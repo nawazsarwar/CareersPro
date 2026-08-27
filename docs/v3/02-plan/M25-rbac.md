@@ -2,8 +2,7 @@
 
 **Wave:** 1 · **Scope:** v1
 **Depends on:** DR-008, DR-010 · M03
-**Blocked by:** OQ-015 *(Dean's-office role granularity — one OU-scoped role, or separate scrutiny
-and appointment roles. Design proceeds; the answer changes the seeded role list, not the mechanism.)*
+*(OQ-015 closed by **DR-015** — three OU-scoped Dean's-office roles.)*
 
 ## 1. Purpose and statutory basis
 
@@ -75,7 +74,7 @@ abstract class ScopedPolicy    // every scoped resource policy MUST extend this
 |---|---|---|
 | `role_id` | required, exists:roles,id | Select a role. |
 | `organisational_unit_id` | nullable, exists:organisational_units,id, **`published_unit`** | Select a published organisational unit. |
-| | **required when the role is OU-scoped** (`dean_office`) | This role must be limited to an organisational unit. |
+| | **required when the role is OU-scoped** (`dean_office_*`) | This role must be limited to an organisational unit. |
 | | **must be null when the role is university-wide** | This role cannot be limited to an organisational unit. |
 | `permissions[]` | array, each exists:permissions,id | |
 | impersonation `user` | exists, **not the actor**, **target must not hold `super_admin`** | You cannot impersonate this user. |
@@ -102,7 +101,7 @@ as AISHA KHAN. End impersonation."*
 Dr Rehman is Dean's-office staff for the **Faculty of Arts** (unit 11, path `/1/11/`).
 
 ```
-role_user: (dean_office, rehman, organisational_unit_id = 11)
+role_user: (dean_office_scrutiny, rehman, organisational_unit_id = 11)
 ResolveScopes::for(rehman) → ['/1/11/']
 ```
 
@@ -112,7 +111,9 @@ ResolveScopes::for(rehman) → ['/1/11/']
 - Tries the export URL for Commerce directly → **403**, because the export runs the same
   `visibleTo` query.
 - Opens a **General** advertisement → **403**. General recruitment is centrally administered
-  (DR-010); it is not in the `dean_office` permission set at all.
+  (DR-010); it is in no `dean_office_*` permission set.
+- Tries to **create** a local advertisement → **403**. That is `dean_office_admin`, and he holds only
+  `dean_office_scrutiny` (DR-015). A colleague in the same office holds the admin role.
 
 A central `recruitment_admin` has `organisational_unit_id = NULL`, so `ResolveScopes` returns `null`
 and no path filter is applied.
@@ -133,6 +134,8 @@ and no path filter is applied.
 | M25-R10 | Given a permission change, when the user's next request runs, then the cache is invalidated |
 | M25-R11 | Given any request, when permissions resolve, then **no more than 1 query** is issued (cached) |
 | M25-R12 | Given an OU-scoped role, when assigned without an organisational unit, then validation fails |
+| M25-R13 | Given `dean_office_scrutiny` alone, when creating an advertisement, then **403** — separation of duties inside the faculty |
+| M25-R14 | Given `dean_office_view` alone, when deciding a gate, then **403** |
 
 ## 10. Test cases
 
@@ -149,7 +152,7 @@ Fixtures: `OrganisationalUnitFactory` producing a 3-level tree; `RoleFactory` wi
 
 | Requirement | Artefact |
 |---|---|
-| R01–R05, R12 | `App\Domain\Access\*`, `App\Policies\ScopedPolicy` and descendants |
+| R01–R05, R12–R14 | `App\Domain\Access\*`, `App\Policies\ScopedPolicy` and descendants |
 | R06, R07 | `App\Policies\RuleSetPolicy` |
 | R08, R09 | `App\Domain\Access\StartImpersonation` |
 | R10, R11 | `App\Domain\Access\ResolvePermissions` |

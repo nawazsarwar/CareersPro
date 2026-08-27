@@ -627,20 +627,298 @@ would make a link worth reconsidering.
 
 ---
 
+### DR-013 — Table 2 ambiguities go to the Executive Council; the engine refuses meanwhile
+
+| | |
+|---|---|
+| **Status** | **DECIDED** |
+| **Owner** | Project sponsor → Executive Council |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | Nothing. It **unblocks** M20 by settling the posture |
+
+**Question.** AMU's Ordinances reproduce UGC's six ambiguous Table 2 phrases **verbatim and add no
+interpretation** (see [`doc-001-ordinances-findings.md`](doc-001-ordinances-findings.md) §7). Who
+resolves them, and what does the engine do until they are?
+
+**Decision.** The six questions go to the **Executive Council** as a formal note. Until each is
+ratified, the engine **refuses** — `PendingRatificationError`, no total for the affected rule, and a
+clear notice to the candidate that their claims are recorded in full. **No provisional
+interpretation is applied.**
+
+**Rationale.** T2-AMB-01 alone is a **160–200 point swing** for a Professor applicant with 20 papers
+against a 120-point threshold. The Ordinances establish that the interpretation is **AMU's to make**
+and that no instrument has made it — so a reading chosen by the implementation team would be exactly
+the kind of decision a rejected candidate's counsel would attack. Refusing is not over-caution; it is
+the only defensible posture.
+
+**Worked example.** A candidate with 5 Column II papers, one national book and two PhDs awarded sees
+a **base total of 80**, with each line citing its rule, plus:
+
+> Impact-factor scoring is not applied — awaiting Executive Council ratification (T2-AMB-01/02).
+> Your claims are recorded in full.
+
+When the EC rules, `pending_ratification` flips to `false` with `ratified_by` and `ratified_on`
+recorded, and affected applications are rescored **against their frozen snapshots** — so the change
+is auditable and reversible.
+
+**Reversal trigger.** EC ratification, which is the intended outcome, not a reversal.
+
+---
+
+### DR-014 — Librarian and DPES cadres score in Column II
+
+| | |
+|---|---|
+| **Status** | **DECIDED** — closes OQ-017 |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | M20 scoring for two of the five tracks |
+
+**Question.** AMU's Appendix-II names only its **13 faculties**. UGC's Column II expressly includes
+**Library, Education and Physical Education**; AMU's list does not. Which column applies to the
+Librarian and DPES cadres?
+
+**Decision.** **Column II — 10 points per paper.**
+
+**Rationale.** AMU's list enumerates *faculties*, and Librarians and DPES staff do not sit in a
+faculty — so the omission reads as **scope, not exclusion**. Where the University instrument is
+silent, the UGC text governs, and UGC 2018's Table 2 header names Library and Physical Education in
+Column II explicitly.
+
+**Worked example.** An Assistant Librarian with 6 peer-reviewed papers scores **6 × 10 = 60**, not
+6 × 8 = 48. The score line cites *"UGC 2018 App. II Table 2 header — Library"* and records **DR-014**
+as the basis for resolving AMU's silence.
+
+**Reversal trigger.** An EC clarification placing these cadres in Column I.
+
+---
+
+### DR-015 — Three Dean's-office roles
+
+| | |
+|---|---|
+| **Status** | **DECIDED** — closes OQ-015 |
+| **Owner** | Registrar's Office |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | M25 Wave 1 |
+
+**Decision.** Three roles, **all scoped to the same organisational-unit subtree**:
+
+| Role | May |
+|---|---|
+| `dean_office_admin` | Create and publish **local** advertisements and posts |
+| `dean_office_scrutiny` | Decide eligibility gates, raise and resolve deficiencies |
+| `dean_office_view` | Read only |
+
+One person may hold more than one; a small Dean's office simply holds all three.
+
+**Rationale.** Separation of duties **within** the faculty: the person who published a post should
+not also be the person deciding eligibility on it. This mirrors the author/verifier separation
+already required for rulesets (DR-016 territory) and costs nothing to administer where it is not
+wanted.
+
+**Worked example.** Dr Rehman holds `dean_office_scrutiny` scoped to `/1/11/` (Faculty of Arts). He
+decides gates on local posts in Arts and its three departments. He **cannot** create an
+advertisement — that is `dean_office_admin` — and he gets **403** on Faculty of Commerce entirely.
+
+**Reversal trigger.** Registrar's Office direction that the split is unworkable in practice.
+
+---
+
+### DR-016 — CGPA requires a declared conversion with documentary proof
+
+| | |
+|---|---|
+| **Status** | **DECIDED** — closes OQ-010 |
+| **Owner** | Registrar's Office |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | M04, M20 |
+
+**Question.** UGC 2018 cl. 3.6 makes *"a relevant grade… regarded as equivalent of 55% **by a
+recognized university**"* valid — i.e. **the awarding university's own formula governs**. That is not
+implementable as one algorithm, and the Ordinances give no formula (*"equivalent grade"* appears ten
+times; **"CGPA" appears nowhere in Chapter IV A**).
+
+**Decision.** The candidate supplies **the CGPA, the scale, the awarding university's official
+conversion formula, and documentary proof of that formula**. The engine applies the declared formula;
+the scrutiny officer verifies it against the attached document.
+
+**Rationale.** It puts the burden on the party who can actually discharge it, keeps the University
+out of the business of maintaining formulae for every institution in India, and — critically —
+**the engine never guesses**. `NormalisePercentage` returns `null` where no conversion is declared,
+and submission is blocked with a specific message rather than a silent assumption.
+
+**Worked example.** CGPA **6.28 / 10** from Biju Patnaik University of Technology. The candidate
+selects the university's published formula `(CGPA − 0.75) × 10` and attaches the grading policy.
+
+```
+(6.28 − 0.75) × 10 = 55.3%   →  meets the 55% threshold
+```
+
+Verified at scrutiny against `BPUT_grading_policy.pdf`. Had they attached nothing,
+`NormalisePercentage` returns `null` and submission is refused:
+*"Attach the conversion formula from Biju Patnaik University of Technology, or enter the
+percentage."* It does **not** assume 62.8%.
+
+**Reversal trigger.** A Registrar's Office decision to maintain a central conversion register
+instead — the declared-conversion data would seed it.
+
+---
+
+### DR-017 — No post reservation at AMU; relaxations apply, PwD only for fee
+
+| | |
+|---|---|
+| **Status** | **DECIDED** — closes OQ-013, supersedes DOC-003 |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | M17 — and **substantially reduces its scope** |
+
+**Question.** What reservation applies to appointments at AMU?
+
+**Decision.** **No posts are reserved by category.** There is no roster, no category-wise vacancy
+split, no backlog and no carry-forward. **PwD is the only reservation-adjacent concept**, and it
+operates through **exemptions and relaxations**, not reserved vacancies.
+
+**Category-linked relaxations DO apply**, and they are a different thing:
+
+| Relaxation | Applies to |
+|---|---|
+| **Age** | SC/ST +5 · OBC +3 · **PwD +10** · **Women (incl. SC/ST/OBC) +10** · J&K domicile 1980–89 +5 · SC/ST Govt employee +10 · OBC Govt employee +8 · Ex-Serviceman per GoI · ≥3 yrs Govt/statutory/university/PSU service +5 (CRR Rule 14.3) · **AMU Schools employee — no upper age bar** |
+| **Qualification** | Working candidates of AMU Schools, per AMU Rules |
+| **Fee** | **PwD only** — full exemption on a valid certificate (prescribed proforma, RPwD Act authority) |
+
+**Rationale.** Directed by the sponsor and corroborated by the source: across **1,076,754
+characters** of the AMU Cadre Recruitment Rules, `reservation` appears **twice**, `roster` twice,
+`EWS` **zero** times and `Ex-Serviceman` **zero** times — and neither *reservation* occurrence
+establishes a category reservation. The relaxation figures above are transcribed from **Advt.
+1/2024/NT** and CRR Rule 14.3.
+
+**Reservation ≠ relaxation, and conflating them is the trap here.** The previous design assumed a
+roster engine because the UGC Model CRR incorporates GoI reservation by reference. AMU does not
+apply it.
+
+**Effect on the build.**
+
+- **M17 loses the roster engine entirely.** `roster_registers` and `roster_points` are **not built**.
+- **M17 becomes a relaxation engine**: age, qualification and fee, driven by declared category and
+  evidence, versioned and effective-dated exactly as before.
+- `post_vacancy_breakup` **is not category-split**; a post has a vacancy count and nothing more.
+- `applications.applied_under_category` is retained **for relaxation and for statutory reporting**,
+  not for allocation.
+- **`categories` master retains SC/ST/OBC/EWS** — EWS because candidates may hold the certificate and
+  RTI reporting may ask, even though it grants nothing here.
+
+**Worked example.** An SC candidate aged 44 applies for a Group B post with an upper age limit of 40,
+closing 07.03.2026. `ApplyAgeRelaxation` adds **5 years** → effective limit **45** → age at the
+closing date (CRR Rule 14) is 44 → **eligible**. No vacancy is reserved for them; they compete in the
+single open merit list. A PwD candidate additionally pays **no fee**, on uploading the certificate.
+
+**Reversal trigger.** The *AMU v. Naresh Agarwal* remit being decided such that reservation becomes
+applicable. The versioned, effective-dated policy structure is retained precisely so that this is a
+data change.
+
+---
+
+### DR-018 — Payment is gateway-agnostic; Razorpay and BillDesk first
+
+| | |
+|---|---|
+| **Status** | **DECIDED** — closes OQ-001 |
+| **Owner** | Project sponsor / Finance Office |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | M08 |
+
+**Decision.** *"We do not want our implementation to be tied to any specific payment gateway and it
+should be robust in that regard, though for now we would implement the integration of **Razorpay**
+and **BillDesk**."*
+
+- **The domain never names a gateway.** `PaymentGateway` is the only contract the domain knows.
+- **Two adapters ship in v1:** `RazorpayGateway`, `BilldeskGateway`. Plus `MockGateway` for local and
+  test.
+- **Gateway is selected per advertisement** — the legacy `orders` table already carries
+  `merchant_id`, `gateway`, `pg_ref_no`, `pg_response` and `gateway_status`, so multi-gateway was
+  always the shape.
+- **Reconciliation is per-gateway** — each adapter declares its MIS file format and maps it to the
+  common `ReconciliationRow`. BillDesk and Razorpay formats differ; the domain must not care.
+- **An architecture test asserts no gateway name appears outside `App\Domain\Payment\Gateways`.**
+
+**Fee facts now fixed** (from the advertisements): **₹500** per application form · **one form per
+post** · **PwD exempt** with certificate · **non-refundable**.
+
+**Worked example.** Advertisement 2/2026/NT selects BillDesk; 1/2026/T selects Razorpay. A candidate
+pays ₹500 through BillDesk; the callback is lost; the BillDesk MIS file is uploaded next morning and
+`BilldeskGateway::parseReconciliation()` maps it to `ReconciliationRow`. `ReconcileMisFile` — which
+has never heard of BillDesk — matches on `pg_ref_no` and marks the order paid. **No second charge.**
+Adding a third gateway later is one adapter class and a config row.
+
+**Reversal trigger.** None. Adding or removing a gateway is the design working.
+
+---
+
+### DR-019 — Shortlisting ratio: 5 for the first post, +3 for each additional, configurable
+
+| | |
+|---|---|
+| **Status** | **DECIDED** — closes OQ-018 |
+| **Owner** | Registrar's Office |
+| **Decided on** | 2026-08-27 |
+| **Blocks** | M21 |
+
+**Question.** How many candidates are called for interview per post?
+
+**Decision.** **`called = 5 + 3 × (vacancies − 1)`**, and it is **configuration, not code**.
+
+| Vacancies | Called |
+|---:|---:|
+| 1 | **5** |
+| 2 | **8** |
+| 3 | **11** |
+| 4 | **14** |
+
+The count is **per designation, per cadre, per subject** — a second or third post of the *same*
+designation, cadre and subject adds 3, rather than being treated as a separate 5.
+
+**It is stored as a versioned, effective-dated shortlisting policy**, so a change takes effect from
+its effective date without a release, and advertisements published earlier keep the formula they were
+published under — the same freezing principle as the ruleset (I1).
+
+**Rationale, and a guard that matters.** **AMU CRR Rule 15** sets a statutory **ceiling**:
+
+> *"…the ratio of the number of vacant posts to be filled and the number of candidates to be called
+> for Interview **does not exceed 1:5**."*
+
+**This is AMU's own rule, not the UGC model's 1:15.** The configured formula sits **inside** that
+ceiling — 2 vacancies gives 8 against a ceiling of 10 — so it is compliant and tighter.
+
+**Therefore `AssertRatio` enforces both:** the configured formula **and** the statutory ceiling of
+`5 × vacancies`. A configuration that would exceed the ceiling is **rejected at save time**, not at
+use time. The **five exempt posts** — Registrar, Finance Officer, Controller of Examinations,
+Librarian, Director of Physical Education — are exempt from both.
+
+**Also from Rule 15, and it differs from the UGC model:** the minimum is **2 eligible applicants**
+(not 3), and the shortfall action is **re-advertise at least once more**, after which *"the
+University shall proceed with the selection."*
+
+**Worked example.** Post 2599, 3 vacancies, System Manager. Formula → `5 + 3 × 2` = **11**. Ceiling →
+`5 × 3` = 15. 11 ≤ 15 → allowed. An admin requesting 16 is refused on the ceiling; requesting 12 is
+refused on the configured formula, with both figures shown. If only 1 eligible applicant appears, the
+post is re-advertised once more; if still short, selection proceeds.
+
+**Reversal trigger.** A Registrar's Office change to the formula — which is a configuration edit, by
+design.
+
+---
+
 ## 3. Open questions
 
 Each blocks the named work. Ordered by the date by which an answer is needed.
 
 | ID | Question | Blocks | Owner | Needed by |
 |---|---|---|---|---|
-| **OQ-001** | Which payment gateway does AMU use? | M08 adapter (not M08 design) | Finance Office | Wave 5 |
 | **OQ-004** | Legacy cut-over: dual-run window; disposition of the 215,946 orphan backup rows; destination schema for ₹2.29 crore of financial history | Migration (Wave 10) | Project sponsor | Wave 10 |
 | **OQ-008** | Group B/C interview: CRR Rule 11 III(g) vs Rule 22.8 | M18 Scrutiny, M21 merit | Legal + Registrar | Wave 6 |
-| **OQ-009** | The six Table 2 ambiguities (§3.1 below) | M20 Scoring Engine | Executive Council | Wave 7 |
-| **OQ-010** | Percentage ↔ CGPA conversion policy | M04, M20 | Registrar's Office | Wave 4 |
 | **OQ-012** | CRR Rule 33.3 (bar on marrying a person with a living spouse) — encode as a validation rule? | M05 declarations | **Legal sign-off required** | Wave 4 |
-| **OQ-013** | Reservation policy applicable at AMU given its minority-institution litigation | M17 Roster | Legal + Registrar | Wave 3 |
-| **OQ-015** | Dean's-office role granularity — one OU-scoped role, or separate scrutiny and appointment roles? | M25 RBAC | Registrar's Office | Wave 1 |
 
 ### 3.1 Closed
 
@@ -653,6 +931,13 @@ Each blocks the named work. Ordered by the date by which an answer is needed.
 | OQ-007 | Hard-copy submission retained? | **DR-011** — yes, retained | 2026-08-27 |
 | OQ-011 | Record-retention schedule | **DR-011** — electronic indefinite, hard copies weeded at five years | 2026-08-27 |
 | OQ-014 | Data Lake organisational-unit schema | **§6 schema review** — introspected directly | 2026-08-27 |
+| OQ-009 | The six Table 2 ambiguities | **DR-013** — referred to the Executive Council; the engine refuses until ratified | 2026-08-27 |
+| OQ-010 | Percentage ↔ CGPA conversion | **DR-016** — declared conversion with documentary proof | 2026-08-27 |
+| OQ-015 | Dean's-office role granularity | **DR-015** — three OU-scoped roles | 2026-08-27 |
+| OQ-017 | Table 2 column for Librarian and DPES cadres | **DR-014** — Column II, 10 per paper | 2026-08-27 |
+| OQ-001 | Payment gateway vendor | **DR-018** — gateway-agnostic; Razorpay and BillDesk adapters | 2026-08-27 |
+| OQ-013 | Reservation applicability at AMU | **DR-017** — no post reservation; relaxations only, PwD fee exemption | 2026-08-27 |
+| OQ-018 | Teaching/non-teaching shortlisting ratio | **DR-019** — `5 + 3 × (vacancies − 1)`, configurable, capped by CRR Rule 15's 1:5 | 2026-08-27 |
 | OQ-016 | Faculty/Department count mismatch vs the legacy tables | **§6.3** — `faculties`/`departments`/`centres`/`campuses` are superseded first-generation tables; the tree is authoritative | 2026-08-27 |
 
 ### 3.2 OQ-009 in detail — the six Table 2 ambiguities
@@ -679,12 +964,13 @@ design can be completed, ranked by risk.
 
 | ID | Document | Why it is needed | Blocks | Owner |
 |---|---|---|---|---|
-| **DOC-001** | **AMU Ordinances (Executive)** | *The single highest-value missing document.* FN-1 Part B states it applies *"where the qualifications are advertised as per Ordinances (Executive) framed in the light of the UGC Regulations, 2018"* and directs the reader to *"Appendix II of the Ordinances"* — **AMU's Ordinances are the operative instrument, not the UGC text alone.** Without them: Selection Committee composition for Registrar / Finance Officer / Controller of Examinations is undetermined (CRR Sch-1 col.12 reads only *"As per Act/Statutes/UGC Notification"*), as are teaching superannuation age, AMU's faculty→Table-2 column mapping, the shortlisting ratio, and the fee schedule. They may already resolve several OQ-009 ambiguities. | M20, M19, M16 | Registrar's Office |
+| ~~DOC-001~~ | ~~AMU Ordinances (Executive)~~ — **CLOSED 2026-08-27**, obtained and analysed: [`doc-001-ordinances-findings.md`](doc-001-ordinances-findings.md) | *The single highest-value missing document.* FN-1 Part B states it applies *"where the qualifications are advertised as per Ordinances (Executive) framed in the light of the UGC Regulations, 2018"* and directs the reader to *"Appendix II of the Ordinances"* — **AMU's Ordinances are the operative instrument, not the UGC text alone.** Without them: Selection Committee composition for Registrar / Finance Officer / Controller of Examinations is undetermined (CRR Sch-1 col.12 reads only *"As per Act/Statutes/UGC Notification"*), as are teaching superannuation age, AMU's faculty→Table-2 column mapping, the shortlisting ratio, and the fee schedule. They may already resolve several OQ-009 ambiguities. | M20, M19, M16 | Registrar's Office |
 | **DOC-002** | **Post-2018 UGC amendment chain** | The repo holds only the 18 July 2018 Gazette as originally notified. Missing: the 2021 deferral of cl. 3.10; the claimed 2023 amendment making PhD optional (asserted in `UGC_TEACHING_RECRUITMENT_REGULATIONS.md` with **no source document in the repo**); and the **PhD Regulations 2022**, which superseded the 2016 M.Phil./PhD Regulations and abolished M.Phil — while the 2018 NET-exemption clause names only 2009 and 2016, leaving unresolved whether a **2022-compliant PhD triggers exemption**. That is the single most-used eligibility pathway in the system. | M20, DR-006 | Registrar's Office |
-| **DOC-003** | **Reservation framework** — Central Educational Institutions (Reservation in Teachers' Cadre) Act 2019 + Rules; DoPT reservation OMs; RPwD Act 2016; EWS OM; OBC creamy-layer ceiling and certificate validity | **No substantive reservation rules exist in either local document.** Both merely incorporate GoI instructions by reference. Missing: percentages, the roster (100/200/13-point), roster unit, backlog/carry-forward/interchange, EWS (absent from the 2018 Regulations entirely), Ex-Servicemen (the CRR relaxation cell is **literally blank**), PwBD horizontal reservation, fee concessions, and the age-relaxation table. | M17 Roster | Registrar's Office + Legal |
-| **DOC-004** | **AMU's own CRR for cadres absent from the UGC model rules** | The model rules' 58 cadres contain **no Medical Officer, Nursing, Pharmacist, Paramedical, Radiographer, hospital Lab Technician or Physiotherapist** cadre — despite Rule 28(a) expressly providing DACP for Medical Officers. AMU operates JNMC Hospital, Ajmal Khan Tibbiya College Hospital and a Dental College. Also absent: Horticulture, Press, Farm, Veterinary, Sports coaches, Curator, Archives. CRR Rule 19.1 lets the University frame its own rules where UGC guidelines don't exist. | M16, M20 non-teaching | Registrar's Office |
-| **DOC-005** | **AMU school-teacher recruitment rules** | AMU runs ~10 schools. Their recruitment is governed by neither the UGC 2018 Regulations nor the non-teaching CRR. **No rule source exists in the repository at all**, yet two live `post_types` rows depend on it. | DR-007 school track | Directorate of School Education |
+| ~~DOC-003~~ | ~~Reservation framework~~ — **SUPERSEDED by DR-017**: no reservation applies at AMU, so no framework is needed. A relaxation table is, and it is transcribed in [`amu-source-documents-findings.md`](amu-source-documents-findings.md) §3.<br>*(original entry)* **Reservation framework** — Central Educational Institutions (Reservation in Teachers' Cadre) Act 2019 + Rules; DoPT reservation OMs; RPwD Act 2016; EWS OM; OBC creamy-layer ceiling and certificate validity | **No substantive reservation rules exist in either local document.** Both merely incorporate GoI instructions by reference. Missing: percentages, the roster (100/200/13-point), roster unit, backlog/carry-forward/interchange, EWS (absent from the 2018 Regulations entirely), Ex-Servicemen (the CRR relaxation cell is **literally blank**), PwBD horizontal reservation, fee concessions, and the age-relaxation table. | M17 Roster | Registrar's Office + Legal |
+| ~~DOC-004~~ | **CLOSED 2026-08-27** — AMU Cadre Recruitment Rules obtained (1.07M chars); medical, nursing, paramedical, trauma-centre and dental cadres all present. ~~AMU's own CRR for cadres absent from the UGC model rules~~ | The model rules' 58 cadres contain **no Medical Officer, Nursing, Pharmacist, Paramedical, Radiographer, hospital Lab Technician or Physiotherapist** cadre — despite Rule 28(a) expressly providing DACP for Medical Officers. AMU operates JNMC Hospital, Ajmal Khan Tibbiya College Hospital and a Dental College. Also absent: Horticulture, Press, Farm, Veterinary, Sports coaches, Curator, Archives. CRR Rule 19.1 lets the University frame its own rules where UGC guidelines don't exist. | M16, M20 non-teaching | Registrar's Office |
+| **DOC-005** | **Partly closed** — advertisements 1/2024/NT and companion give posts, qualifications, age relaxation and fee; the underlying service rules are still outstanding. ~~AMU school-teacher recruitment rules~~ | AMU runs ~10 schools. Their recruitment is governed by neither the UGC 2018 Regulations nor the non-teaching CRR. **No rule source exists in the repository at all**, yet two live `post_types` rows depend on it. | DR-007 school track | Directorate of School Education |
 | **DOC-006** | **Part B2 (Librarian) and Part B3 (Physical Education) form contents** | Referenced by the AMU manual but present nowhere in `docs/`. UGC Tables 4 and 5 are *CAS grading* instruments, not direct-recruitment scoring, so they cannot be substituted. | DR-007 librarian and PE tracks | Registrar's Office |
+| **DOC-008** | **AMU Statutes** | Chapter V cites **Statutes 27 and 29**; Chapter XI §5 says the Registrar/COE selection committee is *"as provided in the **Statutes**"*; Chapter III operates under Statutes 2, 4, 5, 5A, 6. **The composition of the Selection Committees for Registrar, Finance Officer and Controller of Examinations is there, not in the Ordinances.** | M19 | Registrar's Office |
 | **DOC-007** | **Source PDFs re-extraction** | Both `.txt` corpora in `docs/research/` are OCR-derived and demonstrably lossy: Appendix I fitment tables missing entirely, the Executive Engineer level-upgrade clause truncated mid-sentence, the Ex-Servicemen age-relaxation cell blank, Table A columns mis-aligned, *"awarded"* substituted for *"evaluated"*. **`docs/UGC_Regulations_Teaching_Staff_2018.pdf` (4.9 MB) and `docs/UGC_Model_Cadre_Recruitment_Rules_Non_Teaching.pdf` (3.5 MB) are the authority of last resort for every figure.** | `rules-catalogue.yaml` | Implementation team |
 
 ---
@@ -824,3 +1110,5 @@ enforces this: the full test suite must pass with both connections removed from
 | 2026-08-27 | Register created. DR-001…DR-005 decided; DR-006, DR-007 proposed. OQ-001…OQ-013 and DOC-001…DOC-007 raised. 12 corrections recorded. | Implementation team |
 | 2026-08-27 | DR-006 and DR-007 confirmed. **DR-008…DR-012 added and decided.** OQ-002/003/005/006/007/011/014 closed. OQ-015, OQ-016 raised. **§6 Data Lake schema review added.** | Implementation team |
 | 2026-08-27 | OQ-016 closed — legacy organigram tables confirmed superseded. Source-data hygiene items moved to `data-hygiene-backlog.md`. | Implementation team |
+| 2026-08-27 | **AMU CRR and 4 advertisements obtained.** **DR-017…DR-019 added and decided**; OQ-001, OQ-013, OQ-018 closed; DOC-004 closed, DOC-003 superseded, DOC-005 partly closed, DOC-009 raised. Findings in `amu-source-documents-findings.md`. | Implementation team |
+| 2026-08-27 | **DOC-001 obtained and closed.** **DR-013…DR-016 added and decided**; OQ-009, OQ-010, OQ-015, OQ-017 closed; OQ-018 and DOC-008 raised. Findings in `doc-001-ordinances-findings.md`. | Implementation team |

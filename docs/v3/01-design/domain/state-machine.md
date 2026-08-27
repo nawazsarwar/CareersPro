@@ -74,14 +74,14 @@ transition with no guard is a defect.
 
 | # | From → To | Actor | Guard | Side-effect |
 |---|---|---|---|---|
-| T1 | `draft → submitted` | candidate | profile complete · all mandatory sections done · declaration accepted · **post is open** (`now ≤ closing_date`) · not already applied to this post | **Write `application_snapshot` with `content_hash`.** Copy `rule_set_version_id` + `reservation_policy_version_id` from the advertisement. Allocate `application_no`. Lock the dossier. Create eligibility_decision rows for the **active gates only** |
+| T1 | `draft → submitted` | candidate | profile complete · all mandatory sections done · declaration accepted · **post is open** (`now ≤ closing_date`) · not already applied to this post | **Write `application_snapshot` with `content_hash`.** Copy `rule_set_version_id` + `relaxation_policy_version_id` from the advertisement. Allocate `application_no`. Lock the dossier. Create eligibility_decision rows for the **active gates only** |
 | T2 | `submitted → under_scrutiny` | scrutiny officer | payment `paid` (unless fee-exempt) · **actor's OU scope covers the post** (DR-010) | Record `opened_by`, `opened_at` |
 | T3 | `under_scrutiny → deficient` | scrutiny officer | deficiency description non-empty · `rectification_window_closes_at` in the future | Notify candidate. Re-open the named sections only |
 | T4 | `deficient → under_scrutiny` | candidate | within the rectification window | **Write a new snapshot** (`reason: correction_window`). Re-lock |
 | T5 | `deficient → rejected` | system | rectification window expired, unrectified | Set `scrutiny` gate = `rejected`, remark `deficiency not rectified` |
 | T6 | `under_scrutiny → scrutiny_cleared` | scrutiny officer | `scrutiny` gate = `eligible` · **decided_by ≠ the candidate** | Advance |
 | T7 | `* → rejected` | scrutiny officer / system | **any active gate** = `rejected` · remark non-empty | Terminal. Remark is **mandatory** — a rejection without a reason is not appealable |
-| T8 | `scrutiny_cleared → shortlisted` | system | on a published shortlist · **1:15 ratio satisfied** (CRR Rule 16) | Record `shortlist_entry` |
+| T8 | `scrutiny_cleared → shortlisted` | system | on a published shortlist · **configured formula and the 1:5 ceiling satisfied** (DR-019, AMU CRR Rule 15) | Record `shortlist_entry` |
 | T9 | `shortlisted → test_scheduled` | exam admin | roll number allocated · centre has capacity | Allocate seat. Enable admit card **within the window only** |
 | T10 | `* → interviewed` | interview admin | attendance recorded | |
 | T11 | `interviewed → selected \| waitlisted \| not_selected` | committee | **merit list approved** · quorum met (§4) | Terminal |
@@ -91,7 +91,7 @@ transition with no guard is a defect.
 ### 3.1 Two guards that are statutory, not conventional
 
 **G1 — Ruleset immutability.** No transition may change `rule_set_version_id` or
-`reservation_policy_version_id` after T1. They are copied once and are read-only thereafter. An
+`relaxation_policy_version_id` after T1. They are copied once and are read-only thereafter. An
 advertisement published under UGC 2018 scores under 2018 for ever, even after 2025 is notified.
 
 **G2 — Merit-source separation.** For a **teaching** designation, `MeritStrategy` **must reject a
@@ -142,6 +142,7 @@ Two statutory timers, both requiring breach alerting.
 | Clock | Limit | Starts | Source |
 |---|---|---|---|
 | Advertisement window | **≥ 30 days** | publish | CRR |
+| Hard-copy receipt | per advertisement, **17:00 cut-off** | online close | Advertisements |
 | Process completion | **6 months**, extendable **once to 12** | publish | DoPT O.M. Misc.14017/15/2015-Estt.(RR) |
 
 The extension requires a **recorded VC approval artefact** — an approval with no record is not an

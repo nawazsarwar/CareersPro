@@ -2,8 +2,7 @@
 
 **Wave:** 4 · **Scope:** v1
 **Depends on:** M03, M24
-**Blocked by:** **OQ-010** *(percentage ↔ CGPA conversion policy — capture proceeds; the conversion
-rule is applied by M20.)*
+*(OQ-010 closed by **DR-016** — declared conversion with documentary proof.)*
 
 ## 1. Purpose and statutory basis
 
@@ -50,8 +49,11 @@ App\Domain\Dossier\AssertDossierUnlocked::check(User, string $section): void
 **Invariants.**
 - `ComputeExperience` **subtracts** M.Phil/PhD acquisition periods (cl. 3.11) unless the row is
   flagged *simultaneous teaching without leave* **and** carries a service certificate.
-- `NormalisePercentage` returns **null** rather than guessing when only a CGPA is present and no
-  conversion is declared — OQ-010 is open, and a guessed conversion is a wrong eligibility decision.
+- **`NormalisePercentage` applies the candidate's *declared* conversion formula (DR-016)** and returns
+  **null** — never a guess — where no formula and proof are supplied. cl. 3.6 makes the **awarding**
+  university's formula the governing one, so the portal never substitutes its own.
+- The declared formula is **verified at scrutiny against the attached proof** (M18); until verified
+  the derived percentage is marked provisional and cannot clear an eligibility threshold.
 - **A section belonging to a submitted application is locked.** Editing is possible only through a
   deficiency window (M18), which writes a new snapshot.
 
@@ -76,7 +78,9 @@ foreign-visits · referees · other-details.
 | `percentage` | `required_without:cgpa`, numeric, between:0,100 | Enter the percentage or the CGPA. |
 | `cgpa` | `required_without:percentage`, numeric, `lte:cgpa_scale` | The CGPA cannot exceed the scale. |
 | `cgpa_scale` | `required_with:cgpa`, numeric, in:4,5,7,10 | |
-| `conversion_declaration` | **required_with:cgpa** — the awarding university's formula + proof | Attach the conversion formula from the awarding university. |
+| `conversion_declaration.formula` | **required_with:cgpa**, in:`cgpa_x_10`,`cgpa_minus_0_75_x_10`,`other` | State the awarding university's conversion formula. |
+| `conversion_declaration.custom` | **required_if:formula,other**, max:200 | State the formula in full. |
+| `conversion_declaration.proof_document_id` | **required_with:cgpa**, exists, **owned by the user** | Attach the awarding university's grading policy as proof. |
 | `ncrf_level` | nullable, numeric, in:5.5,6,6.5,7,8 | |
 | `is_phd_regulations_compliant` | **required when the qualification is a PhD**, in:2009,2016,2022,none | State which PhD Regulations your degree complies with. |
 | `phd_award_date` | `required_if:…is_phd`, date, **after:`phd_registration_date`** | The award date must follow registration. |
@@ -137,6 +141,9 @@ Dr Farooqui enters: Master's 2009, 58%; PhD registered 2010-08, submitted 2014-0
 | M04-R05 | Given the same, flagged simultaneous-without-leave **with** a service certificate, then it **counts** |
 | M04-R06 | Given the same flag **without** a certificate, when saved, then validation fails |
 | M04-R07 | Given a CGPA with no conversion declaration, when normalised, then the result is **null** — not a guess |
+| M04-R14 | Given CGPA 6.28/10 with the declared formula `(CGPA − 0.75) × 10`, when normalised, then it yields **55.3%** |
+| M04-R15 | Given a declared conversion without proof attached, when saved, then validation fails |
+| M04-R16 | Given an unverified declared conversion, when eligibility is evaluated, then the percentage is provisional and cannot clear a threshold |
 | M04-R08 | Given overlapping full-time employment rows, when saved, then validation fails naming the other employer |
 | M04-R09 | Given candidate A, when editing candidate B's qualification, then **403** |
 | M04-R10 | Given a row referenced by a submitted snapshot, when edited, then it is refused |
@@ -146,7 +153,8 @@ Dr Farooqui enters: Master's 2009, 58%; PhD registered 2010-08, submitted 2014-0
 
 ## 10. Test cases
 
-`tests/Feature/Dossier/QualificationValidationTest` — R01, R07, R12 ·
+`tests/Feature/Dossier/QualificationValidationTest` — R01, R07, R12, R15 ·
+`CgpaConversionTest` — **R14, R16** ·
 `NetExemptionTest` — R02, R03 · `ExperienceComputationTest` — R04–R06 ·
 `EmploymentOverlapTest` — R08 · `Authz/DossierOwnershipTest` — R09 ·
 `DossierLockTest` — R10 · `RefereeTest` — R11 · `InstitutionUniquenessTest` — **R13, the legacy bug** ·

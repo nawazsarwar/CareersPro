@@ -16,6 +16,9 @@ deficiency raising and a time-bound rectification window.
 | CVO may investigate at any stage | CRR Rule 34.2 |
 | **Incomplete applications shall not be entertained** | CRR Rule 11 III(d) |
 | **Local recruitment is scrutinised in the Dean's office** | DR-010 |
+| **Scrutiny Committee**: Head of Department/Office (Chairman) · **two** members from the Department · **one** VC nominee from **outside** the Department. None lower in Pay Level than the advertised post | **AMU CRR Rule 15** |
+| A separate Scrutiny Committee may be constituted for **Common Pool** posts | AMU CRR Rule 15 |
+| The Committee may recommend a candidate **conditionally**; conditions must be met **before** the test or interview, and the candidature stays **provisional** until then | AMU CRR Rule 15 |
 
 **The rectification window is the differentiator.** CU-Chayan has *"no time-bound in-portal objection
 window"* and pushes candidates to *"generic university email addresses that go unacknowledged"*; the
@@ -64,6 +67,12 @@ App\Domain\Scrutiny\ExpireDeficiencies::handle(): int          -- scheduled
 - `ExpireDeficiencies` sets `status: expired` and the scrutiny gate to `rejected` with the remark
   *"deficiency not rectified"* — a state transition, not a silent lapse.
 - **A scrutiny officer may not scrutinise their own application.** Guarded.
+- **Scrutiny Committee composition is validated on constitution** (AMU CRR Rule 15): a chairman who
+  heads the Department/Office, exactly two departmental members, one external-to-department VC
+  nominee, and **every member at or above the advertised post's Pay Level**. Where the Department
+  cannot supply them, the VC nominates from another Department — recorded as such.
+- **A conditional recommendation keeps the candidature `provisional`** until the conditions are met,
+  and the conditions must clear **before** the written/skill test or interview.
 
 ## 4. Routes and controllers
 
@@ -92,6 +101,9 @@ All under `auth`, `verified`, `2fa`.
 | claim verification `remark` | **`required_if:verified,false`**, min:10 | Record why this claim is not accepted. |
 | bulk `application_ids[]` | required, each exists · **each within the actor's scope** | |
 | bulk `remark` | required when the decision is `rejected` | |
+| committee `members[]` | **exactly 2 departmental + 1 external-to-department**, chairman heads the unit | A Scrutiny Committee is the Head plus two departmental members and one nominee from outside. |
+| committee member `pay_level` | **≥ the advertised post's Pay Level** | {name} is below the Pay Level of the advertised post. |
+| conditional recommendation `conditions` | required, min:20 · **due before the test/interview date** | State the conditions and when they must be met. |
 
 ## 6. Authorisation
 
@@ -100,8 +112,8 @@ All under `auth`, `verified`, `2fa`.
 | Actor | Reaches |
 |---|---|
 | `scrutiny_officer` (university-wide) | all applications |
-| `dean_office` | **local** posts within their OU subtree only |
-| `dean_office` | **403** on any General post |
+| `dean_office_scrutiny` | **local** posts within their OU subtree only |
+| `dean_office_*` | **403** on any General post |
 
 **Bulk actions apply the same scope per row** — a bulk gate decision cannot escalate privilege by
 including an out-of-scope id. Tested explicitly.
@@ -123,7 +135,7 @@ what the candidate will see.
 
 ## 8. Worked example
 
-Dr Rehman, `dean_office` scoped to **Faculty of Arts** (`/1/11/`), opens the queue.
+Dr Rehman, `dean_office_scrutiny` scoped to **Faculty of Arts** (`/1/11/`), opens the queue.
 
 1. Queue shows **23** applications — local posts under Arts and its 3 departments. He filters to
    *scrutiny pending* → 14.
@@ -160,12 +172,16 @@ scrutiny gate to `rejected` with *"deficiency not rectified"*.
 | M18-R11 | Given any verification or gate change, when committed, then an audit entry is written |
 | M18-R12 | Given a document viewed in the workbench, when served, then `document.accessed` is recorded |
 | M18-R13 | Given a 100-row queue with documents, when rendered, then the query count is within budget |
+| M18-R14 | Given a Scrutiny Committee member below the advertised Pay Level, when constituted, then it is refused, naming the member |
+| M18-R15 | Given a committee without one external-to-department nominee, when constituted, then it is refused |
+| M18-R16 | Given a conditional recommendation, when the conditions are unmet at the test date, then the candidature remains **provisional** and the candidate is not admitted |
 
 ## 10. Test cases
 
 `tests/Feature/Scrutiny/QueueScopeTest` — **R01, R02, R09** · `PreconditionTest` — R03, R10 ·
 `DeficiencyTest` — R04, R05, R07, R08 · `ExpiryTest` — R06 · `AuditTest` — R11, R12 ·
-`QueuePerformanceTest` — R13.
+`QueuePerformanceTest` — R13 ·
+`ScrutinyCommitteeCompositionTest` — **R14, R15** · `ConditionalRecommendationTest` — R16.
 
 Fixtures: two faculties each with local posts and applications, so scope tests cannot pass by
 accident.

@@ -2,7 +2,7 @@
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
 **Supersedes:** `docs/spec/domain-model.md` — which states `Advertisement N:1 Post` (backwards),
-omits PostType, Order, Scrutiny, RollNo, Centre, Roster, Committee, Grievance and RuleSet entirely,
+omits PostType, Order, Scrutiny, RollNo, Centre, Committee, Grievance and RuleSet entirely,
 and describes ApplicationForm as *"links a User to an Advertisement"* when applications are made
 **to a post**.
 
@@ -13,16 +13,14 @@ and describes ApplicationForm as *"links a User to an Advertisement"* when appli
 Everything else hangs off this. Get it wrong and nothing downstream is recoverable.
 
 ```
-                        RuleSetVersion            ReservationPolicyVersion
+                        RuleSetVersion         RelaxationPolicyVersion
                               │                            │
-                              │ governs                    │ governs
+                              │ governs                    │ age · qualification · fee
                               ▼                            ▼
    OrganisationalUnit ──< Designation >── OrganisationalUnitDesignation
         (tree)                                  (sanctioned_count)
-            │                    │                        │
-            │                    │                        │ denominator
-            └────────┐           │                        ▼
-                     │           │                  RosterRegister
+            │                    │
+            └────────┐           │
                      ▼           ▼
    Advertisement ──< Post >── PostType
         │             │
@@ -127,7 +125,6 @@ designations
 organisational_unit_designation                    -- SANCTIONED STRENGTH REGISTER
   id · organisational_unit_id · designation_id
   sanctioned_count · sanction_order_ref · sanctioned_on
-  reserved_breakup json
   UNIQUE(organisational_unit_id, designation_id)
 ```
 
@@ -152,11 +149,11 @@ rule_set_versions   id · rule_set_id · version · status enum(draft, active, s
                     content_hash          ← integrity + determinism
                     second_reader_verified bool · verified_by · verified_at
 
-reservation_policies         id · slug · title
-reservation_policy_versions  id · policy_id · version · effective_from · effective_to
-                             vertical json · horizontal json · age_relaxations json
-                             fee_concessions json · roster_params json
-                             content_hash
+relaxation_policies          id · slug · title
+relaxation_policy_versions   id · policy_id · version · effective_from · effective_to
+                             age_relaxations json · qualification_relaxations json
+                             fee_exemptions json
+                             content_hash · second_reader_verified
 ```
 
 **`second_reader_verified` is a gate, not a note.** A `rule_set_version` cannot move to `active`
@@ -169,7 +166,7 @@ is the classic roster defect.
 
 ```
 roster_registers  id · organisational_unit_id · designation_id
-                  reservation_policy_version_id · roster_type · total_points
+                  relaxation_policy_version_id · roster_type · total_points
 roster_points     id · roster_register_id · point_number · category
                   is_reserved · status enum(vacant, filled, carried_forward)
                   filled_by_post_id · sanction_ref
@@ -190,7 +187,7 @@ advertisements
   dated · default_fee
   default_opening_date · default_closing_date · default_payment_closing_date
   rule_set_version_id          ← FROZEN AT PUBLISH
-  reservation_policy_version_id ← FROZEN AT PUBLISH
+  relaxation_policy_version_id ← FROZEN AT PUBLISH
   status enum(draft, pending_approval, published, paused, closed, withdrawn)
   published_at · approved_by_id · approved_at · added_by_id
   document_id (media)
@@ -326,7 +323,7 @@ applications
   id · application_no (unique) · user_id · post_id · advertisement_id
   submitted_at · submitted bool
   rule_set_version_id             ← copied from the advertisement at submit
-  reservation_policy_version_id   ← copied from the advertisement at submit
+  relaxation_policy_version_id   ← copied from the advertisement at submit
   applied_under_category · applied_under_horizontal_category
   is_internal_candidate bool
   paid bool · order_id
@@ -476,7 +473,7 @@ audit_logs                                     ← HASH-CHAINED, append-only
    `written_skill_interview`, `rule_set_id` → `ugc-crr-non-teaching-2022`).
    `organisational_unit_designation` records `sanctioned_count = 1` for the Computer Centre.
 2. **Publish.** The advertisement freezes `rule_set_version_id` = CRR-2022 v1 and
-   `reservation_policy_version_id` = *(none active — OQ-013)*. The post snapshots the OU as
+   `relaxation_policy_version_id` = *(none active — OQ-013)*. The post snapshots the OU as
    `{code: CCENTRE, title: 'Computer Centre', type: 'Services and Other Offices'}`.
    **Rule 34.3 guard fires:** sanctioned_count is 1, so promotion is not an available method.
 3. **Apply.** A candidate with DOB 1984-11-26 applies. Age is computed against
@@ -523,7 +520,7 @@ audit_logs                                     ← HASH-CHAINED, append-only
 |---|---|
 | §2 | M03 · M25 |
 | §3 | M24 · M35 · `organisational-units.md` |
-| §4 | M17 · M20 · `../regulatory/rules-catalogue.yaml` |
+| §4 | M17 relaxation · M20 · `../regulatory/rules-catalogue.yaml` |
 | §5 | M01 · M02 · M16 |
 | §6 | M04 · M06 · M07 |
 | §7 | M05 · M10 · M18 · M34 · `state-machine.md` · `snapshot-and-audit.md` |

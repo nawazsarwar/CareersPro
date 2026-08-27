@@ -1,9 +1,8 @@
 # M08 — Fee & Payment
 
 **Wave:** 5 · **Scope:** v1
-**Depends on:** DR-004 · M05, M16
-**Blocked by:** **OQ-001** *(gateway vendor — the adapter only. The domain is vendor-agnostic, so
-design and build proceed.)*
+**Depends on:** DR-004, **DR-018** · M05, M16, M17
+*(OQ-001 closed by **DR-018** — gateway-agnostic; **Razorpay** and **BillDesk** adapters ship in v1.)*
 
 ## 1. Purpose and statutory basis
 
@@ -12,8 +11,11 @@ Collect the application fee, reconcile it, and **never charge twice**.
 | Obligation | Source |
 |---|---|
 | Fee **payable through online/offline payment**, in the prescribed format | CRR Rule 11 III(a)–(b) |
+| **₹500 processing fee per application form**; separate form per post | Advt. 1/2024/NT, 1/2025/NT |
+| **PwD candidates exempt** on a valid Certificate of Disability (Appendix-I proforma) | Advt. 1/2024/NT ¶4 |
+| *"Application fee once received shall not be refunded"* | Advt. 1/2024/NT ¶5 |
 | The schedule of charges is **determined by the Vice-Chancellor** | CRR Rule 11 III(c) |
-| **Concessions… as per Govt. of India norms** | CRR Rule 11 III(c) — DOC-003 |
+| **Concessions… as per Govt. of India norms** | CRR Rule 11 III(c) — at AMU this is **PwD only** (DR-017) |
 | The fee is **non-refundable** | AMU manual, step 6 |
 
 **The business case, from AMU's own dashboard:** **₹2,29,94,500 received** against **₹93,14,500 in
@@ -42,8 +44,9 @@ The only vestiges are `application_forms.paid` and `.order_uid`, both unwritten.
 
 ```
 App\Domain\Payment\PaymentGateway                interface
-App\Domain\Payment\Gateways\{Vendor}Gateway      adapter — OQ-001
-App\Domain\Payment\Gateways\MockGateway          local and test
+App\Domain\Payment\Gateways\RazorpayGateway     adapter — v1
+App\Domain\Payment\Gateways\BilldeskGateway     adapter — v1
+App\Domain\Payment\Gateways\MockGateway         local and test
 App\Domain\Payment\ComputeFee::for(User, Post): Money
 App\Domain\Payment\CreateOrder::handle(Application): Order      // idempotent
 App\Domain\Payment\HandleCallback::handle(array $payload): void
@@ -55,6 +58,7 @@ interface PaymentGateway {
     public function initiate(Order $o): RedirectPayload;
     public function verify(array $payload): VerificationResult;
     public function status(Order $o): OrderStatus;      // server-to-server, authoritative
+    public function parseReconciliation(UploadedFile $f): Collection;  // -> ReconciliationRow
 }
 ```
 
@@ -68,6 +72,13 @@ interface PaymentGateway {
   record wins and the discrepancy is recorded.
 - **`double_payment` is a first-class status**, not an exception path.
 - **Payment never mutates the application snapshot.** It sets `paid` and `order_id` only.
+- **The domain never names a gateway.** Reconciliation formats differ between Razorpay and BillDesk;
+  each adapter maps its own MIS file to the common `ReconciliationRow`, and `ReconcileMisFile` has
+  never heard of either. **An architecture test asserts no vendor name appears outside
+  `App\Domain\Payment\Gateways`.**
+- **The gateway is selected per advertisement**, stored on the advertisement and copied to the order.
+- **Fee facts, fixed by the advertisements:** **₹500** per application form · **one form per post** ·
+  **PwD exempt** on a valid certificate (M17) · **non-refundable**.
 
 ## 4. Routes and controllers
 
@@ -92,13 +103,15 @@ signature verification, rate limiting and the server-to-server confirmation.
 | application | **submitted**, **unpaid**, **within `payment_closing_date`** | The payment window for this post has closed. |
 | `fee_rules.amount` | required, numeric, min:0 | |
 | `fee_rules.category` | required, exists — **one rule per (post, category, horizontal)** | A fee rule already exists for this combination. |
+| `gateway` | required on the advertisement, in the registered adapter list | Select a payment gateway for this advertisement. |
 | callback `signature` | required, **verified against the gateway secret** | |
 | callback `order_uid` | required, exists | |
 | reconciliation file | required, `mimes:csv,xlsx`, max 10 MB, **expected column set** | The file does not match the expected format. |
 | refund `reason` | required, min:20 · **`super_admin` only** | Record why this refund is being made. |
 
-**Fee exemption** is applied from the reservation policy version frozen on the advertisement. With no
-active policy (M17), exemptions are **administrator-entered** and recorded as such.
+**Fee exemption** comes from `App\Domain\Relaxation\ResolveFeeExemption` (M17) against the
+**relaxation policy version frozen on the advertisement**. At AMU that is **PwD only**, on a valid
+Certificate of Disability. An exempt candidate pays ₹0 and **no order is created**.
 
 ## 6. Authorisation
 
@@ -156,13 +169,19 @@ the discrepancy queue for refund — rather than being silently absorbed.
 | M08-R12 | Given a payment, when it completes, then the application **snapshot is unchanged** |
 | M08-R13 | Given a MIS file with an unexpected column set, when uploaded, then it is rejected |
 | M08-R14 | Given concurrent duplicate `CreateOrder` calls, when they race, then the unique index prevents a second row |
+| M08-R15 | Given the codebase, when scanned, then **no gateway vendor name appears outside `App\Domain\Payment\Gateways`** |
+| M08-R16 | Given a Razorpay MIS file and a BillDesk MIS file, when reconciled, then both map to `ReconciliationRow` and the same reconciler handles both |
+| M08-R17 | Given a PwD candidate with a valid certificate, when the fee is computed, then it is **₹0** and no order is created |
+| M08-R18 | Given an advertisement, when its gateway is set, then orders created under it use that gateway |
 
 ## 10. Test cases
 
 `tests/Feature/Payment/IdempotencyTest` — **R01, R14 (concurrent)** ·
 `ReconciliationTest` — R02, R05, R13 · `CallbackSecurityTest` — R03, R04 ·
 `PaymentWindowTest` — R06, R07 · `FeeComputationTest` — R08 ·
-`Authz/PaymentScopeTest` — R09, R10 · `AuditTest` — R11 · `SnapshotIntegrityTest` — R12.
+`Authz/PaymentScopeTest` — R09, R10 · `AuditTest` — R11 · `SnapshotIntegrityTest` — R12 ·
+`tests/Architecture/GatewayAgnosticTest` — **R15** ·
+`MultiGatewayReconciliationTest` — **R16, R18** · `FeeExemptionTest` — R17.
 
 Fixtures: `MockGateway` with `succeeds()`, `dropsCallback()`, `doubleCharges()` and
 `forgesSignature()` behaviours; a sample MIS file and a malformed one.

@@ -2,8 +2,8 @@
 
 **Wave:** 6 · **Scope:** v1
 **Depends on:** M18, M25
-**Blocked by:** **DOC-001** *(AMU Ordinances — the composition for Registrar, Finance Officer and
-Controller of Examinations is not in any instrument we hold.)*
+**Blocked by:** **DOC-008** *(AMU **Statutes** — DOC-001 is closed, and it located the composition
+for Registrar, Finance Officer and Controller of Examinations in the Statutes, not the Ordinances.)*
 
 ## 1. Purpose and statutory basis
 
@@ -18,10 +18,19 @@ A confidential space for Screening and Selection Committees to review applicants
 | HoD must be **of the same or higher rank** than the post | UGC 2018 cl. 5.4 |
 | Minority representative associated **only where vacancies ≥ 10** | CRR Schedule-II |
 | **Under UGC 2025 the committee makes the determination**, not an arithmetic engine | 2025 draft cl. 3.11 |
+| **Notice not less than 10 days** before each meeting, with the prior consent of the Visitor nominee or experts | **AMU Ordinances Ch. V §1** |
+| Committee recommends to the **Executive Council** | AMU Ord. Ch. V §2, Statute 29 |
+| May recommend **waiving probation, advance increments, an order of preference** | AMU Ord. Ch. V §3 |
+| **Chairperson has a casting vote in a tie** | **AMU Ord. Ch. V §4** |
+| **Recusal on 24 declared relations**, including step-relations | **AMU Ord. Ch. V §6** |
+| A **written undertaking** is obtained from every member **before the selection process commences**, covering relationship *and any conflict of interest* | **AMU CRR Rule 16** |
+| Selection Committee and DPC constitution is specified **per post in Schedule-1** of the AMU CRR | **AMU CRR Rule 16** |
 
-**Composition is not in the repository for three posts.** CRR Schedule-1 column 12 for Registrar,
-Finance Officer and Controller of Examinations reads only *"As per Act/Statutes/UGC Notification"*.
-Those three cannot be fully specified until DOC-001 arrives; every other cadre can.
+**Composition is still missing for three posts, but now precisely located.** CRR Schedule-1 column 12
+for Registrar, Finance Officer and Controller of Examinations reads *"As per Act/Statutes/UGC
+Notification"*, and AMU Ordinances Chapter XI §5 confirms appointment is *"by the duly constituted
+selection committee **as provided in the Statutes**"*. **DOC-008 — the AMU Statutes — is the document
+needed.** Every other cadre can be fully specified now.
 
 ## 2. Data
 
@@ -62,6 +71,19 @@ App\Domain\Committee\ConcludeCommittee::handle(Committee): void
 - `committee_notes` is **append-only**. Deliberations are exempt from RTI, but they are not
   rewritable.
 - **A member may not sit on a committee for a post they have applied to.** Guarded.
+- **Recusal on 24 declared relations** (AMU Ord. Ch. V §6): father, mother, son, daughter, son- and
+  daughter-in-law, all four grandparents, grandchildren and their spouses, siblings, siblings-in-law,
+  spouse's father, spouse's sister, niece or nephew of either spouse, **first cousin** of either
+  spouse, uncle, aunt — **each including step-relations**. Every member declares against every
+  applicant for the post; a declared relation blocks constitution and is audited.
+- **Notice at least 10 days before the meeting**, with the prior consent of the Visitor nominee or
+  the external experts recorded before the notice issues (Ch. V §1).
+- **A signed undertaking from every member is a precondition of moving to `in_session`** (CRR Rule
+  16). It covers both relationship and any other conflict of interest, and it is obtained **before**
+  the process commences — not at the meeting.
+- For non-teaching posts, **composition is read from the AMU CRR Schedule-1 entry for that post**,
+  which specifies it inline.
+- **Ties are broken by the Chairperson's casting vote** (Ch. V §4) — not by score order.
 
 ## 4. Routes and controllers
 
@@ -148,12 +170,18 @@ to conclude, naming the deficiency.
 | M19-R10 | Given a non-member, when opening the workspace, then **403** |
 | M19-R11 | Given a committee note, when edited or deleted, then it is refused |
 | M19-R12 | Given a conclusion, when recorded, then it carries the meeting date, per cl. 5.3 |
+| M19-R13 | Given a member with any of the 24 declared relations to an applicant, when constituted, then it is refused |
+| M19-R14 | Given an unsigned undertaking, when moving to `in_session`, then it is refused, naming the member |
+| M19-R15 | Given notice issued fewer than 10 days before the meeting, when scheduled, then it is refused |
+| M19-R16 | Given a non-teaching post, when composition resolves, then it comes from the CRR Schedule-1 entry for that post |
 
 ## 10. Test cases
 
 `tests/Feature/Committee/CompositionTest` — R01–R06 · `QuorumTest` — R07 ·
 `SignOffTest` — R08, R12 · `Authz/WorkspaceAccessTest` — R09, R10 ·
-`NoteImmutabilityTest` — R11.
+`NoteImmutabilityTest` — R11 ·
+`RecusalTest` — **R13** · `UndertakingTest` — **R14** · `NoticePeriodTest` — R15 ·
+`CrrScheduleCompositionTest` — R16.
 
 Fixtures: committee compositions per cadre drawn from `rules-catalogue.yaml`, so a change to the
 transcribed rule fails the test rather than passing silently.

@@ -65,10 +65,14 @@ the check cannot be forgotten by omission.
 
 ### 3.1 Roles
 
+**13 roles.** The three `dean_office_*` roles implement DR-015.
+
 | Role | Scope | Reaches |
 |---|---|---|
 | `candidate` | **ownership** | Only their own profile, documents, applications |
-| `dean_office` | **OU subtree** | **Local** advertisements, posts, applications and scrutiny within their faculty and its children |
+| `dean_office_admin` | **OU subtree** | Create and publish **local** advertisements and posts in their faculty and its children |
+| `dean_office_scrutiny` | **OU subtree** | Decide eligibility gates; raise and resolve deficiencies |
+| `dean_office_view` | **OU subtree** | Read only |
 | `scrutiny_officer` | OU subtree **or** university-wide | Assigned scrutiny queue |
 | `recruitment_admin` | university-wide | General advertisements and posts, all master data |
 | `exam_admin` | university-wide | Centres, roll numbers, admit cards, attendance |
@@ -111,9 +115,9 @@ public function scopeVisibleTo(Builder $q, User $user): Builder
 | Own application | ✓ **own** | — | — | — | — | — | — | read |
 | Other application | **—** | ✓ **OU** | ✓ | ✓ read | ✓ read | name+no only | ✓ (window) | read |
 | Documents | ✓ **own** | ✓ **OU** | ✓ | ✓ | — | — | ✓ (window) | read |
-| Eligibility decision | — | ✓ **OU** | ✓ | — | — | — | — | read |
+| Eligibility decision | — | ✓ **OU** *(scrutiny)* | ✓ | — | — | — | — | read |
 | Advertisement (general) | read published | read | read | ✓ | read | read | read | read |
-| Advertisement (local) | read published | ✓ **OU** | ✓ **OU** | ✓ | read | read | read | read |
+| Advertisement (local) | read published | ✓ **OU** *(admin)* | ✓ **OU** | ✓ | read | read | read | read |
 | Master data | — | read | read | ✓ | read | — | — | read |
 | Designations / sanctioned strength | — | read | — | ✓ | — | — | — | read |
 | Orders / transactions | ✓ **own** | — | — | read | — | ✓ | — | read |

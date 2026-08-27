@@ -86,33 +86,33 @@ artefact and a test.** A coverage figure that is asserted rather than derived is
 | M00 | Purge, toolchain, CI, shared table | 0 | v1 | DR-002 | ✅ |
 | **Wave 1 — identity** |
 | M03 | Registration & Profile (auth) | 1 | v1 | DR-008 | ✅ |
-| M25 | RBAC & Impersonation | 1 | v1 | DR-008, DR-010 · OQ-015 | ✅ |
+| M25 | RBAC & Impersonation | 1 | v1 | DR-008, DR-010, DR-015 | ✅ |
 | M26 | Audit & Traceability | 1 | v1 | DR-011 | ✅ |
 | **Wave 2 — master data** |
 | M24 | Master Data Management | 2 | v1 | DR-009 | ✅ |
-| M35 | Designation & Sanctioned Strength | 2 | v1 | DR-012 | ✅ |
+| M35 | Designation & Sanctioned Strength | 2 | v1 | DR-012 · AMU CRR | ✅ |
 | **Wave 3 — advertisement** |
 | M16 | Advertisement Builder | 3 | v1 | DR-006, DR-009, DR-010, DR-012 | ✅ |
 | M01 | Public Vacancy Listing | 3 | v1 | M16 | ✅ |
 | M02 | Advertisement Detail | 3 | v1 | M16 | ✅ |
-| M17 | Reservation & Roster Engine | 3 | v1-partial | DOC-003 · OQ-013 | ✅ |
+| M17 | **Relaxation Engine** | 3 | v1 | DR-017 | ✅ |
 | **Wave 4 — application** |
-| M04 | Editable Academic & Work History | 4 | v1 | M03 | ✅ |
+| M04 | Editable Academic & Work History | 4 | v1 | M03, DR-016 | ✅ |
 | M06 | Publication & Research Claims | 4 | v1 | M04 | ✅ |
 | M07 | Document Vault | 4 | v1-partial | DR-005 | ✅ |
 | M05 | Application Wizard | 4 | v1 | M04, M06, M07, M35 | ✅ |
 | M09 | Application PDF Generation | 4 | v1-partial | M05 | ✅ |
 | M10 | Applicant Dashboard | 4 | v1 | M05 | ✅ |
 | **Wave 5 — money** |
-| M08 | Fee & Payment | 5 | v1 | DR-004 · OQ-001 | ✅ |
+| M08 | Fee & Payment | 5 | v1 | DR-004, DR-018 | ✅ |
 | **Wave 6 — scrutiny** |
 | M34 | Eligibility Decision Gates | 6 | v1 | M05 | ✅ |
 | M18 | Scrutiny Workbench | 6 | v1 | M34, M25 | ✅ |
-| M19 | Committee Workspace | 6 | v1 | M18 · DOC-001 | ✅ |
+| M19 | Committee Workspace | 6 | v1 | M18 · **DOC-008** | ✅ |
 | M33 | Application Receipt & Hardcopy | 6 | v1-partial | DR-011 | ✅ |
 | **Wave 7 — scoring** |
-| M20 | Scoring Engine | 7 | v1 | DR-006 · OQ-009 | ✅ |
-| M21 | Shortlisting & Cut-offs | 7 | v1 | M20 · OQ-008 | ✅ |
+| M20 | Scoring Engine | 7 | v1 | DR-006, DR-013, DR-014 · OQ-009 | ✅ |
+| M21 | Shortlisting & Cut-offs | 7 | v1 | M20, DR-019 · OQ-008 | ✅ |
 | **Wave 8 — examination** |
 | M11 | Admit Card & Centre Allotment | 8 | v1 | M21 | ✅ |
 | M22 | Examination Admin | 8 | v1 | M11 | ✅ |
@@ -146,7 +146,7 @@ M00 purge · CI · shared table
  ├─► M26 audit  (cross-cutting) │
  │                              │
  ├─► M24 master data ─► M35 designations ─► M16 advert ─┬─► M01, M02
- │                            │                         └─► M17 roster
+ │                            │                         └─► M17 relaxation
  │                            └────────────────────────────► M05
  │
  └─► M08 payment ─► M05

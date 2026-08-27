@@ -1,7 +1,7 @@
 # M16 — Advertisement Builder
 
 **Wave:** 3 · **Scope:** v1
-**Depends on:** DR-006, DR-009, DR-010, DR-012 · M24, M35
+**Depends on:** DR-006, DR-009, DR-010, DR-012, DR-017, DR-018 · M24, M35, M17
 
 ## 1. Purpose and statutory basis
 
@@ -15,6 +15,7 @@ organisational unit, a sanctioned strength and — decisively — **a frozen rul
 | **6-month process cap**, extendable **once to 12** | DoPT O.M. Misc.14017/15/2015-Estt.(RR) |
 | Closing date falling on a holiday moves to **the next working day** | CRR Rule 11 III(d) |
 | Fee schedule determined by the **Vice-Chancellor** | CRR Rule 11 III(c) |
+| **Hard-copy deadline is separate from the online deadline** and is set per advertisement — 10 days in Advt. 1/2024/NT, 16 days in 1/2025/NT — with a **17:00 cut-off** against the online 23:59 | Advertisements |
 | Only posts **sanctioned by the UGC** may be advertised | CRR Rule 34.4 |
 | Single sanctioned post ⇒ **direct recruitment only** | CRR Rule 34.3 |
 
@@ -30,7 +31,7 @@ Without them `isAgeOverLimit()` and download-window enforcement have no backing 
 
 **The columns this adds:** `appointment_nature` · `tenure_months` · `designation_id` ·
 `organisational_unit_id` **plus the four snapshot columns** · `rule_set_version_id` ·
-`reservation_policy_version_id` · four counter columns for the composite cell.
+`relaxation_policy_version_id` · four counter columns for the composite cell.
 
 ## 3. Domain services
 
@@ -44,8 +45,7 @@ App\Domain\Recruitment\NextWorkingDay::from(CarbonInterface): CarbonInterface
 ```
 
 **Invariants.**
-- **Publishing freezes** `rule_set_version_id`, `reservation_policy_version_id` and the OU snapshot.
-  All four become read-only. This is scoring-engine invariant **I1**.
+- **Publishing freezes** `rule_set_version_id`, `relaxation_policy_version_id`, the **payment gateway** and the OU snapshot. All become read-only. This is scoring-engine invariant **I1**.
 - A published advertisement **cannot be edited**. Changes are **corrigenda**.
 - `AssertWindow` refuses a closing date fewer than **30 days** after publication.
 - A closing date on a declared holiday is moved to the **next working day** and the move is recorded.
@@ -75,6 +75,8 @@ App\Domain\Recruitment\NextWorkingDay::from(CarbonInterface): CarbonInterface
 | `organisational_unit_id` | required, exists, **`SelectableOrganisationalUnit`** | Select a published unit with a permanent code. |
 | `default_closing_date` | required, date, **`after_or_equal:default_opening_date`**, **`at_least_30_days_after:publish`** | The advertisement must remain open for at least 30 days. |
 | `default_payment_closing_date` | required, **`after_or_equal:default_closing_date`** | Payment cannot close before applications close. |
+| `default_hardcopy_closing_date` | required, **`after:default_closing_date`**, time **17:00** | Hard copies must be due after the online deadline, at 5:00 pm. |
+| `gateway` | required, in the registered adapter list (DR-018) | Select a payment gateway for this advertisement. |
 | `designation_id` (post) | required, exists, **`RuleSetGovernsCadre`** | |
 | `vacancies` | required, integer, min:1, **`WithinSanctionedStrength`** | Only {n} vacancies are available against a sanctioned strength of {s} ({f} filled). |
 | `tenure_months` | **required_if:appointment_nature,local**, integer, between:1,12 · **null when general** | A local appointment runs for 1 to 12 months. |
@@ -93,8 +95,8 @@ App\Domain\Recruitment\NextWorkingDay::from(CarbonInterface): CarbonInterface
 | Actor | May |
 |---|---|
 | `recruitment_admin` | create, edit and publish **General** advertisements, university-wide |
-| `dean_office` | create, edit and publish **Local** advertisements **within their OU subtree only** |
-| `dean_office` | **403** on any General advertisement — centrally administered (DR-010) |
+| `dean_office_admin` | create, edit and publish **Local** advertisements **within their OU subtree only** |
+| `dean_office_*` | **403** on any General advertisement — centrally administered (DR-010) |
 | everyone | read published |
 
 Scope resolves on `ou_path_snapshot`, so no join is needed
@@ -146,13 +148,15 @@ Advertisement **2/2026/NT**, General, Registrar's Office.
 | M16-R12 | Given an extension without a VC approval reference, when saved, then validation fails |
 | M16-R13 | Given 100 posts listed, when the composite cell renders, then counts come from counter columns — **query count within budget** |
 | M16-R14 | Given a `draft` or `TMP-` coded unit, when selecting the advertisement's unit, then it is not offered |
+| M16-R15 | Given a hard-copy deadline before the online deadline, when saved, then validation fails |
+| M16-R16 | Given publication, when it completes, then the selected payment gateway is frozen on the advertisement |
 
 ## 10. Test cases
 
 `tests/Feature/Recruitment/PublishTest` — R01, R02, R10 · `WindowTest` — R03, R04, R11, R12 ·
 `SanctionedStrengthGuardTest` — R05, R06 · `AppointmentNatureTest` — R07 ·
 `Authz/AdvertisementScopeTest` — R08, R09 · `CompositeCountPerformanceTest` — R13 ·
-`UnitSelectabilityTest` — R14.
+`UnitSelectabilityTest` — R14 · `HardcopyWindowTest` — R15 · `GatewaySelectionTest` — R16.
 
 Fixtures: `AdvertisementFactory` with `general()` / `local()` / `published()` states;
 a holiday calendar fixture for R04.

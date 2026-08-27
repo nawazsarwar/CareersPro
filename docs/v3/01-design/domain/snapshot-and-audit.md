@@ -61,7 +61,7 @@ profile · addresses · academic qualifications (with `ncrf_level` and the PhD-R
 flag) · eligibility tests · employment history · institutions attended · teaching/research
 experience · foreign visits · referees · **research claims with their evidence document ids and
 hashes** · notable contributions · other details · the applied-under category and horizontal
-category · the post and its OU snapshot · **`rule_set_version_id`** · **`reservation_policy_version_id`**.
+category · the post and its OU snapshot · **`rule_set_version_id`** · **`relaxation_policy_version_id`**.
 
 **Documents are referenced by id *and content hash*, not embedded.** The snapshot stays small; the
 hash proves the file behind the reference is the one that was assessed.

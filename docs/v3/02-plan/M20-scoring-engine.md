@@ -1,8 +1,10 @@
 # M20 — Scoring Engine
 
 **Wave:** 7 · **Scope:** v1
-**Depends on:** DR-006 · M06, M05, M25, M26
-**Blocked by:** **OQ-009** *(six Table 2 ambiguities)* · **DOC-001**, **DOC-002**
+**Depends on:** DR-006, **DR-013**, **DR-014** · M06, M05, M25, M26
+**Blocked by:** **OQ-009** *(six Table 2 ambiguities — **DR-013** settles the posture: referred to the
+Executive Council, engine refuses meanwhile)* · **DOC-002**
+*(DOC-001 **closed** — the Ordinances reproduce UGC's wording verbatim and resolve none of the six.)*
 
 ## 1. Purpose and statutory basis
 
@@ -183,6 +185,8 @@ threshold. Guessing is not a convenience; it decides careers.
 | M20-R16 | Given the golden corpus, when scored, then every hand-computed total matches |
 | M20-R17 | Given a sandbox run, when it completes, then no application record is written |
 | M20-R18 | Given `ugc-teaching-2025`, when the strategy resolves, then it is `ThresholdCountStrategy`, **not** `WeightedPointsStrategy` |
+| M20-R19 | Given an Assistant Librarian or DPES candidate, when a paper is scored, then it is **Column II at 10 points** — **DR-014** |
+| M20-R20 | Given AMU's faculty mapping, when a Faculty of Theology candidate is scored, then Column II applies; a Faculty of Unani Medicine candidate gets Column I |
 
 ## 10. Test cases
 
@@ -192,7 +196,8 @@ citing the clause it exercises. **This is the test that would have caught the fa
 `DeterminismTest` — R01, R02 · `RefusalTest` — R03, R04 · `EvidenceTest` — R05 ·
 `ApportionmentTest` — R06, R07 · `FacultyColumnTest` — R08 · `RuleCatalogueRegressionTest` —
 **R09–R11, asserting REG-01…REG-08 directly against the YAML** · `CategoryFloorTest` — R12 ·
-`SeparationOfDutiesTest` — R13–R15 · `SandboxTest` — R17 · `StrategyResolutionTest` — R18.
+`SeparationOfDutiesTest` — R13–R15 · `SandboxTest` — R17 · `StrategyResolutionTest` — R18 ·
+`AmuFacultyColumnTest` — **R19, R20**.
 
 **Coverage gate: 100% on `app/Domain/Scoring`.** Today a coverage driver is not even installed.
 

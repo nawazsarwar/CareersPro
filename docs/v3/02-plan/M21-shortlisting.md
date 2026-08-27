@@ -13,9 +13,10 @@ Produce ranked and category-wise shortlists, and enforce the statutory ratio.
 |---|---|
 | **The Table 3A/3B score is for shortlisting only; selection is on interview performance alone** | UGC 2018 cl. 4.1 I Note, cl. 5.3 |
 | Number called for interview **decided by the university** | Table 3A/3B Note (B) |
-| Ratio of vacancies to candidates called **must not exceed 1:15** | CRR Rule 16 |
-| Five posts **exempt** from the ratio | CRR Rule 16 |
-| **Fewer than 3 eligible applicants ⇒ re-advertise at least twice** | CRR Rule 16 |
+| **Ratio must not exceed 1:5** — *AMU's own rule, not the UGC model's 1:15* | **AMU CRR Rule 15** |
+| Five posts **exempt** from the ratio — Registrar, Finance Officer, Controller of Examinations, Librarian, Director of Physical Education | AMU CRR Rule 15 |
+| **Fewer than 2 eligible applicants ⇒ re-advertise at least once more**, then proceed with selection | **AMU CRR Rule 15** |
+| Configured call formula **`5 + 3 × (vacancies − 1)`**, per designation, cadre and subject | **DR-019** |
 | Where a common written test is held, all eligible (min 3) may be called; interview then subject to 1:15 | CRR Rule 16 |
 | Screening Committee may fix **higher** criteria to comply | CRR Rule 16 |
 
@@ -60,12 +61,20 @@ if (isset($inputs['shortlisting_score'])) {
 ```
 
 - **Only applications with `scrutiny = eligible` are shortlistable.**
-- `AssertRatio` enforces 1:15 with the five named exemptions — Registrar, Finance Officer, Controller
-  of Examinations, Librarian, Director of Physical Education.
-- `AssertMinimumApplicants` blocks generation below 3 eligible and records that re-advertisement is
-  required.
-- Ties are broken by a **declared, recorded rule** — never by database order. Default: higher
-  qualification score, then earlier submission. Recorded on the shortlist so a challenge can see it.
+- **`AssertRatio` enforces two limits, and both must hold**: the **configured formula**
+  `5 + 3 × (vacancies − 1)` (DR-019) **and** the **statutory ceiling** of `5 × vacancies`
+  (AMU CRR Rule 15). The five named posts are exempt from both.
+- **The formula is versioned, effective-dated configuration, not code.** A change takes effect from
+  its effective date without a release, and advertisements published earlier keep the formula they
+  were published under — the same freezing principle as the ruleset (I1).
+- **A configuration that would exceed the statutory ceiling is rejected at save time**, not at use
+  time.
+- `AssertMinimumApplicants` blocks generation below **2** eligible and records that re-advertisement
+  **at least once more** is required, after which selection proceeds.
+- **Ties at the shortlisting stage** are broken by a declared, recorded rule — never database order.
+  Default: higher qualification score, then earlier submission, recorded on the shortlist.
+  *(Distinct from the interview stage, where **AMU Ordinances Ch. V §4 gives the Chairperson a casting
+  vote** — see M14.)*
 - **Category-wise lists respect the frozen reservation policy version** — or, with none active,
   are administrator-defined and marked as such.
 
@@ -84,8 +93,10 @@ if (isset($inputs['shortlisting_score'])) {
 
 | Field | Rules | Message |
 |---|---|---|
-| post | **must have at least 3 eligible applicants**, unless exempt | Only {n} eligible applicants. This post must be re-advertised at least twice (CRR Rule 16). |
-| `called_count` | required, integer, min:1 · **≤ vacancies × 15** unless the post is exempt | Calling {n} exceeds the 1:15 ratio for {v} vacancies. |
+| post | **must have at least 2 eligible applicants**, unless exempt | Only {n} eligible applicant(s). This post must be re-advertised at least once more (AMU CRR Rule 15). |
+| `called_count` | required, integer, min:1 · **≤ the configured formula** unless exempt | The shortlist policy allows {f} candidates for {v} vacancies. |
+| | · **≤ vacancies × 5** unless exempt | Calling {n} exceeds the 1:5 ceiling for {v} vacancies (AMU CRR Rule 15). |
+| shortlist policy `formula` | required · **must not exceed `5 × vacancies` at any vacancy count** | This formula would exceed the 1:5 statutory ceiling at {v} vacancies. |
 | `higher_criteria` | nullable, json · **may only raise, never lower, the statutory threshold** | Screening criteria may be raised, not lowered. |
 | `tie_break_rule` | required, in:… | Record how ties are broken. |
 | publish | **status must be `draft`**; a published shortlist supersedes rather than mutating | |
@@ -114,11 +125,14 @@ version.
 
 **Post 884, Assistant Professor, 1 vacancy, teaching.**
 
-47 applications; 31 with `scrutiny = eligible`. `AssertMinimumApplicants` passes (31 ≥ 3).
-`AssertRatio`: 1 × 15 = **15 maximum**.
+47 applications; 31 with `scrutiny = eligible`. `AssertMinimumApplicants` passes (31 ≥ 2).
+`AssertRatio`: configured formula `5 + 3 × 0` = **5**; statutory ceiling `5 × 1` = **5**.
 
-The admin requests 20 → refused: *"Calling 20 exceeds the 1:15 ratio for 1 vacancy."* They request
-15 → allowed.
+The admin requests 8 → refused: *"The shortlist policy allows 5 candidates for 1 vacancy."* They
+request 5 → allowed.
+
+**Post 2599, 3 vacancies.** Formula → `5 + 3 × 2` = **11**; ceiling → `5 × 3` = **15**. 11 ≤ 15, so
+11 is allowed and 12 is refused on the formula, 16 on the ceiling — both figures shown.
 
 `RankCandidates` runs Table 3A against each frozen snapshot. Ranks 1–15 are called; two candidates
 tie at 78.0 and the recorded tie-break — higher qualification score, then earlier submission —
@@ -140,9 +154,12 @@ interview at all) and CRR-AMB-02 (whether the composite is 240 or 100) are unrat
 
 | ID | Given / When / Then |
 |---|---|
-| M21-R01 | Given 1 vacancy, when calling 16, then it is refused, citing the 1:15 ratio |
-| M21-R02 | Given a Registrar post, when calling above 1:15, then it is **allowed** — exempt |
-| M21-R03 | Given 2 eligible applicants, when generating, then it is refused and re-advertisement is recorded |
+| M21-R01 | Given 1 vacancy, when calling 6, then it is refused, citing the configured formula of 5 |
+| M21-R02 | Given a Registrar post, when calling above the ratio, then it is **allowed** — exempt |
+| M21-R14 | Given 3 vacancies, when the formula resolves, then it yields **11** (`5 + 3 × 2`) |
+| M21-R15 | Given a configured formula exceeding `5 × vacancies`, when saved, then it is **refused at save time** |
+| M21-R16 | Given a formula change, when a previously published advertisement is shortlisted, then the **frozen** formula applies |
+| M21-R03 | Given 1 eligible applicant, when generating, then it is refused and re-advertisement **once more** is recorded |
 | M21-R04 | Given an application with scrutiny pending, when ranking, then it is excluded |
 | M21-R05 | Given a teaching merit list, when a shortlisting score is passed, then `StatutoryViolation` is thrown — **REG-08** |
 | M21-R06 | Given tied scores, when ranked, then the recorded tie-break resolves them deterministically |
@@ -156,7 +173,7 @@ interview at all) and CRR-AMB-02 (whether the composite is 240 or 100) are unrat
 
 ## 10. Test cases
 
-`tests/Feature/Shortlist/RatioTest` — R01, R02 · `MinimumApplicantsTest` — R03 ·
+`tests/Feature/Shortlist/RatioTest` — R01, R02, **R14, R15, R16** · `MinimumApplicantsTest` — R03 ·
 `EligibilityFilterTest` — R04 · **`tests/Unit/Merit/TeachingMeritStrategyTest` — R05 (REG-08)** ·
 `TieBreakTest` — R06, R07 · `HigherCriteriaTest` — R08 · `PublishTest` — R09, R10, R13 ·
 `Authz/ShortlistScopeTest` — R11 · `NonTeachingMeritTest` — R12.

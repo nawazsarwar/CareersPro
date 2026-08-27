@@ -6,6 +6,22 @@
 
 ---
 
+> ## ⚠️ SUPERSEDED IN PART BY DR-017 — read this first
+>
+> **AMU applies no post reservation.** No roster, no category-wise vacancy split, no backlog.
+> **PwD is the only reservation-adjacent concept, and it operates as a fee exemption**, not a
+> reserved vacancy. Confirmed by the sponsor and corroborated by the AMU Cadre Recruitment Rules:
+> across **1,076,754 characters**, `reservation` appears twice, `roster` twice, `EWS` and
+> `Ex-Serviceman` **zero** times.
+>
+> **What survives from this document:** §1's analysis of what the UGC instruments do and do not say,
+> and the two 5% qualification relaxations — which remain live. **What does not:** §2's DOC-003
+> acquisition list, §3.1–3.2's roster design, and §4's litigation contingency, all of which assumed a
+> reservation regime that AMU does not operate.
+>
+> **The operative documents are now** [`../../00-clarify/amu-source-documents-findings.md`](../../00-clarify/amu-source-documents-findings.md) §3
+> and [`../../02-plan/M17-relaxation-engine.md`](../../02-plan/M17-relaxation-engine.md).
+
 ## 0. Read this first
 
 **Neither the UGC Regulations 2018 nor the Model CRR 2022 contains substantive reservation rules.**
