@@ -4,6 +4,7 @@
 **Depends on:** M04, M06, M07, M35, M16
 **Blocked by:** **OQ-012** *(CRR Rule 33.3 as a validation rule — the declaration is captured; no
 automatic disqualification is applied without legal sign-off.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -159,7 +160,7 @@ Had the post been `interview_only`, step 5 would have created **two** gate rows.
 
 ## 10. Test cases
 
-`tests/Feature/Application/EligibilityToApplyTest` — R01, R02, R11, R12, R14 ·
+`tests/Feature/Frontend/Application/EligibilityToApplyTest` — R01, R02, R11, R12, R14 ·
 `CompletenessTest` — R03 · `SubmitTest` — R04, R05, R09, R10 ·
 `GateCreationTest` — **R06, R07** · `DossierLockTest` — R08 ·
 `Authz/ApplicationOwnershipTest` — R13 · `Rule333Test` — R15 · `TrackResolutionTest` — R16.

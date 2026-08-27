@@ -2,6 +2,7 @@
 
 **Wave:** 9 · **Scope:** v1
 **Depends on:** M26, M20, M23
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -150,7 +151,7 @@ dossier was destroyed in 2031.**
 
 ## 10. Test cases
 
-`tests/Feature/Legal/ReconstructionTest` — **R01, R02, R09, R11, R12** ·
+`tests/Feature/Admin/Legal/ReconstructionTest` — **R01, R02, R09, R11, R12** ·
 `VerificationTest` — R03, R04 · `ReadOnlyTest` — R05 · `DisclosureTest` — R06, R07, R08 ·
 `Authz/RtiTest` — R10.
 

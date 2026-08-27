@@ -62,6 +62,15 @@ scope · DR-011 nothing deleted electronically, hard copies weeded at five years
 | [`snapshot-and-audit.md`](01-design/domain/snapshot-and-audit.md) | Append-only snapshots, canonical serialisation, the **genuinely hash-chained** audit log, and the reconstruct-and-verify procedure |
 | [`organisational-units.md`](01-design/domain/organisational-units.md) | Local, autonomous, provider-fed. Seven improvements over the source; the materialised `path`; detect-and-report import |
 
+### `01-design/engineering-standards.md` ✅ complete
+
+**[`engineering-standards.md`](01-design/engineering-standards.md)** — binding on every line of code
+(DR-020, DR-021). Laravel conventions as the governing rule · the mandatory **Admin/Frontend**
+namespace split and the rule that stops v2's copy-paste duplication returning · **Form Requests,
+strictly**, with inline validation banned by architecture test · the **Domain layer justified** and
+bounded by a three-part earning test · Pest 5 · Larastan level 6 · Tailwind 4 · and the **UI
+framework comparison** behind the Blade + Alpine decision.
+
 ### `01-design/security/` ✅ complete
 
 [`security-model.md`](01-design/security/security-model.md) — **two orthogonal authorisation scopes**

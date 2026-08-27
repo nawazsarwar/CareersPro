@@ -2,6 +2,7 @@
 
 **Wave:** 8 · **Scope:** v1
 **Depends on:** M11, M34
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -142,7 +143,7 @@ Skill test (50, min 25, **not additive**).
 
 ## 10. Test cases
 
-`tests/Feature/Examination/SkillTestNonAdditiveTest` — **R01** · `MarkImportTest` — R02, R04–R06 ·
+`tests/Feature/Admin/Examination/SkillTestNonAdditiveTest` — **R01** · `MarkImportTest` — R02, R04–R06 ·
 `ThresholdTest` — R03, R11 · `FinaliseTest` — R07, R08 · `SessionValidationTest` — R09, R10 ·
 `IncidentTest` — R12.
 

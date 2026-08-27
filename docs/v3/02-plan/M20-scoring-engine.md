@@ -5,6 +5,7 @@
 **Blocked by:** **OQ-009** *(six Table 2 ambiguities — **DR-013** settles the posture: referred to the
 Executive Council, engine refuses meanwhile)* · **DOC-002**
 *(DOC-001 **closed** — the Ordinances reproduce UGC's wording verbatim and resolve none of the six.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -190,7 +191,7 @@ threshold. Guessing is not a convenience; it decides careers.
 
 ## 10. Test cases
 
-**`tests/Feature/Scoring/GoldenCorpusTest`** — ~30 real profiles with hand-computed totals, each
+**`tests/Feature/Admin/Scoring/GoldenCorpusTest`** — ~30 real profiles with hand-computed totals, each
 citing the clause it exercises. **This is the test that would have caught the fabricated catalogue.**
 
 `DeterminismTest` — R01, R02 · `RefusalTest` — R03, R04 · `EvidenceTest` — R05 ·

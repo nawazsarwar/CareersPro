@@ -2,6 +2,7 @@
 
 **Wave:** 9 · **Scope:** v1
 **Depends on:** M34, M08, M25, M26
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -141,7 +142,7 @@ deleted** (DR-011).
 
 ## 10. Test cases
 
-`tests/Feature/Reporting/DashboardScopeTest` — R01, R02 · `FinanceRedactionTest` — R03 ·
+`tests/Feature/Admin/Reporting/DashboardScopeTest` — R01, R02 · `FinanceRedactionTest` — R03 ·
 `CounterPerformanceTest` — R04 · `HistoricalReportTest` — **R05, R06** · `QueueTest` — R07 ·
 `ExportAuditTest` — R08 · `SlaMonitorTest` — R09, R10 · `tests/Accessibility/DashboardTest` — R12.
 

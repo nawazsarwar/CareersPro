@@ -2,6 +2,7 @@
 
 **Wave:** 6 · **Scope:** v1
 **Depends on:** M05, M25, M26
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -140,7 +141,7 @@ On submit, **three** rows are created, all `decision: NULL`.
 
 ## 10. Test cases
 
-`tests/Feature/Eligibility/ActiveGatesTest` — R01–R03 · `DecisionValidationTest` — R04, R05 ·
+`tests/Feature/Admin/Eligibility/ActiveGatesTest` — R01–R03 · `DecisionValidationTest` — R04, R05 ·
 `GateIndependenceTest` — **R06** · `AuditTest` — R07, R12 · `CounterColumnTest` — R08, R09 ·
 `Authz/GateScopeTest` — R10 · `tests/Feature/Ui/GateControlTest` — R11.
 

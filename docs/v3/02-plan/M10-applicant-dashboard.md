@@ -2,6 +2,7 @@
 
 **Wave:** 4 · **Scope:** v1
 **Depends on:** M05, M08, M34
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -115,7 +116,7 @@ where she ranks.
 
 ## 10. Test cases
 
-`tests/Feature/Dashboard/OwnershipTest` — R01, R02 · `ScoreBreakdownTest` — R03, R04, R09 ·
+`tests/Feature/Frontend/Dashboard/OwnershipTest` — R01, R02 · `ScoreBreakdownTest` — R03, R04, R09 ·
 `DeficiencyWindowTest` — R05–R08 · `tests/Accessibility/DashboardTest` — R10.
 
 ## 11. Traceability

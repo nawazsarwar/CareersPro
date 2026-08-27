@@ -2,6 +2,7 @@
 
 **Wave:** 8 · **Scope:** **v1-partial** *(video interviews and travel-allowance claims deferred to v2)*
 **Depends on:** M21, M19, M34
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -134,7 +135,7 @@ Post 884, Assistant Professor, 1 vacancy, 15 shortlisted.
 
 ## 10. Test cases
 
-`tests/Feature/Interview/SameDayConclusionTest` — **R01, R02** · `SlotAllocationTest` — R03–R06,
+`tests/Feature/Admin/Interview/SameDayConclusionTest` — **R01, R02** · `SlotAllocationTest` — R03–R06,
 R12 · `AttendanceGateTest` — R07, R08 · `ConclusionGuardTest` — R09, R10 ·
 `LetterWindowTest` — R11.
 

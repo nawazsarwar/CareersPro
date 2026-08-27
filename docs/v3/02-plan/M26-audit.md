@@ -2,6 +2,7 @@
 
 **Wave:** 1 · **Scope:** v1
 **Depends on:** DR-011 · M00, M25
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 

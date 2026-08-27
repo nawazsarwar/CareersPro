@@ -5,6 +5,7 @@ no roster to build.)*
 
 **Wave:** 3 · **Scope:** v1
 **Depends on:** DR-017 · M24, M35, M16
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 

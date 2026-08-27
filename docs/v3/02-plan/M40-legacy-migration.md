@@ -4,6 +4,7 @@
 **Depends on:** every other module
 **Blocked by:** **OQ-004** *(dual-run window; disposition of the orphan backup rows; destination
 schema for the financial history)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 

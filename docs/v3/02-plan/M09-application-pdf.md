@@ -2,6 +2,7 @@
 
 **Wave:** 4 · **Scope:** **v1-partial** *(digital signature deferred to v2 — needs a DSC/eSign decision)*
 **Depends on:** M05, M07
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -95,7 +96,7 @@ was printed and when.
 
 ## 10. Test cases
 
-`tests/Feature/Documents/ApplicationPdfTest` — R01, R02, R06, R08, R09 ·
+`tests/Feature/Admin/Documents/ApplicationPdfTest` — R01, R02, R06, R08, R09 ·
 `TemplateResolutionTest` — R03, R04 · `QrVerificationTest` — R05 ·
 `Authz/PdfAccessTest` — R07.
 

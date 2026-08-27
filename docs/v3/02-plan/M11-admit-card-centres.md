@@ -2,6 +2,7 @@
 
 **Wave:** 8 · **Scope:** v1
 **Depends on:** M21, M34, M09
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -130,7 +131,7 @@ Post 2599, 15 shortlisted, written test 12 Apr 2026, admit-card window 1–10 Ap
 
 ## 10. Test cases
 
-`tests/Feature/Examination/RollNumberTest` — R01, R02 · `SeatAllocationTest` — R03–R05, R08, R09,
+`tests/Feature/Admin/Examination/RollNumberTest` — R01, R02 · `SeatAllocationTest` — R03–R05, R08, R09,
 R12 · `DownloadWindowTest` — **R06, R07** · `AdmitCardTest` — R10 · `Authz/AdmitCardTest` — R11.
 
 Concurrency fixture for R03: two parallel allocations targeting the same seat.

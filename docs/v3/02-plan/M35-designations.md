@@ -3,6 +3,7 @@
 **Wave:** 2 · **Scope:** v1
 **Depends on:** DR-012 · M24
 *(DOC-004 closed — the **AMU Cadre Recruitment Rules** are obtained and are the seed source.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -176,7 +177,7 @@ filled. `AvailableVacancies` returns **1**.
 
 ## 10. Test cases
 
-`tests/Feature/Establishment/DesignationSeedTest` — R01, R13 · `DesignationValidationTest` — R02–R04,
+`tests/Feature/Admin/Establishment/DesignationSeedTest` — R01, R13 · `DesignationValidationTest` — R02–R04,
 R07 · `SanctionedStrengthTest` — R05, R08 · `Rule343Test` — R06 · `AgeReferenceTest` — R09, R10 ·
 `Authz/EstablishmentScopeTest` — R11 · `AuditTest` — R12.
 

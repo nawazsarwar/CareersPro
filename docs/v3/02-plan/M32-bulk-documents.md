@@ -2,6 +2,7 @@
 
 **Wave:** 8 · **Scope:** v1
 **Depends on:** M11, M13, M34
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -124,7 +125,7 @@ Post 2599, admit-card window 1–10 Apr 2026, 58 candidates with `scrutiny = eli
 
 ## 10. Test cases
 
-`tests/Feature/Documents/BulkWindowTest` — R01, R07, R08 · `TemplateResolutionTest` — R02 ·
+`tests/Feature/Admin/Documents/BulkWindowTest` — R01, R07, R08 · `TemplateResolutionTest` — R02 ·
 `CohortFilterTest` — R03, R04 · `IdempotenceTest` — **R05, R06** · `PreviewTest` — R09 ·
 `Authz/BulkGenerationTest` — R10 · `QrTest` — R11 · `AuditTest` — R12.
 

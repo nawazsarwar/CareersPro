@@ -910,6 +910,94 @@ design.
 
 ---
 
+### DR-020 — Engineering standards: Laravel conventions, Admin/Frontend split, Form Requests strictly
+
+| | |
+|---|---|
+| **Status** | **DECIDED** |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-28 |
+| **Blocks** | Wave 0 CI; every module thereafter |
+
+**Decision.** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) is
+binding on every line of code. The governing rule: **follow Laravel's own conventions; where the
+standard is silent, the framework default wins.**
+
+| Area | Standard |
+|---|---|
+| Namespaces | **Every HTTP artefact under `Admin` or `Frontend`** — controllers, Form Requests, views, routes. No top-level controllers |
+| Validation | **Form Requests, strictly.** `$request->validate()` and `Validator::make()` in a controller are banned and fail an architecture test |
+| Domain layer | `App\Domain\{Context}\`, **not the default** — a context earns one only by being statutory, multi-entry-point, or polymorphic (§3.6) |
+| Models | `$fillable` never `$guarded = []` · `casts()` method · backed enums · `#[Scope]` · no queries in Blade |
+| Testing | **Pest 5**, feature tests mirroring the Admin/Frontend namespaces |
+| Static analysis | **Larastan level 6**, ratcheting |
+| Formatting | Pint, `laravel` preset · `declare(strict_types=1)` everywhere |
+| CSS | **Tailwind 4.** Bootstrap, jQuery, DataTables, Select2, Dropzone, CKEditor removed and blocked in CI |
+
+**Rationale.** v2 failed partly because there was no stated standard: 162 gate closures rebuilt per
+request instead of policies, a hand-rolled verification flow alongside Laravel's own, generated
+Form Requests with `'password' => ['required']` and no strength rule, and 35 Frontend controllers
+that were byte-for-byte copies of 37 Admin controllers.
+
+**The anti-duplication rule matters more than the split.** The v2 defect was **not** the
+Admin/Frontend separation — that is correct and is what we are doing. It was that the two sides
+shared an implementation by copying, with **no ownership scoping on the Frontend side**. So:
+Admin and Frontend controllers never share code by copy, shared behaviour goes into a domain action,
+and **every Frontend controller reaches data only through a policy-scoped query** — asserted by
+`tests/Architecture/FrontendScopingTest`.
+
+**Worked example.** A junior developer adds "withdraw application". They create
+`App\Http\Controllers\Frontend\ApplicationController@withdraw`, a
+`App\Http\Requests\Frontend\WithdrawApplicationRequest` whose `authorize()` calls
+`ApplicationPolicy@withdraw`, and a `App\Domain\Application\WithdrawApplication` action holding the
+guard *"not yet selected, before the closing date"*. The controller is four lines. If they instead
+call `$request->validate()` inline, `ValidationTest` fails the build and names the file.
+
+**Reversal trigger.** None anticipated. Ratcheting Larastan above 6 is the standard working, not a
+reversal.
+
+---
+
+### DR-021 — UI: Blade + Alpine, with Livewire on three named admin screens
+
+| | |
+|---|---|
+| **Status** | **DECIDED** |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-28 |
+| **Blocks** | every UI module |
+
+**Decision.**
+
+| Surface | Stack |
+|---|---|
+| **All candidate-facing** (M01–M15) | **Blade + Alpine.** Must work with JavaScript disabled |
+| **Admin, default** | **Blade + Alpine** |
+| **M18** scrutiny workbench · **M08** reconciliation queue · **M20** ruleset authoring and sandbox | **Livewire 4** |
+
+**Rejected: Inertia + Vue/React** — it cannot render without JavaScript, which the candidate side
+requires for GIGW and for candidates on poor connections, and it adds a second language to a
+PHP-first team on a system with a five-year statutory life.
+
+**Rejected: Filament as the admin framework** — and this was the close call. Of the 36 modules,
+roughly **3** are plain CRUD. **Filament earns its keep on about 8% of the surface while imposing its
+design language on 100%** of it, against a specified AMU visual identity built on `#0c4a2e` and
+Victoria Gate, and every custom reference screen — the composite count cell, the three-panel pipeline
+widget, the 7-column dossier record, the three-gate control. If master-data CRUD becomes a
+bottleneck, the cheaper answer is a generator command over the shared table component.
+
+**Rejected: Flux UI** — good, but it brings its own design language and this project has one.
+
+**Two constraints on the Livewire exception.** A fourth Livewire screen requires a decision-register
+entry stating why Alpine is insufficient. And **no statutory action may be performable only through
+Livewire** — every gate decision, submission and approval keeps a non-Livewire path.
+
+Full comparison: [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) §12.
+
+**Reversal trigger.** A measured accessibility or performance failure attributable to the choice.
+
+---
+
 ## 3. Open questions
 
 Each blocks the named work. Ordered by the date by which an answer is needed.
@@ -1110,5 +1198,6 @@ enforces this: the full test suite must pass with both connections removed from
 | 2026-08-27 | Register created. DR-001…DR-005 decided; DR-006, DR-007 proposed. OQ-001…OQ-013 and DOC-001…DOC-007 raised. 12 corrections recorded. | Implementation team |
 | 2026-08-27 | DR-006 and DR-007 confirmed. **DR-008…DR-012 added and decided.** OQ-002/003/005/006/007/011/014 closed. OQ-015, OQ-016 raised. **§6 Data Lake schema review added.** | Implementation team |
 | 2026-08-27 | OQ-016 closed — legacy organigram tables confirmed superseded. Source-data hygiene items moved to `data-hygiene-backlog.md`. | Implementation team |
+| 2026-08-28 | **DR-020 and DR-021 added and decided** — engineering standards and the UI framework choice. New: `01-design/engineering-standards.md`. | Implementation team |
 | 2026-08-27 | **AMU CRR and 4 advertisements obtained.** **DR-017…DR-019 added and decided**; OQ-001, OQ-013, OQ-018 closed; DOC-004 closed, DOC-003 superseded, DOC-005 partly closed, DOC-009 raised. Findings in `amu-source-documents-findings.md`. | Implementation team |
 | 2026-08-27 | **DOC-001 obtained and closed.** **DR-013…DR-016 added and decided**; OQ-009, OQ-010, OQ-015, OQ-017 closed; OQ-018 and DOC-008 raised. Findings in `doc-001-ordinances-findings.md`. | Implementation team |

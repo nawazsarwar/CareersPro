@@ -3,6 +3,7 @@
 **Wave:** 5 · **Scope:** v1
 **Depends on:** DR-004, **DR-018** · M05, M16, M17
 *(OQ-001 closed by **DR-018** — gateway-agnostic; **Razorpay** and **BillDesk** adapters ship in v1.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -176,7 +177,7 @@ the discrepancy queue for refund — rather than being silently absorbed.
 
 ## 10. Test cases
 
-`tests/Feature/Payment/IdempotencyTest` — **R01, R14 (concurrent)** ·
+`tests/Feature/Frontend/Payment/IdempotencyTest` — **R01, R14 (concurrent)** ·
 `ReconciliationTest` — R02, R05, R13 · `CallbackSecurityTest` — R03, R04 ·
 `PaymentWindowTest` — R06, R07 · `FeeComputationTest` — R08 ·
 `Authz/PaymentScopeTest` — R09, R10 · `AuditTest` — R11 · `SnapshotIntegrityTest` — R12 ·

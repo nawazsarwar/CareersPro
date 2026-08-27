@@ -2,6 +2,7 @@
 
 **Wave:** 3 · **Scope:** v1
 **Depends on:** DR-006, DR-009, DR-010, DR-012, DR-017, DR-018 · M24, M35, M17
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -153,7 +154,7 @@ Advertisement **2/2026/NT**, General, Registrar's Office.
 
 ## 10. Test cases
 
-`tests/Feature/Recruitment/PublishTest` — R01, R02, R10 · `WindowTest` — R03, R04, R11, R12 ·
+`tests/Feature/Admin/Recruitment/PublishTest` — R01, R02, R10 · `WindowTest` — R03, R04, R11, R12 ·
 `SanctionedStrengthGuardTest` — R05, R06 · `AppointmentNatureTest` — R07 ·
 `Authz/AdvertisementScopeTest` — R08, R09 · `CompositeCountPerformanceTest` — R13 ·
 `UnitSelectabilityTest` — R14 · `HardcopyWindowTest` — R15 · `GatewaySelectionTest` — R16.

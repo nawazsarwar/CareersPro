@@ -2,6 +2,7 @@
 
 **Wave:** 6 · **Scope:** **v1-partial** *(scope reduces to migration-only if hard copy is ever dropped)*
 **Depends on:** DR-011 · M05, M26
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -132,7 +133,7 @@ Post 2599 closes 7 Mar 2026; the process concludes 12 Aug 2026.
 
 ## 10. Test cases
 
-`tests/Feature/Custody/ReceiptTest` — R01–R03 · `ScheduleTest` — R04, R05, R10 ·
+`tests/Feature/Admin/Custody/ReceiptTest` — R01–R03 · `ScheduleTest` — R04, R05, R10 ·
 `DestructionTest` — **R06, R07, R08** · `Authz/CustodyTest` — R09.
 
 R07 asserts row counts across `applications`, `application_snapshots`, `documents` and `audit_logs`

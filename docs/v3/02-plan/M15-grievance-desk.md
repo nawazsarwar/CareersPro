@@ -3,6 +3,7 @@
 **Wave:** 9 · **Scope:** v1
 **Depends on:** M18, M30, M25
 **Blocked by:** **Executive Council sanction** — see §1
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -152,7 +153,7 @@ system failure.
 
 ## 10. Test cases
 
-`tests/Feature/Grievance/StageGuardTest` — **R01, R02** · `SlaTest` — R03, R04 ·
+`tests/Feature/Frontend/Grievance/StageGuardTest` — **R01, R02** · `SlaTest` — R03, R04 ·
 `InternalMessageTest` — R05, R10 · `Authz/GrievanceScopeTest` — R06, R07, R11 ·
 `DuplicateTest` — R08 · `ResolutionTest` — R09 · `AuditTest` — R12.
 

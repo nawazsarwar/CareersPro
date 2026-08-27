@@ -3,6 +3,7 @@
 **Wave:** 4 · **Scope:** v1
 **Depends on:** M03, M24
 *(OQ-010 closed by **DR-016** — declared conversion with documentary proof.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -153,7 +154,7 @@ Dr Farooqui enters: Master's 2009, 58%; PhD registered 2010-08, submitted 2014-0
 
 ## 10. Test cases
 
-`tests/Feature/Dossier/QualificationValidationTest` — R01, R07, R12, R15 ·
+`tests/Feature/Frontend/Dossier/QualificationValidationTest` — R01, R07, R12, R15 ·
 `CgpaConversionTest` — **R14, R16** ·
 `NetExemptionTest` — R02, R03 · `ExperienceComputationTest` — R04–R06 ·
 `EmploymentOverlapTest` — R08 · `Authz/DossierOwnershipTest` — R09 ·

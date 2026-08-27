@@ -4,6 +4,7 @@
 **Depends on:** M18, M25
 **Blocked by:** **DOC-008** *(AMU **Statutes** — DOC-001 is closed, and it located the composition
 for Registrar, Finance Officer and Controller of Examinations in the Statutes, not the Ordinances.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -177,7 +178,7 @@ to conclude, naming the deficiency.
 
 ## 10. Test cases
 
-`tests/Feature/Committee/CompositionTest` — R01–R06 · `QuorumTest` — R07 ·
+`tests/Feature/Admin/Committee/CompositionTest` — R01–R06 · `QuorumTest` — R07 ·
 `SignOffTest` — R08, R12 · `Authz/WorkspaceAccessTest` — R09, R10 ·
 `NoteImmutabilityTest` — R11 ·
 `RecusalTest` — **R13** · `UndertakingTest` — **R14** · `NoticePeriodTest` — R15 ·

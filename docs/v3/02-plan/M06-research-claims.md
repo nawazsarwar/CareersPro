@@ -2,6 +2,7 @@
 
 **Wave:** 4 · **Scope:** v1
 **Depends on:** M04, M07
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -165,7 +166,7 @@ That is the honest state, and it is `PendingRatificationError` surfaced rather t
 
 ## 10. Test cases
 
-`tests/Feature/Claims/EvidenceRequiredTest` — R01, R02 · `DoiTest` — R03, R04 ·
+`tests/Feature/Frontend/Claims/EvidenceRequiredTest` — R01, R02 · `DoiTest` — R03, R04 ·
 `DoubleCountTest` — R05 · `AuthorshipValidationTest` — R06, R07 ·
 `tests/Unit/Scoring/FacultyColumnTest` — R08 · `ApportionmentTest` — **R09, R10 (REG-01)** ·
 `PatentTest` — R11 · `Authz/ClaimVerificationTest` — R12 · `UgcListingTest` — R13 ·

@@ -2,6 +2,7 @@
 
 **Wave:** 3 · **Scope:** v1
 **Depends on:** M16, M01
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -108,7 +109,7 @@ its own description.
 
 ## 10. Test cases
 
-`tests/Feature/Public/AdvertisementDetailTest` — R01, R02, R08, R09 ·
+`tests/Feature/Frontend/Public/AdvertisementDetailTest` — R01, R02, R08, R09 ·
 `EligibilitySummaryTest` — R03, R04 · `SubmissionInstructionsTest` — R05, R07 ·
 `FeeNoticeTest` — R06 · `tests/Accessibility/PublicRoutesTest` — R10.
 

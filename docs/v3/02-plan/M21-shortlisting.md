@@ -4,6 +4,7 @@
 **Depends on:** M20, M34, M17
 **Blocked by:** **OQ-008** *(Group B/C interview conflict — teaching shortlisting is unaffected and
 proceeds.)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -173,7 +174,7 @@ interview at all) and CRR-AMB-02 (whether the composite is 240 or 100) are unrat
 
 ## 10. Test cases
 
-`tests/Feature/Shortlist/RatioTest` — R01, R02, **R14, R15, R16** · `MinimumApplicantsTest` — R03 ·
+`tests/Feature/Admin/Shortlist/RatioTest` — R01, R02, **R14, R15, R16** · `MinimumApplicantsTest` — R03 ·
 `EligibilityFilterTest` — R04 · **`tests/Unit/Merit/TeachingMeritStrategyTest` — R05 (REG-08)** ·
 `TieBreakTest` — R06, R07 · `HigherCriteriaTest` — R08 · `PublishTest` — R09, R10, R13 ·
 `Authz/ShortlistScopeTest` — R11 · `NonTeachingMeritTest` — R12.

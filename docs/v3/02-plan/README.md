@@ -188,7 +188,12 @@ Each wave ends green: migrations run clean, tests pass, coverage gate met, PHPSt
 
 ## 5. Standing rules for every module
 
-These are not repeated in each spec. They apply everywhere and CI enforces them.
+**Code style, layout and quality are governed by
+[`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) (DR-020).** Read it
+before writing a line. In short: Laravel conventions win; every HTTP artefact lives under `Admin` or
+`Frontend`; **validation is Form Requests, strictly**; Pest 5; Larastan level 6; Tailwind 4.
+
+The rules below are *domain* rules, and they apply everywhere too.
 
 1. **Authorisation is permission AND scope.** Every row-returning query passes through
    `visibleTo($user)`. Never a permission check alone.
@@ -200,7 +205,8 @@ These are not repeated in each spec. They apply everywhere and CI enforces them.
 7. **Every acceptance criterion has a named test.** CI fails on an unmapped requirement ID.
 8. **`axe-core` clean** on every rendered route.
 9. **No `n+1`.** `assertQueryCount` budgets on list routes.
-10. **Blade + Alpine only.** No jQuery, no SPA.
+10. **Blade + Alpine** (DR-021). No jQuery, no SPA. Livewire only on M18, M08 and M20, and never as
+    the sole path to a statutory action.
 
 ---
 

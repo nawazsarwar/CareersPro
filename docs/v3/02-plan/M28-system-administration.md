@@ -2,6 +2,7 @@
 
 **Wave:** 9 · **Scope:** **v1-partial** *(backup controls deferred to v2 — infrastructure concern)*
 **Depends on:** M25, M26
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -133,7 +134,7 @@ stated explicitly:
 
 ## 10. Test cases
 
-`tests/Feature/System/FlagTest` — R01, R02, R08 · `SettingTest` — R03, R04, R09, R11 ·
+`tests/Feature/Admin/System/FlagTest` — R01, R02, R08 · `SettingTest` — R03, R04, R09, R11 ·
 `JobRetryTest` — R05, R06 · `HealthTest` — **R07**, R12 ·
 `tests/Architecture/NoDomainDeletionTest` — **R10, enumerated over all admin routes**.
 

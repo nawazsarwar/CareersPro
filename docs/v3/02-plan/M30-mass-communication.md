@@ -2,6 +2,7 @@
 
 **Wave:** 9 · **Scope:** v1
 **Depends on:** M16, M25, M26
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -141,7 +142,7 @@ everyone who has started but not submitted.
 
 ## 10. Test cases
 
-`tests/Feature/Communication/ApprovalTest` — R01, R08 · `SegmentScopeTest` — R02, R07 ·
+`tests/Feature/Admin/Communication/ApprovalTest` — R01, R08 · `SegmentScopeTest` — R02, R07 ·
 `SuppressionTest` — R03, R04, **R11** · `TemplateTest` — R05, R12 · `PreviewTest` — R06 ·
 `CancelTest` — R09 · `AuditTest` — R10.
 

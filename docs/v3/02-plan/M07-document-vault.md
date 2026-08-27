@@ -2,6 +2,7 @@
 
 **Wave:** 4 · **Scope:** **v1-partial** *(OCR checks deferred to v2; DigiLocker deferred per DR-005)*
 **Depends on:** DR-005 · M03, M26
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -146,7 +147,7 @@ A candidate uploads a 2.3 MB scan of a degree certificate.
 
 ## 10. Test cases
 
-`tests/Feature/Documents/UploadValidationTest` — R01–R04, R11 · `StorageTest` — R05, R12 ·
+`tests/Feature/Admin/Documents/UploadValidationTest` — R01–R04, R11 · `StorageTest` — R05, R12 ·
 `ScanTest` — R06, R07 · `AccessAuditTest` — R08 · `Authz/DocumentOwnershipTest` — R09, R10 ·
 `RetentionTest` — R13.
 

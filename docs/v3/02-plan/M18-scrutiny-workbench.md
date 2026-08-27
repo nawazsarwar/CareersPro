@@ -2,6 +2,7 @@
 
 **Wave:** 6 · **Scope:** v1
 **Depends on:** M34, M25, M07 · M05
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -178,7 +179,7 @@ scrutiny gate to `rejected` with *"deficiency not rectified"*.
 
 ## 10. Test cases
 
-`tests/Feature/Scrutiny/QueueScopeTest` — **R01, R02, R09** · `PreconditionTest` — R03, R10 ·
+`tests/Feature/Admin/Scrutiny/QueueScopeTest` — **R01, R02, R09** · `PreconditionTest` — R03, R10 ·
 `DeficiencyTest` — R04, R05, R07, R08 · `ExpiryTest` — R06 · `AuditTest` — R11, R12 ·
 `QueuePerformanceTest` — R13 ·
 `ScrutinyCommitteeCompositionTest` — **R14, R15** · `ConditionalRecommendationTest` — R16.

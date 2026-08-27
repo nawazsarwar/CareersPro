@@ -2,6 +2,7 @@
 
 **Wave:** 9 · **Scope:** **v1-partial** *(a small, real, documented API — not CRUD over every table)*
 **Depends on:** M25, M26, M01
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 

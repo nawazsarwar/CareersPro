@@ -2,6 +2,7 @@
 
 **Wave:** 2 · **Scope:** v1
 **Depends on:** DR-009 · M00, M25
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -129,7 +130,7 @@ decision register).
 
 ## 10. Test cases
 
-`tests/Feature/MasterData/SeederTest` — R01 · `OrganisationalUnit/ImportIdempotenceTest` — R02 ·
+`tests/Feature/Admin/MasterData/SeederTest` — R01 · `OrganisationalUnit/ImportIdempotenceTest` — R02 ·
 `ImportExceptionTest` — R03, R04, R10 · `PathIntegrityTest` — R05, R06 · `CycleGuardTest` — R07, R11 ·
 `UnitSelectabilityTest` — R08 · `tests/Architecture/AutonomyTest` — **R09, boots with both
 connections removed** · `ProviderDefaultTest` — R12.

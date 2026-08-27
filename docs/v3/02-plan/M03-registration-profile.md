@@ -2,6 +2,7 @@
 
 **Wave:** 1 · **Scope:** v1
 **Depends on:** DR-008 · M00
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -129,7 +130,7 @@ gating**.
 
 ## 10. Test cases
 
-`tests/Feature/Auth/RegistrationTest` — R01, R10 · `CredentialResolverTest` — R02, R03, R04 ·
+`tests/Feature/Frontend/Auth/RegistrationTest` — R01, R10 · `CredentialResolverTest` — R02, R03, R04 ·
 `ThrottleTest` — R05 · `PasswordResetTest` — R06 · `Authz/ProfileOwnershipTest` — R07 ·
 `TwoFactorTest` — R08 · `OtpTest` — R09 · `ProfileExportTest` — R11 ·
 `Unit/AadhaarBlindIndexTest` — R12.

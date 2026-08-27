@@ -3,6 +3,7 @@
 **Wave:** 8 · **Scope:** v1 *(joining formalities are out of scope — the Academic ERP owns them)*
 **Depends on:** M20, M21, M19, M13, M22
 **Blocked by:** **OQ-008** *(non-teaching merit arithmetic — teaching merit is unaffected)*
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 

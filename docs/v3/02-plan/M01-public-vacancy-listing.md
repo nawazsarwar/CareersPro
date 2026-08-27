@@ -2,6 +2,7 @@
 
 **Wave:** 3 · **Scope:** v1 *(saved searches with alerts deferred to v2)*
 **Depends on:** M16
+**Conforms to:** [`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) — Laravel conventions · Admin/Frontend namespaces · Form Requests strictly · Pest · Larastan level 6
 
 ## 1. Purpose and statutory basis
 
@@ -103,7 +104,7 @@ She opens one, and the URL is shareable to a colleague with the filters intact.
 
 ## 10. Test cases
 
-`tests/Feature/Public/VacancyVisibilityTest` — R01–R03 · `VacancyFilterTest` — R04, R05, R09 ·
+`tests/Feature/Frontend/Public/VacancyVisibilityTest` — R01–R03 · `VacancyFilterTest` — R04, R05, R09 ·
 `VacancyUrlStateTest` — R06 · `NoJavascriptTest` — R07 ·
 `tests/Unit/Table/IndexCoverageTest` — R08 · `tests/Accessibility/PublicRoutesTest` — R10.
 
