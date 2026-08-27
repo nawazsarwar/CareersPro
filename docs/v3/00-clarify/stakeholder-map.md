@@ -7,7 +7,7 @@
 ## 1. What this document is
 
 Who decides what, and who has to be able to *do* what. It exists because the previous planning round
-recorded no owners at all — `docs/open-questions.md` lists four ambiguities and assigns none of them
+recorded no owners at all — `docs/v2-archive/open-questions.md` lists four ambiguities and assigns none of them
 to anybody, which is why they were resolved by default assumption rather than by decision.
 
 Two things live here:
@@ -52,7 +52,7 @@ Two things live here:
 | **Selection Committee member** | Confidential scoring and sign-off, **completed on the day of the meeting** | UGC 2018 cl. 5.1 VIII(c), 5.3 |
 | **Departmental head** (Chairman / Director / Principal) | **Verifies Part-C claims.** This duty is repeated after every sub-table in FN-1 and is currently unmodelled | FN-1 Part C |
 | **Chief Vigilance Officer** | May investigate at any stage | CRR Rule 34.2 |
-| **Legal cell** | Owns the questions with litigation exposure: Rule 33.3, the Group B/C interview conflict, reservation applicability | OQ-008, OQ-012, OQ-013 |
+| **Legal cell** | Owns the questions with litigation exposure: Rule 33.3 and the Group B/C interview conflict | OQ-008, OQ-012 |
 | **Academic ERP owner** (`datalake.amuonline.ac.in`) | Runs the identity provider at `api.amu.ac.in/api/v1/auth/login` and masters the organisational hierarchy. **Counterparty for OQ-002 and OQ-003** | `datalake_developer_auth_docs.md` |
 | **Portal administrator** | Master data, feature flags, job monitoring, audited impersonation | M25, M28 |
 
@@ -63,7 +63,7 @@ inside the Academic ERP (`datalake.amuonline.ac.in`), operations and reporting i
 Careers" (`mcareers.amuonline.ac.in`, with its own 8-item sidebar). Staff move between them to
 complete a single task.
 
-**No document in `docs/spec/` mentions this split.** Consolidating it into one application is a
+**No document in `docs/v2-archive/spec/` mentions this split.** Consolidating it into one application is a
 primary goal of v1 and a change-management burden on the Registrar's Office and the Controller of
 Examinations — both of whom need to be in the design review for M23, M31 and M32.
 
@@ -78,23 +78,23 @@ decide. If an owner cannot be identified, escalate to the project sponsor rather
 
 | ID | Question | **Accountable** | Consulted | Needed by |
 |---|---|---|---|---|
-| OQ-001 | Payment gateway vendor | **Finance Office** | Registrar's Office | Wave 5 |
-| OQ-004 | Legacy cut-over and financial history | **Project sponsor** | Finance Office, Registrar's Office | Wave 10 |
-| OQ-008 | Group B/C interview conflict | **Legal cell** | Registrar's Office, Executive Council | Wave 6 |
-| OQ-009 | The six Table 2 ambiguities | **Executive Council** | Registrar's Office, Legal cell | Wave 7 |
-| OQ-010 | Percentage ↔ CGPA conversion | **Registrar's Office** | Controller of Examinations | Wave 4 |
-| OQ-012 | CRR Rule 33.3 as a validation rule | **Legal cell** | Executive Council | Wave 4 |
-| OQ-013 | Reservation applicability at AMU | **Legal cell** | Registrar's Office, Executive Council | Wave 3 |
-| **OQ-015** | Dean's-office role granularity — one OU-scoped role, or separate scrutiny and appointment roles? | **Registrar's Office** | Deans, portal admin | Wave 1 |
+| **OQ-004** | Legacy cut-over and financial history | **Project sponsor** | Finance Office, Registrar's Office | Wave 10 |
+| **OQ-008** | Group B/C interview conflict — CRR Rule 11 III(g) vs Rule 22.8 | **Legal cell** | Registrar's Office, Executive Council | Wave 6 |
+| **OQ-009** | The six Table 2 ambiguities — the AMU Ordinances reproduce UGC's wording verbatim and interpret none of it, so the reading is AMU's to make (DR-013) | **Executive Council** | Registrar's Office, Legal cell | Wave 7 |
+| **OQ-012** | CRR Rule 33.3 as a validation rule | **Legal cell** | Executive Council | Wave 4 |
 
-**Closed 2026-08-27:** OQ-002 (→ DR-008), OQ-003 (→ DR-009), OQ-005 (→ DR-006), OQ-006 (→ DR-007 +
-DR-010), OQ-007 and OQ-011 (→ DR-011), OQ-014 and OQ-016 (→ decision register §6).
+**Closed 2026-08-27:** OQ-002 (→ DR-008) · OQ-003 (→ DR-009) · OQ-005 (→ DR-006) ·
+OQ-006 (→ DR-007 + DR-010) · OQ-007, OQ-011 (→ DR-011) · OQ-014, OQ-016 (→ register §6) ·
+OQ-010 (→ DR-016) · OQ-015 (→ DR-015) · OQ-017 (→ DR-014) · OQ-001 (→ DR-018) ·
+OQ-013 (→ DR-017) · OQ-018 (→ DR-019).
 
 ### 3.2 Documents to obtain
 
 | ID | Document | **Accountable** |
 |---|---|---|
-| DOC-001 | AMU Ordinances (Executive) | **Registrar's Office** |
+| ~~DOC-001~~ | ~~AMU Ordinances (Executive)~~ — **obtained 2026-08-27** | — |
+| ~~DOC-004~~ | ~~AMU Cadre Recruitment Rules~~ — **obtained 2026-08-27** | — |
+| **DOC-008** | **AMU Statutes** — Selection Committee composition for Registrar, Finance Officer, Controller of Examinations | **Registrar's Office** |
 | DOC-002 | Post-2018 UGC amendment chain | **Registrar's Office** |
 | DOC-003 | Reservation framework (CEI Act 2019, DoPT OMs, RPwD 2016, EWS OM) | **Registrar's Office** + Legal cell |
 | DOC-004 | AMU's own CRR for medical, paramedical and other absent cadres | **Registrar's Office** |
@@ -115,7 +115,7 @@ statutory owner who must be able to change it **without a code change**.
 | Sanctioned strength per cadre | **Executive Council**, with UGC approval to create, abolish or convert (CRR Rules 8, 9.1) | **M35** — `organisational_unit_designation.sanctioned_count` |
 | Local (temporary) recruitment | **Dean of the Faculty**, in the Dean's office | M16, M18, scoped by M25 |
 | Shortlisting ratio for teaching posts | **The university** (UGC 2018 Table 3A Note B) | M21, per post type |
-| Reservation roster and relaxations | **GoI instructions**, adopted *mutatis mutandis* (CRR Rules 15.1, 32) | M17, as a configurable plug-in |
+| Age, qualification and fee relaxations | AMU practice per advertisement + CRR Rule 14.3. **No post reservation applies (DR-017)** | M17 Relaxation Engine |
 | Ruleset version bound to an advertisement | **Registrar's Office** at publish time | M16 → M20 |
 
 **Two supremacy clauses constrain all of the above and must be stated in the design documents:**

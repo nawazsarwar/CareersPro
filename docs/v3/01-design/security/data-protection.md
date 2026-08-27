@@ -3,9 +3,9 @@
 **Status:** live · **Owner:** implementation team · **Accountable:** Legal cell
 **Created:** 2026-08-27
 
-`docs/research/compliance-matrix.md` — the **entire file** — covers OWASP, WCAG 2.2 AA and GIGW.
+`docs/v2-archive/research/compliance-matrix.md` — the **entire file** — covers OWASP, WCAG 2.2 AA and GIGW.
 There is no data-protection, RTI or retention content anywhere in the previous document set, and
-`docs/spec/security.md` disposes of DPDP 2023 in one line with no retention period, no
+`docs/v2-archive/spec/security.md` disposes of DPDP 2023 in one line with no retention period, no
 data-principal rights, and no consent artefact.
 
 Meanwhile the portal handles caste, religion, disability type and percentage, marital status, spouse

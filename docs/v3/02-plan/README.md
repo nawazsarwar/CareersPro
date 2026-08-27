@@ -66,7 +66,7 @@ specification could assert `Advertisement N:1 Post` for months without anyone no
 
 `M{NN}-R{NN}` — e.g. `M20-R07`. **One scheme, and it resolves.**
 
-The previous `docs/traceability.csv` cited `MODULES.md §5.1`–`§5.29` (there is no §5) and
+The previous `docs/v2-archive/traceability.csv` cited `MODULES.md §5.1`–`§5.29` (there is no §5) and
 `SRS-001`–`SRS-029` (the SRS uses `REQ-APP-01`…`REQ-MAND-03`), with `CodeArtefact` and `TestCase`
 reading `TODO` on all 29 rows — while `PROGRESS.md` reported *"Mapped Requirements: 29, Unmapped:
 0"*.

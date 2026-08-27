@@ -1,7 +1,7 @@
 # Domain Model
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
-**Supersedes:** `docs/spec/domain-model.md` — which states `Advertisement N:1 Post` (backwards),
+**Supersedes:** `docs/v2-archive/spec/domain-model.md` — which states `Advertisement N:1 Post` (backwards),
 omits PostType, Order, Scrutiny, RollNo, Centre, Committee, Grievance and RuleSet entirely,
 and describes ApplicationForm as *"links a User to an Advertisement"* when applications are made
 **to a post**.

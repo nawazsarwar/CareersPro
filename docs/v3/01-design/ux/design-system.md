@@ -1,7 +1,7 @@
 # Design System — "Register"
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
-**Supersedes:** `docs/spec/ui-ux.md` — 18 lines of boilerplate that never once looks at the 12
+**Supersedes:** `docs/v2-archive/spec/ui-ux.md` — 18 lines of boilerplate that never once looks at the 12
 reference screenshots, specifies no colour tokens despite `UI_DESIGN_SPECIFICATIONS.md` naming
 `#0c4a2e`, and does not mention the data table at all.
 

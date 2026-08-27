@@ -1,7 +1,7 @@
 # Scoring Engine
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
-**Supersedes:** `docs/spec/scoring-engine.md` — 22 lines which requires *"No hard-coded logic … rules
+**Supersedes:** `docs/v2-archive/spec/scoring-engine.md` — 22 lines which requires *"No hard-coded logic … rules
 defined in data … managed by admins"* and then hard-codes point values in prose four lines later;
 asserts idempotence with no mechanism; and depends on a `rule_sets` table that exists in neither
 database.

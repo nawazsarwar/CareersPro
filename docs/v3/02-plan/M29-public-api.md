@@ -16,7 +16,7 @@ readable feed serves that; nothing else here is required.
 `personal_access_tokens` table, `User` lacking `HasApiTokens`, and no rate limiting** (`throttle:api`
 lives only in the dead `Http/Kernel.php`). The API cannot authenticate anyone and never could.
 
-**What is explicitly out of scope.** `docs/spec/api.md` specifies `/api/v2/vacancies`,
+**What is explicitly out of scope.** `docs/v2-archive/spec/api.md` specifies `/api/v2/vacancies`,
 `/api/v2/applications`, `/api/v2/applications/{uuid}/status` and
 `POST /api/v2/integrations/cu-chayan/push`. **No CU-Chayan ingestion endpoint, credential set or data
 contract exists in any document held.** It was invented, and it is dropped

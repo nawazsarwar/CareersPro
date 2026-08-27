@@ -1,7 +1,7 @@
 # Glossary
 
 **Status:** live · **Owner:** project lead · **Created:** 2026-08-27
-**Supersedes:** `docs/MEMORY.md` §1 (6 terms, no sources)
+**Supersedes:** `docs/v2-archive/MEMORY.md` §1 (6 terms, no sources)
 
 ---
 
@@ -22,7 +22,7 @@ to be used interchangeably in the previous specs for three genuinely different t
 
 | Term | Definition | Source |
 |---|---|---|
-| **Advertisement** | A published recruitment notification owning one or more **Posts**. Carries default fee and default opening / closing / payment-closing dates that individual posts may override. Has a type (General or Local). **One advertisement has many posts** — the reverse, as stated in `docs/spec/domain-model.md`, is wrong | `advertisements` table; advertisement 884 owns posts 2599–2602 |
+| **Advertisement** | A published recruitment notification owning one or more **Posts**. Carries default fee and default opening / closing / payment-closing dates that individual posts may override. Has a type (General or Local). **One advertisement has many posts** — the reverse, as stated in `docs/v2-archive/spec/domain-model.md`, is wrong | `advertisements` table; advertisement 884 owns posts 2599–2602 |
 | **Post** | A single advertised vacancy line: serial number, title, subject, vacancy count, location, pay level, pay range, fee, its own date windows, and a **Post Type**. **Applications are made to a post, not to an advertisement** (`applicationforms.post_id` is `NOT NULL`) | `posts` table |
 | **Post Type** | The polymorphism driver. One row determines the application form template, the selection method, the admit-card and interview-letter templates, and the physical submission venue. **7 live rows** covering the five tracks | `post_types` table |
 | **Track** | One of the five application variants: Teaching, School Teacher, Non-Teaching, Librarian, Physical Education & Sports. Determines which form parts a candidate completes | DR-007 |

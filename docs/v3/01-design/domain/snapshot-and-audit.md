@@ -2,8 +2,8 @@
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
 
-Three documents in the previous set assert hash-chained immutable audit logs — `docs/spec/security.md`,
-`docs/spec/state-machine.md` and `docs/MEMORY.md`. The table they describe is a stock Spatie
+Three documents in the previous set assert hash-chained immutable audit logs — `docs/v2-archive/spec/security.md`,
+`docs/v2-archive/spec/state-machine.md` and `docs/v2-archive/MEMORY.md`. The table they describe is a stock Spatie
 activity-log table: `id, description, subject_id, subject_type, user_id, properties, host,
 created_at, **updated_at**`. No hash. No previous_hash. No sequence. A mutable `updated_at`.
 

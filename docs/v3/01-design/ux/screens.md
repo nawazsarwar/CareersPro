@@ -4,7 +4,7 @@
 
 The 12 reference screenshots in `docs/images/` are **AMU's own production systems**, not competitor
 guesses — the ERP footer reads *"Designed by Nawaz Sarwar, AMU · Version 3.0.0"*. They are therefore
-a reliable requirements source, and **no document in `docs/spec/` looks at them.**
+a reliable requirements source, and **no document in `docs/v2-archive/spec/` looks at them.**
 
 We keep the information design and rebuild the visual language (`design-system.md` §1).
 
@@ -31,7 +31,7 @@ concave curve, with a dark translucent pill reading `● Victoria Gate · AMU Al
   **Below 900px the image becomes a 30vh band above the card**, never a background behind text.
 - Errors are generic — *"Those credentials don't match our records."* Never *"no such user"*.
 - Lockout after 5 attempts states when to retry.
-- **What we are replacing:** `docs/images/login-tailwind.png`, the previous developer's output — an
+- **What we are replacing:** `docs/v2-archive/login-tailwind.png`, the previous developer's output — an
   unstyled centred card titled "Login to CareersPro" **with no submit button rendered at all**.
 
 ---

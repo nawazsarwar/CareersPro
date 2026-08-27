@@ -1,7 +1,7 @@
 # Security Model and Authorisation
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
-**Supersedes:** `docs/spec/security.md` — 14 lines whose three load-bearing claims (hash-chained
+**Supersedes:** `docs/v2-archive/spec/security.md` — 14 lines whose three load-bearing claims (hash-chained
 audit logs, encryption at rest for PII, DPDP compliance) are each contradicted by the schema
 document in the same repository.
 

@@ -85,7 +85,7 @@ category-linked rules the engine can implement today:
 
 ### 1.3 The compliance matrix in the repository
 
-`docs/research/compliance-matrix.md` — **the entire file** — covers only:
+`docs/v2-archive/research/compliance-matrix.md` — **the entire file** — covers only:
 
 - OWASP Top 10
 - WCAG 2.2 AA

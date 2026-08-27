@@ -1,7 +1,7 @@
 # CareersPro v2 — Documentation Set
 
-**This directory supersedes `docs/spec/`, `docs/MODULES.md`, `docs/traceability.csv`,
-`docs/open-questions.md` and `docs/PROGRESS.md`.** Those files are retained for the audit trail.
+**This directory supersedes `docs/v2-archive/spec/`, `docs/v2-archive/MODULES.md`, `docs/v2-archive/traceability.csv`,
+`docs/v2-archive/open-questions.md` and `docs/v2-archive/PROGRESS.md`.** Those files are retained for the audit trail.
 **Do not build from them** — see `00-clarify/decision-register.md` §5 for the twelve corrections
 that make several of them actively wrong.
 

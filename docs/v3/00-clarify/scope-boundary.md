@@ -1,7 +1,7 @@
 # Scope Boundary & Module Catalogue
 
 **Status:** live · **Owner:** project lead · **Created:** 2026-08-27
-**Supersedes:** `docs/MODULES.md` (29 modules, no status column, no owner, no scope boundary, and it
+**Supersedes:** `docs/v2-archive/MODULES.md` (29 modules, no status column, no owner, no scope boundary, and it
 omits five modules that exist in the production system being replaced)
 
 ---
@@ -12,7 +12,7 @@ The authoritative list of **what CareersPro v2 will and will not do**, module by
 reason for each exclusion. It also fixes the **canonical module IDs** (`M01`–`M34`) used by every
 other document in `docs/v3/`.
 
-**Module IDs `M01`–`M29` are numbered to match `docs/MODULES.md` exactly**, so the old catalogue and
+**Module IDs `M01`–`M29` are numbered to match `docs/v2-archive/MODULES.md` exactly**, so the old catalogue and
 the new one can be cross-read. `M30`–`M35` are additions: modules that exist in the live system and
 in the reference screenshots, or that the domain requires, but were **missing from the previous
 catalogue entirely**.
@@ -89,13 +89,13 @@ computer-based test delivery, and the invented CU-Chayan push integration.
 | **M26** | **Audit & Traceability** | **v1** | **Genuinely hash-chained** append-only log (`hash`, `previous_hash`, sequence, no `updated_at`) covering state changes, scoring overrides and document access — including the sensitive models the current `Auditable` trait omits (`User`, `Role`, `Permission`). |
 | **M27** | **RTI / Legal Support** | **v1** | Point-in-time reconstruction from immutable application snapshots. This is the capability ADR-001 used to justify the relational choice, and it is currently unimplementable — there is no snapshot table. |
 | **M28** | **System Administration** | **v1-partial** | Theme manager, feature flags, background-job monitoring. **Backup controls deferred to v2** — infrastructure concern, and the legacy habit of `CREATE TABLE … SELECT` backups inside the production schema (215,946 orphan rows) is what this must replace, not reproduce. |
-| **M29** | **Public API / Integration Layer** | **v1-partial** | A **real, documented, OpenAPI 3.1** API for the modules that need one, replacing the current 26 auto-generated CRUD endpoints that cannot authenticate (no sanctum guard, no `personal_access_tokens` table, no rate limiting). **The CU-Chayan push integration specified in `docs/spec/api.md` is `out`** — no ingestion endpoint, credentials or data contract exists in any document; it was invented. |
+| **M29** | **Public API / Integration Layer** | **v1-partial** | A **real, documented, OpenAPI 3.1** API for the modules that need one, replacing the current 26 auto-generated CRUD endpoints that cannot authenticate (no sanctum guard, no `personal_access_tokens` table, no rate limiting). **The CU-Chayan push integration specified in `docs/v2-archive/spec/api.md` is `out`** — no ingestion endpoint, credentials or data contract exists in any document; it was invented. |
 
 ---
 
 ## 5. Modules missing from the previous catalogue
 
-These exist in the live system and in the reference screenshots. `docs/MODULES.md` omits all five.
+These exist in the live system and in the reference screenshots. `docs/v2-archive/MODULES.md` omits all five.
 
 | ID | Module | Scope | Why it must exist |
 |---|---|---|---|
@@ -114,10 +114,10 @@ These exist in the live system and in the reference screenshots. `docs/MODULES.m
 |---|---|---|
 | **Career Advancement Scheme (CAS) / internal promotion** | Different workflow — no advertisement, no fee, internal screening, and a distinct Screening-cum-Evaluation Committee under UGC 2018 cl. 5.1 X. Would need a sixth application variant and the CAS thresholds (70 for L12→L13A, 110 for L13A→L14). | v2 |
 | **Joining formalities, service records, payroll, seniority** | Post-appointment. The Academic ERP already owns Employees, Designations and Pay Hub. | Academic ERP |
-| **CU-Chayan push integration** | `docs/spec/api.md` specifies `POST /api/v2/integrations/cu-chayan/push`. **No such endpoint, credential set or data contract exists in any document.** It was invented. | Nowhere — deleted |
+| **CU-Chayan push integration** | `docs/v2-archive/spec/api.md` specifies `POST /api/v2/integrations/cu-chayan/push`. **No such endpoint, credential set or data contract exists in any document.** It was invented. | Nowhere — deleted |
 | **Computer-based test delivery** | See M12. | v2 |
 | **DigiLocker / Aadhaar eKYC** | DR-005. Deferred, not rejected. | v2 |
-| **Multi-university / multi-tenant operation** | `docs/spec/srs.md` mentions *"strict multi-tenant constraints"*. AMU is a single institution; multi-tenancy would be speculative complexity in every table. | Out unless sponsor directs otherwise |
+| **Multi-university / multi-tenant operation** | `docs/v2-archive/spec/srs.md` mentions *"strict multi-tenant constraints"*. AMU is a single institution; multi-tenancy would be speculative complexity in every table. | Out unless sponsor directs otherwise |
 
 ---
 
@@ -126,7 +126,7 @@ These exist in the live system and in the reference screenshots. `docs/MODULES.m
 Every module above gets exactly one build spec at `docs/v3/02-plan/M{NN}-{slug}.md`, and every
 requirement inside that spec gets an ID of the form `M{NN}-R{NN}`.
 
-This replaces `docs/traceability.csv`, whose 29 rows cite `MODULES.md §5.1`–`§5.29` (there is no §5)
+This replaces `docs/v2-archive/traceability.csv`, whose 29 rows cite `MODULES.md §5.1`–`§5.29` (there is no §5)
 and `SRS-001`–`SRS-029` (the SRS uses `REQ-APP-01`…`REQ-MAND-03`), with `CodeArtefact` and
 `TestCase` reading `TODO` on all 29 rows. **A traceability matrix whose references do not resolve is
 worse than none, because it reports coverage that does not exist.**

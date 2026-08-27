@@ -4,10 +4,10 @@
 
 This is the **single largest UI work item in the project**, and no previous document mentions it.
 
-`docs/spec/srs.md` REQ-MAND-02 requires *"All tables (e.g. DataTables equivalents) must be rebuilt
+`docs/v2-archive/spec/srs.md` REQ-MAND-02 requires *"All tables (e.g. DataTables equivalents) must be rebuilt
 natively using server-side pagination (Blade) and Alpine.js"* — over a **78,232-row** applications
 table, with per-column search, six export formats, select-all with bulk delete, 100-row pages and
-**7-column dossier records**. `docs/spec/ui-ux.md` is 18 lines and does not mention tables at all.
+**7-column dossier records**. `docs/v2-archive/spec/ui-ux.md` is 18 lines and does not mention tables at all.
 
 **Current state:** 33 of 34 admin list views emit `class="… datatable datatable-Advertisement"` and
 expect jQuery DataTables to initialise them. `layouts.app` loads **zero** jQuery and zero DataTables.

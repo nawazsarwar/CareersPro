@@ -17,7 +17,7 @@ The documents provided in the docs folder are not final in any way. These are ju
 ### 1. Regulatory Frameworks & Compliance Guides
 - 📄 [UGC Model Cadre Recruitment Rules for Non-Teaching Staff (PDF)](file:///home/betacareers/application/docs/UGC_Model_Cadre_Recruitment_Rules_Non_Teaching.pdf)
 - 📄 [UGC Regulations on Minimum Qualifications for Teaching Staff 2018 (PDF)](file:///home/betacareers/application/docs/UGC_Regulations_Teaching_Staff_2018.pdf)
-- 📄 [Comprehensive UGC Teaching Staff Recruitment Guide (Markdown)](file:///home/betacareers/application/docs/UGC_TEACHING_RECRUITMENT_REGULATIONS.md)
+- 📄 ⚠️ *superseded — see `docs/v3/01-design/regulatory/ugc-teaching-2018.md`* [Comprehensive UGC Teaching Staff Recruitment Guide (Markdown)](file:///home/betacareers/application/docs/v2-archive/UGC_TEACHING_RECRUITMENT_REGULATIONS.md)
 - 📄 [CU-Chayan Portal Evaluation, Pros/Cons & Strategic Recommendations](file:///home/betacareers/application/docs/CU_CHAYAN_PORTAL_EVALUATION.md)
 
 ### 2. Database Architecture & Schemas

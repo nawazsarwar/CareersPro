@@ -1,7 +1,7 @@
 # Decision Register
 
 **Status:** live · **Owner:** project lead · **Created:** 2026-08-27
-**Supersedes:** `docs/open-questions.md` (4 entries, none owned, none dated, and it omits AMU SSO,
+**Supersedes:** `docs/v2-archive/open-questions.md` (4 entries, none owned, none dated, and it omits AMU SSO,
 reservation policy and every Table 2 ambiguity)
 
 ---
@@ -92,9 +92,9 @@ optional: it is how the reader checks they understood the same thing you meant.>
 artefacts?
 
 **Why it matters.** The previous round wrote 219 lines of specification for a 29-module statutory
-platform and then coded against it. The result: `docs/spec/domain-model.md` states
-`Advertisement N:1 Post` when the real relationship is `1:N`; `docs/spec/api.md` specifies four
-`/api/v2` endpoints of which zero exist; `docs/spec/security.md` mandates hash-chained audit logs
+platform and then coded against it. The result: `docs/v2-archive/spec/domain-model.md` states
+`Advertisement N:1 Post` when the real relationship is `1:N`; `docs/v2-archive/spec/api.md` specifies four
+`/api/v2` endpoints of which zero exist; `docs/v2-archive/spec/security.md` mandates hash-chained audit logs
 against a table with no hash column. None of these were caught, because there was no phase in which
 catching them was somebody's job.
 

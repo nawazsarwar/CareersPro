@@ -16,7 +16,7 @@ Move `careers_db` into the new schema without losing a record.
 | Financial records retained for audit | Finance Office |
 | RTI over past recruitment drives | RTI Act 2005 |
 
-**What `docs/spec/migration-plan.md` says:** *"5-6 years of legacy data"*, dual-run, ETL, hashes,
+**What `docs/v2-archive/spec/migration-plan.md` says:** *"5-6 years of legacy data"*, dual-run, ETL, hashes,
 rollback — **15 lines, no volumetrics, and it skips every hard part.**
 
 ## 2. Data — what is actually there

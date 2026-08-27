@@ -1,7 +1,7 @@
 # Application State Machine
 
 **Status:** live · **Owner:** implementation team · **Created:** 2026-08-27
-**Supersedes:** `docs/spec/state-machine.md` — 23 lines defining 8 linear states, which cannot
+**Supersedes:** `docs/v2-archive/spec/state-machine.md` — 23 lines defining 8 linear states, which cannot
 express a domain with three independent gates, has no Withdrawn state, no Not-Eligible terminal, no
 return edge from Deficiency, and references a *"quorum sign-off from the Screening Committee"* using
 a quorum that is defined nowhere and a Committee entity that exists in neither schema.
