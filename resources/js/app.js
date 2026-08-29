@@ -60,6 +60,53 @@ Alpine.data('codeInput', (length) => ({
     },
 }));
 
+/**
+ * The scrutiny gate row (DR-021 §10.1).
+ *
+ * The only permitted interaction pattern: a JSON endpoint plus a plain form
+ * fallback on the same route. This intercepts the submit and updates the row
+ * in place; with JavaScript off the same form posts and redirects back, and
+ * the officer loses nothing but the absence of a page reload.
+ *
+ * We pay two extra methods here rather than adopt a second framework for
+ * three screens. That cost is deliberate.
+ */
+Alpine.data('gateRow', () => ({
+    busy: false,
+    label: '',
+
+    async submit(event) {
+        this.busy = true;
+
+        const form = event.target;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? '',
+                },
+            });
+
+            const payload = await response.json();
+
+            // A refusal is shown, not swallowed. A gate that silently fails to
+            // save is worse than one that cannot be reached at all.
+            this.label = response.ok ? payload.label : payload.message;
+        } catch {
+            // The network failed, so fall back to the plain path rather than
+            // leaving the officer looking at a button that did nothing.
+            form.submit();
+
+            return;
+        }
+
+        this.busy = false;
+    },
+}));
+
 window.Alpine = Alpine;
 
 Alpine.start();
