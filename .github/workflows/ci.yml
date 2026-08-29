@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [master, 'wave-*']
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # M00-R03. Runs first and independently: a leaked credential is worth knowing
+  # about before anything else spends five minutes proving the code compiles.
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # debug_error.html carried a live CSRF and session token and is in the
+          # history at 2c8a071. Deleting it from the tree does not remove it, so
+          # the scan covers history, not only the diff.
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: .env must never be tracked
+        run: |
+          if git ls-files --error-unmatch .env >/dev/null 2>&1; then
+            echo "::error::.env is tracked. It must never be committed."
+            exit 1
+          fi
+
+  tests:
+    name: Tests, static analysis and style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pdo_sqlite, pdo_mysql, bcmath, intl, zip, gd
+          coverage: xdebug
+
+      - name: Cache composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Style
+        run: vendor/bin/pint --test
+
+      - name: Static analysis
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
+      - name: Tests
+        run: vendor/bin/pest --colors=always
+
+  assets:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      # M00-R02. DR-021 is Blade, Alpine and Tailwind only. The previous build
+      # shipped 33 admin lists that emitted `class="datatable"` into a layout
+      # that loaded neither jQuery nor DataTables, so every one of them rendered
+      # an empty table. Neither library may return by accident.
+      - name: No jQuery or DataTables in the build
+        run: |
+          if grep -rilE 'jquery|datatables' public/build/assets 2>/dev/null; then
+            echo "::error::jQuery or DataTables found in the built assets."
+            exit 1
+          fi
+          echo "clean"
+
+  audit:
+    name: Dependency advisories
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: composer install --prefer-dist --no-interaction --no-progress
+
+      # M00-R08. Both fail the build on a high-severity advisory.
+      - run: composer audit --abandoned=report
+      - run: npm audit --audit-level=high

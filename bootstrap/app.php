@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,15 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Web middleware group — append custom middleware
         $middleware->web(append: [
-            \App\Http\Middleware\AuthGates::class,
-            \App\Http\Middleware\SetLocale::class,
-            \App\Http\Middleware\VerificationMiddleware::class,
+            App\Http\Middleware\SetLocale::class,
         ]);
 
-        // Middleware aliases
-        $middleware->alias([
-            'admin' => \App\Http\Middleware\IsAdmin::class,
-        ]);
+        // Middleware aliases are declared per module from Wave 1 (M03, M25).
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -29,6 +31,22 @@ return [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    ],
+
+    /*
+    | ProActive SMS (DR-024).
+    |
+    | The provider authenticates by QUERY PARAMETER. `user` and `password` are
+    | therefore kept as separate keys and the adapter composes the URL at call
+    | time -- a pre-composed URL containing credentials is never stored here,
+    | in .env, or in system_settings. A log processor strips both keys from
+    | any logged URL and from exception messages. Asserted by M03-R27.
+    */
+    'proactive' => [
+        'endpoint' => env('SMS_PROACTIVE_ENDPOINT', 'https://www.proactivesms.in/sendsms.jsp'),
+        'user' => env('SMS_PROACTIVE_USER'),
+        'password' => env('SMS_PROACTIVE_PASSWORD'),
+        'sender_id' => env('SMS_PROACTIVE_SENDER_ID', 'AMUCOE'),
     ],
 
 ];
