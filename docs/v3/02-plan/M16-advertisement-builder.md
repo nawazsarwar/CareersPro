@@ -172,3 +172,5 @@ a holiday calendar fixture for R04.
 | R07, R11, R12, R14 | `App\Http\Requests\Recruitment\*` |
 | R08, R09 | `App\Policies\AdvertisementPolicy` |
 | R13 | `PostObserver` counter columns |
+| R15 | `App\Rules\HardcopyDeadlineAfterOnline` |
+| R16 | `App\Domain\Recruitment\PublishAdvertisement`, `advertisements.payment_gateway` |

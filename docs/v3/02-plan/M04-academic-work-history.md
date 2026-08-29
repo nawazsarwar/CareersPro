@@ -172,3 +172,5 @@ Fixtures: `QualificationFactory` with `phd()`, `masters()`, `cgpaOnly()` states.
 | R08 | `App\Rules\NoEmploymentOverlap` |
 | R09 | `App\Policies\DossierPolicy` |
 | R10 | `App\Domain\Dossier\AssertDossierUnlocked` |
+| R14, R16 | `App\Domain\Dossier\NormalisePercentage` |
+| R15 | `App\Http\Requests\Dossier\QualificationRequest` — proof required with a declared conversion |

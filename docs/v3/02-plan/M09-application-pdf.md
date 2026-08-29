@@ -110,3 +110,4 @@ Fixtures: golden PDFs per template, compared on extracted text rather than bytes
 | R03, R04 | `App\Domain\Documents\ResolveTemplate` |
 | R05 | `App\Domain\Documents\QrStamp` |
 | R06, R07 | `App\Policies\ApplicationPolicy` |
+| R09 | `App\Domain\Public\SubmissionInstructions` (M02), venue partial |

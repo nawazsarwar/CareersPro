@@ -52,6 +52,28 @@ App\Domain\System\RetryFailedJob::handle(string $uuid, User $actor): void
   (DR-009).
 - No administrative route deletes a domain record. Failed jobs may be retried or dismissed; the
   underlying record is untouched.
+- **Credentials are never settings.** `system_settings` holds *policy* — what the system does.
+  Credentials for a third party live in `.env` and `config/services.php` only
+  (`../01-design/engineering-standards.md` §7.1, DR-024). A setting whose value is a password, key or
+  a URL containing one is a defect, not a sensitive setting.
+
+**Authentication settings** (DR-023). These are the runtime layer over the boot defaults in
+`config/auth_channels.php` and `config/otp.php`:
+
+| Key | Group | Value |
+|---|---|---|
+| `auth.channel.candidate.default` | `auth` | `password` or `otp` |
+| `auth.channel.staff.default` | `auth` | `password` or `otp` |
+| `auth.channel.admin.default` | `auth` | `password` or `otp` |
+| `auth.mobile_verify.required` | `auth` | bool — whether an unverified mobile blocks submission |
+| `auth.two_factor.enforce_for_roles` | `auth` | array of role keys; membership makes a second factor mandatory |
+| `auth.two_factor.allowed_methods` | `auth` | subset of `totp`, `sms`, `email` — `email` is refused for any staff role regardless |
+| `auth.otp.max_per_hour` | `auth` | integer, 1–20 |
+
+All are **`super_admin` only** and `password.confirm` gated. Changing
+`auth.two_factor.enforce_for_roles` writes an `auth.2fa.enforced` audit event naming the roles added
+and removed; it takes effect on the affected users' **next request**, not retrospectively, and they
+are routed to enrolment rather than logged out.
 
 ## 4. Routes and controllers
 
@@ -131,11 +153,15 @@ stated explicitly:
 | M28-R10 | Given any administrative route, when exercised, then **no domain record is deleted** |
 | M28-R11 | Given a setting value of the wrong type, when saved, then validation fails |
 | M28-R12 | Given `/up`, when requested unauthenticated, then it returns liveness without disclosing configuration |
+| M28-R13 | Given `auth.two_factor.enforce_for_roles` gains a role, when a member of it next requests an admin route, then they are routed to enrolment and an `auth.2fa.enforced` event is written |
+| M28-R14 | Given `auth.two_factor.allowed_methods` includes `email`, when a staff user selects it, then it is still refused |
+| M28-R15 | Given a setting whose value is a credential, when saved, then it is rejected at write time |
 
 ## 10. Test cases
 
-`tests/Feature/Admin/System/FlagTest` — R01, R02, R08 · `SettingTest` — R03, R04, R09, R11 ·
+`tests/Feature/Admin/System/FlagTest` — R01, R02, R08 · `SettingTest` — R03, R04, R09, R11, R15 ·
 `JobRetryTest` — R05, R06 · `HealthTest` — **R07**, R12 ·
+`AuthPolicySettingTest` — R13, R14 ·
 `tests/Architecture/NoDomainDeletionTest` — **R10, enumerated over all admin routes**.
 
 ## 11. Traceability
@@ -143,7 +169,8 @@ stated explicitly:
 | Requirement | Artefact |
 |---|---|
 | R01, R02 | `App\Domain\System\FeatureFlags` |
-| R03, R04, R11 | `App\Domain\System\Settings` |
+| R03, R04, R11, R15 | `App\Domain\System\Settings` |
+| R13, R14 | `App\Domain\System\Settings`, `App\Domain\Identity\TwoFactorPolicy` |
 | R05, R06 | `App\Domain\System\RetryFailedJob`, the retry allow-list |
 | R07, R12 | `App\Domain\System\HealthCheck` |
 | R08–R10 | `App\Policies\SystemPolicy` |

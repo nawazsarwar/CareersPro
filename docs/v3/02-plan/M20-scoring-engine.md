@@ -219,3 +219,5 @@ citing the clause it exercises. **This is the test that would have caught the fa
 | R16 | `tests/Fixtures/golden-corpus/*.json` |
 | R17 | `App\Domain\Scoring\Sandbox` |
 | R18 | `App\Domain\Scoring\ResolveStrategy` |
+| R19, R20 | `App\Domain\Scoring\WeightedPointsStrategy`, `rules-catalogue.yaml` faculty column mapping |
+| R21 | `App\Jobs\RunSandbox`, `resources/views/admin/rulesets/sandbox/*` — DR-021 |

@@ -196,3 +196,7 @@ transcribed rule fails the test rather than passing silently.
 | R08, R12 | `App\Domain\Committee\ConcludeCommittee` |
 | R09, R10 | `App\Policies\CommitteePolicy` |
 | R11 | append-only guard on `committee_notes` |
+| R13 | `App\Domain\Committee\AssertComposition` — declared-relations check |
+| R14 | `App\Domain\Committee\ConstituteCommittee`, `committee_members.undertaking_signed_at` |
+| R15 | `App\Rules\MinimumNoticePeriod` |
+| R16 | `App\Domain\Establishment\*` (M35), `designations.committee_composition` |

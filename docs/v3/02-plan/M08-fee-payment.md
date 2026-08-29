@@ -89,7 +89,7 @@ interface PaymentGateway {
 | POST | `/applications/{application}/pay` | `payment.initiate` | as above, `throttle:10,60` | `@pay` |
 | GET/POST | `/payment/callback/{gateway}` | `payment.callback` | `throttle:120,1`, **signature verification** | — |
 | GET | `/applications/{application}/receipt.pdf` | `payment.receipt` | `auth` | `@view` |
-| GET | `/admin/payments` | `admin.payments.index` | `auth`, `2fa` | `PaymentPolicy@viewAny` |
+| GET | `/admin/payments` | `admin.payments.index` | `auth`, `two-factor` | `PaymentPolicy@viewAny` |
 | POST | `/admin/payments/reconcile` | `admin.payments.reconcile` | as above | `@reconcile` |
 | GET | `/admin/payments/discrepancies` | `admin.payments.discrepancies` | as above | `@viewAny` |
 | POST | `/admin/payments/{order}/refund` | `admin.payments.refund` | as above | `@refund` |
@@ -203,3 +203,9 @@ Fixtures: `MockGateway` with `succeeds()`, `dropsCallback()`, `doubleCharges()` 
 | R06–R08 | `App\Domain\Payment\ComputeFee`, `App\Http\Requests\Payment\*` |
 | R09, R10 | `App\Policies\PaymentPolicy` |
 | R12 | `App\Domain\Payment\CreateOrder` — asserts no snapshot write |
+| R11 | `App\Domain\Audit\*` (M26), `OrderObserver` |
+| R15 | `App\Domain\Payment\Gateways\*`, `tests/Unit/Arch/PaymentVendorIsolationTest` |
+| R16 | `App\Domain\Payment\ReconcileMisFile`, `PaymentGateway::parseMis` |
+| R17 | `App\Domain\Payment\ComputeFee`, `App\Domain\Payment\CreateOrder` |
+| R18 | `App\Domain\Recruitment\PublishAdvertisement` (M16), `advertisements.payment_gateway` |
+| R19 | `resources/views/admin/payments/reconciliation/*` — plain form path, DR-021 |

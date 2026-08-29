@@ -147,3 +147,4 @@ before and after — the DR-011 guarantee, tested rather than assumed.
 | R04, R05 | `App\Domain\Custody\ScheduleDestruction` |
 | R06–R08 | `App\Domain\Custody\ExecuteDestruction` |
 | R09 | `App\Policies\CustodyPolicy` |
+| R10 | `App\Http\Controllers\Admin\Custody\DestructionQueueController` |

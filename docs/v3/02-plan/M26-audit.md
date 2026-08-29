@@ -65,14 +65,16 @@ App\Domain\Audit\Auditable                            // trait, ALL models
 - The sequence is **gapless** — allocated from a counter row taken `FOR UPDATE`, or a single-writer
   queue. Gapless is asserted, so it is enforced.
 - `RedactProperties` replaces sensitive values with `{"changed": true, "hash": "…"}`. Redacted:
-  `aadhaar_no`, `password`, `remember_token`, `otp_code`, `two_factor_secret`, gateway credentials.
+  `aadhaar_no`, `password`, `remember_token`, `otp_code`, `otp_destination_hash`,
+  `two_factor_secret`, `recovery_code`, and **SMS gateway credentials — including any URL containing
+  them** (DR-024).
 - **No update path exists.** Not on the model, not on the repository, not in the database.
 
 ## 4. Routes and controllers
 
 | Verb | URI | Name | Middleware | Policy |
 |---|---|---|---|---|
-| GET | `/admin/audit` | `admin.audit.index` | `auth`, `verified`, `2fa` | `AuditPolicy@viewAny` |
+| GET | `/admin/audit` | `admin.audit.index` | `auth`, `verified`, `two-factor` | `AuditPolicy@viewAny` |
 | GET | `/admin/audit/{log}` | `admin.audit.show` | as above | `AuditPolicy@view` |
 | POST | `/admin/audit/verify` | `admin.audit.verify` | as above | `AuditPolicy@verify` |
 | GET | `/admin/audit/subject/{type}/{id}` | `admin.audit.subject` | as above | `AuditPolicy@viewAny` |
@@ -157,3 +159,4 @@ Rewriting history would require rewriting every subsequent row **and** the signe
 | R05 | `App\Domain\Audit\SequenceAllocator` |
 | R06 | `App\Domain\Audit\RedactProperties` |
 | R07, R09 | `App\Domain\Documents\ServeDocument`, `App\Support\Table\Export` |
+| R12 | `App\Http\Controllers\Admin\AuditController` — ordered by `sequence` |

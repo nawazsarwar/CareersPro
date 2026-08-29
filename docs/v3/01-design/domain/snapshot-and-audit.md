@@ -150,6 +150,9 @@ Plus events with no model change:
 |---|---|
 | `document.accessed` | M26 requires document-access logging. Who read a candidate's Aadhaar scan |
 | `auth.login` / `.failed` / `.locked_out` | |
+| `auth.otp.issued` / `.failed` / `.consumed` | DR-023. `.failed` covers a gateway error, which fails closed |
+| `auth.2fa.enrolled` / `.confirmed` / `.disabled` / `.challenged` / `.recovery_used` | The properties name the method type, never the secret |
+| `auth.2fa.enforced` | An administrator changing the role-scoped policy (M28) |
 | `impersonation.started` / `.ended` | With the actor's IP |
 | `score.overridden` | With before, after and reason |
 | `export.generated` | Bulk PII leaving the system |

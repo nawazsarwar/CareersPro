@@ -31,6 +31,18 @@ concave curve, with a dark translucent pill reading `● Victoria Gate · AMU Al
   **Below 900px the image becomes a 30vh band above the card**, never a background behind text.
 - Errors are generic — *"Those credentials don't match our records."* Never *"no such user"*.
 - Lockout after 5 attempts states when to retry.
+- **Secondary submit: *Send me a code instead*** (DR-023), directly below the primary button, in the
+  quiet link style — not a tab, not a toggle, not a second screen. The password field stays the
+  default; the code path is one click away. It posts the same identifier to `login.otp.request`.
+- **Code entry** replaces the card's body on the next step: the masked destination (`•••••• 4821`),
+  six digit boxes, a resend control with a live countdown, and a *Use my password instead* link back.
+  With JavaScript disabled the six boxes are one `inputmode="numeric"` field and resend is a plain
+  submit that re-renders the countdown server-side — nothing here needs scripting (DR-021).
+- **The second-factor challenge reuses the same card**, with a channel picker where more than one
+  method is enrolled. One screen serves TOTP, SMS and email; the method decides the copy, not the
+  layout.
+- **Every timed refusal states the time**, never "try later" — the resend cooldown and the hourly cap
+  follow the lockout notice's rule.
 - **What we are replacing:** `docs/v2-archive/login-tailwind.png`, the previous developer's output — an
   unstyled centred card titled "Login to CareersPro" **with no submit button rendered at all**.
 

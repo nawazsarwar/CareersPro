@@ -57,12 +57,18 @@ abstract class ScopedPolicy    // every scoped resource policy MUST extend this
   Today `AuthGates` runs 2 queries and **162 `Gate::define()` closures on every request**, uncached.
 - `is_admin` is a **named-role check**, never `roles()->where('id', 1)`.
 - Impersonation tokens are single-use, expiring, and **always audited** with the actor's IP.
+- **Impersonation never inherits the target's second factor.** The actor has already cleared their
+  own; the target's `two_factor_methods` are not consulted, not challenged, and not enrolled from.
+  An impersonated session is therefore never a way to reach a target's authenticator.
+- **Impersonation cannot be started from a pending-authentication session.** The actor must be fully
+  authenticated — `password.confirm` on the route already implies it, and the `auth.pending`
+  middleware admits nothing else.
 
 ## 4. Routes and controllers
 
 | Verb | URI | Name | Middleware | Policy |
 |---|---|---|---|---|
-| GET | `/admin/roles` | `admin.roles.index` | `auth`, `verified`, `2fa` | `RolePolicy@viewAny` |
+| GET | `/admin/roles` | `admin.roles.index` | `auth`, `verified`, `two-factor` | `RolePolicy@viewAny` |
 | GET/POST/PATCH/DELETE | `/admin/roles/{role?}` | `admin.roles.*` | as above | `RolePolicy@*` |
 | GET | `/admin/users` | `admin.users.index` | as above | `UserPolicy@viewAny` |
 | POST | `/admin/users/{user}/roles` | `admin.users.roles.attach` | as above | `UserPolicy@assignRole` |
@@ -137,6 +143,7 @@ and no path filter is applied.
 | M25-R12 | Given an OU-scoped role, when assigned without an organisational unit, then validation fails |
 | M25-R13 | Given `dean_office_scrutiny` alone, when creating an advertisement, then **403** — separation of duties inside the faculty |
 | M25-R14 | Given `dean_office_view` alone, when deciding a gate, then **403** |
+| M25-R15 | Given an impersonation, when the target holds a second factor, then it is neither challenged nor readable from the impersonated session |
 
 ## 10. Test cases
 
@@ -144,7 +151,7 @@ and no path filter is applied.
 `security-model.md` §3.3, asserting positives **and negatives** (R01, R03) ·
 `OwnershipIsolationTest` — R01 · `OrganisationalUnitIsolationTest` — R02, R05 ·
 `tests/Architecture/PolicyTest` — R04 · `SeparationOfDutiesTest` — R06, R07 ·
-`ImpersonationTest` — R08, R09 · `PermissionCacheTest` — R10, R11 ·
+`ImpersonationTest` — R08, R09, R15 · `PermissionCacheTest` — R10, R11 ·
 `RoleAssignmentValidationTest` — R12.
 
 Fixtures: `OrganisationalUnitFactory` producing a 3-level tree; `RoleFactory` with all 11 roles.
@@ -155,5 +162,5 @@ Fixtures: `OrganisationalUnitFactory` producing a 3-level tree; `RoleFactory` wi
 |---|---|
 | R01–R05, R12–R14 | `App\Domain\Access\*`, `App\Policies\ScopedPolicy` and descendants |
 | R06, R07 | `App\Policies\RuleSetPolicy` |
-| R08, R09 | `App\Domain\Access\StartImpersonation` |
+| R08, R09, R15 | `App\Domain\Access\StartImpersonation` |
 | R10, R11 | `App\Domain\Access\ResolvePermissions` |

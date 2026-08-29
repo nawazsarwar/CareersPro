@@ -139,3 +139,4 @@ Post 2599, admit-card window 1–10 Apr 2026, 58 candidates with `scrutiny = eli
 | R05, R06, R09 | `App\Domain\Documents\BulkGenerate` |
 | R10 | `App\Policies\DocumentGenerationPolicy` |
 | R11 | `App\Domain\Documents\QrStamp` (M09) |
+| R12 | `App\Domain\Audit\*` (M26), `App\Domain\Documents\BulkGenerate` |

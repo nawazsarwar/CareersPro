@@ -57,8 +57,13 @@ App\Domain\Communication\PreviewCampaign::for(Campaign): CampaignPreview
 - **Suppressions are honoured absolutely** — bounced addresses and opt-outs are never re-attempted.
 - Templates are rendered with **escaped** variables from a **declared** variable list. An undeclared
   variable throws at preview, never at send.
-- **Transactional messages are not campaigns.** Verification, OTP, deficiency and admit-card
-  notifications go through the notification layer and are never suppressible.
+- **Transactional messages are not campaigns.** Verification, one-time codes for login and for the
+  second factor, deficiency and admit-card notifications go through the notification layer and are
+  **never suppressible** — a candidate who has opted out of bulk mail must still be able to sign in.
+  `suppressions` is consulted by `DispatchCampaign` and by nothing else.
+- **Both share one SMS adapter.** Campaigns and one-time codes send through
+  `App\Domain\Notification\Sms\SmsGateway` (DR-024); this module owns neither the provider nor
+  the credentials. `mail_logs.provider_ref` holds whatever reference the adapter returns.
 - Every dispatch writes an audit event with the segment, recipient count and template.
 
 ## 4. Routes and controllers

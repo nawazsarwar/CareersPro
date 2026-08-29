@@ -73,11 +73,11 @@ its subtree** — how a Dean's-office user reaches the Faculty of Arts and its 3
 nothing else.
 
 Supporting: `impersonation_tokens` (one-time, expiring, records the actor's IP) · `otp_codes`
-(purpose, rate-limited) · `two_factor_secrets` (TOTP) · `password_reset_tokens` (**the table name
-`config/auth.php` actually expects** — the current schema creates `password_resets` and password
-reset is dead).
+(purpose, channel, rate-limited) · `two_factor_methods` (one row per enrolled method — TOTP, SMS or
+email) · `two_factor_recovery_codes` · `password_reset_tokens` (**the table name `config/auth.php`
+actually expects** — the current schema creates `password_resets` and password reset is dead).
 
-### 2.1 Login — DR-008
+### 2.1 Login — DR-008, DR-023
 
 Applicants authenticate by **email**; staff by **email or employee ID**. The identifier field is
 **resolved from the submitted value**, not fixed:
@@ -89,6 +89,18 @@ Auth::attempt([$field => $login, 'password' => $password], $remember);
 
 Laravel's `username()` override returns one fixed column and cannot express this. Employee IDs are
 validated on creation to exclude `@`.
+
+**DR-023 is additive to the resolver, exactly as DR-008's own reversal note anticipated.** The OTP
+path resolves the identifier the same way and then, instead of `Auth::attempt`, issues a one-time
+code to the verified mobile on the user's profile:
+
+```php
+$field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+$user  = User::where($field, $login)->first();          // same resolution, no branch in the UI
+```
+
+One identifier field, two ways to prove it. A code is the **first** factor and never the second in
+the same session; the second factor may be TOTP, SMS or — candidates only — email.
 
 ---
 

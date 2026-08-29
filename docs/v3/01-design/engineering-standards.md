@@ -6,6 +6,10 @@ enforces the rest.
 
 **Stack:** PHP 8.5 · Laravel 13.26 · Tailwind CSS 4 · Alpine.js 3 · Pest 5 · Larastan 3 · Pint
 
+**Auth dependencies:** `pragmarx/google2fa` and `bacon/bacon-qr-code` — TOTP cryptography only. **No
+Fortify, no Breeze, no Jetstream** (DR-022); the authentication pipeline is the portal's own, under
+`App\Domain\Identity\`.
+
 ---
 
 ## 1. The governing rule
@@ -365,6 +369,22 @@ final class Advertisement extends Model
   with confidence.
 - Enums live in `app/Enums`, backed by `string` unless the domain demands otherwise.
 
+### 7.1 Configuration and third-party credentials
+
+- **No `env()` call outside a config file.** Cached config returns `null` from `env()` at runtime,
+  and that failure is silent. Read through `config()` everywhere else.
+- **Third-party credentials live in `config/services.php`**, Laravel's own convention, sourced from
+  `.env`. They are **never** stored in the database, never in `system_settings`, and never committed
+  — `.env.example` carries the key with an empty value.
+- **Never store a pre-composed URL that contains credentials.** Compose it at call time from separate
+  config keys. This is not hypothetical: the SMS gateway (DR-024) authenticates by query parameter,
+  so a stored URL would put its password into every access log, proxy log and exception trace. An
+  adapter whose provider does this **must** register a log processor that strips the credential
+  parameters, and that stripping is covered by a test, not by convention.
+- Runtime-changeable **policy** — as opposed to credentials — belongs in `system_settings` (M28),
+  `super_admin` only, `password.confirm` gated and audited. Config supplies the boot default; the
+  setting overrides it.
+
 ---
 
 ## 8. Testing — Pest
@@ -540,11 +560,23 @@ arch('enums are backed')
 arch('no gateway vendor leaks out of its adapter')   // DR-018
     ->expect(['Razorpay', 'Billdesk'])
     ->toOnlyBeUsedIn('App\Domain\Payment\Gateways');
+
+arch('no SMS vendor leaks out of its adapter')       // DR-024
+    ->expect(['ProActive'])
+    ->toOnlyBeUsedIn('App\Domain\Notification\Sms\Gateways');
+
+arch('TOTP cryptography stays in one place')         // DR-022
+    ->expect(['PragmaRX\Google2FA', 'BaconQrCode'])
+    ->toOnlyBeUsedIn('App\Domain\Identity\SecondFactor\Totp');
+
+arch('no env() outside config')                      // §7.1
+    ->expect('env')->not->toBeUsedIn('App');
 ```
 
 Plus the project-specific ones already named in the specs: `NoRosterTest` (DR-017),
 `AutonomyTest` (DR-009), `NoDomainDeletionTest` (DR-011), `FrontendScopingTest` (§2.2),
-`GatewayAgnosticTest` (DR-018), `ApiReadOnlyTest` (M29).
+`GatewayAgnosticTest` (DR-018), `SmsGatewayAgnosticTest` (DR-024), `TotpIsolationTest` (DR-022),
+`ApiReadOnlyTest` (M29).
 
 ---
 
@@ -620,3 +652,4 @@ system.
 | Date | Change | By |
 |---|---|---|
 | 2026-08-28 | Created. Laravel conventions as the governing rule; mandatory Admin/Frontend namespace split with the anti-duplication rule; Form Requests strictly, with inline validation banned by architecture test; the Domain layer justified and bounded by a three-part earning test; Pest 5; Larastan level 6; Tailwind 4 with Bootstrap and jQuery removed; UI framework compared and decided. | Implementation team |
+| 2026-08-29 | §7.1 added — configuration and third-party credentials: no `env()` outside config, credentials in `config/services.php` only, never a stored URL containing them, policy in `system_settings`. Auth dependencies named (DR-022). Three architecture tests added (DR-022, DR-024, §7.1). Second-factor middleware alias fixed at `two-factor` throughout. | Implementation team |

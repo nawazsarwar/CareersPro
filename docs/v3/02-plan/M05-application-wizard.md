@@ -179,3 +179,4 @@ a complete-dossier `UserFactory` state and a deliberately incomplete one.
 | R11, R12 | `App\Domain\Application\PreflightEligibility` |
 | R13 | `App\Policies\ApplicationPolicy` |
 | R16 | `App\Domain\Application\ResolveTrack` |
+| R15 | `App\Http\Requests\Application\SubmitApplicationRequest`, `applications.rule_33_3_declared` — recorded, never blocking, pending OQ-012 |

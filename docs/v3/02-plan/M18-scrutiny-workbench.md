@@ -87,7 +87,7 @@ App\Domain\Scrutiny\ExpireDeficiencies::handle(): int          -- scheduled
 | POST | `/admin/scrutiny/{application}/deficiencies` | `admin.scrutiny.deficiencies.store` | `@scrutinise` |
 | POST | `/admin/scrutiny/bulk/gates` | `admin.scrutiny.bulk` | `@decideGate` |
 
-All under `auth`, `verified`, `2fa`.
+All under `auth`, `verified`, `two-factor`.
 
 ## 5. Validation
 
@@ -212,3 +212,7 @@ accident.
 | R04, R05, R07, R08 | `RaiseDeficiency`, `RectifyDeficiency` |
 | R06 | `App\Domain\Scrutiny\ExpireDeficiencies` (scheduled) |
 | R11, R12 | `App\Domain\Audit\*` (M26) |
+| R13 | `App\Domain\Scrutiny\BuildQueue` eager loads, `tests/Feature/Admin/Scrutiny/QueryBudgetTest` |
+| R14, R15 | `App\Domain\Committee\AssertComposition` (M19) |
+| R16 | `App\Domain\Eligibility\*` (M34), `applications.provisional` |
+| R17, R18 | `App\Http\Controllers\Admin\Scrutiny\*`, `resources/views/admin/scrutiny/*` — DR-021 plain form path and content negotiation |

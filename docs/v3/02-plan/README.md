@@ -85,7 +85,7 @@ artefact and a test.** A coverage figure that is asserted rather than derived is
 | **Wave 0 — foundation** |
 | M00 | Purge, toolchain, CI, shared table | 0 | v1 | DR-002 | ✅ |
 | **Wave 1 — identity** |
-| M03 | Registration & Profile (auth) | 1 | v1 | DR-008 | ✅ |
+| M03 | Registration & Profile (auth) | 1 | v1 | DR-008, DR-022, DR-023, DR-024 | ✅ |
 | M25 | RBAC & Impersonation | 1 | v1 | DR-008, DR-010, DR-015 | ✅ |
 | M26 | Audit & Traceability | 1 | v1 | DR-011 | ✅ |
 | **Wave 2 — master data** |
@@ -216,3 +216,4 @@ The rules below are *domain* rules, and they apply everywhere too.
 | Date | Change | By |
 |---|---|---|
 | 2026-08-27 | Created. Template, requirement-ID scheme, 36-module index with waves and dependencies, dependency graph, wave exit conditions, 10 standing rules. | Implementation team |
+| 2026-08-29 | **M03 extended for OTP login and a multi-channel second factor** (DR-022, DR-023, DR-024) — M03-R13…R29. Supporting amendments: M00 (config surface, R09–R10), M23 (shared-mobile report, R13), M25 (impersonation and second factors, R15), M26 (redaction list, new `auth.*` events), M28 (authentication settings, R13–R15), M30 (transactional boundary restated). Second-factor middleware alias standardised from `2fa` to **`two-factor`** across M08, M18, M25 and M26. | Implementation team |

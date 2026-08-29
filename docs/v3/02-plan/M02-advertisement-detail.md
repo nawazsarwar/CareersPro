@@ -125,3 +125,4 @@ so R05 cannot pass on a hardcoded value.
 | R03, R04 | `App\Domain\Public\RenderEligibilitySummary` |
 | R05, R07 | `App\Domain\Public\SubmissionInstructions` |
 | R06 | `resources/views/public/posts/show.blade.php` |
+| R10 | `resources/views/public/**` — axe-core assertion in CI |

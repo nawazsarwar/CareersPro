@@ -194,3 +194,5 @@ Fixtures: `DesignationFactory` with `teaching()` and `nonTeaching()` states;
 | R06 | `App\Domain\Establishment\AssertRule343` |
 | R09, R10 | `App\Domain\Establishment\AgeCalculator` |
 | R11 | `App\Policies\EstablishmentPolicy` |
+| R12 | `App\Domain\Audit\Auditable` (M26) |
+| R13 | `database/seeders/DesignationSeeder`, `designations.committee_composition` |

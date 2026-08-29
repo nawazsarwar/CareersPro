@@ -102,7 +102,9 @@ processing that *is* consent-based — for example optional communications.
 | Uploaded documents | **Indefinite** | Bound to the snapshot they evidence |
 | Hard copy — selected, joined | **Permanent** | Central record section |
 | **Hard copy — unsuccessful** | **5 years** after process close | Government mandate (DR-011) |
-| OTP codes | **24 hours** | Legacy holds 25,527 rows with no expiry |
+| OTP codes | **24 hours** | Legacy holds 25,527 rows with no expiry. Covers `login`, `mobile_verify` and `two_factor` alike |
+| Two-factor methods | While enrolled; **90 days** after removal | The grace window lets a user restore a method they removed by mistake; after it, the encrypted secret is gone |
+| Two-factor recovery codes | With the method they belong to | Hashed; a used code is retained until the method is removed so reuse stays detectable |
 | Password reset tokens | **60 minutes** | Legacy holds 1,265 rows |
 | Session data | 12 hours absolute | |
 | Mail logs | 3 years | Delivery disputes |
@@ -163,12 +165,13 @@ point-in-time reconstruction is a v1 module (M27) rather than a nice-to-have.
 |---|---|---|
 | Payment gateway | Name, email, mobile, amount, order reference. **No card data touches us** | Contract |
 | External subject experts | Application dossiers for their committee, **for the duration of the committee only** | Statutory — UGC 2018 cl. 5.1 |
-| Email/SMS provider | Email, mobile, message content | Contract; DPA required |
+| Email/SMS provider — **ProActive** (DR-024) | Mobile number, message content. **One-time codes are sent through it**, so a compromise of the provider is a compromise of the OTP channel | Contract; **DPA required — OQ-019, go-live blocker** |
 | Data Lake ERP | **None.** Data flows *in* only, at import, and only organisational structure | DR-009 — no PII leaves |
 | DigiLocker | Deferred to v2 (DR-005) | — |
 
 **A data-processing agreement is required with every contracted party** before go-live. None exists
-today.
+today. The ProActive agreement is tracked as **OQ-019** and named a go-live blocker in DR-024:
+sending a candidate's mobile number to it is a disclosure to a processor under DPDP 2023.
 
 ---
 
@@ -183,6 +186,7 @@ today.
 | No deletion | No code path hard-deletes an application, document or audit row — **enumerated, not sampled** |
 | Draft purge | A draft inactive 24 months is purged and the event audited; a **submitted** application in the same state is **not** |
 | OTP expiry | Codes older than 24 hours are removed |
+| Two-factor purge | A method removed more than 90 days ago leaves no encrypted secret behind |
 | Consent artefact | Registration and submission both write one, with the notice version |
 | Right of access | The export contains every field the dashboard shows |
 | Document access | Every read emits `document.accessed` with actor and IP |

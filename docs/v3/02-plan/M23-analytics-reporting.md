@@ -102,6 +102,12 @@ only reports itself is a number; one that opens the work is a control.
 **SLA monitor:** advertisements approaching or breaching the 30-day window and the 6-month cap, with
 days remaining and the extension reference where one exists.
 
+**Shared-mobile report** (DR-023). `profiles.mobile` carries **no uniqueness constraint** — a shared
+family handset is legitimate — but a mobile number is also where one-time login codes arrive, so
+sharing is worth seeing. The report lists mobile numbers held by **more than one account**, with the
+account count and the last sign-in of each. It is **advisory, never a block**, and it is masked and
+scoped like any other: `finance_admin` cannot see it, a Dean's office sees only its own subtree.
+
 Report list grouped by category, statutory reports marked. Historical runs take an **as-at date**,
 with the reconstruction basis stated on the output.
 
@@ -139,12 +145,14 @@ deleted** (DR-011).
 | M23-R10 | Given a breach with a recorded extension, when displayed, then the VC approval reference is shown |
 | M23-R11 | Given the dashboard, when the financial strip is clicked, then the reconciliation queue opens filtered |
 | M23-R12 | Given the dashboard route, when `axe-core` runs, then no violation is reported |
+| M23-R13 | Given a mobile number held by two accounts, when the shared-mobile report runs, then both appear with the number masked and neither account is blocked |
 
 ## 10. Test cases
 
 `tests/Feature/Admin/Reporting/DashboardScopeTest` — R01, R02 · `FinanceRedactionTest` — R03 ·
 `CounterPerformanceTest` — R04 · `HistoricalReportTest` — **R05, R06** · `QueueTest` — R07 ·
-`ExportAuditTest` — R08 · `SlaMonitorTest` — R09, R10 · `tests/Accessibility/DashboardTest` — R12.
+`ExportAuditTest` — R08 · `SlaMonitorTest` — R09, R10 · `SharedMobileReportTest` — R13 ·
+`tests/Accessibility/DashboardTest` — R12.
 
 R06 scores an application, mutates the dossier, then reconstructs at the earlier date and asserts the
 original figures.
@@ -158,3 +166,6 @@ original figures.
 | R05, R06 | `App\Domain\Reporting\HistoricalReport` |
 | R07, R08 | `App\Jobs\RunReport` |
 | R09, R10 | `App\Domain\Reporting\SlaMonitor` |
+| R13 | `App\Domain\Reporting\SharedMobileReport` |
+| R11 | `resources/views/admin/dashboard/*` — financial strip links the reconciliation queue |
+| R12 | `resources/views/admin/dashboard/*` — axe-core assertion in CI |

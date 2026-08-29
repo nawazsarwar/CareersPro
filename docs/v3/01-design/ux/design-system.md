@@ -109,14 +109,14 @@ becomes warm off-white, and rules gain weight because hairlines disappear on dar
 WCAG 2.2 **AA** minimum, **AAA for body text in the application form** — a candidate reads it for
 hours.
 
-| Pair | Ratio |
-|---|---|
-| `--ink` on `--paper` | 16.8:1 ✓ AAA |
-| `--ink-muted` on `--paper` | 7.9:1 ✓ AAA |
-| `--green` on `--paper` | 8.9:1 ✓ AAA |
-| white on `--green` | 9.4:1 ✓ AAA |
+| Pair                           | Ratio                                   |
+| ------------------------------ | --------------------------------------- |
+| `--ink` on `--paper`       | 16.8:1 ✓ AAA                           |
+| `--ink-muted` on `--paper` | 7.9:1 ✓ AAA                            |
+| `--green` on `--paper`     | 8.9:1 ✓ AAA                            |
+| white on`--green`            | 9.4:1 ✓ AAA                            |
 | `--ink-faint` on `--paper` | 4.6:1 ✓ AA (captions only, never body) |
-| `--brass` on `--paper` | 5.1:1 ✓ AA |
+| `--brass` on `--paper`     | 5.1:1 ✓ AA                             |
 
 **Status is never colour alone.** Every gate state carries a glyph and a word: `✓ Eligible`,
 `✕ Rejected`, `◦ Pending`. GIGW and WCAG 1.4.1 both require it, and a scrutiny decision is exactly
@@ -128,13 +128,13 @@ the wrong place to rely on hue.
 
 Three roles, chosen for a data-dense multilingual statutory document.
 
-| Role | Face | Why this one |
-|---|---|---|
-| **Display** | **Spectral** | A screen-native serif with a slightly severe, official cut. Carries authority without the editorial-magazine warmth of the usual Playfair/Fraunces default. Used sparingly — page titles and section heads only |
-| **UI & data** | **IBM Plex Sans** | Genuine **tabular figures**, holds up at 13px in a dense table, and has a matched Devanagari companion. It reads as institutional rather than as another Inter deployment |
-| **Identifiers** | **IBM Plex Mono** | Application numbers, roll numbers, codes, content hashes, DOIs. Anything meant to be compared character by character |
-| **Devanagari** | IBM Plex Sans Devanagari | `title_hindi` |
-| **Urdu** | Noto Nastaliq Urdu | `title_urdu`. Needs extra line-height — Nastaliq descends steeply |
+| Role                  | Face                     | Why this one                                                                                                                                                                                                     |
+| --------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Display**     | **Spectral**       | A screen-native serif with a slightly severe, official cut. Carries authority without the editorial-magazine warmth of the usual Playfair/Fraunces default. Used sparingly — page titles and section heads only |
+| **UI & data**   | **IBM Plex Sans**  | Genuine**tabular figures**, holds up at 13px in a dense table, and has a matched Devanagari companion. It reads as institutional rather than as another Inter deployment                                   |
+| **Identifiers** | **IBM Plex Mono**  | Application numbers, roll numbers, codes, content hashes, DOIs. Anything meant to be compared character by character                                                                                             |
+| **Devanagari**  | IBM Plex Sans Devanagari | `title_hindi`                                                                                                                                                                                                  |
+| **Urdu**        | Noto Nastaliq Urdu       | `title_urdu`. Needs extra line-height — Nastaliq descends steeply                                                                                                                                             |
 
 ```css
 --font-display: 'Spectral', Georgia, serif;
@@ -148,15 +148,15 @@ Three roles, chosen for a data-dense multilingual statutory document.
 
 A tight scale. Dense screens punish generous type.
 
-| Token | Size / line-height | Use |
-|---|---|---|
-| `--t-page` | 30px / 1.15, Spectral 600 | Page title |
-| `--t-section` | 20px / 1.25, Spectral 600 | Section head |
-| `--t-sub` | 15px / 1.35, Plex 600 | Sub-head, card title |
-| `--t-body` | 15px / 1.6, Plex 400 | Body, form labels |
-| `--t-data` | 13px / 1.45, Plex 400, **tabular** | Table cells |
-| `--t-label` | 11px / 1.2, Plex 600, `0.08em`, uppercase | Column heads, eyebrows |
-| `--t-caption` | 12px / 1.4, Plex 400 | Help text, citations |
+| Token           | Size / line-height                         | Use                    |
+| --------------- | ------------------------------------------ | ---------------------- |
+| `--t-page`    | 30px / 1.15, Spectral 600                  | Page title             |
+| `--t-section` | 20px / 1.25, Spectral 600                  | Section head           |
+| `--t-sub`     | 15px / 1.35, Plex 600                      | Sub-head, card title   |
+| `--t-body`    | 15px / 1.6, Plex 400                       | Body, form labels      |
+| `--t-data`    | 13px / 1.45, Plex 400,**tabular**    | Table cells            |
+| `--t-label`   | 11px / 1.2, Plex 600,`0.08em`, uppercase | Column heads, eyebrows |
+| `--t-caption` | 12px / 1.4, Plex 400                       | Help text, citations   |
 
 **Tabular figures are mandatory** wherever numbers stack: `font-variant-numeric: tabular-nums`. A
 column of scores that does not align is a column that cannot be scanned.
@@ -237,10 +237,10 @@ system.
 
 ### 4.4 Density
 
-| Mode | Row height | Default for |
-|---|---|---|
-| **Compact** | 32px | Admin tables — a scrutiny officer working a queue of 106 |
-| **Comfortable** | 44px | Candidate forms — three hours of data entry |
+| Mode                  | Row height | Default for                                               |
+| --------------------- | ---------- | --------------------------------------------------------- |
+| **Compact**     | 32px       | Admin tables — a scrutiny officer working a queue of 106 |
+| **Comfortable** | 44px       | Candidate forms — three hours of data entry              |
 
 User-toggleable, persisted in `localStorage`, wrapped in try/catch.
 
@@ -248,27 +248,27 @@ User-toggleable, persisted in `localStorage`, wrapped in try/catch.
 
 4px base. `--s1: 4px` … `--s8: 48px`.
 
-| Context | Max width |
-|---|---|
-| Reading (instructions, notices) | `68ch` |
-| Form | `760px` |
-| Data table | full width, **the table scrolls in its own `overflow-x: auto`** — the page body never scrolls sideways |
-| Dossier record | full width |
+| Context                         | Max width                                                                                                      |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Reading (instructions, notices) | `68ch`                                                                                                       |
+| Form                            | `760px`                                                                                                      |
+| Data table                      | full width,**the table scrolls in its own `overflow-x: auto`** — the page body never scrolls sideways |
+| Dossier record                  | full width                                                                                                     |
 
 ---
 
 ## 5. Components
 
-| Component | Notes |
-|---|---|
-| **Button** | Primary `--green` filled; secondary outlined `--rule-strong`; destructive `--rejected` **outlined, never filled** — a filled red button next to a filled green one is how a scrutiny officer rejects the wrong candidate. Destructive actions require typed confirmation |
-| **Field** | Label above, 15px, `--ink`. Help text below in `--t-caption`. Error below help, `--rejected`, **with a glyph**. **`aria-describedby` links both.** Focus: 2px `--green` ring, 2px offset — never `outline: none` |
-| **Statutory field** | A field whose validity comes from a regulation shows its `.citation` inline. Used throughout the application form |
-| **Gate control** | Three explicit radio options — `✓ Eligible` · `✕ Not eligible` · `◦ Pending` — **never a merged label**. The reference modal renders "Pending / Not Eligible" over three distinct stored values, on a legally consequential decision. Not reproduced |
-| **Pipeline panel** | The three-panel widget from the post-detail screenshot: application / eligibility / download statistics. Ruled, not tiled; figures in tabular Plex at `--t-page` size with `--t-label` captions |
-| **Composite count cell** | `106 / 63 / 58 / 13⚑` — total, submitted, paid, internal. Mono, colour-coded, with a `title` and an `aria-label` spelling it out in words |
-| **Empty state** | States what is missing and the one action that fixes it. Never an illustration |
-| **Loading** | Skeleton rows matching the real row height. Never a spinner on a table — the layout must not jump |
+| Component                      | Notes                                                                                                                                                                                                                                                                                |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Button**               | Primary`--green` filled; secondary outlined `--rule-strong`; destructive `--rejected` **outlined, never filled** — a filled red button next to a filled green one is how a scrutiny officer rejects the wrong candidate. Destructive actions require typed confirmation |
+| **Field**                | Label above, 15px,`--ink`. Help text below in `--t-caption`. Error below help, `--rejected`, **with a glyph**. **`aria-describedby` links both.** Focus: 2px `--green` ring, 2px offset — never `outline: none`                                             |
+| **Statutory field**      | A field whose validity comes from a regulation shows its`.citation` inline. Used throughout the application form                                                                                                                                                                   |
+| **Gate control**         | Three explicit radio options —`✓ Eligible` · `✕ Not eligible` · `◦ Pending` — **never a merged label**. The reference modal renders "Pending / Not Eligible" over three distinct stored values, on a legally consequential decision. Not reproduced               |
+| **Pipeline panel**       | The three-panel widget from the post-detail screenshot: application / eligibility / download statistics. Ruled, not tiled; figures in tabular Plex at`--t-page` size with `--t-label` captions                                                                                   |
+| **Composite count cell** | `106 / 63 / 58 / 13⚑` — total, submitted, paid, internal. Mono, colour-coded, with a `title` and an `aria-label` spelling it out in words                                                                                                                                    |
+| **Empty state**          | States what is missing and the one action that fixes it. Never an illustration                                                                                                                                                                                                       |
+| **Loading**              | Skeleton rows matching the real row height. Never a spinner on a table — the layout must not jump                                                                                                                                                                                   |
 
 ---
 
@@ -276,12 +276,12 @@ User-toggleable, persisted in `localStorage`, wrapped in try/catch.
 
 Restrained, and one orchestrated moment rather than scattered effects.
 
-| Where | What |
-|---|---|
+| Where                        | What                                                                  |
+| ---------------------------- | --------------------------------------------------------------------- |
 | Section change in the wizard | 120ms cross-fade + 4px rise. Enough to signal, not enough to wait for |
-| Row expand in a dossier | 160ms height transition |
-| Toast | 200ms slide from the top edge |
-| **Everything else** | **No animation** |
+| Row expand in a dossier      | 160ms height transition                                               |
+| Toast                        | 200ms slide from the top edge                                         |
+| **Everything else**    | **No animation**                                                |
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -298,18 +298,18 @@ Restrained, and one orchestrated moment rather than scattered effects.
 
 Non-negotiable, and largely a matter of not doing the wrong thing.
 
-| Requirement | Implementation |
-|---|---|
-| Keyboard | Every action reachable. Visible focus everywhere. Logical tab order. **Skip-to-content** first in the DOM |
-| Screen reader | Landmarks, one `h1` per page, ordered headings. Tables use `<th scope>`, `<caption>`, and `aria-sort` on sortable columns |
-| Status | Glyph **and** text, never colour alone |
-| Forms | Every input labelled. Errors linked by `aria-describedby`. An error summary at the top of the form links to each field |
-| **2.4.11 Focus not obscured** | Sticky table headers must not cover the focused row — `scroll-margin-block` on rows |
-| **2.5.8 Target size** | 24×24px minimum. Compact rows keep 24px targets inside a 32px row |
-| **3.3.7 Redundant entry** | The reusable profile is literally this criterion: never ask twice |
-| Zoom | 200% without loss of content or function |
-| Language | `lang` on the root; `lang="hi"` / `lang="ur"` with `dir="rtl"` on Urdu titles |
-| GIGW | Accessibility statement, help page, contact details, last-updated date, no content behind a plugin |
+| Requirement                         | Implementation                                                                                                                   |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Keyboard                            | Every action reachable. Visible focus everywhere. Logical tab order.**Skip-to-content** first in the DOM                   |
+| Screen reader                       | Landmarks, one`h1` per page, ordered headings. Tables use `<th scope>`, `<caption>`, and `aria-sort` on sortable columns |
+| Status                              | Glyph**and** text, never colour alone                                                                                      |
+| Forms                               | Every input labelled. Errors linked by`aria-describedby`. An error summary at the top of the form links to each field          |
+| **2.4.11 Focus not obscured** | Sticky table headers must not cover the focused row —`scroll-margin-block` on rows                                            |
+| **2.5.8 Target size**         | 24×24px minimum. Compact rows keep 24px targets inside a 32px row                                                               |
+| **3.3.7 Redundant entry**     | The reusable profile is literally this criterion: never ask twice                                                                |
+| Zoom                                | 200% without loss of content or function                                                                                         |
+| Language                            | `lang` on the root; `lang="hi"` / `lang="ur"` with `dir="rtl"` on Urdu titles                                            |
+| GIGW                                | Accessibility statement, help page, contact details, last-updated date, no content behind a plugin                               |
 
 **A11y tests run in CI**: `axe-core` on every rendered route, failing the build on a violation.
 
@@ -317,12 +317,12 @@ Non-negotiable, and largely a matter of not doing the wrong thing.
 
 ## 8. What gets deleted
 
-| Removed | Why |
-|---|---|
-| Bootstrap 4, jQuery, DataTables, Select2, Dropzone, CKEditor, perfect-scrollbar — all CDN-loaded | The frontend's 127 views load a second design system from CDN. `MEMORY.md` mandates the purge |
-| TailAdmin e-commerce demo components — monthly-sale, monthly-target, recent-orders, customer-demographic | Unmodified demo files with e-commerce copy, referenced by nothing routed |
-| ApexCharts, FullCalendar ×5, jsvectormap, swiper, prismjs, @floating-ui, @popperjs | **9 of 13 npm dependencies with zero source references** |
-| `datatable datatable-{Entity}` markup in 33 admin views | They expect jQuery DataTables; `layouts.app` loads none. **33 of 34 admin lists render an empty table today** |
+| Removed                                                                                                   | Why                                                                                                                  |
+| --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Bootstrap 4, jQuery, DataTables, Select2, Dropzone, CKEditor, perfect-scrollbar — all CDN-loaded         | The frontend's 127 views load a second design system from CDN.`MEMORY.md` mandates the purge                       |
+| TailAdmin e-commerce demo components — monthly-sale, monthly-target, recent-orders, customer-demographic | Unmodified demo files with e-commerce copy, referenced by nothing routed                                             |
+| ApexCharts, FullCalendar ×5, jsvectormap, swiper, prismjs, @floating-ui, @popperjs                       | **9 of 13 npm dependencies with zero source references**                                                       |
+| `datatable datatable-{Entity}` markup in 33 admin views                                                 | They expect jQuery DataTables;`layouts.app` loads none. **33 of 34 admin lists render an empty table today** |
 
 **Charts:** a small number are genuinely needed (the 12-month submitted-vs-paid trend, category and
 status distributions). They are built as **inline SVG** against the tokens above rather than by
@@ -353,20 +353,20 @@ resources/views/components/
 
 ## 10. Traceability
 
-| Section | Feeds |
-|---|---|
-| §2, §3 | every module |
-| §4.2 spine | M05 Application Wizard |
-| §5 gate control | M18 · M34 |
-| §5 composite cell, pipeline | M16 · M23 |
-| §7 | GIGW compliance · `../../02-plan/` acceptance criteria |
-| §8 | Wave 0 purge |
-| — | `data-table.md`, the largest single UI work item |
+| Section                      | Feeds                                                    |
+| ---------------------------- | -------------------------------------------------------- |
+| §2, §3                     | every module                                             |
+| §4.2 spine                  | M05 Application Wizard                                   |
+| §5 gate control             | M18 · M34                                               |
+| §5 composite cell, pipeline | M16 · M23                                               |
+| §7                          | GIGW compliance ·`../../02-plan/` acceptance criteria |
+| §8                          | Wave 0 purge                                             |
+| —                           | `data-table.md`, the largest single UI work item       |
 
 ---
 
 ## 11. Change log
 
-| Date | Change | By |
-|---|---|---|
+| Date       | Change                                                                                                                                                                                                                                                                                                                                      | By                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | 2026-08-27 | Created. "Register" direction — ruled records over cards, grounded in AMU's forest green and Victoria Gate. Full light/dark token set with verified contrast, Spectral/IBM Plex type system with tabular figures and Devanagari/Nastaliq support, the gate-rule signature, the spine, WCAG 2.2 AA + GIGW requirements, and the purge list. | Implementation team |

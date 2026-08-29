@@ -166,3 +166,4 @@ system failure.
 | R05, R10 | `grievance_messages` scope and append-only guard |
 | R06, R07, R11 | `App\Policies\GrievancePolicy` |
 | R08, R09 | `App\Http\Requests\Grievance\*` |
+| R12 | `App\Domain\Audit\*` (M26), `GrievanceObserver` |

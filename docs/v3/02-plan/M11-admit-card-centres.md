@@ -145,3 +145,4 @@ Concurrency fixture for R03: two parallel allocations targeting the same seat.
 | R06, R07 | `App\Domain\Examination\AssertDownloadWindow` |
 | R10 | `App\Domain\Examination\GenerateAdmitCard` |
 | R11 | `App\Policies\ApplicationPolicy` |
+| R12 | `App\Jobs\AllocateSeatsJob`, `App\Domain\Examination\AllocateSeats` |

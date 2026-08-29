@@ -21,6 +21,22 @@ Creates only framework tables the current schema is missing: `sessions`, `cache`
 migration creates `password_resets`, so password reset is dead), and `personal_access_tokens`
 (Sanctum's, never published here).
 
+**Configuration files created in this wave** (DR-023, DR-024, engineering-standards §7.1):
+
+| File | Holds |
+|---|---|
+| `config/auth_channels.php` | Per-user-class default login channel and mobile-verification flag — the boot default that `system_settings` later overrides |
+| `config/otp.php` | Code length, TTL (`OTP_VALID_MINUTES`, default **10**), resend cooldown (`OTP_DELAY_MINUTES`, default **3**), hourly cap (`AUTH_OTP_MAX_PER_HOUR`, default **5**), default gateway |
+| `config/services.php` | The `proactive` credential block — separate `user` and `password` keys, **never** a composed URL |
+
+`.env.example` gains every key above with the credentials **blank**. Two existing values in
+`config/auth.php` are corrected at the same time: the broker table stays `password_reset_tokens`, and
+`password_timeout` drops from **10800** to **900** seconds
+(`../01-design/security/security-model.md` §4).
+
+**Composer.** `pragmarx/google2fa` and `bacon/bacon-qr-code` are added; `laravel/breeze` and
+`laravel/ui` are removed with the scaffolding they generated (DR-022).
+
 ## 3. Domain services
 
 ```
@@ -82,6 +98,8 @@ $ gitleaks detect
 | M00-R06 | Given a `TableQuery`, when no page size is given, then results are paginated, never unbounded |
 | M00-R07 | Given any Blade view, when rendered, then no `trans()` key resolves to itself |
 | M00-R08 | Given `composer audit` and `npm audit`, when CI runs, then the build fails on a high-severity advisory |
+| M00-R09 | Given the config cache is built, when the application boots, then no `env()` call outside a config file is reached |
+| M00-R10 | Given `.env.example`, when it is read, then every gateway credential key is present and **empty** |
 
 ## 10. Test cases
 
@@ -95,12 +113,15 @@ $ gitleaks detect
 | `tests/Unit/Table/TableQueryTest::test_always_paginates` | R06 |
 | `tests/Feature/Foundation/TranslationTest::test_no_unresolved_keys` | R07 |
 | CI job `audit` | R08 |
+| `tests/Unit/Arch/NoEnvOutsideConfigTest` | R09 |
+| `tests/Unit/Foundation/EnvExampleTest::test_credential_keys_present_and_empty` | R10 |
 
 ## 11. Traceability
 
 | Requirement | Artefact | Test |
 |---|---|---|
 | M00-R01…R08 | `database/migrations/*`, `App\Support\Table\*`, `App\Support\Canonical\*`, `lang/en/*`, `.github/workflows/ci.yml` | as above |
+| M00-R09, R10 | `config/auth_channels.php`, `config/otp.php`, `config/services.php`, `.env.example` | `Unit/Arch/NoEnvOutsideConfigTest`, `Unit/EnvExampleTest` |
 
 ### Deletion manifest
 
@@ -111,5 +132,15 @@ Per DR-002, one reviewable commit: `app/Http/Controllers/{Admin,Frontend,Api}/**
 `debug_error.html` (**contains a live session token**) · `verify-*.cjs` · `.phpunit.result.cache` ·
 9 dead npm dependencies.
 
-**Immediately, in the same wave:** `.env` out of git and **credentials rotated** — they are in the
-public history — `.gitignore` hardened, `gitleaks` blocking in CI.
+**Immediately, in the same wave:** `.gitignore` hardened and `gitleaks` blocking in CI.
+
+**Correction — `.env` was never committed.** `git log --all -- .env` returns **zero commits**, the
+file is untracked, and `.gitignore:8` has covered it throughout. Earlier drafts of this manifest and
+of `../01-design/security/security-model.md` §5 called for **rotating the MySQL credentials on the
+grounds that they were in the public history. They are not, and no rotation is required on that
+basis.** The claim is recorded here as withdrawn so that nobody reinstates it from the old text.
+
+What *is* in the history is **`debug_error.html`**, added by commit `2c8a071` and carrying a live
+CSRF and session token. Deleting it from the working tree does not remove it from history, so the
+token it exposes is treated as compromised: the session is long expired and `APP_KEY` is unaffected,
+but the file is the reason `gitleaks` runs over **history as well as the diff**, not just the diff.

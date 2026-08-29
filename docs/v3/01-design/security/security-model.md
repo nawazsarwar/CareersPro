@@ -134,18 +134,26 @@ matrix — including the negatives, which is where defect #1 lives.
 ## 4. Authentication
 
 Per **DR-008**: applicants by **email**; staff by **email or employee ID**; **no external SSO in v1**.
+Per **DR-022** the portal owns the pipeline — no Fortify; `pragmarx/google2fa` and
+`bacon/bacon-qr-code` are taken for TOTP cryptography only. Per **DR-023** a one-time code may serve
+as the **first** factor, and the second factor is multi-channel.
 
 | Control | Specification |
 |---|---|
 | Identifier resolution | From the submitted value, not a fixed column. Employee IDs validated to exclude `@` |
 | Password | `Rules\Password::defaults()` — min 12, mixed case, numbers, symbols, **not compromised** (`uncompromised()`). Argon2id. *(Current `StoreUserRequest` has `'password' => ['required']` — no length, no strength)* |
 | Rate limiting | **5** login attempts per `email\|ip` per minute; **6** verification and OTP requests per minute; **60** API requests per minute per token. `RateLimiter::for('api')` defined in a real service provider |
+| Rate limiting — codes | OTP login requests **5 per hour** per destination and per IP; code verification **6 per minute**; second-factor challenge **6 per minute**; resend cooldown **3 minutes**. The hourly cap keys on `otp_codes.destination_hash`, a blind index, so it never decrypts a mobile number |
+| Rate limiting — reset | Named limiter `password-reset`, **5 per hour** per `email\|ip`, on top of the broker's own 60-second throttle. The broker stops rapid repeats; the limiter stops slow enumeration |
 | Email verification | `User implements MustVerifyEmail`. **One flow, not two.** The current dual system — Laravel's inert flow plus QuickAdminPanel's unsent notification — is deleted, along with `VerificationMiddleware` |
-| Mobile | OTP, 6 digits, 10-minute TTL, 5 per hour, **hashed at rest**, single-use |
-| **TOTP** | RFC 6238, mandatory for every staff role, optional for candidates. Recovery codes hashed. *(`MEMORY.md` mandates it; `PROGRESS.md` claims it; grep for `totp\|two_factor\|2fa` across the codebase returns **zero hits**)* |
+| Mobile | OTP, 6 digits, TTL **configurable — default 10 minutes, maximum 15** (`OTP_VALID_MINUTES`), 5 per hour, **hashed at rest**, single-use. A mobile number is unverified until an OTP confirms it, at registration or in the profile |
+| **OTP login** | A code as the **first** factor (DR-023). Requires a **verified** mobile. **Fails closed** on gateway error — no session, no partial login. **Never counts as the second factor.** The response cannot be used to enumerate accounts: identical for an unknown identifier and a known one |
+| **Second factor** | TOTP (RFC 6238, via `pragmarx/google2fa`), **SMS OTP**, or **email OTP — candidates only**, because email is also the reset channel and a compromised mailbox must not yield a staff takeover. Recovery codes hashed. Enforcement is a role-scoped `system_settings` policy (M28) over a per-user opt-in; where enforced, the user may change method but not switch it off. `purpose` is part of the OTP lookup, so a `login` code can never answer a `two_factor` challenge. *(grep for `totp\|two_factor\|2fa` across the current codebase returns **zero hits** — none of this exists yet)* |
+| Third-party credentials | The SMS gateway authenticates by **query parameter** (DR-024), so its credentials reach access logs, proxy logs and exception traces. They live in `.env` only — never in `system_settings`, never in `.env.example`, never in a pre-baked URL — and a log processor strips them from any logged URL |
 | Session | Regenerate on login, invalidate on logout, 2-hour idle timeout for staff, absolute 12-hour cap |
 | Impersonation | One-time expiring token, invalidates the existing session, records the actor's IP, **always audited**, never available to `super_admin` silently |
-| Password reset | Against **`password_reset_tokens`** — the table `config/auth.php` actually expects |
+| Password reset | Against **`password_reset_tokens`** — the table `config/auth.php` actually expects. Broker `expire` **60 minutes**, `throttle` **60 seconds**, both Laravel defaults and both correct |
+| Re-authentication | `password_timeout` **900 seconds**. The current `config/auth.php` sets **10800** — three hours — for a gate guarding impersonation (M25) and sensitive settings (M28). Fifteen minutes is the correct window |
 
 ---
 
@@ -176,7 +184,7 @@ The current trait accepts any file type. Replacement:
 | A02 Cryptographic failures | Argon2id; TLS 1.2+ only; field encryption per `data-protection.md` |
 | A03 Injection | Eloquent bindings throughout. `GlobalSearchController`'s `'App\Models\\'.$model` pattern replaced by an explicit map |
 | A04 Insecure design | Threat model reviewed per module in `02-plan/` |
-| A05 Misconfiguration | `APP_DEBUG=false` in production (currently `true` with `APP_ENV=local` on a production URL); `.env` out of git and **credentials rotated** — they are in the public history |
+| A05 Misconfiguration | `APP_DEBUG=false` in production (currently `true` with `APP_ENV=local` on a production URL); `.gitignore` hardened and `gitleaks` blocking in CI over **history as well as the diff**. **`.env` was never committed** — `git log --all -- .env` returns zero commits — so the credential rotation earlier drafts called for is **not required**; the tracked secret is `debug_error.html` (commit `2c8a071`, live CSRF and session token), which history rewriting or token expiry addresses, not `.env` |
 | A06 Vulnerable components | `composer audit` + `npm audit` in CI, failing the build. *(`codebase-audit.md` notes "7 security advisories" with no action)* |
 | A07 Auth failures | §4 |
 | A08 Integrity failures | Hash-chained audit; content-addressed snapshots |
@@ -215,8 +223,11 @@ handles it, with nothing to discover.
 | Rate limits | Lockout after 5 failures; API 429 after 60/min |
 | Upload | Executable rejected; MIME-spoofed file rejected; oversized rejected; virus quarantined |
 | Document access | Direct URL without authorisation ⇒ 403, **and an audit event is written** |
-| No secrets | `gitleaks` clean; `.env` absent from the tree |
-| TOTP | Staff login requires the second factor |
+| No secrets | `gitleaks` clean; `.env` absent from the tree; **SMS gateway credentials absent from every log and exception trace** |
+| Second factor | Staff login requires it; an OTP-login session is challenged for a method **other than** the channel it just used; email is refused to staff |
+| OTP login | Verified mobile required; expired and reused codes rejected; hourly cap enforced on the blind index; gateway failure creates **no session** |
+| Enumeration | The OTP-login response is byte-identical for a registered and an unregistered identifier |
+| No JavaScript | Every authentication screen completes with scripting disabled |
 
 ---
 

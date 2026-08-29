@@ -192,3 +192,6 @@ Fixtures: a 47-application cohort with a deliberate tie at rank 8; a Registrar p
 | R09, R10, R13 | `App\Domain\Shortlist\GenerateShortlist`, public controller |
 | R11 | `App\Policies\ShortlistPolicy` |
 | R12 | `App\Domain\Merit\NonTeachingMeritStrategy` |
+| R14 | `App\Domain\Shortlist\AssertRatio` |
+| R15 | `App\Rules\ShortlistFormula` — refused at save |
+| R16 | `App\Domain\Recruitment\FreezeRuleSet` (M16) |

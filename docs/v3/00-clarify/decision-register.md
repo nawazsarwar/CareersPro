@@ -1022,6 +1022,224 @@ Full comparison: [`../01-design/engineering-standards.md`](../01-design/engineer
 
 ---
 
+### DR-022 — The portal owns its authentication stack; no Fortify
+
+| | |
+|---|---|
+| **Status** | **DECIDED** |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-29 |
+| **Blocks** | M03 Registration & Profile, M25 RBAC, M28 System Administration |
+
+**Question.** Laravel 13 ships Fortify, a headless authentication backend with registration, login,
+password reset, email verification, password confirmation, TOTP two-factor and passkeys. Should the
+portal adopt it, in whole or in part, instead of the hand-rolled `App\Domain\Identity\` services M03
+specifies?
+
+**Decision.** **No.** The portal owns its authentication pipeline, under `App\Domain\Identity\`, as
+M03 already specifies. Two libraries are taken as direct dependencies for cryptography only —
+**`pragmarx/google2fa`** (RFC 6238 secret generation and window verification) and
+**`bacon/bacon-qr-code`** (enrolment QR rendering). These are the same libraries Fortify wraps
+internally. No other authentication package is adopted; Breeze is removed with the rest of the
+legacy scaffolding in Wave 0.
+
+**Why it matters.** Auth is the one surface where a subtle mistake is a breach rather than a bug, so
+"write less of it" is normally the right instinct. The instinct fails here for a specific, checkable
+reason, recorded below so nobody re-opens it on general principle.
+
+**Rationale.**
+
+**Fortify's second factor is TOTP only.** Its `/two-factor-challenge` endpoint accepts a `code`
+(TOTP) or a `recovery_code`, and nothing else. Its pipeline stage
+`Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable` triggers on `users.two_factor_secret`
+being populated. A user whose second factor is an SMS or email code has no TOTP secret, so Fortify
+skips them silently and a stage of our own has to catch it. The result is **two challenge screens
+and two session state machines deciding one thing** — worse than either alone. DR-023 requires a
+channel-agnostic challenge, so the challenge step must be ours; and once it is ours, Fortify is
+carrying nothing.
+
+**Fortify has no passwordless login.** `/login` always expects a `password` field. The OTP-first
+path in DR-023 is outside its model entirely, as are the per-class default channel and the
+administrator-enforced policy.
+
+**Fortify's passkeys cannot be a sole path.** `Features::passkeys()` requires
+`navigator.credentials` and the `@laravel/passkeys` npm package. DR-021 requires that everything
+works with JavaScript disabled. Passkeys may be revisited in v2 as an *additional* factor; they
+cannot replace one.
+
+**What Fortify would otherwise contribute is framework core, not Fortify.** Password reset is the
+`Illuminate\Auth\Passwords\PasswordBroker`; email verification is `MustVerifyEmail` plus signed
+routes; password confirmation is `Illuminate\Auth\Middleware\RequirePassword`. All three are
+available without Fortify. Fortify adds routes and controllers that would be rewritten anyway to
+carry the exact copy fixed in `../01-design/ux/screens.md` §1.
+
+**Costs avoided.** Adopting Fortify would additionally require: an architecture-test exemption for
+its `Validator::make`-inside-actions style, against the Form Request rule at
+[`../01-design/engineering-standards.md`](../01-design/engineering-standards.md) §252 and §307;
+replacement of M03's two-factor table with columns on `users`; and a rewrite of M03's route table to
+Fortify's URIs (`/user/two-factor-authentication`, `/two-factor-challenge`).
+
+**Implementation note.** This is the same shape as **DR-018**: own the domain, adapt the vendor at
+the edge. `pragmarx/google2fa` is reached only from `App\Domain\Identity\SecondFactor\Totp\*`, and an
+architecture test asserts it appears nowhere else.
+
+**Worked example.** A Deputy Registrar enrols an authenticator app. `EnrolTotp` calls
+`Google2FA::generateSecretKey()`, stores it encrypted in `two_factor_methods`, and renders the QR
+through `bacon/bacon-qr-code`. `ConfirmTotp` verifies the first code and sets `confirmed_at`. At the
+next sign-in, `ChallengeSecondFactor` renders **one** challenge screen — the same screen an SMS or
+email code would use — and `VerifySecondFactor` dispatches on the method type. One route, one Blade
+template, one session state machine, three channels.
+
+**Reversal trigger.** Fortify shipping a channel-agnostic second-factor challenge, or a first-party
+passwordless login flow. Either would make the hybrid worth revisiting; neither exists in 13.x.
+
+---
+
+### DR-023 — OTP login and the authentication channel policy
+
+| | |
+|---|---|
+| **Status** | **DECIDED** |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-29 |
+| **Blocks** | M03 Registration & Profile, M25 RBAC, M28 System Administration |
+
+**Question.** Password plus TOTP is the only way in. Candidates are the general public and will not
+reliably retain a password between an advertisement opening and closing; staff without a smartphone
+authenticator have no second factor at all. What else is permitted, and who decides?
+
+**Decision.** Three changes, all additive to DR-008.
+
+**1. OTP login — a one-time code as the *first* factor.** The sign-in card keeps **one identifier
+field**. A secondary submit, *Send me a code instead*, starts the OTP path. The identifier resolves
+exactly as DR-008 specifies; the code goes to `profiles.mobile`, and **only if `mobile_verified_at`
+is set**. An account with no mobile, or an unverified one, is told so and pointed at the password
+path — after the identifier has been established, never before, so the response cannot be used to
+enumerate the 55,050 registered accounts.
+
+**2. Mobile numbers are verified on first entry.** Whenever a mobile number is supplied for the
+first time — at registration or in the profile — it is unverified until an OTP confirms it.
+`mobile_verified_at` is set at that moment and not before. This is a precondition of (1) and is
+worth doing on its own: an unreachable mobile silently breaks every deficiency notice and admit-card
+alert the portal sends.
+
+**3. The second factor is multi-channel.** Permitted methods: **TOTP**, **SMS OTP**, **email OTP**
+and **recovery codes**. Constraints:
+
+- **Email OTP is available to candidates only.** Email is also the password-reset channel; allowing
+  it as a staff second factor would make a compromised mailbox a complete staff account takeover.
+- **An OTP counts as the second factor after a password login. It does not after an OTP login.** A
+  code sent to the registered handset cannot be both factors. A staff user who signs in by OTP is
+  challenged for an enrolled method **excluding the channel just used**. If SMS is their only
+  enrolled method, OTP login is unavailable to them and the password path is offered instead.
+- **An OTP issued for one purpose can never satisfy another.** `otp_codes.purpose` is part of the
+  lookup, so a `login` code cannot answer a `two_factor` challenge or the reverse.
+
+**Who decides.** Three layers, most specific winning:
+
+| Layer | Where | Who changes it |
+|---|---|---|
+| Boot default per user class | `.env` → `config/auth_channels.php` | deployment |
+| Runtime policy, role-scoped | `system_settings` (M28) | `super_admin`, `password.confirm` gated, audited |
+| Per-user preference | `users.preferred_login_channel`, `two_factor_methods` | the user, unless enforced |
+
+A user may enable or disable their own second factor **unless an administrator has enforced it for
+their role**, in which case they may change the method but not switch it off.
+
+**Rationale.** The `otp_codes.purpose` enum already contained `login` before this entry existed —
+the flow was anticipated in the data model and never specified anywhere else. Making it real costs
+one route group and one Blade template, and removes the single largest source of support load a
+public recruitment portal generates: forgotten passwords at the deadline.
+
+**Implementation note — fail closed.** If the SMS gateway is unavailable, OTP login **fails with no
+session at all**. There is no partial login, no "we will verify later". The user is offered the
+password path and the failure is audited. See DR-024.
+
+**Implementation note — no JavaScript required.** Per DR-021, the code entry, the resend countdown
+and the channel picker are real `<form method="POST">` elements. Alpine adds digit auto-advance and a
+live countdown; with JavaScript off, resend is a plain submit that re-renders the countdown
+server-side.
+
+**Worked example.** Aisha has not opened the portal since March and does not remember her password.
+She types `aisha.khan@gmail.com`, chooses *Send me a code instead*, and receives a six-digit code on
+the handset she verified at registration. She signs in. She has no second factor enrolled and none
+is enforced for candidates, so she goes straight to her dashboard.
+
+A Deputy Registrar does the same with `EMP04821`. The code arrives, and because 2FA is enforced for
+his role **and the SMS channel has just been used as the first factor**, he is then challenged for
+TOTP. Had he signed in with his password instead, the same SMS code would have satisfied the second
+factor and there would have been one prompt, not two.
+
+**Edge case that must be tested.** A candidate and a staff member sharing one handset. There is no
+uniqueness constraint on `profiles.mobile` — a shared family phone is legitimate — so codes for two
+accounts can arrive on one device. The code alone is never sufficient: it is bound to the account
+whose identifier was submitted, and to that pending login only.
+
+**Reversal trigger.** A decision to retire passwords for candidates entirely, making OTP the only
+candidate path. That would simplify this entry rather than reverse it.
+
+---
+
+### DR-024 — SMS is gateway-agnostic; ProActive first
+
+| | |
+|---|---|
+| **Status** | **DECIDED** |
+| **Owner** | Project sponsor |
+| **Decided on** | 2026-08-29 |
+| **Blocks** | M03 Registration & Profile, M30 Mass Communication |
+
+**Question.** DR-023 requires SMS delivery. Nothing in the specification says how a message reaches a
+handset. Which provider, and how tightly is the portal bound to it?
+
+**Decision.** Structurally identical to **DR-018**.
+
+- **The domain never names a provider.** `App\Domain\Notification\Sms\SmsGateway` is the only
+  contract it knows.
+- **Two adapters ship in v1:** `ProActiveSmsGateway`, and `LogSmsGateway` for local development and
+  the test suite.
+- **An architecture test asserts no provider name appears outside
+  `App\Domain\Notification\Sms\Gateways`.**
+- **Reconciliation is not applicable** — SMS is fire-and-forget with a provider reference recorded in
+  `mail_logs`, unlike payment, which must reconcile.
+
+**The provider.** ProActive, `https://www.proactivesms.in/sendsms.jsp`, sender ID `AMUCOE`,
+`responsein=json`. It is an HTTP GET taking `user`, `password`, `senderid`, `mobiles` and `sms` as
+**query parameters**.
+
+**Implementation note — the credentials are in the URL.** This is the single most important thing
+about this adapter. Query-string credentials reach the web server access log, every intervening
+proxy log, and the URL recorded in any `Illuminate\Http\Client\RequestException`. Therefore:
+
+- The adapter composes the URL **from config at call time**; a pre-baked URL containing credentials
+  is never stored in `.env`, in `system_settings`, or anywhere else.
+- `SMS_PROACTIVE_USER` and `SMS_PROACTIVE_PASSWORD` are separate keys, blank in `.env.example`.
+- A log processor strips `user` and `password` from any logged URL, and the HTTP client is
+  configured to redact them from exception messages.
+- **Gateway credentials, OTP codes and `two_factor_methods.secret` are never written to the audit
+  trail** — see M26.
+
+This is covered by an explicit acceptance criterion, M03-R27, and a unit test, not by convention.
+
+**Cost, stated plainly.** A provider whose authentication is a query parameter is a weaker starting
+position than one using a header or a signed request. The adapter boundary means replacing it is one
+class and a config block, so the weakness is contained rather than accepted permanently.
+
+**Outstanding obligation.** `../01-design/security/data-protection.md` §7 lists an email/SMS provider
+in the third-party register and records that **no data-processing agreement exists with any
+provider**. Under DPDP 2023, sending a candidate's mobile number to ProActive is a disclosure to a
+processor. **A signed DPA with ProActive is a go-live blocker**, tracked as **OQ-019**.
+
+**Worked example.** `IssueOtp` builds the message, `SendSms::handle()` resolves the configured
+gateway from `config('otp.default_gateway')`, and `ProActiveSmsGateway::send()` composes the request
+from `config('services.proactive.*')`. A non-2xx response, or a JSON body reporting failure, throws;
+`StartOtpLogin` catches it, writes an `auth.otp.failed` audit event, and returns the user to the
+password path. No session is created.
+
+**Reversal trigger.** None. Adding or replacing a gateway is the design working.
+
+---
+
 ## 3. Open questions
 
 Each blocks the named work. Ordered by the date by which an answer is needed.
@@ -1031,6 +1249,7 @@ Each blocks the named work. Ordered by the date by which an answer is needed.
 | **OQ-004** | Legacy cut-over: dual-run window; disposition of the 215,946 orphan backup rows; destination schema for ₹2.29 crore of financial history | Migration (Wave 10) | Project sponsor | Wave 10 |
 | **OQ-008** | Group B/C interview: CRR Rule 11 III(g) vs Rule 22.8 | M18 Scrutiny, M21 merit | Legal + Registrar | Wave 6 |
 | **OQ-012** | CRR Rule 33.3 (bar on marrying a person with a living spouse) — encode as a validation rule? | M05 declarations | **Legal sign-off required** | Wave 4 |
+| **OQ-019** | Signed data-processing agreement with ProActive (SMS). Mobile numbers are disclosed to a processor under DPDP 2023; none exists | **Go-live blocker** — DR-024, M03, M30 | Registrar + Legal | Before go-live |
 
 ### 3.1 Closed
 
@@ -1223,6 +1442,7 @@ enforces this: the full test suite must pass with both connections removed from
 | 2026-08-27 | DR-006 and DR-007 confirmed. **DR-008…DR-012 added and decided.** OQ-002/003/005/006/007/011/014 closed. OQ-015, OQ-016 raised. **§6 Data Lake schema review added.** | Implementation team |
 | 2026-08-27 | OQ-016 closed — legacy organigram tables confirmed superseded. Source-data hygiene items moved to `data-hygiene-backlog.md`. | Implementation team |
 | 2026-08-28 | **DR-020 and DR-021 added and decided** — engineering standards and the UI framework choice. New: `01-design/engineering-standards.md`. | Implementation team |
+| 2026-08-29 | **DR-022, DR-023 and DR-024 added and decided** — the portal owns its auth stack (no Fortify), OTP login with a multi-channel second factor, and a gateway-agnostic SMS layer with ProActive first. **OQ-019 raised** (ProActive DPA, go-live blocker). M03 gains M03-R13…R29. | Implementation team |
 | 2026-08-28 | **DR-021 revised — Livewire rejected outright.** Blade + Alpine + Tailwind 4 everywhere, one paradigm. The three dense admin screens use JSON endpoints + Alpine `fetch` with a non-JS form fallback, which also preserves the no-JS path on the admin side. | Implementation team |
 | 2026-08-27 | **AMU CRR and 4 advertisements obtained.** **DR-017…DR-019 added and decided**; OQ-001, OQ-013, OQ-018 closed; DOC-004 closed, DOC-003 superseded, DOC-005 partly closed, DOC-009 raised. Findings in `amu-source-documents-findings.md`. | Implementation team |
 | 2026-08-27 | **DOC-001 obtained and closed.** **DR-013…DR-016 added and decided**; OQ-009, OQ-010, OQ-015, OQ-017 closed; OQ-018 and DOC-008 raised. Findings in `doc-001-ordinances-findings.md`. | Implementation team |
