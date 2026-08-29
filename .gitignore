@@ -17,3 +17,6 @@ yarn-error.log
 /.idea
 /.vscode
 error_log
+
+# Published design-canvas bundle — regenerable from the .mjs build scripts beside it (4 MB, inlined editor + base64 assets)
+docs/v3/01-design/ux/canvas/careerspro-register.html

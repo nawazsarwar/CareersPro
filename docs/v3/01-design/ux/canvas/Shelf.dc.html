@@ -1,0 +1,402 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Devanagari:wght@400;600&family=Noto+Nastaliq+Urdu&family=Spectral:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#F7F8F6; --paper-raised:#FFFFFF; --paper-sunk:#EEF0EC;
+  --ink:#10150F; --ink-muted:#4A524A; --ink-faint:#7B837A;
+  --rule:#D3D8D0; --rule-strong:#A9B2A6;
+  --green:#0C4A2E; --green-deep:#072F1D; --green-lift:#10643E; --green-wash:#E4EDE7;
+  --brass:#8A6B1F; --brass-wash:#F5EEDC;
+  --eligible:#1B6B3A; --rejected:#9A2C2C; --pending:#8A6B1F;
+  --info:#1F4E79; --info-wash:#E8EEF4;
+  --rule-w:1px;
+  --font-display:'Spectral',Georgia,serif;
+  --font-ui:'IBM Plex Sans',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --font-hi:'IBM Plex Sans Devanagari','IBM Plex Sans',sans-serif;
+  --font-ur:'Noto Nastaliq Urdu',serif;
+}
+.slate{
+  --paper:#0D1210; --paper-raised:#141A17; --paper-sunk:#0A0F0C;
+  --ink:#E8EDE6; --ink-muted:#A6AFA4; --ink-faint:#737C71;
+  --rule:#263029; --rule-strong:#3A473C;
+  --green:#4FA97A; --green-deep:#2F7F55; --green-lift:#6BC094; --green-wash:#16281E;
+  --brass:#C9A34E; --brass-wash:#2A2113;
+  --eligible:#57B27C; --rejected:#E07A7A; --pending:#C9A34E;
+  --info:#6FA8D6; --info-wash:#12202C;
+  --rule-w:1.5px;                     /* rules gain weight — hairlines vanish on dark */
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+     font:400 15px/1.6 var(--font-ui);-webkit-font-smoothing:antialiased}
+.art{background:var(--paper);color:var(--ink);min-height:100%;
+     font:400 15px/1.6 var(--font-ui)}
+h1,h2,h3,h4,p,ul,ol,dl,dd,dt,figure{margin:0}
+ul{padding:0;list-style:none}
+a{color:var(--green);text-decoration:none}
+a:hover{color:var(--green-lift);text-decoration:underline}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;vertical-align:top}
+input,select,button,textarea{font:inherit;color:inherit}
+
+/* ── type roles ─────────────────────────────────────────────── */
+.t-page{font:600 30px/1.15 var(--font-display);letter-spacing:-.005em}
+.t-section{font:600 20px/1.25 var(--font-display)}
+.t-sub{font:600 15px/1.35 var(--font-ui)}
+.t-body{font:400 15px/1.6 var(--font-ui)}
+.t-data{font:400 13px/1.45 var(--font-ui);font-variant-numeric:tabular-nums}
+.t-label{font:600 11px/1.2 var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+.t-caption{font:400 12px/1.4 var(--font-ui);color:var(--ink-muted)}
+.t-figure{font:500 32px/1 var(--font-ui);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.ident{font:400 13px/1.45 var(--font-mono);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+.hi{font-family:var(--font-hi);line-height:1.7}
+.ur{font-family:var(--font-ur);font-size:17px;line-height:2}
+.muted{color:var(--ink-muted)} .faint{color:var(--ink-faint)}
+
+/* ── the citation ───────────────────────────────────────────── */
+.cite{font:400 12px/1.4 var(--font-mono);color:var(--ink-faint);
+      border-left:2px solid var(--rule-strong);padding-left:8px;display:block;margin-top:3px}
+.cite-i{font:400 12px/1.4 var(--font-mono);color:var(--ink-faint);
+      border-left:2px solid var(--rule-strong);padding-left:6px;margin-left:8px}
+
+/* ── the gate rule — the one ornament, left-inset over the number ── */
+.gr{margin:0 0 14px}
+.gr-rules{display:flex;align-items:flex-end}
+.gr-line{height:10px;border-bottom:1px solid var(--rule-strong);flex:0 0 24px}
+.gr-line.grow{flex:1 1 auto}
+.gr-arch{display:block;color:var(--rule-strong);flex:0 0 auto}
+.gr-second{height:3px;border-bottom:1px solid var(--rule);margin-bottom:12px}
+.gr-head{display:flex;gap:10px;align-items:baseline}
+.gr-id{font:400 13px/1 var(--font-mono);color:var(--brass)}
+.gr-title{font:600 20px/1.25 var(--font-display)}
+.gr.sm .gr-line{height:7px;flex-basis:16px}.gr.sm .gr-title{font-size:15px;font-family:var(--font-ui)}
+.gr.lg .gr-line{height:15px;flex-basis:36px}.gr.lg .gr-title{font-size:26px}
+
+/* ── shells ─────────────────────────────────────────────────── */
+.shell{display:flex;min-height:100%}
+.nav{width:208px;flex:0 0 208px;background:var(--paper-sunk);
+     border-right:var(--rule-w) solid var(--rule-strong);padding:18px 0 24px}
+.nav-brand{padding:0 16px 16px;border-bottom:1px solid var(--rule);margin-bottom:14px}
+.nav-brand b{font:600 15px/1.2 var(--font-display);display:block}
+.nav-brand span{font:400 11px/1.3 var(--font-ui);color:var(--ink-faint);letter-spacing:.04em}
+.nav-g{padding:0 16px;margin:14px 0 5px;font:600 11px/1.2 var(--font-ui);
+       letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.nav a{display:block;padding:5px 16px;font-size:13px;color:var(--ink-muted);
+       border-left:3px solid transparent;text-decoration:none}
+.nav a.on{color:var(--ink);font-weight:600;border-left-color:var(--brass);background:var(--paper)}
+.nav a.top{font-size:13px;font-weight:600;color:var(--ink)}
+.main{flex:1 1 auto;min-width:0;padding:20px 24px 28px}
+.masthead{margin-bottom:14px}
+.masthead .sub{font-size:13px;color:var(--ink-muted);margin-top:3px}
+.masthead .sub b{color:var(--ink)}
+.mh-rule{height:0;border-bottom:1px solid var(--rule-strong);margin:12px 0 0}
+.mh-tools{display:flex;gap:8px;align-items:center}
+
+/* the margin — page paper, one rule on its right, marginalia hang on it */
+.withmargin{display:flex;align-items:stretch}
+.margin{flex:0 0 96px;width:96px;background:transparent;
+        border-right:1px solid var(--rule-strong);padding:14px 12px 14px 0;text-align:right}
+.margin.narrow{flex-basis:72px;width:72px}
+.mg{font:400 11px/1.5 var(--font-mono);color:var(--ink-faint);display:block}
+.mg-a{color:var(--ink-muted);text-decoration:underline;text-decoration-color:var(--rule-strong)}
+.mg-sep{border-bottom:1px solid var(--rule);margin:8px 0 8px auto;width:34px}
+.mg-row{font:400 11px/1 var(--font-mono);color:var(--ink-faint);height:32px;
+        display:flex;align-items:center;justify-content:flex-end;padding-right:0}
+.body{flex:1 1 auto;min-width:0;padding-left:20px}
+
+/* ── records, not cards ─────────────────────────────────────── */
+.rec{background:var(--paper-raised);border:1px solid var(--rule);border-radius:2px}
+.rec-h{padding:9px 14px;border-bottom:1px solid var(--rule);background:var(--paper-sunk);
+       display:flex;justify-content:space-between;align-items:center;gap:12px}
+.rec-b{padding:14px}
+.rows>li,.rows>div{border-bottom:1px solid var(--rule);padding:10px 14px}
+.rows>li:last-child,.rows>div:last-child{border-bottom:0}
+
+/* ── the table ──────────────────────────────────────────────── */
+.tbl{font:400 13px/1.45 var(--font-ui);font-variant-numeric:tabular-nums;
+     background:var(--paper-raised)}
+.tbl caption{caption-side:top;text-align:left;font:400 12px/1.4 var(--font-ui);
+     color:var(--ink-muted);padding:0 0 7px}
+.tbl th{background:var(--paper-sunk);font:600 11px/1.2 var(--font-ui);letter-spacing:.08em;
+     text-transform:uppercase;color:var(--ink-muted);padding:8px 10px;
+     border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+.tbl th+th,.tbl td+td{border-left:1px solid var(--rule)}
+.tbl th.grp,.tbl td.grp{border-left:1px solid var(--rule-strong)}
+.tbl td{padding:0 10px;height:32px;border-bottom:1px solid var(--rule);vertical-align:middle}
+.tbl tr.comfy td{height:44px}
+.tbl tbody tr:hover{background:var(--green-wash)}
+.tbl tr.sel td{background:var(--green-wash)}
+.tbl .filters td{height:34px;background:var(--paper);padding:3px 6px}
+.tbl .filters input,.tbl .filters select{width:100%;height:26px;font:400 12px var(--font-ui);
+     background:var(--paper-raised);border:1px solid var(--rule);border-radius:2px;padding:0 6px;
+     color:var(--ink)}
+.tbl .r{text-align:right}
+.sortable::after{content:' ↓';color:var(--brass)}
+.tbar{display:flex;justify-content:space-between;align-items:center;gap:14px;
+      padding:9px 12px;border:1px solid var(--rule);border-bottom:0;background:var(--paper-raised)}
+.exp{display:flex;gap:0}
+.exp a{font-size:12px;padding:3px 9px;border:1px solid var(--rule);margin-left:-1px;
+       color:var(--ink-muted);background:var(--paper)}
+.exp a:first-child{margin-left:0}
+.search{height:26px;width:190px;border:1px solid var(--rule-strong);border-radius:2px;
+        padding:0 8px;font-size:12px;background:var(--paper-raised);color:var(--ink)}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:12px;
+       padding:9px 12px;border:1px solid var(--rule);border-top:0;font-size:12px;
+       color:var(--ink-muted);background:var(--paper-raised)}
+.pager .pp a{padding:2px 7px;border:1px solid var(--rule);margin-left:-1px;color:var(--ink-muted)}
+.pager .pp a.on{background:var(--green);color:#fff;border-color:var(--green)}
+.filterchip{display:inline-flex;gap:8px;align-items:center;font-size:12px;background:var(--info-wash);
+       border:1px solid var(--rule);border-left:3px solid var(--info);padding:4px 9px;border-radius:2px}
+
+/* ── status, glyph and word, never colour alone ─────────────── */
+.b{font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.b .g{font-weight:600}
+.b.el .g{color:var(--eligible)} .b.re .g{color:var(--rejected)} .b.pe .g{color:var(--pending)}
+.b.in .g{color:var(--info)}
+.chip{display:inline-block;font-size:12px;padding:1px 7px;border:1px solid var(--rule-strong);
+      border-radius:2px;color:var(--ink-muted);background:var(--paper);white-space:nowrap}
+.comp{font:400 13px/1 var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.comp i{color:var(--ink-faint);font-style:normal;padding:0 2px}
+.comp b{font-weight:400}
+.comp .flag{color:var(--brass)}
+
+/* ── controls ───────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;
+     padding:0 14px;border-radius:2px;font:600 13px/1 var(--font-ui);cursor:pointer;
+     border:1px solid var(--rule-strong);background:var(--paper-raised);color:var(--ink)}
+.btn.p{background:var(--green);border-color:var(--green);color:#fff}
+.btn.d{border-color:var(--rejected);color:var(--rejected);background:transparent}
+.btn.lg{height:44px;padding:0 20px;font-size:15px;width:100%}
+.btn.sm{height:26px;padding:0 10px;font-size:12px;font-weight:400}
+.btn[disabled],.btn.off{color:var(--ink-faint);border-color:var(--rule);background:var(--paper-sunk)}
+.field{margin-bottom:16px}
+.field>label{display:block;font:400 15px/1.4 var(--font-ui);margin-bottom:5px}
+.field .help{font:400 12px/1.4 var(--font-ui);color:var(--ink-muted);margin-top:4px}
+.field .err{font:400 12px/1.4 var(--font-ui);color:var(--rejected);margin-top:4px}
+.inp{width:100%;height:44px;border:1px solid var(--rule-strong);border-radius:2px;
+     background:var(--paper-raised);padding:0 11px;font:400 15px var(--font-ui);color:var(--ink)}
+.inp.sm{height:32px;font-size:13px}
+.inp.bad{border-color:var(--rejected);border-width:2px}
+.focus{outline:2px solid var(--green);outline-offset:2px}
+.ro{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;
+    background:var(--paper-sunk);border:1px dashed var(--rule-strong);border-radius:2px;
+    font:600 11px/1 var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* ── proportional bar — strip, goals, SLA ───────────────────── */
+.pbar{display:flex;height:26px;border:1px solid var(--rule-strong);border-radius:2px;overflow:hidden;
+      background:var(--paper-sunk)}
+.pbar>span{display:block;height:100%}
+.pbar .rcv{background:var(--eligible)} .pbar .awa{background:var(--pending)}
+.pbar .fal{background:var(--rejected)} .pbar .gap{background:var(--paper);flex:0 0 2px}
+.pbar.thin{height:12px}
+
+/* ── stage rail ─────────────────────────────────────────────── */
+.rail{list-style:none;margin:0;padding:0}
+.rail li{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:start;
+         font-size:13px;padding:0 0 0 0;position:relative}
+.rail .tick{width:14px;display:flex;flex-direction:column;align-items:center}
+.rail .seg{width:2px;flex:1;min-height:18px;background:var(--green)}
+.rail li.fut .seg{width:0;border-left:1px dashed var(--rule-strong);background:none}
+.rail li.cur .seg{width:3px;background:var(--brass)}
+.rail .dot{font:600 11px/1 var(--font-ui)}
+.rail li.done .dot{color:var(--eligible)} .rail li.cur .dot{color:var(--brass)}
+.rail li.fut .dot{color:var(--rule-strong)}
+.rail li.fut .lbl{color:var(--ink-faint)}
+.rail .lbl{padding-bottom:9px}
+.rail .when{font:400 12px var(--font-mono);color:var(--ink-faint);font-variant-numeric:tabular-nums}
+
+/* ── the spine ──────────────────────────────────────────────── */
+.spine{flex:0 0 224px;width:224px;border-right:var(--rule-w) solid var(--rule-strong);
+       padding:18px 0 24px;background:var(--paper)}
+.spine h2{font:600 11px/1.2 var(--font-ui);letter-spacing:.08em;text-transform:uppercase;
+       color:var(--ink-faint);padding:0 18px;margin:0 0 8px}
+.spine ol{list-style:none;margin:0 0 16px;padding:0}
+.spine li a{display:grid;grid-template-columns:26px 1fr auto;gap:6px;align-items:baseline;
+       padding:7px 18px 7px 15px;border-left:3px solid transparent;font-size:13px;color:var(--ink-muted)}
+.spine li.on a{border-left-color:var(--brass);color:var(--ink);font-weight:600;background:var(--paper-raised)}
+.spine li a .n{font:400 12px var(--font-mono);color:var(--ink-faint)}
+.spine li a .st{font-size:12px;color:var(--ink-faint);white-space:nowrap}
+.spine li.done a .st{color:var(--eligible)}
+.spine li.err a .st{color:var(--rejected)}
+.spine-note{margin:0 14px 14px;padding:9px 10px;background:var(--brass-wash);
+       border:1px solid var(--brass);border-radius:2px;font-size:12px;line-height:1.45}
+
+/* ── banners ────────────────────────────────────────────────── */
+.banner{border:1px solid var(--brass);border-left:4px solid var(--brass);background:var(--brass-wash);
+        border-radius:2px;padding:14px 16px}
+.banner h3{font:600 17px/1.3 var(--font-ui);margin:0 0 5px}
+.banner .cd{font:500 13px var(--font-mono);color:var(--brass);font-variant-numeric:tabular-nums}
+.notice{border:1px solid var(--rule);border-left:4px solid var(--info);background:var(--info-wash);
+        border-radius:2px;padding:12px 14px;font-size:13px;line-height:1.55}
+.actorbar{background:var(--ink);color:var(--paper);border-bottom:2px solid var(--brass);
+        padding:9px 18px;display:flex;justify-content:space-between;align-items:center;
+        font-size:13px;gap:16px}
+.actorbar b{letter-spacing:.06em}
+.actorbar a{color:var(--paper);text-decoration:underline}
+.scoperule{height:0;border-bottom:3px solid var(--brass);margin:0 0 12px}
+.empty{border:1px dashed var(--rule-strong);background:var(--paper);border-radius:2px;
+       padding:28px 22px;text-align:left}
+.sk{background:var(--paper-sunk);border-radius:2px;display:inline-block;height:9px}
+
+/* ── charts ─────────────────────────────────────────────────── */
+.chart text{font:400 11px var(--font-ui);fill:var(--ink-faint);font-variant-numeric:tabular-nums}
+.chart .gl{stroke:var(--rule);stroke-width:1}
+.chart .base{stroke:var(--rule-strong);stroke-width:1}
+.chart .s-paid{stroke:var(--green);stroke-width:2;fill:none}
+.chart .s-sub{stroke:var(--info);stroke-width:1.5;fill:none;stroke-dasharray:6 3}
+.chart .f-paid{fill:var(--green-wash)} .chart .f-sub{fill:var(--info-wash)}
+.chart .lab{font:600 11px var(--font-ui);fill:var(--ink)}
+
+/* ── print ──────────────────────────────────────────────────── */
+.sheet{background:#fff;color:#000;font:400 11px/1.5 var(--font-ui);padding:44px 52px}
+.sheet h1{font:600 17px/1.2 var(--font-display);margin:0}
+.sheet table{width:100%;border-collapse:collapse}
+.sheet th,.sheet td{border:1px solid #000;padding:4px 6px;font-size:10.5px;vertical-align:top}
+.sheet th{background:#fff;font-weight:600;text-align:left}
+</style>
+</helmet>
+<div class="art" style="width:1120px;padding:24px">
+
+<div class="gr ">
+  <div class="gr-rules"><i class="gr-line"></i><svg class="gr-arch" width="24" height="10" viewBox="0 0 24 10" aria-hidden="true"><path d="M0 9.5 H6.5 C9.4 9.5 10.6 5.6 12 1.5 C13.4 5.6 14.6 9.5 17.5 9.5 H24" fill="none" stroke="currentColor" stroke-width="1"/></svg><i class="gr-line grow"></i></div>
+  <div class="gr-second"></div>
+  <div class="gr-head"><h2 class="gr-title">Component shelf</h2></div>
+</div>
+<p class="t-caption" style="max-width:66ch;margin-bottom:6px">The shelf named in the brief, plus seven components this design adds. Each addition is named with the reason it earns its place.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;margin-top:10px">
+<div>
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/button</div>
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+  <button class="btn p">Save decisions</button>
+  <button class="btn">Cancel</button>
+  <button class="btn d">Withdraw advertisement</button>
+  <button class="btn off" disabled>Generate</button>
+  <button class="btn p focus">Publish</button>
+</div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch">Destructive is <b>outlined, never filled</b> — a filled red button beside a filled green one is how a tired officer rejects the wrong candidate. Focus is a 2px <span class="ident" style="font-size:12px">--green</span> ring at 2px offset, and <span class="ident" style="font-size:12px">outline:none</span> appears nowhere.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/badge — glyph and word, never colour alone</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap">
+  <span class="b el"><span class="g">✓</span> Eligible</span> <span class="b re"><span class="g">✕</span> Not eligible</span> <span class="b pe"><span class="g">◦</span> Pending</span> <span class="b in"><span class="g">●</span> Submitted</span>
+</div>
+<div style="margin-top:10px;filter:grayscale(1);display:flex;gap:18px;flex-wrap:wrap">
+  <span class="b el"><span class="g">✓</span> Eligible</span> <span class="b re"><span class="g">✕</span> Not eligible</span> <span class="b pe"><span class="g">◦</span> Pending</span> <span class="b in"><span class="g">●</span> Submitted</span>
+</div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch">The second row is the first in greyscale. Nothing is lost, because the glyph and the word carry the state and the hue only reinforces it.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/field + ui/statutory-field</div>
+  
+<div class="field" style="max-width:380px"><label for="x1">Date of birth</label>
+  <input class="inp" id="x1" value="26-11-1984" aria-describedby="x1h x1c">
+  <div class="help" id="x1h">As printed on your matriculation certificate.</div>
+  <span class="cite" id="x1c">Age measured against 07-03-2026 · CRR Rule 14</span></div>
+<div class="field" style="max-width:380px"><label for="x2">Percentage at Master’s</label>
+  <input class="inp bad" id="x2" value="—" aria-describedby="x2h x2e">
+  <div class="help" id="x2h">Enter the aggregate percentage, not the CGPA.</div>
+  <div class="err" id="x2e"><b>✕</b> Enter a percentage between 0 and 100.</div></div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch">Error sits below the help text, carries a glyph, and both are linked by <span class="ident" style="font-size:12px">aria-describedby</span>. A statutory field carries its clause inline — not in a tooltip.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/citation — added</div>
+  <div style="max-width:420px">Minimum research score <b class="num">75</b><span class="cite">UGC 2018 cl. 4.1 II</span></div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch"><b>Why it earns its place:</b> it is placed hundreds of times outside a field — score lines, dashboard figures, the frozen-ruleset stamp, report footers. Three rules: below the figure and never inline after it; one per line of reasoning; and it links to the <b>frozen</b> version, never the current one.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/empty — never an illustration</div>
+  <div class="empty" style="max-width:460px">
+  <div class="t-sub">No applications match these filters.</div>
+  <p class="t-caption" style="margin:5px 0 12px">Category <b>OBC-NCL</b> and scrutiny <b>✓ Eligible</b> return nothing for this post.</p>
+  <a href="#" class="btn sm">Clear filters</a></div>
+  
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/skeleton — true row height, no shimmer</div>
+  <div class="rec" style="max-width:460px"><table class="tbl"><tbody>
+<tr><td style="width:92px"><i class="sk" style="width:66px"></i></td><td><i class="sk" style="width:68px"></i></td><td style="width:96px"><i class="sk" style="width:62px"></i></td></tr><tr><td style="width:92px"><i class="sk" style="width:74px"></i></td><td><i class="sk" style="width:150px"></i></td><td style="width:96px"><i class="sk" style="width:62px"></i></td></tr><tr><td style="width:92px"><i class="sk" style="width:74px"></i></td><td><i class="sk" style="width:92px"></i></td><td style="width:96px"><i class="sk" style="width:62px"></i></td></tr>
+</tbody></table></div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch">Static <span class="ident" style="font-size:12px">--paper-sunk</span> blocks at the real 32px row height. Skeletons do not shimmer: §14 permits no animation here, and a shimmer is motion pretending to be feedback.</div>
+</div>
+</div>
+
+<div>
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">data/composite-count — the key lives in the header, not in the hue</div>
+  <table class="tbl" style="max-width:420px"><thead><tr>
+  <th style="width:118px">Post</th><th style="width:150px">TOT / SUB / PAID / INT</th><th>Status</th></tr></thead>
+<tbody><tr><td class="ident">2599</td><td><span class="comp" title="106 total, 63 submitted, 58 paid, 13 internal" aria-label="106 total, 63 submitted, 58 paid, 13 internal"><b>106</b><i>/</i>63<i>/</i>58<i>/</i><span class="flag">13⚑</span></span></td><td><span class="b in"><span class="g">●</span> Open</span></td></tr>
+<tr><td class="ident">2601</td><td><span class="comp" title="954 total, 765 submitted, 710 paid, 31 internal" aria-label="954 total, 765 submitted, 710 paid, 31 internal"><b>954</b><i>/</i>765<i>/</i>710<i>/</i><span class="flag">31⚑</span></span></td><td><span class="b in"><span class="g">●</span> Open</span></td></tr></tbody></table>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch">The legacy cell distinguished its four figures by colour alone. The order is documented in the column header instead, and the cell carries <span class="ident" style="font-size:12px">aria-label="106 total, 63 submitted, 58 paid, 13 internal"</span>.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">data/proportional-bar — added</div>
+  
+<div style="max-width:440px">
+  <div class="pbar" style="margin-bottom:10px"><span class="rcv" style="width:66.6%"></span><span class="gap"></span><span class="awa" style="width:6.4%"></span><span class="gap"></span><span class="fal" style="width:27%"></span></div>
+  <div style="display:flex;justify-content:space-between" class="t-caption"><span>✓ Received 66.6%</span><span>◦ Awaited 6.4%</span><span>✕ Failed 27.0%</span></div>
+  <div class="pbar thin" style="margin-top:14px"><span class="rcv" style="width:60.7%"></span></div>
+  <div class="t-caption" style="margin-top:4px">Paid <span class="num">48,381 / 79,659</span> · <b>60.7%</b></div>
+</div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch"><b>Why it earns its place:</b> the financial strip, the three goal bars and the SLA days-remaining meter are one primitive in two configurations — segmented and single. Five uses across two screens, and the percentage is always a figure as well as a length.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">ui/countdown — added</div>
+  <div class="banner" style="max-width:440px">
+  <h3>Action needed — <span class="cd">5 days remaining</span></h3>
+  <p class="t-body" style="font-size:14px">Your experience certificate is illegible. Re-upload it in <b>Employment history</b>.</p>
+  <div class="t-caption" style="margin-top:6px">Closes 19 Mar 2026, 5:00 pm</div></div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch"><b>Why it earns its place:</b> server-rendered <span class="ident" style="font-size:12px">&lt;time datetime&gt;</span> that Alpine upgrades to a live tick. A legal deadline is not something to reimplement per screen, and it must be right with JavaScript off.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">layout/actor-bar — added</div>
+  <div class="actorbar" style="max-width:520px"><span><b>IMPERSONATING</b> · signed in as AISHA KHAN by n.sarwar · since 14:02</span><a href="#">End now</a></div>
+<div style="max-width:520px;margin-top:14px"><div class="scoperule"></div><div class="t-caption">Faculty of Arts and 3 departments — local recruitment.</div></div>
+<div style="margin-top:14px"><span class="ro">Save decisions · not available in audit access</span></div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch"><b>Why it earns its place:</b> scoped, redacted, read-only, impersonated and out-of-window are one component with five renderings, so a scoped view can never converge with an unscoped one by drift. Impersonation is the only inverted band in the product; inversion carries the signal, so the palette stays closed.</div>
+</div>
+
+
+<div style="border-bottom:1px solid var(--rule);padding:16px 0">
+  <div class="t-label" style="margin-bottom:9px">layout/margin — added</div>
+  <div class="withmargin" style="max-width:460px;background:var(--paper)">
+  <div class="margin"><span class="mg">ugc-nt-2026@1</span><span class="mg">frozen 22-01-2026</span><span class="mg">snapshot #2</span><span class="mg">audit seq 4,182</span><div class="mg-sep"></div><span class="mg">age measured</span><span class="mg">07-03-2026</span><span class="mg">CRR Rule 14</span></div>
+  <div class="body"><div class="rec" style="height:100%"><div class="rec-b"><div class="t-sub">The record</div><p class="t-caption">The margin has no ground and no left border. It is the page showing through beside the ruled block, with one rule on its right — which is the record’s left edge.</p></div></div></div>
+</div>
+  <div class="t-caption" style="margin-top:8px;max-width:52ch"><b>Why it earns its place:</b> it appears on every record screen; without it the ruleset and the snapshot go back into a modal. Marginalia are right-aligned so they hang on the block, and on a table they align row by row to what they annotate.</div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+</body>
+</html>
