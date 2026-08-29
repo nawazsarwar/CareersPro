@@ -46,4 +46,14 @@ return [
     */
     'default_gateway' => env('SMS_GATEWAY', 'log'),
 
+    /*
+    | The registry lives here rather than in App\Domain\Notification\Sms so
+    | that no provider is named anywhere in the domain (DR-024). Adding a
+    | gateway is a config change and a new adapter class; nothing else moves.
+    */
+    'gateways' => [
+        'log' => App\Domain\Notification\Sms\Gateways\LogSmsGateway::class,
+        'proactive' => App\Domain\Notification\Sms\Gateways\ProActiveSmsGateway::class,
+    ],
+
 ];

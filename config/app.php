@@ -16,6 +16,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Privacy notice version
+    |--------------------------------------------------------------------------
+    |
+    | Recorded on every consent_record. DPDP 2023 requires what a data
+    | principal agreed to be identifiable later, so the version is stored
+    | rather than the fact of consent alone.
+    |
+    */
+
+    'privacy_notice_version' => env('PRIVACY_NOTICE_VERSION', '2026-01'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     */

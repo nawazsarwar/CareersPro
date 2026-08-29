@@ -97,13 +97,9 @@ trait Auditable
     {
         $user = Auth::user();
 
-        if ($user === null || ! method_exists($user, 'auditRole')) {
-            return null;
-        }
-
-        /** @var string|null $role */
-        $role = $user->auditRole();
-
-        return $role;
+        // An interface rather than method_exists(): the contract is then
+        // visible on the models that satisfy it, and static analysis can see
+        // it too.
+        return $user instanceof ProvidesAuditRole ? $user->auditRole() : null;
     }
 }

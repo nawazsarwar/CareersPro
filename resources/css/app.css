@@ -140,3 +140,10 @@
     padding-left: 0.5rem;
   }
 }
+
+@layer base {
+  /* Alpine's x-cloak: the enhanced markup must not flash before Alpine runs. */
+  [x-cloak] {
+    display: none !important;
+  }
+}
