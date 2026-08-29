@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domain\Audit\Auditable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -26,6 +27,10 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable
 {
+    // M26-R08: every model, including this one. The trait this replaces was
+    // applied to 27 of 34 models and omitted User, Role and Permission -- the
+    // security-sensitive models were precisely the unaudited ones.
+    use Auditable;
     use HasApiTokens;
     use Notifiable;
 
