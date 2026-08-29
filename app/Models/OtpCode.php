@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domain\Audit\Auditable;
 use App\Enums\OtpChannel;
 use App\Enums\OtpPurpose;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class OtpCode extends Model
 {
+    // M26-R08: every model, with no exemption for the ones whose columns
+    // are themselves secrets -- RedactProperties fingerprints those.
+    use Auditable;
+
     public $timestamps = false;
 
     /** @var list<string> */

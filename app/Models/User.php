@@ -8,10 +8,12 @@ use App\Domain\Audit\Auditable;
 use App\Domain\Audit\ProvidesAuditRole;
 use App\Enums\AuthFactor;
 use App\Enums\LoginChannel;
+use App\Enums\RoleSlug;
 use App\Enums\UserStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -104,13 +106,34 @@ class User extends Authenticatable implements MustVerifyEmailContract, ProvidesA
     }
 
     /**
-     * A staff account is one holding an employee ID.
+     * @return BelongsToMany<Role, $this>
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class)->withPivot('organisational_unit_id');
+    }
+
+    public function hasRole(RoleSlug $slug): bool
+    {
+        return $this->roles->contains(static fn (Role $role): bool => $role->slug === $slug->value);
+    }
+
+    /**
+     * A staff account is one holding any role other than `candidate`.
      *
-     * Wave 1 has no roles yet; M25 replaces this with the role check, and the
-     * single call site is why that is a one-line change rather than a hunt.
+     * Wave 1 part 1 keyed this on the presence of an employee ID; now that
+     * roles exist it keys on them, and the employee ID is only an identifier.
      */
     public function isStaff(): bool
     {
+        if ($this->relationLoaded('roles') || $this->exists) {
+            $roles = $this->roles;
+
+            if ($roles->isNotEmpty()) {
+                return $roles->contains(static fn (Role $role): bool => $role->slug !== RoleSlug::Candidate->value);
+            }
+        }
+
         return $this->username !== null;
     }
 
@@ -137,7 +160,23 @@ class User extends Authenticatable implements MustVerifyEmailContract, ProvidesA
      */
     public function auditRole(): string
     {
-        return $this->userClass();
+        $role = $this->roles->first();
+
+        if ($role === null) {
+            return $this->userClass();
+        }
+
+        $unitId = $role->pivot->organisational_unit_id ?? null;
+
+        if ($unitId === null) {
+            return $role->slug;
+        }
+
+        // The role AND its scope. "Who did this" is not the same question as
+        // "what were they entitled to do", and a service appeal asks both.
+        $path = OrganisationalUnit::query()->whereKey($unitId)->value('path');
+
+        return $role->slug.'@'.(is_string($path) ? $path : $unitId);
     }
 
     /**
