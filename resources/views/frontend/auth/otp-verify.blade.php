@@ -24,7 +24,7 @@
     @if ($reason === \App\Domain\Identity\OtpIssueResult::SENT && $user)
         <form method="POST" action="{{ route('frontend.login.otp.verify') }}" class="mt-6 space-y-4">
             @csrf
-            <x-code-input />
+            <x-code-input :autofocus="true" />
             <button type="submit" class="w-full rounded bg-[var(--green)] px-4 py-2 text-white">
                 {{ __('auth.verify') }}
             </button>

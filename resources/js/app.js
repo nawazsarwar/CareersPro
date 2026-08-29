@@ -10,37 +10,96 @@ import Alpine from 'alpinejs';
  * JavaScript disabled the single field posts the same name, so the form works
  * unchanged (M03-R29).
  */
-Alpine.data('codeInput', (length) => ({
+Alpine.data('codeInput', (length, autofocus = false) => ({
     enhanced: false,
     length,
+    autofocus,
 
     split() {
         this.enhanced = true;
+
+        if (this.autofocus) {
+            this.$nextTick(() => this.boxes()[0]?.focus());
+        }
     },
 
+    /**
+     * Read from the container ref rather than by scanning the component.
+     *
+     * The boxes are produced by an x-for, so they are not the elements that
+     * were parsed with the component: a query that misses them leaves the
+     * single field empty, and an empty hidden `required` field is a submit the
+     * browser refuses without a visible message.
+     */
     boxes() {
-        return Array.from(this.$el.querySelectorAll('input[maxlength="1"]'));
+        const container = this.$refs.boxes;
+
+        return container ? Array.from(container.querySelectorAll('input')) : [];
     },
 
     sync() {
-        this.$refs.single.value = this.boxes().map((box) => box.value).join('');
+        const single = this.$refs.single;
+
+        if (single) {
+            single.value = this.boxes().map((box) => box.value).join('');
+        }
     },
 
-    advance(event, index) {
+    /**
+     * The index comes from the box's position among its siblings, not from the
+     * loop variable, so one listener on the container serves every box.
+     */
+    advance(event) {
+        const boxes = this.boxes();
+        const index = boxes.indexOf(event.target);
+
+        if (index === -1) {
+            return;
+        }
+
         event.target.value = event.target.value.replace(/\D/g, '').slice(0, 1);
-        this.sync();
 
-        if (event.target.value && index < this.length - 1) {
-            this.boxes()[index + 1].focus();
+        // Focus first: a failure to sync must not also cost the user the
+        // auto-advance, which is the whole point of the enhancement.
+        if (event.target.value !== '' && index < boxes.length - 1) {
+            boxes[index + 1].focus();
+            boxes[index + 1].select();
         }
+
+        this.sync();
     },
 
-    retreat(event, index) {
-        if (event.target.value === '' && index > 0) {
-            this.boxes()[index - 1].focus();
+    /**
+     * Backspace on an empty box steps back and clears the box it lands on,
+     * which is what a user correcting a digit expects. The arrows move without
+     * changing anything.
+     */
+    navigate(event) {
+        const boxes = this.boxes();
+        const index = boxes.indexOf(event.target);
+
+        if (index === -1) {
+            return;
         }
 
-        this.sync();
+        if (event.key === 'Backspace' && event.target.value === '' && index > 0) {
+            event.preventDefault();
+            boxes[index - 1].value = '';
+            boxes[index - 1].focus();
+            this.sync();
+
+            return;
+        }
+
+        if (event.key === 'ArrowLeft' && index > 0) {
+            event.preventDefault();
+            boxes[index - 1].focus();
+        }
+
+        if (event.key === 'ArrowRight' && index < boxes.length - 1) {
+            event.preventDefault();
+            boxes[index + 1].focus();
+        }
     },
 
     /**
@@ -49,14 +108,20 @@ Alpine.data('codeInput', (length) => ({
      * six retypes.
      */
     paste(event) {
-        const digits = (event.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, this.length);
+        const boxes = this.boxes();
 
-        this.boxes().forEach((box, i) => {
+        if (boxes.length === 0) {
+            return;
+        }
+
+        const digits = (event.clipboardData?.getData('text') || '').replace(/\D/g, '').slice(0, this.length);
+
+        boxes.forEach((box, i) => {
             box.value = digits[i] ?? '';
         });
 
         this.sync();
-        this.boxes()[Math.min(digits.length, this.length - 1)].focus();
+        boxes[Math.min(digits.length, boxes.length - 1)].focus();
     },
 }));
 

@@ -17,7 +17,7 @@
 
     <form method="POST" action="{{ route('frontend.two-factor.challenge') }}" class="mt-6 space-y-4">
         @csrf
-        <x-code-input />
+        <x-code-input :autofocus="true" />
         <button type="submit" class="w-full rounded bg-[var(--green)] px-4 py-2 text-white">
             {{ __('auth.verify') }}
         </button>

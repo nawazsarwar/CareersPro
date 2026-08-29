@@ -40,6 +40,24 @@ it('renders the code entry as a real form with a single fallback field', functio
         ->toContain('x-show="!enhanced"');
 });
 
+// The single field ships `required` for the no-JavaScript path and drops it
+// once Alpine hides it. A `required` control that is not focusable makes the
+// browser refuse the submit with no message the user can see or act on.
+it('drops the requirement from the fallback field once the boxes take over', function (): void {
+    $user = User::factory()->candidate()->withVerifiedMobile()->create();
+
+    $this->post(route('frontend.login.otp.request'), ['login' => $user->email]);
+
+    $html = $this->get(route('frontend.login.otp.verify'))->assertOk()->getContent();
+
+    expect($html)->toContain(':required="! enhanced"')
+        // The handlers sit on the container, so one listener serves every box
+        // and its index comes from the box's position, not the loop variable.
+        ->toContain('x-ref="boxes"')
+        ->toContain('@input="advance($event)"')
+        ->toContain('@keydown="navigate($event)"');
+});
+
 it('completes an OTP sign-in through the plain form path', function (): void {
     $user = User::factory()->candidate()->withVerifiedMobile()->create();
 
