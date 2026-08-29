@@ -33,6 +33,14 @@ final class RedactProperties
         'remember_token',
         'otp_code',
         'otp_destination_hash',
+        // Every model carries the trait (M26-R08), including the ones whose
+        // columns ARE the secret: otp_codes.code_hash,
+        // two_factor_recovery_codes.code_hash, impersonation_tokens.token_hash.
+        // A hash is not plaintext, but it is offline-attackable against a
+        // six-digit domain, so it is fingerprinted like anything else.
+        'code_hash',
+        'token_hash',
+        'destination_hash',
         'two_factor_secret',
         'secret',
         'recovery_code',

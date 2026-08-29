@@ -72,6 +72,11 @@ Route::middleware('auth.pending')->group(function (): void {
 Route::middleware('auth')->group(function (): void {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
+    // Ending an impersonation is reachable from the impersonated session, so
+    // it cannot live behind the admin stack the impersonated user fails.
+    Route::delete('impersonate', [App\Http\Controllers\Admin\ImpersonationController::class, 'destroy'])
+        ->name('impersonate.stop');
+
     Route::get('verify-email', [EmailVerificationController::class, 'prompt'])->name('verification.notice');
     Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])
         ->middleware(['signed', 'throttle:6,1'])

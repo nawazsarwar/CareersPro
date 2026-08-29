@@ -9,18 +9,20 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Wave 0 seeds nothing.
+     * Seeds what the system cannot run without.
      *
      * The seeders removed in this wave granted the `User` role row-level
      * permissions on every record — `profile_edit`, `application_form_edit`,
      * `academic_qualification_delete` — which is defect #1 in
      * docs/v3/01-design/security/security-model.md §2.
      *
-     * Roles and permissions are re-seeded in Wave 1 against the authorisation
-     * matrix in M25, and the lookup tables in Wave 2 against M24.
+     * The lookup tables follow in Wave 2 against M24.
      */
     public function run(): void
     {
-        //
+        // Roles and permissions are structural: the policies name these slugs,
+        // so an environment without them is an environment where every
+        // authorisation check silently denies.
+        $this->call(RolePermissionSeeder::class);
     }
 }

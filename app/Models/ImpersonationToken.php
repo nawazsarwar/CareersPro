@@ -6,39 +6,35 @@ namespace App\Models;
 
 use App\Domain\Audit\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property string $code_hash
- * @property \Illuminate\Support\Carbon|null $used_at
+ * @property string $token_hash
+ * @property int $actor_id
+ * @property int $target_id
+ * @property \Illuminate\Support\Carbon $expires_at
+ * @property \Illuminate\Support\Carbon|null $consumed_at
  */
-class TwoFactorRecoveryCode extends Model
+class ImpersonationToken extends Model
 {
     // M26-R08: every model, with no exemption for the ones whose columns
     // are themselves secrets -- RedactProperties fingerprints those.
     use Auditable;
 
-    protected $table = 'two_factor_recovery_codes';
-
     /** @var list<string> */
     protected $guarded = [];
 
     /** @var list<string> */
-    protected $hidden = ['code_hash'];
+    protected $hidden = ['token_hash'];
 
     /**
      * @return array<string, string>
      */
     protected function casts(): array
     {
-        return ['used_at' => 'datetime'];
-    }
-
-    /**
-     * @return BelongsTo<User, $this>
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+        return [
+            'expires_at' => 'datetime',
+            'consumed_at' => 'datetime',
+            'ended_at' => 'datetime',
+        ];
     }
 }
