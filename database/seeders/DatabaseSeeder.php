@@ -16,13 +16,19 @@ class DatabaseSeeder extends Seeder
      * `academic_qualification_delete` — which is defect #1 in
      * docs/v3/01-design/security/security-model.md §2.
      *
-     * The lookup tables follow in Wave 2 against M24.
+     * The lookup tables are populated rather than merely created: every one
+     * of them was empty after seeding in the previous build, so every dropdown
+     * in the system rendered blank.
      */
     public function run(): void
     {
         // Roles and permissions are structural: the policies name these slugs,
         // so an environment without them is an environment where every
         // authorisation check silently denies.
-        $this->call(RolePermissionSeeder::class);
+        $this->call([
+            RolePermissionSeeder::class,
+            MasterDataSeeder::class,
+            DesignationSeeder::class,
+        ]);
     }
 }

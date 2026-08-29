@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\AuditController;
+use App\Http\Controllers\Admin\DesignationController;
+use App\Http\Controllers\Admin\EstablishmentController;
 use App\Http\Controllers\Admin\ImpersonationController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserRoleController;
@@ -26,6 +28,15 @@ Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show');
 Route::get('users', [UserRoleController::class, 'index'])->name('users.index');
 Route::post('users/{user}/roles', [UserRoleController::class, 'store'])->name('users.roles.attach');
 Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'destroy'])->name('users.roles.detach');
+
+Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
+Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');
+Route::get('designations/{designation}', [DesignationController::class, 'show'])->name('designations.show');
+Route::patch('designations/{designation}', [DesignationController::class, 'update'])->name('designations.update');
+
+Route::get('establishment', [EstablishmentController::class, 'index'])->name('establishment.index');
+Route::patch('establishment/{organisationalUnit}/{designation}', [EstablishmentController::class, 'update'])
+    ->name('establishment.update');
 
 Route::get('audit', [AuditController::class, 'index'])->name('audit.index');
 Route::post('audit/verify', [AuditController::class, 'verify'])->name('audit.verify');
