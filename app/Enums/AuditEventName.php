@@ -57,5 +57,6 @@ enum AuditEventName: string
 
     // Disclosure — M26-R07 and M26-R09
     case DocumentAccessed = 'document.accessed';
+    case SeatsAllocated = 'exam.seats_allocated';
     case ExportGenerated = 'export.generated';
 }

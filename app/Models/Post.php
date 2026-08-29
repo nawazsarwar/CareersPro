@@ -23,6 +23,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property SelectionMethod|null $selection_method
  * @property int|null $age_limit
  * @property \Illuminate\Support\Carbon|null $closing_date
+ * @property \Illuminate\Support\Carbon|null $test_date
+ * @property \Illuminate\Support\Carbon|null $interview_date
+ * @property \Illuminate\Support\Carbon|null $admit_card_opening_date
+ * @property \Illuminate\Support\Carbon|null $admit_card_closing_date
+ * @property \Illuminate\Support\Carbon|null $interview_letter_opening_date
+ * @property \Illuminate\Support\Carbon|null $interview_letter_closing_date
+ * @property \Illuminate\Support\Carbon|null $opening_date
+ * @property bool $withdrawn
+ * @property string|null $ou_path_snapshot
+ * @property int $vacancies
  */
 class Post extends Model
 {

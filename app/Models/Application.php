@@ -93,6 +93,22 @@ class Application extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<SeatAllocation, $this>
+     */
+    public function seatAllocation(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(SeatAllocation::class);
+    }
+
+    /**
+     * @return HasMany<CentrePreference, $this>
+     */
+    public function centrePreferences(): HasMany
+    {
+        return $this->hasMany(CentrePreference::class);
+    }
+
+    /**
      * @return HasMany<Deficiency, $this>
      */
     public function deficiencies(): HasMany
