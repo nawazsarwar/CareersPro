@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\Auth\TwoFactorChallengeController;
 use App\Http\Controllers\Frontend\Auth\TwoFactorSettingsController;
+use App\Http\Controllers\Frontend\VacancyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,14 @@ use Illuminate\Support\Facades\Route;
 | the column. There is no branch in the UI and no separate staff login.
 |
 */
+
+/*
+| Public. No authentication: a vacancy notice is a public document, and
+| requiring an account to read one would exclude the people it is for.
+*/
+Route::get('vacancies', [VacancyController::class, 'index'])->name('vacancies.index');
+Route::get('advertisements/{slug}', [VacancyController::class, 'advertisement'])->name('advertisements.show');
+Route::get('vacancies/{slug}', [VacancyController::class, 'post'])->name('vacancies.show');
 
 Route::middleware('guest')->group(function (): void {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
