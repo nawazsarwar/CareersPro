@@ -42,6 +42,13 @@ enum AuditEventName: string
     case DeficiencyRaised = 'deficiency.raised';
     case DeficiencyRectified = 'deficiency.rectified';
 
+    // Payment — M08
+    case OrderCreated = 'payment.order_created';
+    case PaymentSettled = 'payment.settled';
+    case PaymentCallbackRejected = 'payment.callback_rejected';
+    case ReconciliationRun = 'payment.reconciled';
+    case RefundRequested = 'payment.refund_requested';
+
     // Records — generic model lifecycle, M26-R01 and M26-R08
     case ModelCreated = 'model.created';
     case ModelUpdated = 'model.updated';

@@ -31,6 +31,17 @@ final class PublishAdvertisement
         private readonly NextWorkingDay $workingDay,
     ) {}
 
+    private function defaultGateway(): string
+    {
+        $gateway = config('payment.default_gateway');
+
+        if (! is_string($gateway) || $gateway === '') {
+            throw new RuntimeException('No default payment gateway is configured.');
+        }
+
+        return $gateway;
+    }
+
     /**
      * @param  list<string>  $holidays
      */
@@ -75,7 +86,12 @@ final class PublishAdvertisement
                 // Frozen. Wave 7 supplies the ruleset resolver; the columns
                 // exist and are written here from the first day so that no
                 // advertisement is ever published without them.
-                'payment_gateway' => $advertisement->payment_gateway ?? config('payment.default_gateway', 'razorpay'),
+                //
+                // No literal fallback: naming a provider here would put a
+                // vendor in the domain (DR-018), and a missing default is a
+                // configuration error that should surface rather than resolve
+                // to whichever gateway somebody typed first.
+                'payment_gateway' => $advertisement->payment_gateway ?? $this->defaultGateway(),
             ])->save();
 
             foreach ($advertisement->posts as $post) {
