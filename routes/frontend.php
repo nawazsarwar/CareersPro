@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Frontend\ApplicationController;
 use App\Http\Controllers\Frontend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Frontend\Auth\EmailVerificationController;
@@ -114,4 +115,10 @@ Route::middleware('auth')->group(function (): void {
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::view('dashboard', 'frontend.dashboard')->name('dashboard');
+
+    Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
+    Route::get('applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+
+    Route::get('vacancies/{slug}/apply', [ApplicationController::class, 'create'])->name('applications.create');
+    Route::post('vacancies/{slug}/apply', [ApplicationController::class, 'store'])->name('applications.store');
 });

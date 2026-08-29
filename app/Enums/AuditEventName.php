@@ -35,6 +35,13 @@ enum AuditEventName: string
     case ImpersonationStarted = 'access.impersonation_started';
     case ImpersonationEnded = 'access.impersonation_ended';
 
+    // Applications — M05
+    case ApplicationSubmitted = 'application.submitted';
+    case ApplicationWithdrawn = 'application.withdrawn';
+    case EligibilityDecided = 'eligibility.decided';
+    case DeficiencyRaised = 'deficiency.raised';
+    case DeficiencyRectified = 'deficiency.rectified';
+
     // Records — generic model lifecycle, M26-R01 and M26-R08
     case ModelCreated = 'model.created';
     case ModelUpdated = 'model.updated';

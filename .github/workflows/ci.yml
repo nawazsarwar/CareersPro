@@ -64,8 +64,12 @@ jobs:
       - name: Static analysis
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
 
+      # -d memory_limit=1G: the default 128 MB is exhausted partway through
+      # the suite, and the failure reports as a fatal in whichever config file
+      # happened to be loading, which reads as a config bug rather than a
+      # memory one.
       - name: Tests
-        run: vendor/bin/pest --colors=always
+        run: php -d memory_limit=1G vendor/bin/pest --colors=always
 
   assets:
     name: Frontend build
