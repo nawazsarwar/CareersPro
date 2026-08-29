@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\AdvertisementController;
 use App\Http\Controllers\Admin\AuditController;
 use App\Http\Controllers\Admin\DesignationController;
 use App\Http\Controllers\Admin\EstablishmentController;
@@ -28,6 +29,12 @@ Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show');
 Route::get('users', [UserRoleController::class, 'index'])->name('users.index');
 Route::post('users/{user}/roles', [UserRoleController::class, 'store'])->name('users.roles.attach');
 Route::delete('users/{user}/roles/{role}', [UserRoleController::class, 'destroy'])->name('users.roles.detach');
+
+Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+Route::post('advertisements', [AdvertisementController::class, 'store'])->name('advertisements.store');
+Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
+Route::post('advertisements/{advertisement}/publish', [AdvertisementController::class, 'publish'])->name('advertisements.publish');
+Route::post('advertisements/{advertisement}/corrigenda', [AdvertisementController::class, 'corrigendum'])->name('advertisements.corrigenda');
 
 Route::get('designations', [DesignationController::class, 'index'])->name('designations.index');
 Route::post('designations', [DesignationController::class, 'store'])->name('designations.store');

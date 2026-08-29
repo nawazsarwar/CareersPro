@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Domain\Access\ResolvePermissions;
+use App\Models\Advertisement;
 use App\Models\AuditLog;
 use App\Models\Designation;
 use App\Models\OrganisationalUnit;
+use App\Models\Post;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
+use App\Policies\AdvertisementPolicy;
 use App\Policies\AuditPolicy;
 use App\Policies\DesignationPolicy;
 use App\Policies\EstablishmentPolicy;
 use App\Policies\ImpersonationPolicy;
+use App\Policies\PostPolicy;
 use App\Policies\ProfilePolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
@@ -25,7 +29,9 @@ class AccessServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        Gate::policy(Advertisement::class, AdvertisementPolicy::class);
         Gate::policy(AuditLog::class, AuditPolicy::class);
+        Gate::policy(Post::class, PostPolicy::class);
         Gate::policy(Designation::class, DesignationPolicy::class);
         Gate::policy(OrganisationalUnit::class, EstablishmentPolicy::class);
         Gate::policy(Profile::class, ProfilePolicy::class);
