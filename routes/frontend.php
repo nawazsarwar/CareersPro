@@ -37,10 +37,14 @@ Route::get('vacancies/{slug}', [VacancyController::class, 'post'])->name('vacanc
 
 Route::middleware('guest')->group(function (): void {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store'])->middleware('throttle:6,1');
+    Route::post('register', [RegisteredUserController::class, 'store'])
+        ->name('register.store')
+        ->middleware('throttle:6,1');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:6,1');
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])
+        ->name('login.store')
+        ->middleware('throttle:6,1');
 
     // The OTP path is a secondary submit on the same card, not a second screen.
     Route::post('login/otp', [OtpLoginController::class, 'store'])
@@ -67,13 +71,17 @@ Route::middleware('guest')->group(function (): void {
 */
 Route::middleware('auth.pending')->group(function (): void {
     Route::get('login/otp/verify', [OtpLoginController::class, 'create'])->name('login.otp.verify');
-    Route::post('login/otp/verify', [OtpLoginController::class, 'verify'])->middleware('throttle:6,1');
+    Route::post('login/otp/verify', [OtpLoginController::class, 'verify'])
+        ->name('login.otp.verify.store')
+        ->middleware('throttle:6,1');
     Route::post('login/otp/resend', [OtpLoginController::class, 'resend'])
         ->name('login.otp.resend')
         ->middleware('throttle:3,60');
 
     Route::get('two-factor/challenge', [TwoFactorChallengeController::class, 'create'])->name('two-factor.challenge');
-    Route::post('two-factor/challenge', [TwoFactorChallengeController::class, 'store'])->middleware('throttle:6,1');
+    Route::post('two-factor/challenge', [TwoFactorChallengeController::class, 'store'])
+        ->name('two-factor.challenge.store')
+        ->middleware('throttle:6,1');
     Route::post('two-factor/challenge/resend', [TwoFactorChallengeController::class, 'resend'])
         ->name('two-factor.challenge.resend')
         ->middleware('throttle:3,60');
@@ -96,7 +104,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store'])->name('password.confirm.store');
 
     Route::post('profile/mobile/otp', [MobileVerificationController::class, 'send'])
         ->name('profile.mobile.otp')
