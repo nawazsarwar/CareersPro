@@ -59,4 +59,7 @@ enum AuditEventName: string
     case DocumentAccessed = 'document.accessed';
     case SeatsAllocated = 'exam.seats_allocated';
     case ExportGenerated = 'export.generated';
+    case CampaignSent = 'communication.campaign_sent';
+    case GrievanceRaised = 'grievance.raised';
+    case HardcopyDestroyed = 'custody.hardcopy_destroyed';
 }
