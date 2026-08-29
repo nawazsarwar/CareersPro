@@ -45,6 +45,14 @@ class RolePermissionSeeder extends Seeder
     ];
 
     /**
+     * Every staff role holds `master_data.view`.
+     *
+     * Master data describes posts, places and qualifications, not people, so
+     * withholding it does not protect anybody -- it only leaves a scrutiny
+     * officer unable to read the definition of the post they are scrutinising.
+     * Mutation stays with recruitment_admin and super_admin (M35 §6), because
+     * sanctioned strength is vested in the Executive Council by CRR Rule 8.
+     *
      * @var array<string, list<string>>
      */
     private const GRANTS = [
@@ -58,18 +66,22 @@ class RolePermissionSeeder extends Seeder
             'advertisement.view', 'advertisement.create', 'advertisement.update', 'advertisement.publish',
             'post.view', 'post.create', 'post.update',
             'application.view', 'scrutiny.view', 'report.view',
+            'master_data.view',
         ],
         RoleSlug::DeanOfficeScrutiny->value => [
             'advertisement.view', 'post.view', 'application.view',
             'scrutiny.view', 'scrutiny.decide', 'scrutiny.raise_deficiency',
+            'master_data.view',
         ],
         // Read only, deliberately: DR-015 splits the Dean's office three ways
         // so that viewing, deciding and creating are different people.
         RoleSlug::DeanOfficeView->value => [
             'advertisement.view', 'post.view', 'application.view', 'scrutiny.view',
+            'master_data.view',
         ],
         RoleSlug::ScrutinyOfficer->value => [
             'application.view', 'scrutiny.view', 'scrutiny.decide', 'scrutiny.raise_deficiency',
+            'master_data.view',
         ],
         RoleSlug::RecruitmentAdmin->value => [
             'advertisement.view', 'advertisement.create', 'advertisement.update', 'advertisement.publish',
@@ -79,6 +91,7 @@ class RolePermissionSeeder extends Seeder
         ],
         RoleSlug::ExamAdmin->value => [
             'exam.view', 'exam.allocate', 'exam.generate', 'application.view', 'report.view',
+            'master_data.view',
         ],
         // No PII beyond name and application number (security-model.md §3.1),
         // which is why `profile.view` is absent.
@@ -87,6 +100,7 @@ class RolePermissionSeeder extends Seeder
         ],
         RoleSlug::CommitteeMember->value => [
             'committee.view', 'committee.sign_off', 'application.view',
+            'master_data.view',
         ],
         // Authors but cannot activate. This separation is what would have
         // stopped a fabricated ruleset reaching production.
@@ -98,7 +112,7 @@ class RolePermissionSeeder extends Seeder
         ],
         RoleSlug::Auditor->value => [
             'audit.view', 'audit.verify', 'report.view', 'report.export',
-            'application.view', 'advertisement.view',
+            'application.view', 'advertisement.view', 'master_data.view',
         ],
         // Everything, and every action audited.
         RoleSlug::SuperAdmin->value => ['*'],
