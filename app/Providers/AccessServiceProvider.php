@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Domain\Access\ResolvePermissions;
 use App\Models\Advertisement;
+use App\Models\Application;
 use App\Models\AuditLog;
 use App\Models\Designation;
 use App\Models\OrganisationalUnit;
@@ -14,6 +15,7 @@ use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
 use App\Policies\AdvertisementPolicy;
+use App\Policies\ApplicationPolicy;
 use App\Policies\AuditPolicy;
 use App\Policies\DesignationPolicy;
 use App\Policies\EstablishmentPolicy;
@@ -30,6 +32,7 @@ class AccessServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Advertisement::class, AdvertisementPolicy::class);
+        Gate::policy(Application::class, ApplicationPolicy::class);
         Gate::policy(AuditLog::class, AuditPolicy::class);
         Gate::policy(Post::class, PostPolicy::class);
         Gate::policy(Designation::class, DesignationPolicy::class);

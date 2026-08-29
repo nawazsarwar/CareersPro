@@ -82,6 +82,46 @@ class User extends Authenticatable implements MustVerifyEmailContract, ProvidesA
     }
 
     /**
+     * @return HasMany<Application, $this>
+     */
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    /**
+     * @return HasMany<AcademicQualification, $this>
+     */
+    public function academicQualifications(): HasMany
+    {
+        return $this->hasMany(AcademicQualification::class);
+    }
+
+    /**
+     * @return HasMany<EligibilityTest, $this>
+     */
+    public function eligibilityTests(): HasMany
+    {
+        return $this->hasMany(EligibilityTest::class);
+    }
+
+    /**
+     * @return HasMany<EmploymentHistory, $this>
+     */
+    public function employmentHistories(): HasMany
+    {
+        return $this->hasMany(EmploymentHistory::class);
+    }
+
+    /**
+     * @return HasMany<Document, $this>
+     */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    /**
      * @return HasMany<TwoFactorRecoveryCode, $this>
      */
     public function recoveryCodes(): HasMany
