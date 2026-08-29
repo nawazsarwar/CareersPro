@@ -67,24 +67,44 @@ configuration error and throws.
 ## 7. UI
 
 `resources/views/components/data/table.blade.php` and its parts, per
-`../01-design/ux/data-table.md` §4. Tokens per `../01-design/ux/design-system.md` §2–§3.
-`lang/en/cruds.php` and `lang/en/global.php` created — **5,702 translation keys are referenced today
-and neither file exists**, so every label in 260 views renders as its raw key.
+`../01-design/ux/data-table.md` §4. Tokens per `../01-design/ux/design-system.md` §2–§3, carried in
+`resources/css/app.css` as CSS custom properties with the complete light palette on bare `:root` and
+the dark blocks redefining only what changes.
+
+**Correction — the translation files were not missing.** Earlier drafts of this section, and the
+audit behind them, recorded that *"5,702 translation keys are referenced and neither
+`lang/en/cruds.php` nor `lang/en/global.php` exists, so every label in 260 views renders as its raw
+key."* Both files did exist, at the **Laravel 8 path** `resources/lang/en/` — 56 KB of `cruds.php`
+across 36 namespaces and 283 keys in `global.php` — and Laravel resolved that path because the
+directory was present. Labels were rendering correctly.
+
+What was actually wrong was **two lang directories**: `lang/` (the canonical path, holding the
+framework's own four files) and `resources/lang/` (holding the application's). The second shadowed
+the first. This wave deletes `resources/lang/` and consolidates onto `lang/`. `cruds.php` is not
+carried across: every one of the 260 views it labelled is deleted in this wave, so it labels
+nothing. Module strings arrive with their modules, and
+`tests/Feature/Foundation/TranslationTest` fails the build if any rendered key resolves to itself,
+which is what stops the backlog re-accumulating.
 
 ## 8. Worked example
 
 ```
 $ php artisan migrate:fresh --seed
-  ✔ 0 errors                       # currently fails: ->after('salary') on a column that doesn't exist
-$ php artisan test
-  Tests: 41 passed
-$ vendor/bin/phpstan analyse
-  [OK] No errors
-$ npm run build && grep -c jquery public/build/assets/*.js
-  0
+  ✔ 0 errors                       # previously failed: ->after('salary') on a column that does not exist
+$ vendor/bin/pest
+  Tests: 38 passed (67 assertions)
+$ vendor/bin/phpstan analyse --memory-limit=1G
+  [OK] No errors                   # level 6
+$ vendor/bin/pint --test
+  passed
+$ npm run build && grep -rilE 'jquery|datatables' public/build/assets
+  (no output)
 $ gitleaks detect
   no leaks found
 ```
+
+`--memory-limit=1G` is required: the default 128 MB crashes the parallel worker. The CI job carries
+the same flag.
 
 ## 9. Acceptance criteria
 
@@ -105,16 +125,23 @@ $ gitleaks detect
 
 | Test | Covers |
 |---|---|
-| `tests/Feature/Foundation/MigrationTest::test_fresh_migrate_succeeds` | R01 |
-| `tests/Feature/Foundation/AssetTest::test_no_jquery_in_build` | R02 |
-| CI job `secrets` | R03 |
-| `tests/Unit/Table/TableConfigTest::test_rejects_unindexed_sortable_column` | R04 |
-| `tests/Unit/Canonical/CanonicalJsonTest` (fixture, cross-version) | R05 |
-| `tests/Unit/Table/TableQueryTest::test_always_paginates` | R06 |
-| `tests/Feature/Foundation/TranslationTest::test_no_unresolved_keys` | R07 |
-| CI job `audit` | R08 |
+| `tests/Feature/Foundation/MigrationTest` | R01 |
+| `tests/Feature/Foundation/AssetTest` | R02 |
+| CI job `secrets` — `gitleaks` over full history, plus a tracked-`.env` guard | R03 |
+| `tests/Unit/Table/TableConfigTest` | R04 |
+| `tests/Unit/Canonical/CanonicalJsonTest` | R05 |
+| `tests/Unit/Table/TableQueryTest` | R06 |
+| `tests/Feature/Foundation/TranslationTest` | R07 |
+| CI job `audit` — `composer audit` and `npm audit --audit-level=high` | R08 |
 | `tests/Unit/Arch/NoEnvOutsideConfigTest` | R09 |
-| `tests/Unit/Foundation/EnvExampleTest::test_credential_keys_present_and_empty` | R10 |
+| `tests/Feature/Foundation/EnvExampleTest` | R10 |
+| `tests/Unit/Arch/ArchitectureTest` | strict types, no debug helpers, TOTP libraries fenced to `App\Domain\Identity\SecondFactor\Totp` (DR-022) |
+
+**Static analysis covers `app`, `config`, `database` and `routes`, not `tests`.** Pest's fluent API
+resolves to `Pest\PendingCalls\TestCall` under PHPStan, so analysing the suite produces false
+positives that can only be silenced with ignores — and an `ignoreErrors` list that starts non-empty
+stops being read. The reason is recorded in `phpstan.neon` beside the exclusion. The suite is checked
+by running it, and by the architecture tests above.
 
 ## 11. Traceability
 
@@ -133,6 +160,30 @@ Per DR-002, one reviewable commit: `app/Http/Controllers/{Admin,Frontend,Api}/**
 9 dead npm dependencies.
 
 **Immediately, in the same wave:** `.gitignore` hardened and `gitleaks` blocking in CI.
+
+**Deleted beyond the manifest, and why.** Four groups were not on the list above but could not
+coherently survive it:
+
+- **33 of 34 Eloquent models**, and all 27 `App\Http\Resources\Admin\*`. Their tables went with
+  the migrations and their callers went with the controllers, so they modelled nothing. Each wave
+  introduces its models with the migrations that back them. `User` is kept as a placeholder because
+  `config/auth.php` names it as the provider model and the container cannot resolve the guard
+  without it; **M03 owns its real shape**, and it already carries `HasApiTokens`.
+- **`app/Http/Kernel.php`, `app/Console/Kernel.php` and `app/Exceptions/Handler.php`** — nothing has
+  referenced them since the Laravel 11 skeleton moved that configuration to `bootstrap/app.php`.
+  `throttle:api` living only in the dead HTTP kernel is precisely why the API had no rate limiting.
+- **`App\Traits\Auditable`** — M26 replaces it with `App\Domain\Audit\Auditable`, which is
+  hash-chained and covers every model rather than 27 of 34.
+- **`resources/views/{layouts,partials,components}` and `resources/js/components`** — the TailAdmin
+  shim: a jQuery/DataTables layout, a menu built from deleted routes, and six demo chart modules.
+  `resources/css/app.css` was 881 lines of template CSS for carousels and stock sliders that no
+  screen in this system has; it is replaced by the design-system tokens.
+
+**Two config defects fixed while the files were open.** `config/sanctum.php` named
+`App\Http\Middleware\VerifyCsrfToken` and `EncryptCookies`, neither of which has existed since the
+published kernel was removed; and `config/database.php` used `PDO::MYSQL_ATTR_SSL_CA`, deprecated in
+PHP 8.5, which emitted a deprecation on every test run.
+
 
 **Correction — `.env` was never committed.** `git log --all -- .env` returns **zero commits**, the
 file is untracked, and `.gitignore:8` has covered it throughout. Earlier drafts of this manifest and

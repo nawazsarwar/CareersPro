@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Laravel\Sanctum\Sanctum;
 
 return [
@@ -59,9 +61,15 @@ return [
     |
     */
 
+    /*
+    | These pointed at App\Http\Middleware\VerifyCsrfToken and EncryptCookies,
+    | neither of which has existed since the Laravel 11 skeleton removed the
+    | published HTTP kernel. They now name the framework classes.
+    */
     'middleware' => [
-        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
-        'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
+        'authenticate_session' => Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
+        'encrypt_cookies' => Illuminate\Cookie\Middleware\EncryptCookies::class,
+        'validate_csrf_token' => Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
     ],
 
 ];

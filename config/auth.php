@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -9,7 +11,7 @@ return [
     */
 
     'defaults' => [
-        'guard'     => 'web',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -21,7 +23,17 @@ return [
 
     'guards' => [
         'web' => [
-            'driver'   => 'session',
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        /*
+        | The sanctum guard was absent while 27 endpoints sat behind
+        | `auth:sanctum`, so the API could not authenticate anyone and never
+        | could -- see M29 §2. It is declared here from the start.
+        */
+        'sanctum' => [
+            'driver' => 'sanctum',
             'provider' => 'users',
         ],
     ],
@@ -35,7 +47,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model'  => App\Models\User::class,
+            'model' => App\Models\User::class,
         ],
     ],
 
@@ -48,11 +60,11 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table'    => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
-            'expire'   => 60,
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
             'throttle' => 60,
         ],
     ],
 
-    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 900),
 ];
