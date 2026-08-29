@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DesignationController;
 use App\Http\Controllers\Admin\EstablishmentController;
 use App\Http\Controllers\Admin\ImpersonationController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ScrutinyController;
 use App\Http\Controllers\Admin\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,12 @@ Route::patch('designations/{designation}', [DesignationController::class, 'updat
 Route::get('establishment', [EstablishmentController::class, 'index'])->name('establishment.index');
 Route::patch('establishment/{organisationalUnit}/{designation}', [EstablishmentController::class, 'update'])
     ->name('establishment.update');
+
+Route::get('scrutiny', [ScrutinyController::class, 'index'])->name('scrutiny.index');
+Route::get('scrutiny/{application}', [ScrutinyController::class, 'show'])->name('scrutiny.show');
+Route::post('scrutiny/{application}/open', [ScrutinyController::class, 'open'])->name('scrutiny.open');
+Route::post('scrutiny/{application}/gates', [ScrutinyController::class, 'decide'])->name('scrutiny.gates');
+Route::post('scrutiny/{application}/deficiencies', [ScrutinyController::class, 'deficiency'])->name('scrutiny.deficiencies.store');
 
 Route::get('audit', [AuditController::class, 'index'])->name('audit.index');
 Route::post('audit/verify', [AuditController::class, 'verify'])->name('audit.verify');

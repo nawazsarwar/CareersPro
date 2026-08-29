@@ -45,10 +45,19 @@ enum RoleSlug: string
     /**
      * The kind of scope this role carries.
      *
-     * `scrutiny_officer` is deliberately OrganisationalUnit even though it may
-     * be assigned university-wide: the assignment decides that, and a role
-     * that CAN be scoped must never default to unscoped when its unit is
-     * missing.
+     * Three cases, and the difference between the second and third is what a
+     * NULL `role_user.organisational_unit_id` means:
+     *
+     *   - Ownership: a candidate has no unit and never will. NULL means their
+     *     own rows.
+     *   - OrganisationalUnit: the three dean_office_* roles are meaningless
+     *     university-wide, so NULL grants nothing rather than everything.
+     *     Validation refuses to create such an assignment (M25-R12); this is
+     *     what holds if one ever exists.
+     *   - UniversityWide: NULL means university-wide. `scrutiny_officer` and
+     *     `committee_member` sit here because security-model.md §3.1 gives
+     *     them "OU subtree OR university-wide" -- the assignment decides, and
+     *     an unscoped assignment is a legitimate one.
      */
     public function scope(): RoleScope
     {
@@ -57,8 +66,6 @@ enum RoleSlug: string
             self::DeanOfficeAdmin,
             self::DeanOfficeScrutiny,
             self::DeanOfficeView => RoleScope::OrganisationalUnit,
-            self::ScrutinyOfficer,
-            self::CommitteeMember => RoleScope::OrganisationalUnit,
             default => RoleScope::UniversityWide,
         };
     }

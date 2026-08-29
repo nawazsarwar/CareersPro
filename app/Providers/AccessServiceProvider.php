@@ -23,6 +23,7 @@ use App\Policies\ImpersonationPolicy;
 use App\Policies\PostPolicy;
 use App\Policies\ProfilePolicy;
 use App\Policies\RolePolicy;
+use App\Policies\ScrutinyPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -45,6 +46,13 @@ class AccessServiceProvider extends ServiceProvider
         // UserPolicy's, so it is defined rather than folded in: "may I edit
         // this account" and "may I become it" must not share an answer.
         Gate::define('start', [ImpersonationPolicy::class, 'start']);
+
+        // Scrutiny asks different questions of an application than
+        // ApplicationPolicy does -- "may I decide this" is not "may I read
+        // it" -- so it is defined rather than folded in (DR-015).
+        Gate::define('scrutinise', [ScrutinyPolicy::class, 'scrutinise']);
+        Gate::define('decideGate', [ScrutinyPolicy::class, 'decideGate']);
+        Gate::define('raiseDeficiency', [ScrutinyPolicy::class, 'raiseDeficiency']);
 
         // A role or permission change must not wait fifteen minutes to take
         // effect: revoking access that stays live for a quarter of an hour is
