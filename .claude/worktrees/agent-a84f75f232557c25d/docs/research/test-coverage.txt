@@ -1,0 +1,15 @@
+
+   WARN  No code coverage driver available
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true
+
+   PASS  Tests\Feature\Auth\RegistrationTest
+  ✓ registration screen can be rendered                                  0.48s
+  ✓ new users can register                                               0.05s
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response                        0.03s
+
+  Tests:    4 passed (6 assertions)
+  Duration: 0.62s

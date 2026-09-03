@@ -1,0 +1,149 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/*
+ * The Register.
+ *
+ * Tokens from docs/v3/01-design/ux/design-system.md §2 and §3. The complete
+ * light palette is defined on bare :root; the dark blocks redefine only what
+ * changes. No colour has its only definition inside a media query, and the
+ * explicit toggle wins in both directions.
+ */
+
+:root {
+  /* Ground — cool paper, not cream. Keeps the green from going muddy. */
+  --paper:        #F7F8F6;
+  --paper-raised: #FFFFFF;
+  --paper-sunk:   #EEF0EC;
+
+  /* Ink — near-black with a green cast, so text and brand share a family. */
+  --ink:          #10150F;
+  --ink-muted:    #4A524A;
+  --ink-faint:    #7B837A;
+
+  /* Rule — the structural colour, used more than any accent. */
+  --rule:         #D3D8D0;
+  --rule-strong:  #A9B2A6;
+
+  /* Brand — AMU forest green, given rather than chosen. */
+  --green:        #0C4A2E;
+  --green-deep:   #072F1D;
+  --green-lift:   #10643E;
+  --green-wash:   #E4EDE7;
+
+  /* Accent — brass, from the University crest. */
+  --brass:        #8A6B1F;
+  --brass-wash:   #F5EEDC;
+
+  /* Semantic — separable without hue; status always carries a glyph and a word. */
+  --eligible:     #1B6B3A;
+  --rejected:     #9A2C2C;
+  --pending:      #8A6B1F;
+  --info:         #1F4E79;
+
+  --font-display: 'Spectral', Georgia, serif;
+  --font-ui:      'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --font-hi:      'IBM Plex Sans Devanagari', var(--font-ui);
+  --font-ur:      'Noto Nastaliq Urdu', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper:        #0D1210;
+    --paper-raised: #141A17;
+    --paper-sunk:   #0A0F0C;
+    --ink:          #E8EDE6;
+    --ink-muted:    #A6AFA4;
+    --ink-faint:    #737C71;
+    /* Rules gain weight: a hairline disappears on a dark ground. */
+    --rule:         #263029;
+    --rule-strong:  #3A473C;
+    /* #0C4A2E fails contrast on dark, so the brand lifts rather than inverts. */
+    --green:        #4FA97A;
+    --green-lift:   #6BC094;
+    --green-wash:   #16281E;
+    --brass:        #C9A34E;
+    --eligible:     #57B27C;
+    --rejected:     #E07A7A;
+    --pending:      #C9A34E;
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper:        #0D1210;
+  --paper-raised: #141A17;
+  --paper-sunk:   #0A0F0C;
+  --ink:          #E8EDE6;
+  --ink-muted:    #A6AFA4;
+  --ink-faint:    #737C71;
+  --rule:         #263029;
+  --rule-strong:  #3A473C;
+  --green:        #4FA97A;
+  --green-lift:   #6BC094;
+  --green-wash:   #16281E;
+  --brass:        #C9A34E;
+  --eligible:     #57B27C;
+  --rejected:     #E07A7A;
+  --pending:      #C9A34E;
+}
+
+@theme inline {
+  --color-paper:        var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunk:   var(--paper-sunk);
+  --color-ink:          var(--ink);
+  --color-ink-muted:    var(--ink-muted);
+  --color-ink-faint:    var(--ink-faint);
+  --color-rule:         var(--rule);
+  --color-rule-strong:  var(--rule-strong);
+  --color-green:        var(--green);
+  --color-green-lift:   var(--green-lift);
+  --color-green-wash:   var(--green-wash);
+  --color-brass:        var(--brass);
+  --color-eligible:     var(--eligible);
+  --color-rejected:     var(--rejected);
+  --color-pending:      var(--pending);
+  --color-info:         var(--info);
+
+  --font-display: var(--font-display);
+  --font-ui:      var(--font-ui);
+  --font-mono:    var(--font-mono);
+}
+
+@layer base {
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-ui);
+  }
+
+  /* Mandatory wherever numbers stack: a column of scores that does not align
+     is a column that cannot be scanned. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Every statutory figure in the UI carries its clause reference, and every
+     score line carries its rule id (design-system.md §3.2). */
+  .citation {
+    font: 400 12px/1.4 var(--font-mono);
+    color: var(--ink-faint);
+    border-left: 2px solid var(--rule-strong);
+    padding-left: 0.5rem;
+  }
+}
+
+@layer base {
+  /* Alpine's x-cloak: the enhanced markup must not flash before Alpine runs. */
+  [x-cloak] {
+    display: none !important;
+  }
+}

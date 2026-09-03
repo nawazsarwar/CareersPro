@@ -1,0 +1,551 @@
+{
+  "artboards": [
+    {
+      "file": "Tokens.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1000,
+      "h": 1500,
+      "page": "page-1",
+      "title": "Tokens · light and slate"
+    },
+    {
+      "file": "Type.dc.html",
+      "x": 1100,
+      "y": 0,
+      "w": 940,
+      "h": 1400,
+      "page": "page-1",
+      "title": "Type specimen"
+    },
+    {
+      "file": "GateRule.dc.html",
+      "x": 2140,
+      "y": 0,
+      "w": 940,
+      "h": 900,
+      "page": "page-1",
+      "title": "The gate rule · three sizes"
+    },
+    {
+      "file": "Shelf.dc.html",
+      "x": 3180,
+      "y": 0,
+      "w": 1120,
+      "h": 1600,
+      "page": "page-1",
+      "title": "Component shelf"
+    },
+    {
+      "file": "SignIn.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2",
+      "title": "C1 · Sign-in"
+    },
+    {
+      "file": "Vacancies.dc.html",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 1200,
+      "page": "page-2",
+      "title": "C3 · Browse vacancies"
+    },
+    {
+      "file": "AdvertDetail.dc.html",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 1350,
+      "page": "page-2",
+      "title": "C4 · Advertisement detail"
+    },
+    {
+      "file": "PreCheck.dc.html",
+      "x": 4680,
+      "y": 0,
+      "w": 1440,
+      "h": 1100,
+      "page": "page-2",
+      "title": "C5 · Eligibility pre-check"
+    },
+    {
+      "file": "CandDashboard.dc.html",
+      "x": 6240,
+      "y": 0,
+      "w": 1440,
+      "h": 1800,
+      "page": "page-2",
+      "title": "C11 · Applicant dashboard ★★"
+    },
+    {
+      "file": "AppDetail.dc.html",
+      "x": 0,
+      "y": 2000,
+      "w": 1440,
+      "h": 1200,
+      "page": "page-2",
+      "title": "C12 · Application detail + timeline"
+    },
+    {
+      "file": "WizardA.dc.html",
+      "x": 1560,
+      "y": 2000,
+      "w": 1440,
+      "h": 1350,
+      "page": "page-2",
+      "title": "C6 · Wizard, Part A ★★"
+    },
+    {
+      "file": "Research.dc.html",
+      "x": 3120,
+      "y": 2000,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-2",
+      "title": "C7 · Research claims"
+    },
+    {
+      "file": "Documents.dc.html",
+      "x": 4680,
+      "y": 2000,
+      "w": 1440,
+      "h": 1350,
+      "page": "page-2",
+      "title": "C8 · Document vault"
+    },
+    {
+      "file": "Preview.dc.html",
+      "x": 6240,
+      "y": 2000,
+      "w": 1440,
+      "h": 1150,
+      "page": "page-2",
+      "title": "C9 · Preview and submit"
+    },
+    {
+      "file": "Payment.dc.html",
+      "x": 7800,
+      "y": 2000,
+      "w": 1440,
+      "h": 950,
+      "page": "page-2",
+      "title": "C10 · Payment"
+    },
+    {
+      "file": "Deficiency.dc.html",
+      "x": 9360,
+      "y": 2000,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-2",
+      "title": "C13 · Deficiency rectification ★★"
+    },
+    {
+      "file": "AdmitCard.dc.html",
+      "x": 10920,
+      "y": 2000,
+      "w": 1440,
+      "h": 1400,
+      "page": "page-2",
+      "title": "C14 · Admit card and interview letter"
+    },
+    {
+      "file": "Grievance.dc.html",
+      "x": 12480,
+      "y": 2000,
+      "w": 1440,
+      "h": 1500,
+      "page": "page-2",
+      "title": "C15 · Grievance, SLA-tracked"
+    },
+    {
+      "file": "SignInStates.dc.html",
+      "x": 0,
+      "y": 3500,
+      "w": 900,
+      "h": 900,
+      "page": "page-2",
+      "title": "C1 / C2 · Sign-in and verification states"
+    },
+    {
+      "file": "OtpStates.dc.html",
+      "x": 0,
+      "y": 4500,
+      "w": 900,
+      "h": 1400,
+      "page": "page-2",
+      "title": "C1 · One-time code and second-factor states"
+    },
+    {
+      "file": "MobileSignIn.dc.html",
+      "x": 1060,
+      "y": 3500,
+      "w": 390,
+      "h": 900,
+      "page": "page-2",
+      "title": "Mobile 390 · Sign-in"
+    },
+    {
+      "file": "MobileDashboard.dc.html",
+      "x": 1560,
+      "y": 3500,
+      "w": 390,
+      "h": 2000,
+      "page": "page-2",
+      "title": "Mobile 390 · Dashboard ★★"
+    },
+    {
+      "file": "MobileWizard.dc.html",
+      "x": 2060,
+      "y": 3500,
+      "w": 390,
+      "h": 1450,
+      "page": "page-2",
+      "title": "Mobile 390 · Wizard Part A"
+    },
+    {
+      "file": "MobileDeficiency.dc.html",
+      "x": 2560,
+      "y": 3500,
+      "w": 390,
+      "h": 1300,
+      "page": "page-2",
+      "title": "Mobile 390 · Deficiency rectification"
+    },
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1500,
+      "page": "page-3",
+      "title": "A1 · Master dashboard ★★"
+    },
+    {
+      "file": "AppsTable.dc.html",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 1250,
+      "page": "page-3",
+      "title": "A2 · The data table ★★"
+    },
+    {
+      "file": "DossierCollapsed.dc.html",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 1050,
+      "page": "page-3",
+      "title": "A3 · Dossier, collapsed ★★"
+    },
+    {
+      "file": "DossierExpanded.dc.html",
+      "x": 4680,
+      "y": 0,
+      "w": 1440,
+      "h": 1250,
+      "page": "page-3",
+      "title": "A3 · Dossier, expanded ★★"
+    },
+    {
+      "file": "GateControl.dc.html",
+      "x": 6240,
+      "y": 0,
+      "w": 1440,
+      "h": 1400,
+      "page": "page-3",
+      "title": "A4 · The counterfoil ★★"
+    },
+    {
+      "file": "Workbench.dc.html",
+      "x": 7800,
+      "y": 0,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-3",
+      "title": "A7 · Scrutiny workbench ★"
+    },
+    {
+      "file": "PostDetail.dc.html",
+      "x": 0,
+      "y": 1700,
+      "w": 1440,
+      "h": 1250,
+      "page": "page-3",
+      "title": "A5 · Post detail + pipeline ★"
+    },
+    {
+      "file": "AdvertList.dc.html",
+      "x": 1560,
+      "y": 1700,
+      "w": 1440,
+      "h": 1050,
+      "page": "page-3",
+      "title": "A6 · Advertisement list"
+    },
+    {
+      "file": "AdvertDetailAdmin.dc.html",
+      "x": 3120,
+      "y": 1700,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-3",
+      "title": "A6 · Advertisement detail"
+    },
+    {
+      "file": "PostTypes.dc.html",
+      "x": 4680,
+      "y": 1700,
+      "w": 1440,
+      "h": 1200,
+      "page": "page-3",
+      "title": "A9 · Post types configuration"
+    },
+    {
+      "file": "BulkDocs.dc.html",
+      "x": 6240,
+      "y": 1700,
+      "w": 1440,
+      "h": 1200,
+      "page": "page-3",
+      "title": "A11 · Bulk documents"
+    },
+    {
+      "file": "Reports.dc.html",
+      "x": 7800,
+      "y": 1700,
+      "w": 1440,
+      "h": 1250,
+      "page": "page-3",
+      "title": "A12 · Reports and SLA ★"
+    },
+    {
+      "file": "AuditTrail.dc.html",
+      "x": 9360,
+      "y": 1700,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-3",
+      "title": "A14 · Audit trail"
+    },
+    {
+      "file": "AdvertBuilder.dc.html",
+      "x": 0,
+      "y": 3200,
+      "w": 1440,
+      "h": 1450,
+      "page": "page-3",
+      "title": "A8 · Advertisement builder ★"
+    },
+    {
+      "file": "Attendance.dc.html",
+      "x": 1560,
+      "y": 3200,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-3",
+      "title": "A10 · Attendance register generator"
+    },
+    {
+      "file": "RulesAuthoring.dc.html",
+      "x": 3120,
+      "y": 3200,
+      "w": 1440,
+      "h": 1400,
+      "page": "page-3",
+      "title": "A13 · Rules authoring, two-person ★"
+    },
+    {
+      "file": "MasterData.dc.html",
+      "x": 4680,
+      "y": 3200,
+      "w": 1440,
+      "h": 1300,
+      "page": "page-3",
+      "title": "A15 · Master data and the OU tree"
+    },
+    {
+      "file": "Committee.dc.html",
+      "x": 6240,
+      "y": 3200,
+      "w": 1440,
+      "h": 1350,
+      "page": "page-3",
+      "title": "A16 · Selection committee"
+    },
+    {
+      "file": "DarkDashboard.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1500,
+      "page": "page-4",
+      "title": "Dark · Master dashboard"
+    },
+    {
+      "file": "DarkAppsTable.dc.html",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 1250,
+      "page": "page-4",
+      "title": "Dark · Applications table"
+    },
+    {
+      "file": "DarkCandDashboard.dc.html",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 1800,
+      "page": "page-4",
+      "title": "Dark · Candidate dashboard"
+    },
+    {
+      "file": "StateScoped.dc.html",
+      "x": 0,
+      "y": 2000,
+      "w": 1440,
+      "h": 1500,
+      "page": "page-4",
+      "title": "Scoped · Dean’s office"
+    },
+    {
+      "file": "StateRedacted.dc.html",
+      "x": 1560,
+      "y": 2000,
+      "w": 1440,
+      "h": 1150,
+      "page": "page-4",
+      "title": "Redacted · finance_admin"
+    },
+    {
+      "file": "StateReadOnly.dc.html",
+      "x": 3120,
+      "y": 2000,
+      "w": 1440,
+      "h": 1400,
+      "page": "page-4",
+      "title": "Read-only, impersonated, committee"
+    },
+    {
+      "file": "StateLocked.dc.html",
+      "x": 4680,
+      "y": 2000,
+      "w": 1240,
+      "h": 1100,
+      "page": "page-4",
+      "title": "Locked and blocked"
+    },
+    {
+      "file": "StateTable.dc.html",
+      "x": 6100,
+      "y": 2000,
+      "w": 1240,
+      "h": 2000,
+      "page": "page-4",
+      "title": "Empty, filtered-empty, loading, deep page"
+    },
+    {
+      "file": "StateErrors.dc.html",
+      "x": 7520,
+      "y": 2000,
+      "w": 1240,
+      "h": 1050,
+      "page": "page-4",
+      "title": "Errors and no-JavaScript"
+    },
+    {
+      "file": "PrintForm.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 794,
+      "h": 1123,
+      "page": "page-5",
+      "title": "Print · statutory application form",
+      "print": "fixed"
+    },
+    {
+      "file": "PrintAttendance.dc.html",
+      "x": 920,
+      "y": 0,
+      "w": 1123,
+      "h": 794,
+      "page": "page-5",
+      "title": "Print · attendance register",
+      "print": "fixed"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Foundations"
+    },
+    {
+      "id": "page-2",
+      "name": "Candidate"
+    },
+    {
+      "id": "page-3",
+      "name": "Console"
+    },
+    {
+      "id": "page-4",
+      "name": "Dark & states"
+    },
+    {
+      "id": "page-5",
+      "name": "Print"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "note-foundations",
+      "page": "page-1",
+      "x": 0,
+      "y": -190,
+      "w": 1000,
+      "text": "Register — the binding system.\nNineteen tokens: eighteen inherited, one added (--info-wash), three completed for dark where they had been defined only in light. The arch appears once per section head and nowhere else."
+    },
+    {
+      "id": "note-candidate",
+      "page": "page-2",
+      "x": 0,
+      "y": -190,
+      "w": 1200,
+      "text": "Candidate — comfortable density, 44px rows, 15px data baseline, AAA body text in the form.\nAisha Khan, two applications: 2599/2026/00412 under a deficiency window, and 884/2026/01109 cleared at scrutiny.\nSecond row, at the right: what happens after payment — rectification, the admit card at three moments in its window, and a grievance held to a stated time."
+    },
+    {
+      "id": "note-console",
+      "page": "page-3",
+      "x": 0,
+      "y": -190,
+      "w": 1200,
+      "text": "Console — compact density, 32px rows, 13px data baseline, keyboard first.\nThe margin carries provenance on every record screen. The counterfoil replaces the modal: claim, evidence and rule stay visible while the decision is made.\nThird row: the instruments — building an advertisement against sanctioned strength, generating the register, authoring a ruleset under two-person control, the 301-node organisational tree, and the committee."
+    },
+    {
+      "id": "note-states",
+      "page": "page-4",
+      "x": 0,
+      "y": -190,
+      "w": 1200,
+      "text": "Dark is a slate ledger, not an inverted page — the ground goes green-black and the rules gain weight.\nBelow: the role surfaces. A scoped view is a visibly different object from an unscoped one."
+    },
+    {
+      "id": "note-print",
+      "page": "page-5",
+      "x": 0,
+      "y": -190,
+      "w": 900,
+      "text": "Print — black on white, no interface furniture, repeating table headers.\nProvenance prints: every sheet carries the snapshot it was generated from and the ruleset in force."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-2"
+  }
+}

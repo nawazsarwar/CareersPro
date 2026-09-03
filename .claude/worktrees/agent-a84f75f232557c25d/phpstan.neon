@@ -1,0 +1,23 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 6
+
+    paths:
+        - app
+        - config
+        - database
+        - routes
+
+    # tests/ is deliberately outside the analysed paths. Pest's fluent API --
+    # `it()->…`, `arch()->expect()`, `$this->artisan()` inside a closure --
+    # resolves to Pest\PendingCalls\TestCall under static analysis, which
+    # produces false positives that can only be silenced by ignores. The suite
+    # is checked by running it, and by the architecture tests in tests/Unit/Arch.
+    #
+    # Wave 0 ships no domain code. As waves land, anything that cannot pass at
+    # level 6 gets fixed rather than ignored: an ignore added here is a decision
+    # that belongs in a review, which is why the list starts empty.
+    ignoreErrors: []
+
